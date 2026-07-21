@@ -140,6 +140,24 @@
     > * {
       pointer-events: auto; // the playback control stays clickable
     }
+
+    // Desktop: the utilities are bottom-right chrome in the diagonal's
+    // transparent zone — they should HOLD at the bottom of the viewport, not
+    // ride up with the shape. (Riding up is the mobile behaviour, where the
+    // utilities sit in the content path and the rising panel would otherwise
+    // overrun them.) Pin the layer exactly like the frame: sticky at top:0
+    // holds it while the hero fills the viewport, then releases at the same
+    // point the frame unpins, so the gradient + utilities leave WITH the hero
+    // and never reach the next section — no fixed box hanging over it, and no
+    // early fade to hide one. The negative top margin cancels this in-flow
+    // layer's own height so it overlays the frame instead of displacing the
+    // panel below.
+    @include respond-to('nav') {
+      position: sticky;
+      top: 0;
+      margin-top: -100vh;
+      margin-top: -100svh;
+    }
   }
 
   // Bottom gradient scrim + progressive blur, from the Figma spec: linear
@@ -152,26 +170,26 @@
   &__blur {
     position: absolute;
     right: 0;
-    // Underscan: the box extends half a viewport below the fold. As the
-    // layer scrolls up over the pinned video, the extension covers the strip
-    // beneath it, so the gradient's hard bottom edge can never surface in
-    // the panel's transparent diagonal zone. Painted but occluded by the
-    // green panel at rest — cheap enough for the prototype.
-    bottom: -50%;
+    // Bottom-anchored, 54% band (gradient start ≈46% down the viewport, per
+    // the Figma handles). No underscan: the box ends exactly at the layer's
+    // bottom (= 100svh from the hero top), which is always ABOVE the hero's
+    // own bottom, so the blur can never spill into the following section.
+    bottom: 0;
     left: 0;
-    // 54% visible band (gradient start ≈46%, per the Figma handles)
-    // + the 50% underscan
-    height: 104%;
+    height: 54%;
     pointer-events: none;
     background-color: $color-ui-scrim;
     -webkit-backdrop-filter: blur(7px); // Safari ≤17 needs the prefix
     backdrop-filter: blur(7px);
-    // Opaque from 30% of this taller box — same absolute position as the
-    // original 58%-of-54% box: ~77% of the viewport, per the Figma stops
-    -webkit-mask-image: linear-gradient(to bottom, transparent, black 30%);
-    mask-image: linear-gradient(to bottom, transparent, black 30%);
-    // Fades with the utilities when the H1 exit fires
-    @include transition(opacity, 0.3s);
+    // transparent → opaque (opaque by ~77% of the viewport, per the Figma
+    // stops), then HELD solid to the box bottom — the scrim must not weaken
+    // again at the foot of the hero. The old underscan hid the resulting hard
+    // edge; it no longer needs hiding: on desktop the layer is fixed, so that
+    // edge is the very bottom row of the viewport (nothing below it to reveal
+    // a line), and on mobile the green panel (later in the DOM, same stacking)
+    // paints over it. Either way the box ends within the hero — no bleed.
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 58%);
+    mask-image: linear-gradient(to bottom, transparent, black 58%);
   }
 
   // Headline block. NOT inside the sticky frame: it is anchored to the
@@ -272,10 +290,11 @@
   }
 
   // Exit fired (H1 leaving / shape reached the pin under reduced motion) —
-  // fade the utilities AND the bottom gradient out fully. They've scrolled up
-  // together with the shape; this is the "then fade out" step.
-  &.is-utils-out &__utilities,
-  &.is-utils-out &__blur {
+  // fade the utilities out fully; this is the "then fade out" step. The bottom
+  // gradient is deliberately NOT faded: it stays as the hero's bottom scrim for
+  // the whole scroll and simply leaves with the hero (sticky release on
+  // desktop, native scroll on mobile).
+  &.is-utils-out &__utilities {
     opacity: 0;
     pointer-events: none;
   }

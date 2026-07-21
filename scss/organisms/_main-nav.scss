@@ -442,8 +442,8 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
   // reveal. Green: a non-text icon, 3:1 on the taupe tint.
   &__panel-link::after {
     flex-shrink: 0;
-    width: 0.9em;
-    height: 0.65em;
+    width: $arrow-icon-width;
+    height: $arrow-icon-height;
     content: '';
     background-color: $color-brand-green;
     -webkit-mask-image: $arrow-icon;
@@ -467,8 +467,8 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
   // Inline arrow SVG — now used only by the outlined CTA pills
   &__panel-arrow {
     flex-shrink: 0;
-    width: 0.9em;
-    height: 0.65em;
+    width: $arrow-icon-width;
+    height: $arrow-icon-height;
     @include transition;
   }
 

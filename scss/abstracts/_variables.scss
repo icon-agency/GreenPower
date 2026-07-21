@@ -10,3 +10,12 @@ $container-max-width: 90rem !default;
 // Z-index scale — always reference, never invent ad-hoc values
 $z-nav: 100 !default;
 $z-skip-link: 200 !default;
+
+// Right-arrow affordance (the 14×10 glyph on links, buttons and nav CTAs).
+// A FIXED size — referenced everywhere the arrow appears — so it renders
+// identically regardless of the surrounding text size (nav links are step-0,
+// buttons and card links are step--1; an em-based arrow would diverge). rem,
+// not px, so it still respects the user's root font-size. 14×10 maps 1:1 to
+// the artwork's viewBox at the default root.
+$arrow-icon-width: 0.875rem !default; // 14px at the default root
+$arrow-icon-height: 0.625rem !default; // 10px — keeps the 14:10 aspect

@@ -660,10 +660,12 @@
           var frameTop = frame.getBoundingClientRect().top;
           media.style.transform = 'translateY(' + (heroTop * 0.2 - frameTop).toFixed(1) + 'px)';
         }
-        // The utilities + gradient live in the scroll-locked __follow layer,
-        // so the browser moves them natively (zero lag) — the only JS job is
-        // the fade: out fully (CSS transition via .is-utils-out) the moment
-        // the headline exit fires, same 15%-of-viewport line the H1 uses.
+        // The utilities + gradient live in the __follow layer, which moves
+        // natively (zero lag): on mobile it scrolls up with the shape, on
+        // desktop it is sticky-pinned at the bottom and releases with the hero.
+        // Either way the only JS job is the fade — out fully (CSS transition
+        // via .is-utils-out) the moment the headline exit fires, the same
+        // 15%-of-viewport line the H1 uses.
         var fadeNow = title && title.getBoundingClientRect().top < window.innerHeight * 0.15;
         hero.classList.toggle('is-utils-out', !!fadeNow);
         ticking = false;
@@ -1213,6 +1215,74 @@
           ticking = true;
         }
       });
+    })();
+  </script>
+
+  <!-- Card image parallax: each photo drifts a few pixels against the scroll
+       for depth. Measures the frame with getBoundingClientRect (never
+       offsetParent) and is rAF-throttled — LESSONS.md. The image carries a
+       baseline zoom (_card.scss) so the drift never exposes an edge; the JS
+       keeps that scale and adds the shift. Under reduced motion nothing binds
+       and the transform is cleared, leaving the plain CSS image.
+       Drupal: move into a once()-guarded behavior on port. -->
+  <script>
+    (function () {
+      var frames = Array.prototype.slice.call(
+        document.querySelectorAll('.card__media')
+      );
+      if (!frames.length) return;
+
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var ZOOM = 1.1;   // must match the scale() baseline in _card.scss
+      var RANGE = 0.04; // peak drift as a fraction of the frame height; the
+                        // ~5%-per-side room the zoom gives keeps it covered
+      var ticking = false;
+
+      function update() {
+        ticking = false;
+        var vh = window.innerHeight;
+        for (var i = 0; i < frames.length; i++) {
+          var rect = frames[i].getBoundingClientRect();
+          if (rect.bottom < 0 || rect.top > vh) continue; // off-screen: skip
+          // progress: -1 with the frame centre at the viewport bottom,
+          // +1 at the top, 0 dead-centre.
+          var centre = rect.top + rect.height / 2;
+          var progress = (centre - vh / 2) / ((vh + rect.height) / 2);
+          if (progress < -1) progress = -1;
+          else if (progress > 1) progress = 1;
+          var shift = (-progress * rect.height * RANGE).toFixed(1);
+          var img = frames[i].querySelector('img');
+          if (img) {
+            img.style.transform =
+              'translate3d(0,' + shift + 'px,0) scale(' + ZOOM + ')';
+          }
+        }
+      }
+
+      function requestUpdate() {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      }
+
+      function apply() {
+        if (reduced.matches) {
+          window.removeEventListener('scroll', requestUpdate);
+          window.removeEventListener('resize', requestUpdate);
+          for (var i = 0; i < frames.length; i++) {
+            var img = frames[i].querySelector('img');
+            if (img) img.style.transform = ''; // fall back to the CSS image
+          }
+        } else {
+          window.addEventListener('scroll', requestUpdate, { passive: true });
+          window.addEventListener('resize', requestUpdate);
+          update();
+        }
+      }
+
+      apply();
+      if (reduced.addEventListener) reduced.addEventListener('change', apply);
     })();
   </script>
 </body>
