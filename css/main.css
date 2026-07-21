@@ -556,7 +556,7 @@ a:focus-visible {
   font-weight: 400;
   color: #006341;
   text-align: center;
-  border-bottom: 1px solid rgba(0, 38, 62, 0.15);
+  border-bottom: 2px solid #009f4d;
 }
 .main-nav__group-list {
   border-bottom: 1px solid rgba(0, 38, 62, 0.15);
@@ -585,7 +585,6 @@ a:focus-visible {
 }
 .main-nav__panel-link--featured {
   font-weight: 500;
-  color: #009f4d;
 }
 .main-nav__panel-link:not(.main-nav__panel-link--featured) {
   padding-top: 0;

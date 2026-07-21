@@ -364,7 +364,7 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
     font-weight: $font-weight-regular;
     color: $color-brand-dark-green;
     text-align: center;
-    border-bottom: 1px solid $color-ui-border;
+    border-bottom: 2px solid $color-brand-green; // brand-green rule under the heading
   }
 
   &__group-list {
@@ -397,10 +397,8 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
     }
   }
 
-  // First (featured) link in each group — brand green, medium weight
   &__panel-link--featured {
     font-weight: $font-weight-medium;
-    color: $color-brand-green;
   }
 
   // Plain child links drop their top padding: with no list padding, every gap
