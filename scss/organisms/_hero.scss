@@ -132,8 +132,8 @@
     height: 54%; // gradient start ≈46% of frame height (Figma handles)
     pointer-events: none;
     background-color: $color-ui-scrim;
-    -webkit-backdrop-filter: blur(14px); // Safari ≤17 needs the prefix
-    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(7px); // Safari ≤17 needs the prefix
+    backdrop-filter: blur(7px);
     // opaque from 58% of this box = ~77% of the frame, per the Figma stops
     -webkit-mask-image: linear-gradient(to bottom, transparent, black 58%);
     mask-image: linear-gradient(to bottom, transparent, black 58%);

@@ -860,8 +860,8 @@
     pointer-events: none;
     content: '';
     background-color: $color-ui-scrim;
-    -webkit-backdrop-filter: blur(14px); // Safari ≤17 needs the prefix
-    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(7px); // Safari ≤17 needs the prefix
+    backdrop-filter: blur(7px);
     -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent);
     mask-image: linear-gradient(to bottom, black 50%, transparent);
     // Fades out as the bar docks (solid) and back in as it returns to the
