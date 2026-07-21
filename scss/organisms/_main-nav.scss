@@ -747,6 +747,9 @@
     &__panel-intro {
       @include flex-col(var(--space-m));
       align-items: flex-start;
+      // Extra breathing room before the first group column (on top of the
+      // grid gap) — intro column only
+      margin-right: var(--space-m);
     }
 
     &__panel-title {
