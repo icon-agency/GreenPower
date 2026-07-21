@@ -402,6 +402,19 @@
     padding-left: var(--space-2xs);
   }
 
+  // Nested sub-item — one indent deeper than a plain child link (e.g.
+  // "Certificate registry" under "How RGGO gas certification works"). Written
+  // with two classes so it beats the :not(--featured) padding-left above.
+  &__panel-link#{&}__panel-link--sub {
+    padding-left: var(--space-s);
+  }
+
+  // Outlined CTA pill sitting below a group's list (e.g. "Accredited
+  // electricity generators")
+  &__group-cta {
+    margin-top: var(--space-s);
+  }
+
   &__panel-arrow {
     flex-shrink: 0;
     width: 0.9em;

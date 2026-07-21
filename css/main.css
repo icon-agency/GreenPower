@@ -264,6 +264,18 @@ a:focus-visible {
   background-color: #f3efe5;
 }
 
+.btn--outline {
+  color: #006341;
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(0, 99, 65, 0.4);
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.btn--outline:hover {
+  color: #ffffff;
+  background-color: #006341;
+  box-shadow: inset 0 0 0 1px #006341;
+}
+
 .site-header {
   position: relative;
   z-index: 100;
@@ -577,6 +589,12 @@ a:focus-visible {
 .main-nav__panel-link:not(.main-nav__panel-link--featured) {
   padding-top: 0;
   padding-left: var(--space-2xs);
+}
+.main-nav__panel-link.main-nav__panel-link--sub {
+  padding-left: var(--space-s);
+}
+.main-nav__group-cta {
+  margin-top: var(--space-s);
 }
 .main-nav__panel-arrow {
   flex-shrink: 0;
