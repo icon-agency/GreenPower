@@ -1,0 +1,153 @@
+// -----------------------------------------------------------------------------
+// Card + card section — reusable content card and its grid
+//
+// A card composes ANY of: image, icon, title, body, links (0 / 1 / many).
+// Every part is optional, so one component covers image-only, icon + text,
+// text-only ("just information"), and single- or multi-link variants. Direct
+// children are gap-spaced, so omitting a part never leaves a hole. The section
+// wraps an optional heading + intro over a 1 / 2 / 3-column grid of cards.
+//
+// Drupal mapping:
+//   Paragraph: card — field_image (media, optional), field_icon (media svg,
+//     optional), field_title (text), field_body (text long, optional),
+//     field_links (link, multiple, optional). Render each present field; the
+//     BEM elements below map 1:1.
+//   Paragraph: card_grid — field_heading, field_intro (both optional),
+//     field_columns (2|3 → grid modifier), field_cards (paragraph ref, many).
+//
+// Image note: source PNGs are ~1MB / 900×600. Ship responsive srcset + sizes
+// and re-encode (WebP/AVIF, <150KB) before production — single-res here is a
+// prototype placeholder (see LESSONS.md on srcset).
+// -----------------------------------------------------------------------------
+
+.card-section {
+  @include container;
+  padding-block: var(--space-3xl);
+
+  // Dark green (not the default blue heading) per the design; DemiBold face
+  &__heading {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-demibold;
+    color: $color-brand-dark-green;
+  }
+
+  &__intro {
+    max-width: 44ch;
+    margin-top: var(--space-s);
+    font-size: $font-size-lg;
+    color: $color-ui-text;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-m);
+    margin-top: var(--space-xl);
+
+    // Default 3-up: 2 columns from md, 3 from lg
+    @include respond-to('md') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond-to('lg') {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    // Two-column variant — caps at 2 columns
+    &--two {
+      @include respond-to('md') {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @include respond-to('lg') {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  padding: var(--space-m);
+  background-color: $color-brand-taupe;
+  border-radius: $radius-lg;
+
+  // Optional image — 3:2 crop matching the 900×600 sources
+  &__media {
+    overflow: hidden;
+    aspect-ratio: 3 / 2;
+    border-radius: $radius-md;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  // Optional icon — the source SVGs are already dark green
+  &__icon {
+    width: 3.25rem;
+    height: 3.25rem;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-demibold;
+    line-height: $line-height-heading;
+    color: $color-brand-dark-green;
+  }
+
+  &__body {
+    color: $color-ui-text;
+  }
+
+  // Optional links — a divided list; sits a little clear of the body above
+  &__links {
+    margin-top: var(--space-2xs);
+    padding: 0;
+    list-style: none;
+  }
+
+  // Dark green (passes AA on the taupe card); arrow pinned right
+  &__link {
+    @include flex-row(var(--space-s), center, space-between);
+    padding-block: var(--space-s);
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    text-decoration: none;
+    border-bottom: 1px solid $color-ui-border;
+    @include transition(color);
+
+    &:hover {
+      color: $color-brand-blue;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  &__link-arrow {
+    flex-shrink: 0;
+    width: 0.9em;
+    height: 0.65em;
+    @include transition(transform);
+  }
+
+  // Nudge the arrow on hover (colour follows the link via currentColor)
+  &__link:hover &__link-arrow {
+    transform: translateX(var(--space-3xs));
+  }
+}

@@ -1311,6 +1311,124 @@ a:focus-visible {
   pointer-events: auto;
 }
 
+.card-section {
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: var(--space-s-l);
+  padding-block: var(--space-3xl);
+}
+.card-section__heading {
+  font-size: var(--step-3);
+  font-weight: 500;
+  color: #006341;
+}
+.card-section__intro {
+  max-width: 44ch;
+  margin-top: var(--space-s);
+  font-size: var(--step-1);
+  color: #00263e;
+}
+.card-section__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-m);
+  margin-top: var(--space-xl);
+}
+@media (min-width: 960px) {
+  .card-section__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1200px) {
+  .card-section__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 960px) {
+  .card-section__grid--two {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1200px) {
+  .card-section__grid--two {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  padding: var(--space-m);
+  background-color: #ebe5d3;
+  border-radius: 16px;
+}
+.card__media {
+  overflow: hidden;
+  aspect-ratio: 3/2;
+  border-radius: 8px;
+}
+.card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.card__icon {
+  width: 3.25rem;
+  height: 3.25rem;
+}
+.card__icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.card__title {
+  font-size: var(--step-1);
+  font-weight: 500;
+  line-height: 1.25;
+  color: #006341;
+}
+.card__body {
+  color: #00263e;
+}
+.card__links {
+  margin-top: var(--space-2xs);
+  padding: 0;
+  list-style: none;
+}
+.card__link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s);
+  padding-block: var(--space-s);
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: #006341;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 38, 62, 0.15);
+  transition: color 0.2s ease-in-out;
+}
+.card__link:hover {
+  color: #00263e;
+}
+.card__link:focus-visible {
+  outline: 3px solid #009f4d;
+  outline-offset: 2px;
+}
+.card__link-arrow {
+  flex-shrink: 0;
+  width: 0.9em;
+  height: 0.65em;
+  transition: transform 0.2s ease-in-out;
+}
+.card__link:hover .card__link-arrow {
+  transform: translateX(var(--space-3xs));
+}
+
 .page-intro {
   max-width: 90rem;
   margin-inline: auto;
