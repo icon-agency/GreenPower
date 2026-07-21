@@ -25,6 +25,11 @@
 //     shows the full menu expanded; desktop reveals dropdowns on hover/focus.
 // -----------------------------------------------------------------------------
 
+// Right-arrow glyph (same path as the inline __panel-arrow SVG) used as a mask
+// for the hover arrow on panel links. 'black' is only the mask's alpha source
+// — the visible colour comes from the pseudo's background-color token.
+$arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath d='M1 5h11M8 1l4 4-4 4' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
 .site-header {
   position: relative;
   z-index: $z-nav;
@@ -373,7 +378,9 @@
   }
 
   &__panel-link {
-    @include flex-row(var(--space-2xs), center, space-between);
+    // flex-start (not space-between): the hover arrow sits directly after the
+    // label, not pushed to the far edge
+    @include flex-row(var(--space-2xs));
     padding-block: var(--space-2xs);
     font-size: $font-size-base;
     color: $color-brand-dark-green;
@@ -415,17 +422,40 @@
     margin-top: var(--space-s);
   }
 
+  // Hover arrow on EVERY panel link — a masked ::after so no per-item markup
+  // is needed. Hidden at rest (space reserved via opacity, so hovering never
+  // reflows the row) and slides in from the left for a slight rightward
+  // reveal. Green: a non-text icon, 3:1 on the taupe tint.
+  &__panel-link::after {
+    flex-shrink: 0;
+    width: 0.9em;
+    height: 0.65em;
+    content: '';
+    background-color: $color-brand-green;
+    -webkit-mask-image: $arrow-icon;
+    mask-image: $arrow-icon;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    opacity: 0;
+    transform: translateX(-0.25em);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  &__panel-link:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  // Inline arrow SVG — now used only by the outlined CTA pills
   &__panel-arrow {
     flex-shrink: 0;
     width: 0.9em;
     height: 0.65em;
     @include transition;
-  }
-
-  // Arrow: green + nudge right on hover (green icon is non-text — 3:1 ok on tint)
-  &__panel-link:hover &__panel-arrow {
-    color: $color-brand-green;
-    transform: translateX(var(--space-3xs));
   }
 
   // --- Actions (search + CTA) ---
