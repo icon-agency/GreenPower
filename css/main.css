@@ -537,7 +537,7 @@ a:focus-visible {
 .main-nav__panel-inner {
   padding: var(--space-m);
   background-color: #ffffff;
-  border-radius: 16px;
+  border-radius: 0 0 16px 16px;
   opacity: 0;
   transition: opacity 0.25s ease-out;
 }
@@ -838,7 +838,7 @@ a:focus-visible {
     height: var(--backdrop-height, 100%);
     pointer-events: none;
     background-color: #f3efe5;
-    border-radius: 0 0 16px 16px;
+    border-radius: 0;
     opacity: 0;
     transition: height 0.3s ease-out, opacity 0.2s ease;
   }

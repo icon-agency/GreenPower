@@ -340,7 +340,9 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
   &__panel-inner {
     padding: var(--space-m);
     background-color: $color-white;
-    border-radius: $radius-lg;
+    // Square top so the card reads as attached under its nav item (no
+    // top-left/right radius); only the bottom corners round
+    border-radius: 0 0 $radius-lg $radius-lg;
     opacity: 0;
     transition: opacity 0.25s ease-out;
 
@@ -732,7 +734,9 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
       height: var(--backdrop-height, 100%);
       pointer-events: none;
       background-color: $color-tint-taupe;
-      border-radius: 0 0 $radius-lg $radius-lg;
+      // Flush full-width dropdown (matches the flat design mocks) — no rounded
+      // corners; the top especially must stay square against the page edge
+      border-radius: 0;
       opacity: 0;
       transition: height 0.3s ease-out, opacity 0.2s ease;
     }
