@@ -591,10 +591,13 @@
           var heroTop = hero.getBoundingClientRect().top;
           var frameTop = frame.getBoundingClientRect().top;
           media.style.transform = 'translateY(' + (heroTop * 0.2 - frameTop).toFixed(1) + 'px)';
-          // Utilities + bottom gradient scroll UP with the page — locked to
-          // the shape (same 1:1 rate), moving together in place.
+          // Utilities + bottom gradient are LOCKED to the shape: heroTop -
+          // frameTop is the distance the shape has risen relative to the
+          // pinned frame, so they scroll together as one piece (constant gap
+          // to the H1 above and the shape below). Once the frame unpins the
+          // delta freezes — no runaway 2x movement into the headline.
           if (utilities) {
-            var y = 'translateY(' + heroTop.toFixed(1) + 'px)';
+            var y = 'translateY(' + (heroTop - frameTop).toFixed(1) + 'px)';
             utilities.style.transform = y;
             if (blurEl) blurEl.style.transform = y;
           }

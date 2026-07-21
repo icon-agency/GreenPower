@@ -1079,15 +1079,15 @@ a:focus-visible {
 .hero__blur {
   position: absolute;
   right: 0;
-  bottom: 0;
+  bottom: -50%;
   left: 0;
-  height: 54%;
+  height: 104%;
   pointer-events: none;
   background-color: rgba(0, 0, 0, 0.35);
   -webkit-backdrop-filter: blur(7px);
   backdrop-filter: blur(7px);
-  -webkit-mask-image: linear-gradient(to bottom, transparent, black 58%);
-  mask-image: linear-gradient(to bottom, transparent, black 58%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 30%);
+  mask-image: linear-gradient(to bottom, transparent, black 30%);
   transition: opacity 0.3s ease-in-out;
 }
 .hero__content {
