@@ -1088,6 +1088,7 @@ a:focus-visible {
   backdrop-filter: blur(7px);
   -webkit-mask-image: linear-gradient(to bottom, transparent, black 58%);
   mask-image: linear-gradient(to bottom, transparent, black 58%);
+  transition: opacity 0.3s ease-in-out;
 }
 .hero__content {
   max-width: 90rem;
@@ -1158,7 +1159,7 @@ a:focus-visible {
     flex-direction: row-reverse;
   }
 }
-.hero.is-utils-out .hero__utilities {
+.hero.is-utils-out .hero__utilities, .hero.is-utils-out .hero__blur {
   opacity: 0;
   pointer-events: none;
 }

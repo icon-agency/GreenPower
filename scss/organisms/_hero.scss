@@ -137,6 +137,8 @@
     // opaque from 58% of this box = ~77% of the frame, per the Figma stops
     -webkit-mask-image: linear-gradient(to bottom, transparent, black 58%);
     mask-image: linear-gradient(to bottom, transparent, black 58%);
+    // JS translates this up with the utilities; it fades with them on exit
+    @include transition(opacity, 0.3s);
   }
 
   // Headline block. NOT inside the sticky frame: it is anchored to the
@@ -236,9 +238,11 @@
     }
   }
 
-  // Shape has risen to meet the pinned utilities — fade them out fully so the
-  // pin (which sits above the panel in the stack) never lands on the green
-  &.is-utils-out &__utilities {
+  // Exit fired (H1 leaving / shape reached the pin under reduced motion) —
+  // fade the utilities AND the bottom gradient out fully. They've scrolled up
+  // together with the shape; this is the "then fade out" step.
+  &.is-utils-out &__utilities,
+  &.is-utils-out &__blur {
     opacity: 0;
     pointer-events: none;
   }

@@ -438,7 +438,9 @@
       var playback = hero.querySelector('[data-hero-playback]');
       var locationText = hero.querySelector('[data-hero-location-text]');
       var utilities = hero.querySelector('.hero__utilities');
+      var blurEl = hero.querySelector('.hero__blur');
       var panel = hero.querySelector('.hero__panel');
+      var title = hero.querySelector('.hero__title');
       var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
       // --- Rotating backgrounds: each video holds fully visible for HOLD_MS,
@@ -589,18 +591,22 @@
           var heroTop = hero.getBoundingClientRect().top;
           var frameTop = frame.getBoundingClientRect().top;
           media.style.transform = 'translateY(' + (heroTop * 0.2 - frameTop).toFixed(1) + 'px)';
+          // Utilities + bottom gradient scroll UP with the page — locked to
+          // the shape (same 1:1 rate), moving together in place.
+          if (utilities) {
+            var y = 'translateY(' + heroTop.toFixed(1) + 'px)';
+            utilities.style.transform = y;
+            if (blurEl) blurEl.style.transform = y;
+          }
         }
-        // Fade the pinned utilities out — IN PLACE, no movement — once the
-        // rising shape panel reaches them, so the pin never lands on the
-        // green. A class toggle drives a CSS opacity transition, so the fade
-        // always completes fully (never sticks half-way) and reverses on the
-        // way back up. Locked to the shape: the panel's position is the
-        // trigger. Outside the reduced-motion guard so the pin still clears
-        // (the global transition kill just makes it instant).
-        if (utilities && panel) {
-          var reached = panel.getBoundingClientRect().top <= utilities.getBoundingClientRect().bottom;
-          hero.classList.toggle('is-utils-out', reached);
-        }
+        // ...then fade out fully (CSS transition via .is-utils-out) the moment
+        // the headline exit fires — same 15%-of-viewport line the H1 uses, so
+        // they go together. Reduced motion doesn't translate, so there it fades
+        // earlier — when the shape reaches the pin — to keep it off the green.
+        var fadeNow = reduced.matches
+          ? (panel && utilities && panel.getBoundingClientRect().top <= utilities.getBoundingClientRect().bottom)
+          : (title && title.getBoundingClientRect().top < window.innerHeight * 0.15);
+        hero.classList.toggle('is-utils-out', !!fadeNow);
         ticking = false;
       }
       function requestUpdate() {
