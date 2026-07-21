@@ -217,7 +217,8 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
     gap: var(--space-s);
     align-items: center;
     width: 100%;
-    padding-block: 0 var(--space-m);
+    // Top space so the field clears the last menu item above it
+    padding-block: var(--space-m);
   }
 
 

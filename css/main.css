@@ -420,7 +420,7 @@ a:focus-visible {
   gap: var(--space-s);
   align-items: center;
   width: 100%;
-  padding-block: 0 var(--space-m);
+  padding-block: var(--space-m);
 }
 .main-nav__search-form {
   position: relative;
