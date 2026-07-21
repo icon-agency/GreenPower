@@ -1,0 +1,10 @@
+// -----------------------------------------------------------------------------
+// Radius tokens
+// Only values currently required by built components. Full radius scale
+// pending design values — extend here, never hard-code radii in components.
+// -----------------------------------------------------------------------------
+
+$radius-sm: 4px !default; // sublinks, small controls
+$radius-md: 8px !default; // dropdown panels, cards
+$radius-lg: 16px !default; // mega-menu backdrop, large surfaces
+$radius-pill: 100em !default; // pill buttons (Buy GreenPower CTA)

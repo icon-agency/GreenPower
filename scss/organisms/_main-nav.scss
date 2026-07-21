@@ -1,0 +1,974 @@
+// -----------------------------------------------------------------------------
+// Main navigation
+//
+// Drupal mapping: NOT a paragraph type. Maps to the main menu block —
+//   - menu--main.html.twig renders __list/__item/__link/__submenu from the
+//     menu tree (2 levels).
+//   - Search button renders as the last item inside the menu list
+//     (__item--search, appended in the menu template, not a menu link).
+//   - "Buy GreenPower" CTA is a separate block in the header region
+//     (__actions wrapper stays in the region template).
+// Preprocess notes: is-open/aria-expanded state is JS-only; preprocess just
+//   flags items with children so Twig renders the disclosure button + chevron.
+// Known risks: dropdown JS currently lives inline in each template — must move
+//   to a theme JS library on port. Confirm menu depth (assumed 2) with Drupal dev.
+// Search handoff: the prototype form (role="search", name=q, action="#") is a
+//   placeholder for the GovCMS search block (core: /search route with `keys`;
+//   Search API if enabled — confirm param). Replace via the search block's
+//   Twig template keeping these classes; label + submit button already meet
+//   WCAG AA and match Drupal's form structure.
+//
+// Behaviour:
+//   - Mobile-first: hamburger toggles the menu panel; submenus accordion.
+//   - Desktop (md+): horizontal bar, submenus are dropdowns.
+//   - JS toggles .is-open + aria-expanded. Without JS (html.no-js): mobile
+//     shows the full menu expanded; desktop reveals dropdowns on hover/focus.
+// -----------------------------------------------------------------------------
+
+.site-header {
+  position: relative;
+  z-index: $z-nav;
+  background-color: $color-ui-background;
+}
+
+// Page scroll lock while the mobile menu overlay is open (JS toggles on <html>)
+.nav-scroll-locked {
+  overflow: hidden;
+}
+
+.main-nav {
+  // Morphing background layer (desktop only): fades in on bar hover, and JS
+  // animates --backdrop-height to wrap the open mega panel
+  &__backdrop {
+    display: none;
+  }
+
+  &__inner {
+    @include container;
+    // Tight gap on mobile — the bar carries logo + search + CTA + burger
+    @include flex-row(var(--space-2xs), center, space-between);
+    flex-wrap: wrap;
+    padding-block: var(--space-s);
+  }
+
+  // Open menu (mobile): full-bleed taupe sheet overlaying the page content
+  // (fixed, so nothing gets pushed down). Caps at the viewport and scrolls
+  // internally; the page itself is scroll-locked via .nav-scroll-locked.
+  // .is-closing keeps the sheet mounted while the menu collapses shut; the
+  // taupe fades in on open via the background transition.
+  &.is-open,
+  &.is-closing {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: $z-nav;
+    max-height: 100vh;
+    max-height: 100dvh;
+    overflow-y: auto;
+    background-color: $color-tint-taupe;
+    border-radius: 0 0 $radius-lg $radius-lg;
+    transition: background-color 0.25s ease-out;
+  }
+
+  &__logo {
+    display: inline-flex;
+    flex-shrink: 0;
+
+    img {
+      width: min(13rem, 36vw);
+      @include transition(filter); // overlay header swaps it white <-> brand
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  // --- Hamburger (mobile, JS only): two-line circle -> close cross ---
+
+  &__toggle {
+    @include button-reset;
+    display: none;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    order: 3;
+    width: 3em; // matches .btn / search circle height (1em + 1em line + 1em)
+    height: 3em;
+    font-size: $font-size-sm;
+    color: $color-brand-dark-green;
+    background-color: $color-tint-taupe;
+    border-radius: 50%;
+    @include transition(background-color);
+
+    .js & {
+      display: inline-flex;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  // On the taupe sheet the circle lifts to white
+  &.is-open &__toggle {
+    background-color: $color-white;
+  }
+
+  &__toggle-icon {
+    position: relative;
+    display: block;
+    width: 1.1em;
+    height: 0.125em;
+
+    &::before,
+    &::after {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 0.125em;
+      content: '';
+      background-color: currentcolor;
+      transition: top 0.2s ease, transform 0.2s ease;
+    }
+
+    &::before {
+      top: -0.2em;
+    }
+
+    &::after {
+      top: 0.2em;
+    }
+  }
+
+  // Hover: the two lines spread slightly apart
+  &__toggle:hover &__toggle-icon::before {
+    top: -0.3em;
+  }
+
+  &__toggle:hover &__toggle-icon::after {
+    top: 0.3em;
+  }
+
+  // Open: lines meet in the middle and rotate into a close cross
+  &.is-open &__toggle-icon::before,
+  &.is-open &__toggle:hover &__toggle-icon::before {
+    top: 0;
+    transform: rotate(45deg);
+  }
+
+  &.is-open &__toggle-icon::after,
+  &.is-open &__toggle:hover &__toggle-icon::after {
+    top: 0;
+    transform: rotate(-45deg);
+  }
+
+  // --- Menu panel ---
+
+  // Flip wrapper: on mobile this is the animated menu region — nav items AND
+  // the search field expand into view together (JS-measured height morph),
+  // so search reveals last like any other item. On desktop it is the
+  // perspective stage for the nav <-> search face swap.
+  &__flip {
+    order: 10;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    // visibility removes the collapsed menu from the tab order (height/
+    // opacity alone leave links focusable); swaps after the close animation
+    visibility: hidden;
+    opacity: 0;
+    transition: height 0.3s ease-out, opacity 0.25s ease-out, visibility 0s 0.3s;
+  }
+
+  &.is-open &__flip {
+    visibility: visible;
+    opacity: 1;
+    transition: height 0.3s ease-out, opacity 0.25s ease-out, visibility 0s;
+  }
+
+  .no-js &__flip {
+    height: auto;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &__menu {
+    width: 100%;
+  }
+
+  // --- Search bar face (mobile: plain row, no 3D) ---
+
+  // Mobile: always rendered inside the animated flip region, after the list —
+  // the expanding clip reveals it last, like the items above it
+  &__searchbar {
+    display: flex;
+    gap: var(--space-s);
+    align-items: center;
+    width: 100%;
+    padding-block: 0 var(--space-m);
+  }
+
+
+  &__search-form {
+    position: relative;
+    flex: 1;
+    // em context matches the input so the icon and padding scale together.
+    // Floored at 1rem on small screens so iOS Safari doesn't zoom on focus.
+    font-size: max(#{$font-size-sm}, 1rem);
+  }
+
+  // The in-field magnifier is the submit control (visually left of the text)
+  &__search-submit {
+    @include button-reset;
+    position: absolute;
+    top: 50%;
+    left: var(--space-xs);
+    display: inline-flex;
+    color: $color-brand-dark-green;
+    transform: translateY(-50%);
+    @include transition(color);
+
+    svg {
+      width: 1.3em;
+      height: 1.3em;
+    }
+
+    &:hover {
+      color: $color-brand-green;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  &__search-input {
+    width: 100%;
+    height: 3em; // matches .btn / circle height
+    padding: 0 var(--space-s) 0 calc(var(--space-xs) + 1.3em + var(--space-2xs));
+    font-size: 1em;
+    color: $color-ui-text;
+    background-color: $color-white;
+    border: 1px solid $color-ui-border-strong; // WCAG 1.4.11 boundary contrast
+    border-radius: $radius-pill;
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    &::placeholder {
+      color: $color-brand-dark-green; // 7.4:1 — placeholder counts as text (AA)
+      opacity: 1;
+    }
+  }
+
+  &__list {
+    @include flex-col(0);
+    align-items: stretch;
+    // Section rhythm below the bar + closing space, kept inside the animated
+    // menu region
+    margin-top: var(--space-s);
+    padding-bottom: var(--space-m);
+    border-top: 1px solid $color-ui-border;
+  }
+
+  &__item {
+    position: relative;
+    border-bottom: 1px solid $color-ui-border;
+  }
+
+  &__link {
+    @include button-reset;
+    @include flex-row(var(--space-3xs), center, space-between);
+    width: 100%;
+    padding: var(--space-s) 0;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    text-decoration: none;
+    @include transition(color);
+
+    &:hover {
+      color: $color-brand-blue;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  // SVG sizing: em-based so icons track the fluid type scale (the width/
+  // height attributes on the SVGs are only fallbacks — CSS wins)
+  &__chevron {
+    flex-shrink: 0;
+    width: 0.8em;
+    height: 0.8em;
+    @include transition(transform);
+  }
+
+  &__link[aria-expanded='true'] &__chevron {
+    transform: rotate(180deg);
+  }
+
+  // --- Panel (mega menu) ---
+  // Mobile: stacked accordion content. Desktop: full-width panel on tint.
+
+  // Mobile: animated accordion — height is driven by JS (measured target,
+  // then released to auto) because grid-template-rows fr transitions are
+  // unreliable in Chromium. Content fades like the desktop panels. The
+  // white card lives on __panel-inner; the panel clips it while collapsed.
+  &__panel {
+    height: 0;
+    margin-bottom: 0;
+    overflow: hidden;
+    transition: height 0.3s ease-out, margin-bottom 0.3s ease-out;
+
+    // No JS on mobile: no way to toggle, so show panels expanded
+    .no-js & {
+      height: auto;
+      margin-bottom: var(--space-m);
+    }
+  }
+
+  &__panel-inner {
+    padding: var(--space-m);
+    background-color: $color-white;
+    border-radius: $radius-lg;
+    opacity: 0;
+    transition: opacity 0.25s ease-out;
+
+    .no-js & {
+      opacity: 1;
+    }
+  }
+
+  // Intro (panel title + CTA) duplicates the parent item on mobile — desktop only
+  &__panel-intro {
+    display: none;
+  }
+
+  &__group + &__group {
+    margin-top: var(--space-m);
+  }
+
+  &__group-title {
+    padding-bottom: var(--space-2xs);
+    font-size: $font-size-lg; // matches the top-level accordion labels
+    font-weight: $font-weight-regular;
+    color: $color-ui-text;
+    text-align: center;
+    border-bottom: 1px solid $color-ui-border;
+  }
+
+  &__group-list {
+    border-bottom: 1px solid $color-ui-border;
+  }
+
+  // Rule only between consecutive featured links — a featured parent followed
+  // by plain child links has no line under it
+  &__group-item--featured + &__group-item--featured {
+    border-top: 1px solid $color-ui-border;
+  }
+
+  &__panel-link {
+    @include flex-row(var(--space-2xs), center, space-between);
+    padding-block: var(--space-2xs);
+    font-size: $font-size-base;
+    color: $color-brand-dark-green;
+    text-decoration: none;
+    @include transition(color);
+
+    // Blue, not Primary Green: green on the taupe tint is 3.0:1 — fails AA
+    &:hover {
+      color: $color-brand-blue;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  &__panel-link--featured {
+    font-weight: $font-weight-medium;
+  }
+
+  // Plain child links drop their top padding: with no list padding, every gap
+  // (rule -> link, link -> link, link -> closing rule) is exactly one padding.
+  // Slight indent distinguishes them from featured parents.
+  &__panel-link:not(#{&}__panel-link--featured) {
+    padding-top: 0;
+    padding-left: var(--space-2xs);
+  }
+
+  &__panel-arrow {
+    flex-shrink: 0;
+    width: 0.9em;
+    height: 0.65em;
+    @include transition;
+  }
+
+  // Arrow: green + nudge right on hover (green icon is non-text — 3:1 ok on tint)
+  &__panel-link:hover &__panel-arrow {
+    color: $color-brand-green;
+    transform: translateX(var(--space-3xs));
+  }
+
+  // --- Actions (search + CTA) ---
+
+  // Sits outside the flip stage so the CTA never flips with the search swap.
+  // Lives in the bar row at every breakpoint, between search and the burger.
+  &__actions {
+    @include flex-row(var(--space-2xs));
+    flex-shrink: 0;
+    order: 2;
+    // On mobile the bar has no search icon, so the CTA carries the auto
+    // margin and hugs the burger; on desktop the search toggle owns it
+    margin-left: auto;
+
+    @include respond-to('nav') {
+      margin-left: 0;
+    }
+  }
+
+  &__search {
+    @include button-reset;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    // 3em = .btn's 1em + 1em line + 1em at the same font-size, so the
+    // circle is exactly the pill button's height
+    width: 3em;
+    height: 3em;
+    font-size: $font-size-sm;
+    color: $color-brand-dark-green; // icon stays dark green in every state
+    background-color: transparent; // plain icon at rest on every surface
+    border: 0;
+    border-radius: 50%;
+    @include transition(background-color);
+
+    // Hover (and the close/X state the same): no ring — just the white circle
+    &:hover {
+      background-color: $color-white;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  // Search toggle: one static circle, desktop only — on mobile the search
+  // field lives inside the open menu, so the bar carries no icon. It never
+  // flips — only its glyph swaps (magnifier <-> close) with the search state.
+  &__search-toggle {
+    display: none;
+    order: 1;
+    margin-left: auto;
+    @include transition(color); // morphs white <-> dark with the header state
+
+    @include respond-to('nav') {
+      display: inline-flex;
+    }
+  }
+
+  &__search-glyph--open {
+    width: 1.3em;
+    height: 1.3em;
+  }
+
+  &__search-glyph--close {
+    display: none;
+    width: 0.9em;
+    height: 0.9em;
+  }
+
+  &.search-open &__search-glyph--open {
+    display: none;
+  }
+
+  &.search-open &__search-glyph--close {
+    display: block;
+  }
+
+  // --- Desktop ---
+
+  @include respond-to('nav') {
+    &__inner {
+      flex-wrap: nowrap;
+      gap: var(--space-s);
+    }
+
+    // Reset the mobile overlay-sheet treatment
+    &.is-open,
+    &.is-closing {
+      position: static;
+      max-height: none;
+      overflow: visible;
+      background-color: transparent;
+      border-radius: 0;
+      transition: none;
+    }
+
+    // Total space after the logo (margin + the inner row's flex gap) equals
+    // the container gutter, so both sides of the logo read identically
+    &__logo {
+      margin-right: calc(var(--space-s-l) - var(--space-s));
+    }
+
+    &__toggle,
+    .js &__toggle {
+      display: none;
+    }
+
+    // NOTE: at rest the flip wrapper and stage must create NO containing
+    // block (no position, perspective, or transform) — the mega panels live
+    // inside and must keep anchoring to .site-header. Everything 3D is
+    // gated behind .is-flipping, when panels are guaranteed closed.
+    &__flip {
+      display: block;
+      flex: 1;
+      order: 0;
+      width: auto;
+      height: auto;
+      overflow: visible;
+      visibility: visible;
+      opacity: 1;
+      transition: none;
+    }
+
+    &.is-flipping &__flip {
+      perspective: 1400px;
+    }
+
+    &__menu,
+    &.is-open &__menu,
+    .no-js &__menu {
+      @include flex-row(var(--space-m), center, flex-end);
+      width: auto;
+      height: auto;
+      padding-block: 0;
+      overflow: visible;
+      opacity: 1;
+    }
+
+    // --- 3D prism flip: nav row <-> search bar ---
+    // Both faces mount on a rotating stage with translateZ depth (half the
+    // row height, set by JS as --flip-depth), so they stay geometrically
+    // connected — one solid bar rotating, per the runway.airforce.gov.au
+    // reference. `.is-flipping` mounts the 3D transforms (net identity, no
+    // visual change); `.search-open` drives the rotation. They are separate
+    // because the mega panels are absolute-positioned inside the menu and
+    // must not sit inside a transformed ancestor while the nav is at rest.
+    &.is-flipping &__flip-stage {
+      position: relative;
+      transform: translateZ(calc(var(--flip-depth, 27px) * -1));
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+
+    &.is-flipping.search-open &__flip-stage {
+      transform: translateZ(calc(var(--flip-depth, 27px) * -1)) rotateX(90deg);
+    }
+
+    &__menu {
+      transition: visibility 0s;
+    }
+
+    &.is-flipping &__menu {
+      backface-visibility: hidden;
+      transform: translateZ(var(--flip-depth, 27px));
+    }
+
+    &.search-open &__menu {
+      visibility: hidden;
+      transition: visibility 0s 0.55s;
+    }
+
+    &__searchbar,
+    &.search-open &__searchbar {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: auto;
+      padding-block: 0;
+    }
+
+    &__searchbar {
+      visibility: hidden;
+      backface-visibility: hidden;
+      transform: rotateX(-90deg) translateZ(var(--flip-depth, 27px));
+      transition: visibility 0s 0.55s;
+    }
+
+    &.search-open &__searchbar {
+      visibility: visible;
+      transition: visibility 0s;
+    }
+
+    // No-JS desktop: the flip can't run — render search statically under the
+    // menu row (inside the flip column) so it stays reachable
+    .no-js &__searchbar {
+      position: static;
+      display: flex;
+      padding-block: 0 var(--space-s);
+      visibility: visible;
+      transform: none;
+    }
+
+    &__search-form {
+      font-size: $font-size-sm; // desktop rows align to the 3em button height
+    }
+
+    // Left-aligned (margin-right auto): keeps the gap after the logo exactly
+    // one container gutter; leftover slack sits before the search/CTA instead
+    &__list {
+      @include flex-row(var(--space-s), center);
+      margin-top: 0;
+      margin-right: auto;
+      padding-bottom: 0;
+      border-top: 0;
+    }
+
+    // Panel anchors to .site-header (position: relative), not the item,
+    // so it can span the full viewport width.
+    &__item {
+      position: static;
+      border-bottom: 0;
+    }
+
+    &__link {
+      position: relative;
+      width: auto;
+      padding: var(--space-xs) 0;
+      font-size: $font-size-sm;
+      white-space: nowrap;
+
+      // Underline slot — an ::after element, NOT box-shadow (see LESSONS.md:
+      // shadow-underlines leave a 1px vertical seam at fractional x-positions)
+      &::after {
+        position: absolute;
+        inset: auto 0 0;
+        height: 2px;
+        content: '';
+        background-color: transparent;
+        @include transition(background-color);
+      }
+
+      &:hover::after {
+        background-color: $color-brand-light-green;
+      }
+
+      // Open state: green underline carries the brand moment; label stays
+      // dark green — Primary Green text fails AA at this size (3.5:1)
+      &[aria-expanded='true'] {
+        color: $color-brand-dark-green;
+
+        &::after {
+          background-color: $color-brand-green;
+        }
+      }
+    }
+
+    &__backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      display: block;
+      width: 100%;
+      height: var(--backdrop-height, 100%);
+      pointer-events: none;
+      background-color: $color-tint-taupe;
+      border-radius: 0 0 $radius-lg $radius-lg;
+      opacity: 0;
+      transition: height 0.3s ease-out, opacity 0.2s ease;
+    }
+
+    .site-header:hover &__backdrop,
+    .site-header:focus-within &__backdrop,
+    &.has-open-panel &__backdrop,
+    &.search-open &__backdrop {
+      opacity: 1;
+    }
+
+    // Panels are transparent — the backdrop behind them carries the surface.
+    // Height/overflow reset the mobile accordion mechanics.
+    &__panel,
+    .no-js &__panel {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      display: none;
+      width: 100%;
+      height: auto;
+      padding: var(--space-l) 0 var(--space-xl);
+      margin-bottom: 0;
+      overflow: visible;
+      background-color: transparent;
+      border-radius: 0;
+      transition: none;
+    }
+
+    // Without JS there is no backdrop morphing — panels keep their own surface
+    .no-js &__panel {
+      background-color: $color-tint-taupe;
+      border-radius: 0 0 $radius-lg $radius-lg;
+    }
+
+    // Reset the mobile card treatment — the taupe backdrop is the surface here
+    &__panel-inner {
+      @include container;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-l);
+      min-height: auto;
+      overflow: visible;
+      background-color: transparent;
+      border-radius: 0;
+      opacity: 1;
+      transition: none;
+    }
+
+    &__panel-intro {
+      @include flex-col(var(--space-m));
+      align-items: flex-start;
+    }
+
+    &__panel-title {
+      font-size: $font-size-xl;
+      line-height: $line-height-heading;
+      color: $color-brand-dark-green;
+      text-wrap: balance;
+    }
+
+    &__group + &__group {
+      margin-top: 0;
+    }
+
+    // Desktop mega menu keeps the reference design: left-aligned, dark green
+    &__group-title {
+      padding-bottom: var(--space-2xs);
+      font-size: $font-size-base;
+      color: $color-brand-dark-green;
+      text-align: left;
+    }
+
+    &__panel-link {
+      padding-block: var(--space-xs);
+      font-size: $font-size-sm;
+    }
+
+    &__panel-link:not(#{&}__panel-link--featured) {
+      padding-top: 0;
+    }
+
+    &__actions {
+      display: flex;
+      flex-shrink: 0;
+      order: 2;
+      width: auto;
+      padding-top: 0;
+    }
+
+    // Static toggle sits between the flip stage and the CTA (flex order —
+    // DOM keeps it in the bar row for mobile)
+    &__search-toggle {
+      order: 1;
+      margin-left: 0;
+    }
+  }
+}
+
+// Open states — JS sets .is-open on the item; no-JS desktop falls back to
+// hover / focus-within disclosure.
+// Open state, mobile: JS animates the panel height (see setPanelHeight);
+// CSS handles the margin ease and the card fade — the same grow-and-fade
+// rhythm as desktop. Closing reverses the transitions.
+.main-nav__item.is-open > .main-nav__panel {
+  margin-bottom: var(--space-m);
+}
+
+.main-nav__item.is-open > .main-nav__panel > .main-nav__panel-inner {
+  opacity: 1;
+}
+
+@include respond-to('nav') {
+  // Desktop entering: fade in with a short delay so the backdrop leads the
+  // morph. fill-mode `both` keeps it hidden during the delay.
+  .main-nav__item.is-open > .main-nav__panel {
+    display: block;
+    @include anim-fade-in-down(0.25s, ease-out, 80ms, both);
+  }
+
+  // Higher-specificity mobile card rules must not leak in: keep the
+  // container gutters and full opacity on the desktop panel grid
+  .main-nav__item.is-open > .main-nav__panel > .main-nav__panel-inner,
+  .no-js .main-nav__panel-inner {
+    padding: 0 var(--space-s-l);
+    opacity: 1;
+  }
+
+  // Leaving panel (switching items): stays visible briefly while fading out,
+  // overlapping the incoming panel for a cross-fade. JS removes .is-leaving.
+  .main-nav__item.is-leaving > .main-nav__panel {
+    display: block;
+    @include anim-fade-out(0.15s, ease-out);
+  }
+
+  .no-js .main-nav__item:hover > .main-nav__panel,
+  .no-js .main-nav__item:focus-within > .main-nav__panel {
+    display: block;
+  }
+}
+
+// --- Transparent overlay header (homepage hero) ---
+// The header floats over the hero media with no background. Idle items render
+// white; when a nav surface is present behind them they revert to standard
+// colours — on desktop that's bar hover/keyboard focus (taupe backdrop fades
+// in) or an open panel/search; on mobile it's the open taupe sheet. Scoped to
+// .js: without JS none of that machinery runs, so no-js keeps standard
+// colours (the expanded fallback menu must not render white-on-white).
+// Drupal note: apply the modifier from preprocess (front-page condition
+// computing the header modifier_class), not editorial content.
+.site-header--overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  background-color: transparent;
+
+  // Top gradient scrim + progressive blur — part of the nav bar itself (it
+  // scrolls away with the header; the hero's bottom scrim stays on the sticky
+  // frame). Solid 35% black across the bar's own height, fading out over one
+  // further bar-height below. Same one-mask pattern as .hero__blur: the mask
+  // drives both the colour and blur fades so they share positioning.
+  // .js-scoped like the rest of the overlay machinery: under no-js the
+  // fallback menu expands INSIDE the header, so a percentage height would
+  // track that growth — measured 5146px of scrim veiling the whole page and
+  // adding ~3900px of phantom scroll (see LESSONS.md).
+  .js &::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    // .site-header's own z-index makes it a stacking context, so -1 sits
+    // behind the nav content but still above the hero underneath
+    z-index: -1;
+    height: 200%;
+    pointer-events: none;
+    content: '';
+    background-color: $color-ui-scrim;
+    -webkit-backdrop-filter: blur(14px); // Safari ≤17 needs the prefix
+    backdrop-filter: blur(14px);
+    -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent);
+    mask-image: linear-gradient(to bottom, black 50%, transparent);
+    // Fades out as the bar docks (solid) and back in as it returns to the
+    // hero look, so the scroll-to-top morph has no scrim pop
+    transition: opacity 0.3s ease;
+  }
+}
+
+// EVERY state guard here must live inside :where() so it contributes ZERO
+// specificity — the desktop revert block below wins only by being later at
+// equal specificity. A bare :not(.is-pinned) here (one class) outweighed the
+// revert and left the logo and links white on hover over the hero.
+// The guard is :where(:not(.is-pinned), .is-hero-top): white items apply when
+// the header wears the hero look — either at rest (not pinned) OR while the
+// fixed bar is morphed to the hero look in the top zone (.is-hero-top).
+.js .site-header--overlay:where(:not(.is-pinned), .is-hero-top) .main-nav:where(:not(.has-open-panel):not(.search-open):not(.is-open):not(.is-closing)) {
+  .main-nav__link {
+    color: $color-white;
+  }
+
+  .main-nav__search-toggle {
+    color: $color-white;
+  }
+
+  .main-nav__logo img {
+    filter: brightness(0) invert(100%);
+  }
+
+  .main-nav__actions .btn {
+    color: $color-brand-dark-green;
+    background-color: $color-white;
+  }
+}
+
+// Desktop: hover or keyboard focus fades the taupe backdrop in, so items
+// revert. Mobile has no backdrop — items stay white until the sheet opens
+// (also avoids sticky-:hover-after-tap leaving dark items on raw video).
+@include respond-to('nav') {
+  .site-header--overlay:hover,
+  .site-header--overlay:focus-within {
+    .main-nav .main-nav__link {
+      color: $color-brand-dark-green;
+    }
+
+    .main-nav .main-nav__search-toggle {
+      color: $color-brand-dark-green;
+    }
+
+    .main-nav .main-nav__logo img {
+      filter: none;
+    }
+
+    .main-nav .main-nav__actions .btn {
+      color: $color-white;
+      background-color: $color-brand-dark-green;
+    }
+  }
+}
+
+// --- Auto-hiding header (scroll-up reveals, scroll-down hides) ---
+// Driven by the shared auto-hide script: past the top zone, scrolling up
+// adds .is-pinned (fixed off-screen) then .is-shown (slides in on the nav
+// dropdown timing); scrolling down removes .is-shown (slides out) and
+// .is-pinned after the transition. At the very top both classes drop and
+// the header returns to its natural position. Mid-page a pinned bar uses the
+// solid standard treatment (it sits over arbitrary content); in the hero's
+// top zone it wears .is-hero-top to morph back to the transparent overlay
+// look IN PLACE, so returning to the top is a smooth state switch (like
+// hover) rather than the fixed bar vanishing and the overlay re-sliding in.
+.js .site-header {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.site-header.is-pinned {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  background-color: $color-ui-background;
+  box-shadow: 0 1px 0 $color-ui-border; // hairline seat over page content
+  transform: translateY(-100%);
+  transition: transform 0.25s ease-out, background-color 0.3s ease, box-shadow 0.3s ease;
+
+  // JS adds this for one reflow while committing the off-screen start, so the
+  // initial .is-pinned application doesn't animate 0 -> -100% and swallow the
+  // reveal. Removed before .is-shown, so the down-slide runs at 0.25s ease-out
+  // — the exact mirror of the scroll-down hide.
+  &.is-priming {
+    transition: none;
+  }
+
+  &.is-shown {
+    transform: translateY(0);
+  }
+
+  // Top zone of the hero: the fixed bar wearing the transparent overlay look.
+  // Items go white via the idle-white guard above (which includes
+  // .is-hero-top); the scrim fades back in via its opacity rule below.
+  &.is-hero-top {
+    background-color: transparent;
+    box-shadow: none;
+  }
+}
+
+// Scrim paints above the header's own background, so on the docked solid bar
+// it must be hidden — faded (not display-toggled) so the hero-look morph has
+// no scrim pop. Shown again at rest and while .is-hero-top.
+.js .site-header--overlay.is-pinned:not(.is-hero-top)::before {
+  opacity: 0;
+}

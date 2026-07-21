@@ -1,0 +1,31 @@
+// -----------------------------------------------------------------------------
+// Breakpoints — respond-to() mixin
+//
+// The fluid type/space scales handle most responsive behaviour on their own
+// (see huts.com reference: ~5 media queries site-wide). Reach for a breakpoint
+// only for structural changes — nav collapse, column count, layout swaps.
+// Mobile-first: respond-to() emits min-width queries.
+// -----------------------------------------------------------------------------
+
+@use 'sass:map';
+
+$breakpoints: (
+  'sm': 640px,
+  'md': 960px,
+  'lg': 1200px,
+  // 'nav': where the main nav fits horizontally (5 long labels + search +
+  // CTA). Below this the hamburger takes over — measured, not aesthetic.
+  'nav': 1380px,
+  'xl': 1440px,
+) !default;
+
+// The only sanctioned way to write a media query (see docs/frontend-rules.md).
+@mixin respond-to($name) {
+  @if map.has-key($breakpoints, $name) {
+    @media (min-width: map.get($breakpoints, $name)) {
+      @content;
+    }
+  } @else {
+    @error 'Unknown breakpoint `#{$name}`. Add it to $breakpoints in abstracts/_breakpoints.scss.';
+  }
+}

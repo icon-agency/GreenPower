@@ -1,0 +1,22 @@
+.skip-link {
+  @include visually-hidden;
+
+  &:focus {
+    position: fixed;
+    top: var(--space-2xs);
+    left: var(--space-2xs);
+    z-index: $z-skip-link;
+    width: auto;
+    height: auto;
+    padding: var(--space-2xs) var(--space-s);
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    clip-path: none;
+    white-space: normal;
+    color: $color-white;
+    background-color: $color-brand-blue;
+    border-radius: $radius-sm;
+    @include focus-ring($color-brand-green, 2px);
+  }
+}

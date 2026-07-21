@@ -1,0 +1,58 @@
+// -----------------------------------------------------------------------------
+// Typography tokens
+// Webfont: TT Commons Pro via Adobe Fonts (Typekit kit nxc8sxb)
+//
+// Every HTML template must load the kit in <head> (link, not @import):
+//   <link rel="preconnect" href="https://use.typekit.net" crossorigin>
+//   <link rel="stylesheet" href="https://use.typekit.net/nxc8sxb.css">
+//
+// Kit contents (CSS weight → face): tt-commons-pro 300 Regular / 400 Medium /
+// 500 DemiBold / 700 ExtraBold (+ italics), tt-commons-pro-thin 100 + italic.
+// -----------------------------------------------------------------------------
+
+// Families
+$font-family-base: "tt-commons-pro", -apple-system, blinkmacsystemfont, "Segoe UI",
+  arial, sans-serif !default;
+$font-family-thin: "tt-commons-pro-thin", -apple-system, blinkmacsystemfont, "Segoe UI",
+  arial, sans-serif !default;
+
+// Weights — kit nxc8sxb maps TT Commons Pro's faces to SHIFTED CSS weights
+// (per the Adobe Fonts kit listing): 300 = Regular, 400 = Medium,
+// 500 = DemiBold, 700 = ExtraBold (+ italics). Tokens are named for the
+// RENDERED FACE, so some token values look one step "off" by convention.
+$font-weight-thin: 100 !default; // requires $font-family-thin
+$font-weight-light: 300 !default; // renders the Regular face
+$font-weight-regular: 400 !default; // renders the Medium face
+$font-weight-medium: 500 !default; // renders the DemiBold face
+$font-weight-demibold: 500 !default; // the DemiBold face — display headings
+$font-weight-bold: 700 !default; // renders the ExtraBold face
+
+// Line heights
+$line-height-tight: 1.15 !default; // display headings
+$line-height-heading: 1.25 !default;
+$line-height-base: 1.5 !default; // body copy
+
+// Fluid type scale — Utopia formula
+// Viewport 375px -> 1440px, base 16px -> 20px, ratio 1.2 -> 1.3
+// (endpoints chosen from the huts.com reference; regenerate via the clamp
+// calculator with these inputs if the scale needs adjusting)
+:root {
+  --step--2: clamp(0.6944rem, 0.6785rem + 0.0679vw, 0.7396rem);
+  --step--1: clamp(0.8333rem, 0.7882rem + 0.1926vw, 0.9615rem);
+  --step-0: clamp(1rem, 0.912rem + 0.3756vw, 1.25rem);
+  --step-1: clamp(1.2rem, 1.0504rem + 0.6385vw, 1.625rem);
+  --step-2: clamp(1.44rem, 1.2032rem + 1.0103vw, 2.1125rem);
+  --step-3: clamp(1.728rem, 1.3695rem + 1.5298vw, 2.7462rem);
+  --step-4: clamp(2.0736rem, 1.5467rem + 2.2483vw, 3.5701rem);
+  --step-5: clamp(2.4883rem, 1.7303rem + 3.2343vw, 4.6412rem);
+}
+
+// Semantic size aliases — components use these, not raw --step-* names
+$font-size-xs: var(--step--2) !default;
+$font-size-sm: var(--step--1) !default;
+$font-size-base: var(--step-0) !default;
+$font-size-lg: var(--step-1) !default;
+$font-size-xl: var(--step-2) !default;
+$font-size-2xl: var(--step-3) !default;
+$font-size-3xl: var(--step-4) !default;
+$font-size-4xl: var(--step-5) !default;

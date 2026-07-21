@@ -1,0 +1,422 @@
+// -----------------------------------------------------------------------------
+// Hero — full-screen video banner with scroll-reveal shape panel
+//
+// Structure:
+//   .hero (relative, taller than viewport = the scroll journey)
+//     &__frame (sticky, 100svh) — video + bottom gradient scrim + headline +
+//        location pin + playback toggle. The matching TOP scrim is part of
+//        the overlay nav bar (.site-header--overlay::before, _main-nav.scss),
+//        so it scrolls away with the header instead of pinning to the frame.
+//     &__panel (in flow, negative top margin) — green angle shape with CTAs;
+//        peeks into the viewport at rest, rides up over the frame on scroll
+//        revealing the summary. Blurs/pin/playback belong to the frame, so
+//        they stay put while the video parallaxes behind them.
+//
+// The overlay header (.site-header--overlay, see _main-nav.scss) floats
+// transparent above the frame; Drupal applies that modifier from preprocess
+// (front-page condition), not editorial content.
+//
+// Drupal mapping: Paragraph: hero_video
+//   Fields: field_hero_title (text), field_hero_summary (text long),
+//           field_hero_cta_primary + field_hero_cta_secondary (link),
+//           field_hero_slides (repeatable paragraph: media video reference +
+//           location text — feeds the JS rotation playlist),
+//           field_hero_poster (media: image — recommended, not in static build)
+// Preprocess: expose video URL, poster, both CTAs. The only static strings are
+//   the playback button labels ("Pause video"/"Play video") — run those
+//   through t() in the theme JS/Twig.
+// Known risks: source videos 14–45MB EACH (gas.mp4 is 45MB) and the rotation
+//   preloads the next one — re-encode all three before production (<3MB,
+//   1080p, no audio). Contrast is footage-dependent BY DESIGN (Figma spec: 35% black
+//   max, plus a flat 10% wash on __media): worst-case bright frame under
+//   wash + full scrim composites to ~#959595 → white text ~2.9:1 (the old
+//   50% brand-blue scrim floored at 3.2:1); the wash alone gives ~10%
+//   relief where the ramp is weak (the headline's upper lines). Needs design
+//   sign-off with final footage; remedies if it fails: darker footage/poster
+//   grading, scrim to ~50% black, or start the ramp above the headline.
+//   Parallax + playback JS inline in template; on port move into a Drupal
+//   behavior guarded with once() (behaviors re-attach on AJAX).
+//   Headline reveal uses GSAP + SplitText (CDN in the static build) — in
+//   Drupal self-host both files as a theme library (GovCMS commonly blocks
+//   third-party CDNs) and keep the reveal in a once()-guarded behavior. The
+//   effect is JS-additive only: no-js / blocked-CDN / reduced-motion all get
+//   static text (the script bails before ever hiding the h1).
+//
+// Parallax rules (LESSONS.md): getBoundingClientRect (never offsetParent),
+// rAF-throttled, overflow hidden (not clip), media bleed (-30% + -2px
+// horizontal overbleed) exceeds the max travel (20% of total hero height;
+// the layer rises as the page scrolls).
+// -----------------------------------------------------------------------------
+
+.hero {
+  // How much of the shape panel peeks into the viewport at rest: the CTA row
+  // sits perfectly centred in the visible strip — one --space-l above, one
+  // below. The middle clamp is the exact button height (3em at the button's
+  // --step--1 font size), so the spacing is even at every fluid size and the
+  // summary stays below the fold.
+  --hero-peek: calc(2 * var(--space-l) + clamp(2.5rem, 2.3646rem + 0.5778vw, 2.8845rem));
+
+  position: relative;
+
+  &__frame {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    background-color: $color-brand-blue; // paints before the video loads
+  }
+
+  &__media {
+    position: absolute;
+    // Bleed must exceed the parallax max travel (0.2 × the hero's TOTAL
+    // height — the layer keeps rising until the hero fully scrolls off),
+    // plus the LESSONS.md -2px horizontal overbleed
+    inset: -30% -2px;
+
+    // Rotation buffers: two stacked videos crossfade via .is-active. The
+    // 0.5s duration matches FADE_MS in the rotation script. The first video
+    // ships with .is-active in markup so no-js still shows footage; under
+    // reduced motion the global transition kill (_reset.scss) turns the
+    // fade into a hard cut (rotation is stopped there anyway).
+    video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      @include transition(opacity, 0.5s);
+
+      &.is-active {
+        opacity: 1;
+      }
+    }
+
+    // Flat 10% black wash over whichever video is active (and through the
+    // crossfades — it sits above both buffers). The graded scrims handle
+    // the top/bottom bands; this evens out bright footage everywhere else.
+    &::after {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      content: '';
+      background-color: $color-ui-scrim-wash;
+    }
+  }
+
+  // No parallax running (reduced motion / no JS): drop the vertical bleed so
+  // the footage isn't needlessly overscanned
+  @media (prefers-reduced-motion: reduce) {
+    &__media {
+      inset: -2px;
+    }
+  }
+
+  .no-js &__media {
+    inset: -2px;
+  }
+
+  // Bottom gradient scrim + progressive blur, from the Figma spec: linear
+  // #000000, 0% → 35% opacity, starting ~46% down the frame, fully opaque by
+  // ~77%, held at 35% to the bottom edge. A solid scrim colour with ONE mask
+  // ramp drives both the colour fade and the blur fade — identical
+  // positioning by construction, and a genuinely linear ramp (a background
+  // gradient multiplied by a mask would square the curve). Lives on the
+  // sticky frame, so it stays put while the video parallaxes behind it.
+  &__blur {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 54%; // gradient start ≈46% of frame height (Figma handles)
+    pointer-events: none;
+    background-color: $color-ui-scrim;
+    -webkit-backdrop-filter: blur(14px); // Safari ≤17 needs the prefix
+    backdrop-filter: blur(14px);
+    // opaque from 58% of this box = ~77% of the frame, per the Figma stops
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 58%);
+    mask-image: linear-gradient(to bottom, transparent, black 58%);
+  }
+
+  // Headline block. NOT inside the sticky frame: it is anchored to the
+  // hero's first viewport-height (the frame's rest position) but lives in
+  // the scrolling context, so it travels up with the page together with the
+  // shape panel below it — while the frame (video, scrims, utilities) stays
+  // pinned. The padding-bottom clears the panel peek — and, below the
+  // nav-desktop width, also the utilities row sitting above the peek.
+  &__content {
+    @include container;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1; // above the frame; the panel (same z, later in DOM) wins
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    height: 100vh;
+    height: 100svh;
+    padding-bottom: calc(var(--hero-peek) + var(--space-s) + 3rem + var(--space-m));
+    pointer-events: none; // the full-height box must not block the frame's controls
+
+    @include respond-to('nav') {
+      padding-bottom: calc(var(--hero-peek) + var(--space-l));
+    }
+
+    > * {
+      pointer-events: auto;
+    }
+  }
+
+  &__title {
+    max-width: 16ch;
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-demibold;
+    line-height: 1.05; // display size carries $line-height-tight's air — tuck it in
+    color: $color-white;
+  }
+
+  // Pre-reveal hide for the GSAP entrances (title + panel summary — the
+  // summary must start blank even on a mid-scroll refresh). A class (added
+  // by the script only once GSAP is confirmed present, removed once both
+  // splits exist and their lines carry the hiding) rather than an inline
+  // style: SplitText restores inline styles on revert, so an inline hide
+  // would resurrect if autoSplit reverts and the re-split defers (slow
+  // fonts) — this way every failure mode ends visible.
+  &.is-reveal-pending &__title,
+  &.is-reveal-pending &__panel-summary {
+    visibility: hidden;
+  }
+
+  // Masks the load entrance inside the hero: while the panel slides up from
+  // below its slot it must not paint over the following section.
+  // clip-path, NOT overflow: any non-visible overflow on .hero makes it the
+  // sticky frame's scroll container, so the frame stops pinning — and a
+  // visitor who scrolls during the entrance would see a dead hero.
+  // clip-path masks without touching scroll containment.
+  &.is-entering {
+    clip-path: inset(0);
+  }
+
+  // Playback + location pin cluster, fixed to the sticky frame for the whole
+  // hero scroll journey. Mobile/tablet: left-aligned under the headline,
+  // [pause][pin], just above the shape. Desktop: bottom-right over the
+  // diagonal's transparent region, order flipped to [pin][pause], sharing
+  // the CTA row's baseline inside the peek.
+  &__utilities {
+    @include flex-row(var(--space-m));
+    position: absolute;
+    right: var(--space-s-l);
+    bottom: calc(var(--hero-peek) + var(--space-s));
+    left: var(--space-s-l);
+    z-index: 2;
+    // Smallest widths: the location line needs the whole row — pin sits
+    // left, playback pushed to the right edge (DOM order stays [playback,
+    // pin] for a consistent tab order at every width)
+    flex-direction: row-reverse;
+    justify-content: space-between;
+
+    @include respond-to('sm') {
+      right: auto;
+      flex-direction: row;
+      justify-content: flex-start;
+    }
+
+    @include respond-to('nav') {
+      right: var(--space-s-l);
+      bottom: var(--space-l);
+      left: auto;
+      flex-direction: row-reverse;
+    }
+  }
+
+  &__location {
+    @include flex-row(var(--space-2xs));
+    font-size: $font-size-sm;
+    color: $color-white;
+
+    svg {
+      flex-shrink: 0;
+      width: 1em;
+      height: 1.25em;
+    }
+  }
+
+  // Video pause/play — WCAG 2.2.2: autoplaying motion needs a user control
+  &__playback {
+    @include button-reset;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 3em; // matches .btn height
+    height: 3em;
+    font-size: $font-size-sm;
+    color: $color-white;
+    background-color: $color-ui-overlay;
+    border-radius: 50%;
+    @include transition(background-color);
+
+    svg {
+      width: 0.9em;
+      height: 0.9em;
+
+      // some engines skip the UA [hidden] rule for inline SVG roots
+      &[hidden] {
+        display: none;
+      }
+    }
+
+    &:hover {
+      background-color: $color-brand-blue;
+    }
+
+    &:focus-visible {
+      @include focus-ring($color-white);
+      // Two-tone indicator: the 35% scrim can composite to ~#A6A6A6 on bright
+      // footage (white ring 2.4:1 — under the 3:1 of WCAG 1.4.11). A dark halo
+      // under/around the white ring keeps it ≥3:1 whatever the frame shows.
+      box-shadow: 0 0 0 8px rgba($color-black, 0.6);
+    }
+
+    // No JS: nothing autoplays that a control could help with — hide it
+    .no-js & {
+      display: none;
+    }
+  }
+
+  // --- Shape panel ---
+
+  // The 45° angle is sacred — nothing here may stretch it, and the corner
+  // curve is the ARTWORK'S OWN BÉZIER, used at every breakpoint. One shape
+  // system, three parts that tile seamlessly:
+  //   ::before — flat-top green slab, ending where the curve begins
+  //     (1.4594 × curve-height left of the cut corner, from the artwork).
+  //   .hero__panel-curve — a small SVG carrying the artwork's exact path
+  //     (C 89.92,0 101.84,13.03 149.51,60.79 — its end handle is 45°),
+  //     plus a stretch of the 45° edge, filled to its box bottom. Sized so
+  //     one artwork unit maps to --hero-curve/60.79 on BOTH axes — uniform
+  //     scale, no distortion. Its box bottom (3.4595 × curve) is exactly
+  //     where the wedge's left edge meets the slab's right edge.
+  //   ::after — a 45deg-rotated slab whose top edge IS the diagonal,
+  //     anchored at the bézier's end point, which sits precisely at
+  //     (curve, curve) from the cut corner — on the 45° line by design.
+  // --hero-cut = how far from the RIGHT edge the diagonal crosses the panel
+  // top. Per design direction the diagonal deliberately does NOT meet the
+  // bottom-right corner — it exits through the bottom edge, and the panel's
+  // height is content-driven (padding + CTAs + summary), keeping no dead
+  // green below the summary.
+  &__panel {
+    --hero-cut: 6rem;
+    --hero-curve: 2.5rem;
+
+    position: relative;
+    z-index: 1;
+    margin-top: calc(-1 * var(--hero-peek));
+    overflow: hidden;
+    // The panel box spans the full width (including the transparent area
+    // right of the diagonal) and paints ABOVE the sticky frame — the frame
+    // is a stacking context, so the utilities' z-index can't escape it, and
+    // the panel was swallowing clicks meant for the playback/pin cluster
+    // sharing the CTA baseline. Pointers pass through; the interactive /
+    // selectable children re-enable themselves below.
+    pointer-events: none;
+
+    &::before,
+    &::after {
+      position: absolute;
+      z-index: -1; // behind the panel content (panel is its own stacking context)
+      content: '';
+      background-color: $color-brand-green;
+    }
+
+    // Left slab (flat top); -2px overbleed per LESSONS.md, 1px overlap into
+    // the curve piece against AA seams
+    &::before {
+      top: -2px;
+      right: calc(var(--hero-cut) + 1.4594 * var(--hero-curve) - 1px);
+      bottom: -2px;
+      left: -2px;
+    }
+
+    // Diagonal wedge: its rotated top edge IS the 45° line, anchored at the
+    // bézier's end point — (curve, curve) from the cut corner, on the line.
+    // Oversized and clipped by the panel's overflow.
+    &::after {
+      top: var(--hero-curve);
+      left: calc(100% - var(--hero-cut) + var(--hero-curve));
+      width: 300%;
+      height: 300%;
+      transform: rotate(45deg);
+      transform-origin: 0 0;
+    }
+
+    // The artwork's curve piece (see comment above). z:-1 keeps it behind
+    // the panel content, with the other shape layers.
+    .hero__panel-curve {
+      position: absolute;
+      top: 0;
+      left: calc(100% - var(--hero-cut) - 1.4594 * var(--hero-curve));
+      z-index: -1;
+      width: calc(4.9189 * var(--hero-curve));
+      height: calc(3.4595 * var(--hero-curve));
+      color: $color-brand-green;
+    }
+
+    // --hero-cut steps deeper as the viewport gives the 30ch summary room to
+    // clear the 45° line (measured clearances: ~+26px at 960 with 50%,
+    // ~+33px at 1440 with 60%; 60% below ~1330px would collide). Re-check
+    // if the cut or the summary width changes — narrowing the summary buys
+    // a deeper cut.
+    @include respond-to('md') {
+      --hero-cut: 50%;
+      --hero-curve: 3rem; // vertical depth ~= artwork's (61/714 of height)
+    }
+
+    @include respond-to('nav') {
+      --hero-cut: 60%;
+    }
+  }
+
+  &__panel-inner {
+    @include container;
+    position: relative;
+    // Inter-block gap is one token DOWN from the top padding: the summary's
+    // leading adds optical air, so space-m *feels* like the space-l above
+    // the buttons (which meet the green edge-on). Bottom padding is double
+    // the gap (--space-xl = exactly 2 × --space-m) per design direction.
+    padding-block: var(--space-l) var(--space-xl);
+
+    > * + * {
+      margin-top: var(--space-m);
+    }
+  }
+
+  &__panel-actions {
+    @include flex-row(var(--space-s));
+    flex-wrap: wrap;
+
+    // Only the pills take pointers — the row's full-width box stays
+    // transparent to clicks (the playback control sits on its baseline)
+    .btn {
+      pointer-events: auto;
+    }
+
+    // Green focus ring would vanish on the green shape — use white here
+    .btn:focus-visible {
+      @include focus-ring($color-white);
+    }
+  }
+
+  // Floored at 1.5rem so white-on-green always qualifies as large text
+  // (≥24px regular needs 3:1; white on Primary Green is 3.46:1)
+  &__panel-summary {
+    max-width: 30ch;
+    font-size: max(#{$font-size-xl}, 1.5rem);
+    line-height: 1.3; // tightened from the 1.5 body default
+    color: $color-white;
+    pointer-events: auto; // selectable text (30ch box clears the utilities)
+  }
+}

@@ -1,0 +1,45 @@
+// -----------------------------------------------------------------------------
+// Button atom
+//
+// Drupal mapping: rendered from link fields (field_*_cta_text + uri) or menu
+// links with a preprocess-computed class. Variants come through modifier_class.
+// -----------------------------------------------------------------------------
+
+.btn {
+  @include button-reset;
+  display: inline-flex;
+  gap: var(--space-2xs);
+  align-items: center;
+  justify-content: center;
+  padding: 1em 1.5em;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  line-height: 1;
+  text-decoration: none;
+  border-radius: $radius-pill;
+  @include transition(background-color);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.btn--primary {
+  color: $color-white;
+  background-color: $color-brand-dark-green;
+
+  &:hover {
+    background-color: $color-brand-blue;
+  }
+}
+
+// White pill for dark/media surfaces (hero shape, overlay header)
+.btn--white {
+  color: $color-brand-dark-green;
+  background-color: $color-white;
+
+  &:hover {
+    color: $color-brand-blue;
+    background-color: $color-tint-taupe;
+  }
+}

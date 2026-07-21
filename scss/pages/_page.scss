@@ -1,0 +1,14 @@
+// Placeholder page composition — replaced as real page sections are built.
+
+.page-intro {
+  @include container;
+  padding-block: var(--space-xl) var(--space-3xl);
+
+  > * + * {
+    margin-top: var(--space-s);
+  }
+
+  p {
+    max-width: 65ch;
+  }
+}

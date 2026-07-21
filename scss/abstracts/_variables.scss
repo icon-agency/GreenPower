@@ -1,0 +1,12 @@
+// -----------------------------------------------------------------------------
+// Layout internals — not design tokens, but shared structural values
+// -----------------------------------------------------------------------------
+
+// 90rem = 1440px at the default root size. Above 1440 the root font-size
+// scales with the viewport (see base/_typography.scss), making 90rem = 100vw —
+// i.e. the container never hard-caps; only the gutters inset the content.
+$container-max-width: 90rem !default;
+
+// Z-index scale — always reference, never invent ad-hoc values
+$z-nav: 100 !default;
+$z-skip-link: 200 !default;

@@ -1,0 +1,38 @@
+// -----------------------------------------------------------------------------
+// Colour tokens
+// Source: brand guidelines 2.5.2 (primary) / 2.5.3 (secondary) — colours.png
+// This is the only file allowed to contain raw colour values.
+// -----------------------------------------------------------------------------
+
+// Primary
+$color-brand-green: #009f4d !default; // Pantone 7482
+$color-brand-blue: #00263e !default; // Pantone 2965
+
+// Secondary
+$color-brand-dark-green: #006341 !default; // Pantone 3425
+$color-brand-light-green: #bce194 !default; // Pantone 7486
+$color-brand-pale-mint: #d5e7d2 !default; // Pantone 9561
+$color-brand-taupe: #ebe5d3 !default; // Pantone 9143
+
+// Tints — accessible background versions for Primary Green text
+$color-tint-dark-green: #ebf3f0 !default; // Dark Green 8%
+$color-tint-light-green: #e8f4da !default; // Light Green 35%
+$color-tint-pale-mint: #e7f3e5 !default; // Pale Mint 60%
+$color-tint-taupe: #f3efe5 !default; // Taupe 60%
+
+// Neutrals
+$color-white: #ffffff !default;
+$color-black: #000000 !default; // translucent media scrims only — never text/UI fills
+
+// UI semantic aliases — components reference these, not the brand values
+$color-ui-border: rgba($color-brand-blue, 0.15) !default; // hairline rules on light/tint surfaces
+$color-ui-border-strong: rgba($color-brand-blue, 0.5) !default; // form control boundaries — ≥3:1 on white (WCAG 1.4.11)
+$color-ui-overlay: rgba($color-brand-blue, 0.5) !default; // translucent control chips on media (hero playback)
+$color-ui-scrim: rgba($color-black, 0.35) !default; // video scrims (design spec: #000000 @ 35% — black grades better over footage than brand blue)
+$color-ui-scrim-wash: rgba($color-black, 0.1) !default; // flat wash over the hero videos — evens out bright footage under white text
+$color-ui-text: $color-brand-blue !default;
+$color-ui-heading: $color-brand-blue !default;
+$color-ui-link: $color-brand-dark-green !default;
+$color-ui-background: $color-white !default;
+$color-ui-surface: $color-tint-taupe !default;
+$color-ui-focus: $color-brand-green !default; // 3.5:1 on white, 3:1 on tints — meets non-text minimum

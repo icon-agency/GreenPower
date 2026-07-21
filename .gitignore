@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# OS / editor junk
+.DS_Store
+*.log
+
+# Local, machine-specific Claude Code permission settings (absolute paths);
+# the shareable launch.json is still committed
+.claude/settings.local.json
+
+# Note: css/main.css IS committed — GitHub Pages serves the built CSS
+# directly (it does not run the Sass build).

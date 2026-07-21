@@ -1,0 +1,66 @@
+// -----------------------------------------------------------------------------
+// Keyframes + animation mixins — mount-driven fades (see docs/mixins.md and
+// docs/animation.md). Scroll-entrance animations live in
+// utilities/_scroll-animations.scss when that system is added.
+// Reduced motion: base/_reset.scss collapses all animation durations globally.
+// -----------------------------------------------------------------------------
+
+@keyframes anim-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes anim-fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes anim-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes anim-fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@mixin anim-fade-in-up($duration: 0.22s, $easing: ease, $delay: 0ms, $fill: forwards) {
+  animation: anim-fade-in-up $duration $easing $delay $fill;
+}
+
+@mixin anim-fade-in-down($duration: 0.22s, $easing: ease, $delay: 0ms, $fill: forwards) {
+  animation: anim-fade-in-down $duration $easing $delay $fill;
+}
+
+@mixin anim-fade-in($duration: 0.2s, $easing: ease, $delay: 0ms, $fill: forwards) {
+  animation: anim-fade-in $duration $easing $delay $fill;
+}
+
+@mixin anim-fade-out($duration: 0.15s, $easing: ease, $delay: 0ms, $fill: both) {
+  animation: anim-fade-out $duration $easing $delay $fill;
+}

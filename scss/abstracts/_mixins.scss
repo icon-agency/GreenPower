@@ -1,0 +1,65 @@
+// -----------------------------------------------------------------------------
+// Mixin library — see docs/mixins.md for the catalog and usage rules.
+// Depends on tokens + abstracts/variables being imported first (main.scss order).
+// -----------------------------------------------------------------------------
+
+// --- Accessibility ---
+
+// WCAG 2.4.11-compliant focus ring. Apply on :focus-visible of every
+// interactive element.
+@mixin focus-ring($color: $color-ui-focus, $offset: 2px) {
+  outline: 3px solid $color;
+  outline-offset: $offset;
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+// --- Layout ---
+
+@mixin container($max: $container-max-width) {
+  max-width: $max;
+  margin-inline: auto;
+  padding-inline: var(--space-s-l);
+}
+
+@mixin flex-row($gap: $spacing-md, $align: center, $justify: flex-start) {
+  display: flex;
+  flex-direction: row;
+  align-items: $align;
+  justify-content: $justify;
+  gap: $gap;
+}
+
+@mixin flex-col($gap: $spacing-md) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
+
+// --- Components ---
+
+@mixin button-reset {
+  appearance: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+@mixin transition($props: all, $duration: 0.2s, $easing: ease-in-out) {
+  transition: $props $duration $easing;
+}

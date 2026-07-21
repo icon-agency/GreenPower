@@ -1,0 +1,81 @@
+// -----------------------------------------------------------------------------
+// Global typography defaults
+// Text wrapping lives here (headings balance, prose pretty) — never re-apply
+// per component. See docs/content-rhythm.md and LESSONS.md.
+// -----------------------------------------------------------------------------
+
+// No max width: above the 1440px design ceiling the root font-size grows with
+// the viewport (1440px / 90rem = 1.1111vw), so every rem-based token — type
+// steps, space scale, the 90rem container — scales up uniformly. Below 1440
+// the individual clamp() tokens handle the interpolation and this resolves
+// to the user's default size.
+html {
+  font-size: max(100%, 1.1111vw);
+}
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-base;
+  color: $color-ui-text;
+  background-color: $color-ui-background;
+
+  // Font rendering — inherited by everything, set once here
+  -webkit-font-smoothing: antialiased; // macOS WebKit/Blink: crisper light-on-dark text
+  -moz-osx-font-smoothing: grayscale; // macOS Firefox equivalent
+  text-rendering: optimizelegibility; // enable kerning + ligatures from the font
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures contextual;
+  font-synthesis: none; // never fake bold/italic — the kit ships 400/700 only
+  font-optical-sizing: auto; // no-op for static fonts, future-proofs variable fonts
+
+  // Site-wide default: text-wrap inherits, so every text node gets the
+  // orphan-avoiding rag (Safari ignores `pretty` gracefully). Headings
+  // override with `balance` below per LESSONS.md.
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: $font-weight-bold;
+  line-height: $line-height-heading;
+  color: $color-ui-heading;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: $font-size-3xl;
+  line-height: $line-height-tight;
+}
+
+h2 {
+  font-size: $font-size-2xl;
+}
+
+h3 {
+  font-size: $font-size-xl;
+}
+
+h4 {
+  font-size: $font-size-lg;
+}
+
+a {
+  color: $color-ui-link;
+  text-underline-offset: 0.15em;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
