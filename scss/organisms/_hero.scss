@@ -212,6 +212,10 @@
     bottom: calc(var(--hero-peek) + var(--space-s));
     left: var(--space-s-l);
     z-index: 2;
+    // Fades out in place when the rising shape panel reaches it (JS toggles
+    // .is-utils-out). A transition, not a scroll-linked opacity, so the fade
+    // always runs to completion — it never sticks part-faded.
+    @include transition(opacity, 0.3s);
     // Smallest widths: the location line needs the whole row — pin sits
     // left, playback pushed to the right edge (DOM order stays [playback,
     // pin] for a consistent tab order at every width)
@@ -230,6 +234,13 @@
       left: auto;
       flex-direction: row-reverse;
     }
+  }
+
+  // Shape has risen to meet the pinned utilities — fade them out fully so the
+  // pin (which sits above the panel in the stack) never lands on the green
+  &.is-utils-out &__utilities {
+    opacity: 0;
+    pointer-events: none;
   }
 
   &__location {

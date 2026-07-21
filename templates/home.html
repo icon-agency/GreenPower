@@ -438,7 +438,7 @@
       var playback = hero.querySelector('[data-hero-playback]');
       var locationText = hero.querySelector('[data-hero-location-text]');
       var utilities = hero.querySelector('.hero__utilities');
-      var blurEl = hero.querySelector('.hero__blur');
+      var panel = hero.querySelector('.hero__panel');
       var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
       // --- Rotating backgrounds: each video holds fully visible for HOLD_MS,
@@ -548,9 +548,6 @@
           active.pause();
           stopRotation();
           if (media) media.style.transform = '';
-          // reduced motion: no scroll animation — leave the utilities/scrim put
-          if (utilities) { utilities.style.transform = ''; utilities.style.opacity = ''; }
-          if (blurEl) { blurEl.style.transform = ''; blurEl.style.opacity = ''; }
         } else if (active.paused) {
           active.play();
         }
@@ -592,21 +589,17 @@
           var heroTop = hero.getBoundingClientRect().top;
           var frameTop = frame.getBoundingClientRect().top;
           media.style.transform = 'translateY(' + (heroTop * 0.2 - frameTop).toFixed(1) + 'px)';
-          // Utilities (playback + location pin) and the bottom scrim ride up
-          // WITH the page like the headline — translate by the hero's scroll
-          // offset (heroTop: 0 at rest, negative once scrolling) — and fade
-          // out together over ~0.45 of a viewport. The scrim travels with the
-          // pin so the location text stays legible on its way out.
-          if (utilities) {
-            var y = 'translateY(' + heroTop.toFixed(1) + 'px)';
-            var fade = Math.max(0, Math.min(1, 1 + heroTop / (window.innerHeight * 0.45)));
-            utilities.style.transform = y;
-            utilities.style.opacity = fade.toFixed(3);
-            if (blurEl) {
-              blurEl.style.transform = y;
-              blurEl.style.opacity = fade.toFixed(3);
-            }
-          }
+        }
+        // Fade the pinned utilities out — IN PLACE, no movement — once the
+        // rising shape panel reaches them, so the pin never lands on the
+        // green. A class toggle drives a CSS opacity transition, so the fade
+        // always completes fully (never sticks half-way) and reverses on the
+        // way back up. Locked to the shape: the panel's position is the
+        // trigger. Outside the reduced-motion guard so the pin still clears
+        // (the global transition kill just makes it instant).
+        if (utilities && panel) {
+          var reached = panel.getBoundingClientRect().top <= utilities.getBoundingClientRect().bottom;
+          hero.classList.toggle('is-utils-out', reached);
         }
         ticking = false;
       }

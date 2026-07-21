@@ -1139,6 +1139,7 @@ a:focus-visible {
   bottom: calc(var(--hero-peek) + var(--space-s));
   left: var(--space-s-l);
   z-index: 2;
+  transition: opacity 0.3s ease-in-out;
   flex-direction: row-reverse;
   justify-content: space-between;
 }
@@ -1156,6 +1157,10 @@ a:focus-visible {
     left: auto;
     flex-direction: row-reverse;
   }
+}
+.hero.is-utils-out .hero__utilities {
+  opacity: 0;
+  pointer-events: none;
 }
 .hero__location {
   display: flex;
