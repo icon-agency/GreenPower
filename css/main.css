@@ -849,6 +849,7 @@ a:focus-visible {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: var(--space-l);
+    align-items: baseline;
     min-height: auto;
     overflow: visible;
     background-color: transparent;

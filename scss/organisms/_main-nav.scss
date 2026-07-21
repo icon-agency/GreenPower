@@ -736,6 +736,10 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: var(--space-l);
+      // Baseline-align the columns so the section headings sit on the same
+      // line as the (larger) intro title's first line — without this, equal
+      // top edges leave the smaller headings floating above its baseline.
+      align-items: baseline;
       min-height: auto;
       overflow: visible;
       background-color: transparent;
