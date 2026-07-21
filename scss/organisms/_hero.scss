@@ -3,14 +3,18 @@
 //
 // Structure:
 //   .hero (relative, taller than viewport = the scroll journey)
-//     &__frame (sticky, 100svh) — video + bottom gradient scrim + headline +
-//        location pin + playback toggle. The matching TOP scrim is part of
-//        the overlay nav bar (.site-header--overlay::before, _main-nav.scss),
-//        so it scrolls away with the header instead of pinning to the frame.
+//     &__frame (sticky, 100svh) — the video only stays pinned while the
+//        page scrolls past. The matching TOP scrim is part of the overlay
+//        nav bar (.site-header--overlay::before, _main-nav.scss), so it
+//        scrolls away with the header instead of pinning to the frame.
+//     &__follow (absolute, first 100svh, scrolling layer) — bottom gradient
+//        scrim + location pin + playback toggle. Moves natively with the
+//        page (zero-lag lock to the shape); fades out when the H1 exit
+//        fires (.is-utils-out, toggled by the parallax script).
+//     &__content (absolute, first 100svh, scrolling layer) — the headline.
 //     &__panel (in flow, negative top margin) — green angle shape with CTAs;
-//        peeks into the viewport at rest, rides up over the frame on scroll
-//        revealing the summary. Blurs/pin/playback belong to the frame, so
-//        they stay put while the video parallaxes behind them.
+//        peeks into the viewport at rest, rides up over the pinned video on
+//        scroll revealing the summary.
 //
 // The overlay header (.site-header--overlay, see _main-nav.scss) floats
 // transparent above the frame; Drupal applies that modifier from preprocess
@@ -117,34 +121,56 @@
     inset: -2px;
   }
 
+  // Scroll-locked companion layer for the gradient + utilities: replicates
+  // the frame's 100svh coordinate box but in the SCROLLING context, so its
+  // children move natively with the page (and the shape) — no JS chasing
+  // the scroll, no lag. While the frame is pinned this layer rises with the
+  // shape; after the frame unpins everything moves together, so the lock
+  // holds for the whole journey.
+  &__follow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1; // above the frame; content/panel (same z, later in DOM) win
+    height: 100vh;
+    height: 100svh;
+    pointer-events: none; // the full-height box must not block anything
+
+    > * {
+      pointer-events: auto; // the playback control stays clickable
+    }
+  }
+
   // Bottom gradient scrim + progressive blur, from the Figma spec: linear
-  // #000000, 0% → 35% opacity, starting ~46% down the frame, fully opaque by
-  // ~77%, held at 35% to the bottom edge. A solid scrim colour with ONE mask
-  // ramp drives both the colour fade and the blur fade — identical
+  // #000000, 0% → 35% opacity, starting ~46% down the first viewport, fully
+  // opaque by ~77%, held at 35% to the fold. A solid scrim colour with ONE
+  // mask ramp drives both the colour fade and the blur fade — identical
   // positioning by construction, and a genuinely linear ramp (a background
-  // gradient multiplied by a mask would square the curve). Lives on the
-  // sticky frame, so it stays put while the video parallaxes behind it.
+  // gradient multiplied by a mask would square the curve). Lives in the
+  // scroll-locked __follow layer, so it rides up with the shape natively.
   &__blur {
     position: absolute;
     right: 0;
-    // Underscan: the box extends half a frame BELOW the fold (clipped by the
-    // frame's overflow at rest). JS translates the gradient up with the shape
-    // by at most the sticky journey (< 50% of the frame), so the extension
-    // slides in behind it and the hard bottom edge can never become visible.
+    // Underscan: the box extends half a viewport below the fold. As the
+    // layer scrolls up over the pinned video, the extension covers the strip
+    // beneath it, so the gradient's hard bottom edge can never surface in
+    // the panel's transparent diagonal zone. Painted but occluded by the
+    // green panel at rest — cheap enough for the prototype.
     bottom: -50%;
     left: 0;
-    // 54% visible band (gradient start ≈46% of frame, per the Figma handles)
+    // 54% visible band (gradient start ≈46%, per the Figma handles)
     // + the 50% underscan
     height: 104%;
     pointer-events: none;
     background-color: $color-ui-scrim;
     -webkit-backdrop-filter: blur(7px); // Safari ≤17 needs the prefix
     backdrop-filter: blur(7px);
-    // Opaque from 30% of this taller box — same absolute position as before:
-    // ~77% of the frame, per the Figma stops
+    // Opaque from 30% of this taller box — same absolute position as the
+    // original 58%-of-54% box: ~77% of the viewport, per the Figma stops
     -webkit-mask-image: linear-gradient(to bottom, transparent, black 30%);
     mask-image: linear-gradient(to bottom, transparent, black 30%);
-    // JS translates this up with the utilities; it fades with them on exit
+    // Fades with the utilities when the H1 exit fires
     @include transition(opacity, 0.3s);
   }
 

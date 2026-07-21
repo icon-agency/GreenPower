@@ -388,6 +388,12 @@
         <div class="hero__media" data-parallax-bg>
           <video class="is-active" src="../assets/video/wind.mp4" autoplay muted loop playsinline aria-hidden="true" tabindex="-1"></video>
         </div>
+      </div>
+
+      <!-- Scroll-locked companion layer: gradient + utilities anchored to the
+           first viewport-height but living in the SCROLLING context, so the
+           browser moves them natively with the shape — zero JS, zero lag -->
+      <div class="hero__follow">
         <div class="hero__blur" aria-hidden="true"></div>
         <div class="hero__utilities">
           <button class="hero__playback" type="button" data-hero-playback>
@@ -437,9 +443,6 @@
       var frame = hero.querySelector('.hero__frame');
       var playback = hero.querySelector('[data-hero-playback]');
       var locationText = hero.querySelector('[data-hero-location-text]');
-      var utilities = hero.querySelector('.hero__utilities');
-      var blurEl = hero.querySelector('.hero__blur');
-      var panel = hero.querySelector('.hero__panel');
       var title = hero.querySelector('.hero__title');
       var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -591,24 +594,12 @@
           var heroTop = hero.getBoundingClientRect().top;
           var frameTop = frame.getBoundingClientRect().top;
           media.style.transform = 'translateY(' + (heroTop * 0.2 - frameTop).toFixed(1) + 'px)';
-          // Utilities + bottom gradient are LOCKED to the shape: heroTop -
-          // frameTop is the distance the shape has risen relative to the
-          // pinned frame, so they scroll together as one piece (constant gap
-          // to the H1 above and the shape below). Once the frame unpins the
-          // delta freezes — no runaway 2x movement into the headline.
-          if (utilities) {
-            var y = 'translateY(' + (heroTop - frameTop).toFixed(1) + 'px)';
-            utilities.style.transform = y;
-            if (blurEl) blurEl.style.transform = y;
-          }
         }
-        // ...then fade out fully (CSS transition via .is-utils-out) the moment
-        // the headline exit fires — same 15%-of-viewport line the H1 uses, so
-        // they go together. Reduced motion doesn't translate, so there it fades
-        // earlier — when the shape reaches the pin — to keep it off the green.
-        var fadeNow = reduced.matches
-          ? (panel && utilities && panel.getBoundingClientRect().top <= utilities.getBoundingClientRect().bottom)
-          : (title && title.getBoundingClientRect().top < window.innerHeight * 0.15);
+        // The utilities + gradient live in the scroll-locked __follow layer,
+        // so the browser moves them natively (zero lag) — the only JS job is
+        // the fade: out fully (CSS transition via .is-utils-out) the moment
+        // the headline exit fires, same 15%-of-viewport line the H1 uses.
+        var fadeNow = title && title.getBoundingClientRect().top < window.innerHeight * 0.15;
         hero.classList.toggle('is-utils-out', !!fadeNow);
         ticking = false;
       }

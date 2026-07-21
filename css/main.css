@@ -1076,6 +1076,19 @@ a:focus-visible {
 .no-js .hero__media {
   inset: -2px;
 }
+.hero__follow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1;
+  height: 100vh;
+  height: 100svh;
+  pointer-events: none;
+}
+.hero__follow > * {
+  pointer-events: auto;
+}
 .hero__blur {
   position: absolute;
   right: 0;
