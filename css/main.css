@@ -554,7 +554,7 @@ a:focus-visible {
   padding-bottom: var(--space-2xs);
   font-size: var(--step-1);
   font-weight: 400;
-  color: #00263e;
+  color: #006341;
   text-align: center;
   border-bottom: 1px solid rgba(0, 38, 62, 0.15);
 }
@@ -585,6 +585,7 @@ a:focus-visible {
 }
 .main-nav__panel-link--featured {
   font-weight: 500;
+  color: #009f4d;
 }
 .main-nav__panel-link:not(.main-nav__panel-link--featured) {
   padding-top: 0;
@@ -893,8 +894,8 @@ a:focus-visible {
   }
   .main-nav__group-title {
     padding-bottom: var(--space-2xs);
-    font-size: var(--step-0);
-    color: #00263e;
+    font-size: var(--step-1);
+    color: #006341;
     text-align: left;
   }
   .main-nav__panel-link {
