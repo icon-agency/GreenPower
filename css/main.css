@@ -856,7 +856,7 @@ a:focus-visible {
   .main-nav__group-title {
     padding-bottom: var(--space-2xs);
     font-size: var(--step-0);
-    color: #006341;
+    color: #00263e;
     text-align: left;
   }
   .main-nav__panel-link {

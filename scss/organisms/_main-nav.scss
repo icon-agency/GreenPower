@@ -747,11 +747,11 @@
       margin-top: 0;
     }
 
-    // Desktop mega menu keeps the reference design: left-aligned, dark green
+    // Desktop mega menu: left-aligned, primary blue group headings
     &__group-title {
       padding-bottom: var(--space-2xs);
       font-size: $font-size-base;
-      color: $color-brand-dark-green;
+      color: $color-brand-blue;
       text-align: left;
     }
 
