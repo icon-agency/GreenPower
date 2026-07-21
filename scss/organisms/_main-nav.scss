@@ -926,11 +926,11 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
     background-color: $color-ui-scrim;
     -webkit-backdrop-filter: blur(7px); // Safari ≤17 needs the prefix
     backdrop-filter: blur(7px);
-    // Solid across the top half of the bar, fading out over the last 50% so
-    // it ends cleanly at the bar's bottom (no hard seam) — the mask drives
+    // Solid only across the top 20% of the bar, fading out over the last 80%
+    // so it ends cleanly at the bar's bottom (no hard seam) — the mask drives
     // both the colour and blur fades so they share positioning
-    -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent);
-    mask-image: linear-gradient(to bottom, black 50%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent);
+    mask-image: linear-gradient(to bottom, black 20%, transparent);
     // Fades out as the bar docks (solid) and back in as it returns to the
     // hero look, so the scroll-to-top morph has no scrim pop
     transition: opacity 0.3s ease;
