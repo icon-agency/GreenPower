@@ -81,7 +81,12 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
     flex-shrink: 0;
 
     img {
-      width: min(13rem, 36vw);
+      // Mobile: grow into the space beside the CTA (bumped from 36vw), but the
+      // calc() reserves the fixed Buy button + hamburger + gaps + padding
+      // (240px, with a small safety margin) so the bar never wraps; 13rem caps
+      // it on desktop. Net: noticeably bigger on ≥390px phones, and it even
+      // stops the pre-existing wrap on the very narrowest (≤360px) widths.
+      width: min(13rem, 40vw, calc(100vw - 240px));
       @include transition(filter); // overlay header swaps it white <-> brand
     }
 

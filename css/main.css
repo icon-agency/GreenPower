@@ -319,7 +319,7 @@ a:focus-visible {
   flex-shrink: 0;
 }
 .main-nav__logo img {
-  width: min(13rem, 36vw);
+  width: min(13rem, 40vw, 100vw - 240px);
   transition: filter 0.2s ease-in-out;
 }
 .main-nav__logo:focus-visible {
