@@ -596,6 +596,9 @@ a:focus-visible {
 .main-nav__group-cta {
   margin-top: var(--space-s);
 }
+.main-nav__group-cta + .main-nav__group-list, .main-nav__group-list + .main-nav__group-list {
+  margin-top: var(--space-m);
+}
 .main-nav__panel-link::after {
   flex-shrink: 0;
   width: 0.9em;

@@ -422,6 +422,14 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
     margin-top: var(--space-s);
   }
 
+  // Columns with several stacked sub-blocks (e.g. Industry accreditation): a
+  // CTA pill or a list can be followed by another list — space the next block
+  // clear of the one above (each list's own border-bottom is the divider)
+  &__group-cta + &__group-list,
+  &__group-list + &__group-list {
+    margin-top: var(--space-m);
+  }
+
   // Hover arrow on EVERY panel link — a masked ::after so no per-item markup
   // is needed. Hidden at rest (space reserved via opacity, so hovering never
   // reflows the row) and slides in from the left for a slight rightward
