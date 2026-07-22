@@ -41,7 +41,7 @@
   &__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-m);
+    gap: var(--space-xs);
     margin-top: var(--space-xl);
 
     // Default 3-up: 2 columns from md, 3 from lg
@@ -73,9 +73,24 @@
   padding: var(--space-m);
   background-color: $color-brand-taupe;
   border-radius: $radius-lg;
+  @include transition(background-color);
+
+  // Hover: lighten the card surface ~20% (20% white mixed into the taupe) as
+  // an affordance — the image zoom lives on .card__media img below.
+  &:hover {
+    background-color: mix($color-white, $color-brand-taupe, 20%);
+  }
 
   // Optional image — 3:2 crop matching the 900×600 sources
   &__media {
+    // Bleed out to HALF the card padding on three sides so the image reads
+    // wider and taller than the content column (the 3:2 ratio makes the extra
+    // width add height too). Bottom stays flush — the flex gap to the icon is
+    // unchanged — and the icon/title/body/links keep the full card padding.
+    margin-top: calc(var(--space-m) / -2);
+    margin-right: calc(var(--space-m) / -2);
+    margin-left: calc(var(--space-m) / -2);
+
     position: relative; // containing block for the absolutely-placed image
     overflow: hidden;
     aspect-ratio: 3 / 2;
@@ -95,8 +110,17 @@
       height: 100%;
       object-fit: cover;
 
+      // Resting zoom via the `scale` property (not `transform`) so it composes
+      // with the parallax `translate` the JS writes, the entrance `scale`, and
+      // the hover `transform` — independent transform properties never
+      // overwrite each other. Transitions cover the scroll-in entrance (scale +
+      // opacity) and the hover zoom (transform).
       @media (prefers-reduced-motion: no-preference) {
-        transform: scale(1.1); // must match ZOOM in the card-parallax script
+        scale: 1.1;
+        transition:
+          scale 0.45s ease-out,
+          opacity 0.45s ease-out,
+          transform 0.4s ease;
         will-change: transform;
       }
     }
@@ -113,6 +137,20 @@
       height: 100%;
       object-fit: contain;
     }
+  }
+
+  // Content wrapper. Transparent by default (display: contents), so the icon,
+  // title, body and links behave as direct flex children of the card — the
+  // vertical layout is exactly as if the wrapper weren't there. It becomes a
+  // real flex column only in the horizontal ("2 + 1" orphan) variant below.
+  &__content {
+    display: contents;
+  }
+
+  // A touch more breathing room above the icon when it sits below the image
+  // (icon-only cards, where the icon is the first child, keep the tight top)
+  &__media + &__content > &__icon {
+    margin-top: var(--space-2xs);
   }
 
   &__title {
@@ -138,7 +176,7 @@
   // Dark green (passes AA on the taupe card); arrow pinned right
   &__link {
     @include flex-row(var(--space-s), center, space-between);
-    padding-block: var(--space-xs);
+    padding-block: var(--space-2xs);
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     color: $color-brand-dark-green;
@@ -165,5 +203,95 @@
   // Nudge the arrow on hover (colour follows the link via currentColor)
   &__link:hover &__link-arrow {
     transform: translateX(var(--space-3xs));
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Image entrance zoom
+//
+// As a card scrolls in (the scroll-animation system adds .is-visible) its image
+// starts at 1.5× the resting size and transparent, then quickly fades + eases
+// back, for a touch of life on first appearance. The zoom uses the `scale`
+// property so it composes with the parallax `translate` the JS writes — the two
+// never fight. Motion-only, and only while the scroll-animation system is live
+// (.js-animations); otherwise the image simply rests at its normal size.
+// -----------------------------------------------------------------------------
+@media (prefers-reduced-motion: no-preference) {
+  // Entrance: primed at 1.5× and transparent (transition lives on the base img
+  // rule so scale/opacity/transform share one declaration)
+  .js-animations .card[data-animate] .card__media img {
+    scale: 1.65; // 1.5 × the 1.1 resting scale; held while the card is hidden
+    opacity: 0;
+  }
+
+  .js-animations .card[data-animate].is-visible .card__media img {
+    scale: 1.1; // settle to the resting zoom + fade in as the card appears
+    opacity: 1;
+  }
+
+  // Hover: a subtle zoom via `transform` (composes over the resting `scale`)
+  .card:hover .card__media img {
+    transform: scale(1.06);
+  }
+}
+
+// While the scroll-animation system is live it sets `transition: opacity,
+// transform` on the card ([data-animate]), which would drop the base card's
+// background-color transition. Re-add it (keeping the entrance opacity/transform
+// on the system's own timing) so the hover lighten still eases. Higher
+// specificity than `.js-animations [data-animate]`, so it wins.
+.js-animations .card[data-animate] {
+  transition:
+    opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out),
+    transform var(--animate-duration, 600ms) var(--animate-easing, ease-out),
+    background-color 0.3s ease;
+}
+
+// -----------------------------------------------------------------------------
+// Horizontal cards — the 960–1199px band
+//
+// In this band the 3-up grid collapses to a SINGLE full-width column and every
+// card lays out image-left / content-right. Outside the band the base card is
+// untouched: below md it stacks as vertical single-column cards; at lg the grid
+// is 3-up vertical — so nothing needs resetting. The `--two` variant is left
+// alone.
+//
+// Drupal: the same selectors apply to the rendered paragraph list.
+// -----------------------------------------------------------------------------
+@include respond-between('md', 'lg') {
+  // One full-width column of horizontal cards (overrides the 2-up from md)
+  .card-section__grid:not(.card-section__grid--two) {
+    grid-template-columns: 1fr;
+  }
+
+  .card-section__grid:not(.card-section__grid--two) > .card {
+    flex-direction: row;
+    align-items: stretch; // image matches the content column's height
+    gap: var(--space-l); // generous gap between image and content
+
+    // Image column: about half the card, filling the full height and bleeding
+    // to half the card padding on its three outer edges (as the vertical card
+    // bleeds on top/left/right).
+    > .card__media {
+      flex: 0 0 calc(50% - var(--space-xs) / 2);
+      aspect-ratio: auto; // height comes from the stretched row, not 3:2
+      margin: calc(var(--space-m) / -2) 0 calc(var(--space-m) / -2)
+        calc(var(--space-m) / -2);
+    }
+
+    // Content column: the wrapper becomes a real flex column here (it is
+    // display: contents everywhere else, so the vertical card is unaffected).
+    > .card__content {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      gap: var(--space-xs);
+      min-width: 0; // let long link labels wrap rather than force overflow
+    }
+
+    // The icon tops the content column — drop the vertical "space above" nudge.
+    .card__media + .card__content > .card__icon {
+      margin-top: 0;
+    }
   }
 }

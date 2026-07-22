@@ -1,0 +1,59 @@
+// -----------------------------------------------------------------------------
+// Scroll-entrance animations — the shared [data-animate] system (docs/animation.md
+// rule 1: ONE utility, ONE IntersectionObserver, never per-component observers).
+//
+// An element marked [data-animate] starts hidden (faded, nudged down) and
+// fades + rises into place as it scrolls into view. Wrap a group in
+// [data-animate-stagger] to cascade its direct [data-animate] children.
+//
+// Progressive enhancement is the whole point: the hidden state is scoped under
+// .js-animations, which the observer script adds to <html> ONLY after the
+// observer is live. With JS disabled, broken, or still parsing — or where
+// IntersectionObserver is unsupported — .js-animations is never added, so every
+// element paints fully visible and nothing can get stuck at opacity 0.
+//
+// CSS owns the motion (the transition below). The script's only job is to add
+// .is-visible when an element enters, and to write --animate-delay for staggers.
+// Reduced motion is handled here AND in the script (the script bails before
+// adding .js-animations, so this media query is belt-and-braces).
+// -----------------------------------------------------------------------------
+
+:root {
+  // Tweakables — the look lives here. (The stagger STEP and the trigger point
+  // are JS-side: STAGGER_MS / ROOT_MARGIN in the observer script, since JS
+  // writes the per-child delay and owns the observer.)
+  --animate-distance: 12px; // how far it rises from
+  --animate-duration: 600ms; // fade + slide length
+  --animate-easing: ease-out; // entrance easing
+  --animate-delay: 0ms; // per-element; set inline or written by the stagger
+}
+
+// Hidden + primed. Only exists while .js-animations is present (observer live).
+.js-animations [data-animate] {
+  opacity: 0;
+  transform: translateY(var(--animate-distance));
+  transition:
+    opacity var(--animate-duration) var(--animate-easing) var(--animate-delay),
+    transform var(--animate-duration) var(--animate-easing) var(--animate-delay);
+  will-change: opacity, transform; // released to auto on .is-visible below
+}
+
+// Entered — the class the observer adds (one-shot; it then unobserves). The
+// transition above carries the element to here.
+.js-animations [data-animate].is-visible {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+// Reduced motion: no rise, no transition, always visible — even if
+// .js-animations is somehow present. Mirrors the script's matchMedia bail.
+@media (prefers-reduced-motion: reduce) {
+  .js-animations [data-animate],
+  .js-animations [data-animate].is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+}

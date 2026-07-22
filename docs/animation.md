@@ -9,8 +9,9 @@ This project currently has four animation systems. Use each for the right purpos
 | GSAP SplitText masked reveal | page load (hero headline + panel summary) | inline script + pinned CDN in `home.html` |
 | Auto-hiding header | scroll direction | shared script in both templates + `_main-nav.scss` (`.is-pinned`/`.is-shown`) |
 | Parallax | scroll | section 2 below |
+| Scroll-entrance (`data-animate`) | element enters viewport | section 3 below (`scss/utilities/_scroll-animations.scss` + inline observer) |
 
-> **Note:** there is no scroll-entrance (`data-animate`) system in this codebase. See rule 1 before adding one.
+> **Note:** the scroll-entrance (`data-animate`) system is now built — one shared utility, one `IntersectionObserver` (section 3). Add new entrances with the attribute; never write per-component observer code (rule 1).
 
 ---
 
@@ -63,6 +64,7 @@ One global kill switch in `scss/base/_reset.scss` collapses every CSS animation 
 | Template | Element | Speed factor | Notes |
 |---|---|---|---|
 | `home.html` | `.hero__media` (`data-parallax-bg`) | `0.2` | Full-screen background video; RISES at 20% of scroll speed (opposite the page). Bleed (`inset: -30% -2px` in `_hero.scss`) exceeds the max travel so edges never show; reduced motion / no-js collapse the bleed to `-2px`. |
+| `home.html` | `.card__media img` | `RANGE 0.04` | Decorative card photos drift a few px against the scroll. A baseline `scale()` (`_card.scss`) gives the travel room so no edge shows; `overflow: hidden` clips to the rounded frame. Separate inline observer script, rAF-throttled, reduced-motion aware. Images only — never the card text. |
 
 ### How it works
 
@@ -102,10 +104,55 @@ The JS only applies a scroll delta. The layer's starting position and overscan c
 
 ---
 
+## 3. Scroll-entrance animations (`data-animate`)
+
+**What it does:** Fades an element in with a small upward slide as it scrolls into view. One-shot — it never replays when you scroll back.
+
+**Where the code lives:** CSS in `scss/utilities/_scroll-animations.scss`; a single `IntersectionObserver` in an inline `<script>` (currently `home.html` — share across templates when a second page needs it). This is THE shared system — never add another observer.
+
+### Authoring
+
+```html
+<!-- single element -->
+<h2 data-animate>Heading</h2>
+
+<!-- a group: direct data-animate children cascade, 80ms apart -->
+<div data-animate-stagger>
+  <article data-animate>…</article>   <!-- delay 0ms -->
+  <article data-animate>…</article>   <!-- delay 80ms -->
+  <article data-animate>…</article>   <!-- delay 160ms -->
+</div>
+
+<!-- override one element's delay (the stagger won't clobber it) -->
+<p data-animate style="--animate-delay: 200ms">…</p>
+```
+
+Stagger groups can nest — e.g. the home card section is a `data-animate-stagger` (heading → intro) that contains a `data-animate-stagger` grid (each card cascades). A non-`data-animate` child (like the grid wrapper inside the outer group) is skipped in the count.
+
+### How it works (the contract)
+
+- **CSS owns the motion.** The hidden state (`opacity: 0`, `translateY(--animate-distance)`) and the `opacity`/`transform` transition live in the stylesheet, scoped under `.js-animations`. The script's only job is to add `.is-visible` (which the transition carries to) and to write `--animate-delay` on staggered children.
+- **Progressive enhancement is load-bearing.** `.js-animations` is added to `<html>` **only after** the observer is wired and every element is observed. So with JS disabled, still parsing, thrown, or where `IntersectionObserver` is unsupported, the class is absent, the hidden state never applies, and everything paints fully visible. Never move that class into the static HTML or an early inline script.
+- **One-shot.** On intersect the observer adds `.is-visible` and `unobserve()`s the element — it cannot re-hide on scroll-back.
+- **Reduced motion, both layers.** The script bails (returns before adding `.js-animations`) under `prefers-reduced-motion: reduce`, and a CSS media query neutralises the hidden state as belt-and-braces. Same fallback path as "no `IntersectionObserver`": show everything.
+- **`will-change`** is set on the primed element and released to `auto` on `.is-visible`.
+
+### Tweakables
+
+| Value | Where | Default |
+|---|---|---|
+| distance / duration / easing | CSS custom properties (`:root`, `_scroll-animations.scss`) | `12px` / `600ms` / `ease-out` |
+| stagger step | `STAGGER_MS` in the observer script | `80ms` |
+| trigger point | `ROOT_MARGIN` / `THRESHOLD` in the script | `-8%` bottom / `0.01` |
+
+**Drupal:** wrap the observer in a `once()`-guarded behavior and load it as a theme library shared across pages; the CSS ships with the theme. The `data-animate` attributes are authored in Twig, so any paragraph/field template can opt in.
+
+---
+
 ## Rules
 
-1. **There is no scroll-entrance system yet.** If the design calls for scroll-triggered entrances, build ONE shared utility (a `data-animate` attribute with a single `IntersectionObserver`, CSS in `scss/utilities/_scroll-animations.scss`) and document it here — never write per-component observer code.
-2. **Keep parallax to decorative hero background media (video or SVG) only.** Never apply parallax to content, cards, or anything the user needs to read.
+1. **The scroll-entrance system is `data-animate` (section 3).** Use the attribute; if you need a new entrance behaviour, extend that ONE utility and its single `IntersectionObserver` — never write per-component observer code.
+2. **Keep parallax to decorative media only** — hero background video/SVG, or the card *images* (section 2). Never apply parallax to text, or anything the user needs to read.
 3. **Always pair CSS animations with a `prefers-reduced-motion` reset.**
 4. **Parallax JS uses the `ticking` rAF pattern.** Always throttle scroll listeners with `requestAnimationFrame` — never bind expensive work directly to the scroll event.
 5. **Don't use JS to animate things CSS can handle** (hover states, focus rings, transitions). JS animation is for scroll-driven or mount-driven effects only.

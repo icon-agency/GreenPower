@@ -29,3 +29,18 @@ $breakpoints: (
     @error 'Unknown breakpoint `#{$name}`. Add it to $breakpoints in abstracts/_breakpoints.scss.';
   }
 }
+
+// Bounded range: min .. just below max. For the rare treatment that must apply
+// at one breakpoint band and revert at the next (e.g. a 2-column-only layout).
+// Prefer respond-to(); reach for this only when a min-width query would leak
+// into a wider breakpoint. The 0.02px trim keeps the max exclusive so it never
+// overlaps the breakpoint it stops at.
+@mixin respond-between($min, $max) {
+  @if map.has-key($breakpoints, $min) and map.has-key($breakpoints, $max) {
+    @media (min-width: map.get($breakpoints, $min)) and (max-width: map.get($breakpoints, $max) - 0.02px) {
+      @content;
+    }
+  } @else {
+    @error 'Unknown breakpoint in respond-between(`#{$min}`, `#{$max}`). Add it to $breakpoints.';
+  }
+}

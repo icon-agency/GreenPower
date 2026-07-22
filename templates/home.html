@@ -427,16 +427,17 @@
 
     </section>
 
-    <section class="card-section">
-      <h2 class="card-section__heading">Optional section heading two</h2>
-      <p class="card-section__intro">Optional intro text GreenPower certification uses a different type of certificate for Electricity and Gas</p>
+    <section class="card-section" data-animate-stagger>
+      <h2 class="card-section__heading" data-animate>Optional section heading two</h2>
+      <p class="card-section__intro" data-animate>Optional intro text GreenPower certification uses a different type of certificate for Electricity and Gas</p>
 
-      <div class="card-section__grid">
+      <div class="card-section__grid" data-animate-stagger>
 
-        <article class="card">
+        <article class="card" data-animate>
           <div class="card__media">
             <img src="../assets/images/family-eating.png" alt="A family preparing a meal together at home" width="900" height="600" loading="lazy">
           </div>
+          <div class="card__content">
           <span class="card__icon"><img src="../assets/icons/home.svg" alt="" width="52" height="52"></span>
           <h3 class="card__title">Buying GreenPower for your home</h3>
           <p class="card__body">Choose accredited renewable electricity through your energy provider.</p>
@@ -450,12 +451,14 @@
             <li><a class="card__link" href="#">Find a provider
               <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
           </ul>
+          </div>
         </article>
 
-        <article class="card">
+        <article class="card" data-animate>
           <div class="card__media">
             <img src="../assets/images/business-man-office.png" alt="A man standing in a modern open-plan office" width="900" height="600" loading="lazy">
           </div>
+          <div class="card__content">
           <span class="card__icon"><img src="../assets/icons/business-greenpower.svg" alt="" width="52" height="52"></span>
           <h3 class="card__title">Renewable energy for business</h3>
           <p class="card__body">Choose accredited renewable electricity through your energy provider.</p>
@@ -471,12 +474,14 @@
             <li><a class="card__link" href="#">Find a provider
               <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
           </ul>
+          </div>
         </article>
 
-        <article class="card">
+        <article class="card" data-animate>
           <div class="card__media">
             <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
           </div>
+          <div class="card__content">
           <span class="card__icon"><img src="../assets/icons/accreditation.svg" alt="" width="52" height="52"></span>
           <h3 class="card__title">Become GreenPower industry accredited</h3>
           <p class="card__body">Select the pathway that best describes your industry to become GreenPower accredited</p>
@@ -492,6 +497,7 @@
             <li><a class="card__link" href="#">Gas producers
               <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
           </ul>
+          </div>
         </article>
 
       </div>
@@ -1221,9 +1227,11 @@
   <!-- Card image parallax: each photo drifts a few pixels against the scroll
        for depth. Measures the frame with getBoundingClientRect (never
        offsetParent) and is rAF-throttled — LESSONS.md. The image carries a
-       baseline zoom (_card.scss) so the drift never exposes an edge; the JS
-       keeps that scale and adds the shift. Under reduced motion nothing binds
-       and the transform is cleared, leaving the plain CSS image.
+       baseline zoom (_card.scss `scale`) so the drift never exposes an edge.
+       The JS writes only the independent `translate` property, which composes
+       with that CSS `scale` (resting zoom + the scroll-in entrance zoom) so the
+       two never overwrite each other. Under reduced motion nothing binds and
+       the translate is cleared, leaving the plain CSS image.
        Drupal: move into a once()-guarded behavior on port. -->
   <script>
     (function () {
@@ -1233,9 +1241,8 @@
       if (!frames.length) return;
 
       var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-      var ZOOM = 1.1;   // must match the scale() baseline in _card.scss
       var RANGE = 0.04; // peak drift as a fraction of the frame height; the
-                        // ~5%-per-side room the zoom gives keeps it covered
+                        // ~5%-per-side room the CSS scale gives keeps it covered
       var ticking = false;
 
       function update() {
@@ -1251,11 +1258,11 @@
           if (progress < -1) progress = -1;
           else if (progress > 1) progress = 1;
           var shift = (-progress * rect.height * RANGE).toFixed(1);
+          // Write the INDEPENDENT translate property (not `transform`) so it
+          // composes with the CSS `scale` (resting zoom + entrance) instead of
+          // overwriting it.
           var img = frames[i].querySelector('img');
-          if (img) {
-            img.style.transform =
-              'translate3d(0,' + shift + 'px,0) scale(' + ZOOM + ')';
-          }
+          if (img) img.style.translate = '0 ' + shift + 'px';
         }
       }
 
@@ -1272,7 +1279,7 @@
           window.removeEventListener('resize', requestUpdate);
           for (var i = 0; i < frames.length; i++) {
             var img = frames[i].querySelector('img');
-            if (img) img.style.transform = ''; // fall back to the CSS image
+            if (img) img.style.translate = ''; // fall back to the CSS image
           }
         } else {
           window.addEventListener('scroll', requestUpdate, { passive: true });
@@ -1283,6 +1290,62 @@
 
       apply();
       if (reduced.addEventListener) reduced.addEventListener('change', apply);
+    })();
+  </script>
+
+  <!-- Scroll-entrance animations: the shared [data-animate] system (see
+       docs/animation.md rule 1 and scss/utilities/_scroll-animations.scss).
+       ONE IntersectionObserver for the whole page. Progressive enhancement —
+       .js-animations is added to <html> only AFTER the observer is wired, so a
+       disabled/broken script (or a missing IntersectionObserver) leaves every
+       element fully visible. CSS owns the motion; this only toggles a class and
+       writes stagger delays. Drupal: move into a once()-guarded behavior on
+       port (and share across templates once other pages use it).
+       Tweakables: STAGGER_MS + the rootMargin/threshold below; distance,
+       duration and easing live in the CSS custom properties. -->
+  <script>
+    (function () {
+      var STAGGER_MS = 80;                    // gap between staggered siblings
+      var ROOT_MARGIN = '0px 0px -8% 0px';    // fire ~8% before fully in view
+      var THRESHOLD = 0.01;                   // any sliver counts
+
+      var els = [].slice.call(document.querySelectorAll('[data-animate]'));
+      if (!els.length) return;
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      // Fall back to "everything visible": reduced motion or no observer means
+      // we never add .js-animations, so the hidden state never applies.
+      if (reduce.matches || !('IntersectionObserver' in window)) return;
+
+      // Stagger: write --animate-delay (index x step) on each DIRECT
+      // [data-animate] child of a [data-animate-stagger] group — but never
+      // clobber a delay the author set inline.
+      [].slice.call(document.querySelectorAll('[data-animate-stagger]')).forEach(function (group) {
+        var i = 0;
+        [].slice.call(group.children).forEach(function (child) {
+          if (!child.hasAttribute('data-animate')) return;
+          if (!child.style.getPropertyValue('--animate-delay')) {
+            child.style.setProperty('--animate-delay', (i * STAGGER_MS) + 'ms');
+          }
+          i += 1;
+        });
+      });
+
+      var io = new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible'); // CSS runs the transition
+          obs.unobserve(entry.target);              // one-shot — never replays
+        });
+      }, { rootMargin: ROOT_MARGIN, threshold: THRESHOLD });
+
+      els.forEach(function (el) { io.observe(el); });
+
+      // Only now — observer live, every element observed — prime the hidden
+      // state. If anything above threw, this never runs and the page stays
+      // fully visible.
+      document.documentElement.classList.add('js-animations');
     })();
   </script>
 </body>

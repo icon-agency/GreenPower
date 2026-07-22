@@ -703,27 +703,37 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
       white-space: nowrap;
 
       // Underline slot — an ::after element, NOT box-shadow (see LESSONS.md:
-      // shadow-underlines leave a 1px vertical seam at fractional x-positions)
+      // shadow-underlines leave a 1px vertical seam at fractional x-positions).
+      // The bar is always coloured; the states SCALE it in rather than fading.
+      // transform-origin: center → it grows OUT from the middle to both sides on
+      // hover (scaleX 0 → 1) and retracts back to the middle on leave. Reduced
+      // motion collapses the transition globally, so the underline simply
+      // appears/disappears — still a clear hover cue.
       &::after {
         position: absolute;
         inset: auto 0 0;
         height: 2px;
         content: '';
-        background-color: transparent;
-        @include transition(background-color);
+        background-color: $color-brand-light-green;
+        transform: scaleX(0);
+        transform-origin: center;
+        @include transition(transform, 0.3s, ease-out);
       }
 
       &:hover::after {
-        background-color: $color-brand-light-green;
+        transform: scaleX(1);
       }
 
       // Open state: green underline carries the brand moment; label stays
-      // dark green — Primary Green text fails AA at this size (3.5:1)
+      // dark green — Primary Green text fails AA at this size (3.5:1). Held
+      // full-width while the panel is open (grows from the centre on open,
+      // retracts to the centre on close, matching the hover).
       &[aria-expanded='true'] {
         color: $color-brand-dark-green;
 
         &::after {
           background-color: $color-brand-green;
+          transform: scaleX(1);
         }
       }
     }
@@ -975,6 +985,13 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
   .site-header--overlay:focus-within {
     .main-nav .main-nav__link {
       color: $color-brand-dark-green;
+    }
+
+    // The link actually under the pointer goes primary blue (matching the
+    // base :hover). Needs to sit here, at higher specificity than the revert
+    // above, or the dark-green revert would win over the base :hover.
+    .main-nav .main-nav__link:hover {
+      color: $color-brand-blue;
     }
 
     .main-nav .main-nav__search-toggle {
