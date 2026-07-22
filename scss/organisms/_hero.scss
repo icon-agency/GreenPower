@@ -7,10 +7,13 @@
 //        page scrolls past. The matching TOP scrim is part of the overlay
 //        nav bar (.site-header--overlay::before, _main-nav.scss), so it
 //        scrolls away with the header instead of pinning to the frame.
-//     &__follow (absolute, first 100svh, scrolling layer) — bottom gradient
-//        scrim + location pin + playback toggle. Moves natively with the
-//        page (zero-lag lock to the shape); fades out when the H1 exit
-//        fires (.is-utils-out, toggled by the parallax script).
+//     &__blur (absolute in .hero, top: 46svh → bottom: 0) — bottom gradient
+//        scrim + progressive blur. Anchored to the hero's base, NOT the follow
+//        layer, so its solid tail always reaches the bottom of the hero.
+//     &__follow (absolute, first 100svh, scrolling layer) — location pin +
+//        playback toggle. Moves natively with the page (zero-lag lock to the
+//        shape); fades out when the H1 exit fires (.is-utils-out, toggled by
+//        the parallax script).
 //     &__content (absolute, first 100svh, scrolling layer) — the headline.
 //     &__panel (in flow, negative top margin) — green angle shape with CTAs;
 //        peeks into the viewport at rest, rides up over the pinned video on
@@ -121,7 +124,7 @@
     inset: -2px;
   }
 
-  // Scroll-locked companion layer for the gradient + utilities: replicates
+  // Scroll-locked companion layer for the utilities: replicates
   // the frame's 100svh coordinate box but in the SCROLLING context, so its
   // children move natively with the page (and the shape) — no JS chasing
   // the scroll, no lag. While the frame is pinned this layer rises with the
@@ -162,34 +165,38 @@
 
   // Bottom gradient scrim + progressive blur, from the Figma spec: linear
   // #000000, 0% → 35% opacity, starting ~46% down the first viewport, fully
-  // opaque by ~77%, held at 35% to the fold. A solid scrim colour with ONE
-  // mask ramp drives both the colour fade and the blur fade — identical
-  // positioning by construction, and a genuinely linear ramp (a background
-  // gradient multiplied by a mask would square the curve). Lives in the
-  // scroll-locked __follow layer, so it rides up with the shape natively.
+  // opaque by ~77%, held at 35% to the base of the hero. A solid scrim colour
+  // with ONE mask ramp drives both the colour fade and the blur fade —
+  // identical positioning by construction, and a genuinely linear ramp (a
+  // background gradient multiplied by a mask would square the curve).
+  //
+  // Anchored to .hero directly (top: 46svh → bottom: 0), NOT to the 100svh
+  // __follow layer. The shape panel overhangs the first viewport (its base is
+  // the hero's base, below 100svh), so a scrim pinned to the follow layer's
+  // bottom left a strip of un-blurred video between the scrim and the hero
+  // base below the nav breakpoint. bottom: 0 pins the solid tail to the hero
+  // base in every regime, and since that base sits below the viewport until
+  // the hero scrolls off, the desktop look is unchanged (the scrim still
+  // covers the bottom of the viewport throughout the journey). overflow on
+  // .hero is never non-visible at rest, so the box can't spill past the base.
   &__blur {
     position: absolute;
+    top: 46vh; // gradient start ≈46% down the first viewport (Figma handles)
+    top: 46svh;
     right: 0;
-    // Bottom-anchored, 54% band (gradient start ≈46% down the viewport, per
-    // the Figma handles). No underscan: the box ends exactly at the layer's
-    // bottom (= 100svh from the hero top), which is always ABOVE the hero's
-    // own bottom, so the blur can never spill into the following section.
-    bottom: 0;
+    bottom: 0; // the hero's base — the solid tail always reaches it
     left: 0;
-    height: 54%;
     pointer-events: none;
     background-color: $color-ui-scrim;
     -webkit-backdrop-filter: blur(7px); // Safari ≤17 needs the prefix
     backdrop-filter: blur(7px);
-    // transparent → opaque (opaque by ~77% of the viewport, per the Figma
-    // stops), then HELD solid to the box bottom — the scrim must not weaken
-    // again at the foot of the hero. The old underscan hid the resulting hard
-    // edge; it no longer needs hiding: on desktop the layer is fixed, so that
-    // edge is the very bottom row of the viewport (nothing below it to reveal
-    // a line), and on mobile the green panel (later in the DOM, same stacking)
-    // paints over it. Either way the box ends within the hero — no bleed.
-    -webkit-mask-image: linear-gradient(to bottom, transparent, black 58%);
-    mask-image: linear-gradient(to bottom, transparent, black 58%);
+    // transparent → opaque 31svh below the start (= 77svh, the Figma "opaque
+    // by ~77%"), then HELD solid to the hero base. A length-based ramp (svh),
+    // not a %, so the opaque point stays at 77svh whatever the hero's height.
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 31vh);
+    mask-image: linear-gradient(to bottom, transparent, black 31vh);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 31svh);
+    mask-image: linear-gradient(to bottom, transparent, black 31svh);
   }
 
   // Headline block. NOT inside the sticky frame: it is anchored to the

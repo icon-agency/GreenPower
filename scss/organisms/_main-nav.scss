@@ -368,6 +368,7 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
     padding-bottom: var(--space-2xs);
     font-size: $font-size-lg; // matches the top-level accordion labels
     font-weight: $font-weight-regular;
+    line-height: $line-height-heading; // tighten multi-line labels (was the 1.5 body default)
     color: $color-brand-dark-green;
     text-align: center;
     border-bottom: 2px solid $color-brand-green; // brand-green rule under the heading
@@ -748,9 +749,9 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
       height: var(--backdrop-height, 100%);
       pointer-events: none;
       background-color: $color-tint-taupe;
-      // Flush full-width dropdown (matches the flat design mocks) — no rounded
-      // corners; the top especially must stay square against the page edge
-      border-radius: 0;
+      // Full-width dropdown: square against the page edge at the top, rounded
+      // at the bottom where it meets the page.
+      border-radius: 0 0 $radius-xl $radius-xl;
       opacity: 0;
       transition: height 0.3s ease-out, opacity 0.2s ease;
     }

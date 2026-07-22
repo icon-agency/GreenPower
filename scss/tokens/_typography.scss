@@ -15,6 +15,9 @@ $font-family-base: "tt-commons-pro", -apple-system, blinkmacsystemfont, "Segoe U
   arial, sans-serif !default;
 $font-family-thin: "tt-commons-pro-thin", -apple-system, blinkmacsystemfont, "Segoe UI",
   arial, sans-serif !default;
+// Monospace — token/code labels (design-system reference page; future code blocks)
+$font-family-mono: ui-monospace, "SF Mono", "SFMono-Regular", menlo, consolas,
+  monospace !default;
 
 // Weights — kit nxc8sxb maps TT Commons Pro's faces to SHIFTED CSS weights
 // (per the Adobe Fonts kit listing): 300 = Regular, 400 = Medium,
@@ -38,7 +41,10 @@ $line-height-base: 1.5 !default; // body copy
 // calculator with these inputs if the scale needs adjusting)
 :root {
   --step--2: clamp(0.6944rem, 0.6785rem + 0.0679vw, 0.7396rem);
-  --step--1: clamp(0.8333rem, 0.7882rem + 0.1926vw, 0.9615rem);
+  // step--1 (sm — card body/links, small UI text): min raised from the
+  // back-solved 0.8333rem (~13.3px) to 0.9375rem (15px) so small copy doesn't
+  // read too small on mobile/tablet. Max (desktop) is unchanged.
+  --step--1: clamp(0.9375rem, 0.7882rem + 0.1926vw, 0.9615rem);
   --step-0: clamp(1rem, 0.912rem + 0.3756vw, 1.25rem);
   --step-1: clamp(1.2rem, 1.0504rem + 0.6385vw, 1.625rem);
   --step-2: clamp(1.44rem, 1.2032rem + 1.0103vw, 2.1125rem);

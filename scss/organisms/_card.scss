@@ -63,14 +63,26 @@
         grid-template-columns: repeat(2, 1fr);
       }
     }
+
+    // Four-column variant — 2 up from md (inherited from the base rule),
+    // 4 from lg. Excluded from the horizontal-card band below.
+    &--four {
+      @include respond-to('lg') {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
   }
 }
 
 .card {
+  // Single source for the card padding so the image bleed (the negative
+  // margins below) always tracks it — variants retune padding via this one var.
+  --card-padding: var(--space-m);
+
   display: flex;
   flex-direction: column;
   gap: var(--space-xs); // tight rhythm between icon, title, body and links
-  padding: var(--space-m);
+  padding: var(--card-padding);
   background-color: $color-brand-taupe;
   border-radius: $radius-lg;
   @include transition(background-color);
@@ -87,9 +99,9 @@
     // wider and taller than the content column (the 3:2 ratio makes the extra
     // width add height too). Bottom stays flush — the flex gap to the icon is
     // unchanged — and the icon/title/body/links keep the full card padding.
-    margin-top: calc(var(--space-m) / -2);
-    margin-right: calc(var(--space-m) / -2);
-    margin-left: calc(var(--space-m) / -2);
+    margin-top: calc(var(--card-padding) / -2);
+    margin-right: calc(var(--card-padding) / -2);
+    margin-left: calc(var(--card-padding) / -2);
 
     position: relative; // containing block for the absolutely-placed image
     overflow: hidden;
@@ -206,6 +218,12 @@
   }
 }
 
+// Compact four-up cards: one step less padding so it doesn't dominate the
+// narrow column. The image bleed follows via --card-padding.
+.card-section__grid--four > .card {
+  --card-padding: var(--space-s);
+}
+
 // -----------------------------------------------------------------------------
 // Image entrance zoom
 //
@@ -250,33 +268,48 @@
 // -----------------------------------------------------------------------------
 // Horizontal cards — the 960–1199px band
 //
-// In this band the 3-up grid collapses to a SINGLE full-width column and every
-// card lays out image-left / content-right. Outside the band the base card is
-// untouched: below md it stacks as vertical single-column cards; at lg the grid
-// is 3-up vertical — so nothing needs resetting. The `--two` variant is left
-// alone.
+// In this band the 3-up grid drops to 2-up (matching the md 2-column start).
+// A card left stranded alone in the final row — an odd total, so it lands at
+// an odd nth-child position as the LAST child — spans both columns and lays
+// out image-left / content-right instead of stretching to fill the row at the
+// vertical card's height. Two cards side by side, one full-width below: not
+// three stacked rows. Outside the band the base card is untouched: below md it
+// stacks single-column; at lg the grid is 3-up vertical. The `--two` and
+// `--four` variants are left alone (an even count never strands a card).
 //
 // Drupal: the same selectors apply to the rendered paragraph list.
 // -----------------------------------------------------------------------------
 @include respond-between('md', 'lg') {
-  // One full-width column of horizontal cards (overrides the 2-up from md)
-  .card-section__grid:not(.card-section__grid--two) {
-    grid-template-columns: 1fr;
+  // 2-up (overrides the 3-up default from lg — this band sits below it, but
+  // pin it explicitly so intent doesn't depend on cascade order)
+  .card-section__grid:not(.card-section__grid--two):not(.card-section__grid--four) {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .card-section__grid:not(.card-section__grid--two) > .card {
+  // The trailing odd-one-out only: :last-child:nth-child(odd) matches an
+  // odd-position final card, which only happens when the total count is odd.
+  // An even count leaves every card paired — nothing spans.
+  .card-section__grid:not(.card-section__grid--two):not(.card-section__grid--four)
+    > .card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
     flex-direction: row;
     align-items: stretch; // image matches the content column's height
-    gap: var(--space-l); // generous gap between image and content
 
-    // Image column: about half the card, filling the full height and bleeding
-    // to half the card padding on its three outer edges (as the vertical card
-    // bleeds on top/left/right).
+    // Line the image up with the first grid column and the content with the
+    // second, so the horizontal card's icon/title/body sit on the same left
+    // edge as the 2-up cards above it. The gap = grid gap + one card padding
+    // (the extra padding a 2-up card in the second column would carry).
+    gap: calc(var(--space-xs) + var(--card-padding));
+
+    // Image column: fills the full height. The basis adds card-padding/2 back
+    // (undoing the left-bleed's pull) so the image's RIGHT edge lands exactly
+    // on the first column's right edge. Bleeds to half the card padding on its
+    // three outer edges (as the vertical card bleeds on top/left/right).
     > .card__media {
-      flex: 0 0 calc(50% - var(--space-xs) / 2);
+      flex: 0 0 calc(50% - var(--space-xs) / 2 + var(--card-padding) / 2);
       aspect-ratio: auto; // height comes from the stretched row, not 3:2
-      margin: calc(var(--space-m) / -2) 0 calc(var(--space-m) / -2)
-        calc(var(--space-m) / -2);
+      margin: calc(var(--card-padding) / -2) 0 calc(var(--card-padding) / -2)
+        calc(var(--card-padding) / -2);
     }
 
     // Content column: the wrapper becomes a real flex column here (it is

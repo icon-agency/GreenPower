@@ -390,11 +390,15 @@
         </div>
       </div>
 
-      <!-- Scroll-locked companion layer: gradient + utilities anchored to the
-           first viewport-height but living in the SCROLLING context, so the
-           browser moves them natively with the shape — zero JS, zero lag -->
+      <!-- Bottom scrim: anchored to the hero itself (not the 100svh follow
+           layer) so its solid tail always reaches the hero's base — the shape
+           panel overhangs the first viewport below the nav breakpoint -->
+      <div class="hero__blur" aria-hidden="true"></div>
+
+      <!-- Scroll-locked companion layer: location pin + playback toggle
+           anchored to the first viewport-height but living in the SCROLLING
+           context, so the browser moves them natively with the shape -->
       <div class="hero__follow">
-        <div class="hero__blur" aria-hidden="true"></div>
         <div class="hero__utilities">
           <button class="hero__playback" type="button" data-hero-playback>
             <svg data-playback-pause viewBox="0 0 12 14" aria-hidden="true" focusable="false"><path d="M2.5 1.5v11M9.5 1.5v11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
@@ -500,6 +504,38 @@
           </div>
         </article>
 
+      </div>
+    </section>
+
+    <section class="feature-banner" data-feature-banner data-animate-stagger>
+      <div class="feature-banner__inner">
+        <div class="feature-banner__content" data-animate-stagger>
+          <span class="feature-banner__icon" data-animate><img src="../assets/icons/greenpower.svg" alt="" width="52" height="52"></span>
+          <h2 class="feature-banner__title" data-animate>Products and solutions</h2>
+          <p class="feature-banner__intro" data-animate>Explore GreenPower renewable electricity, renewable gas and emerging renewable fuels and products. Learn how each solution works and choose the option that best suits your home, business or organisation.</p>
+          <ul class="feature-banner__links" data-animate>
+            <li><a class="feature-banner__link" href="#" data-feature-image="electricity">GreenPower renewable electricity
+              <svg class="feature-banner__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            <li><a class="feature-banner__link" href="#" data-feature-image="gas">GreenPower renewable gas
+              <svg class="feature-banner__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            <li><a class="feature-banner__link" href="#" data-feature-image="emerging">Emerging renewable fuels and products
+              <svg class="feature-banner__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+          </ul>
+        </div>
+        <div class="feature-banner__media" data-animate style="--animate-delay: 320ms">
+          <div class="feature-banner__stage">
+            <img class="is-active" src="../assets/images/wind.png" alt="" width="1500" height="1500" data-feature-key="electricity" data-feature-location="Malabar Wastewater Treatment Plant">
+            <img src="../assets/images/gas.png" alt="" width="1500" height="1500" loading="lazy" data-feature-key="gas" data-feature-location="Placeholder — gas facility location">
+            <img src="../assets/images/emerging.png" alt="" width="1500" height="1500" loading="lazy" data-feature-key="emerging" data-feature-location="Placeholder — emerging fuels facility">
+            <p class="feature-banner__location">
+              <span class="feature-banner__location-shape" aria-hidden="true">
+                <svg class="feature-banner__location-curve" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L0 210.3Z" fill="currentColor"/></svg>
+              </span>
+              <svg viewBox="0 0 12 15" aria-hidden="true" focusable="false"><path d="M6 1a5 5 0 0 0-5 5c0 3.75 5 8 5 8s5-4.25 5-8a5 5 0 0 0-5-5Zm0 6.8a1.8 1.8 0 1 1 0-3.6 1.8 1.8 0 0 1 0 3.6Z" fill="currentColor"/></svg>
+              <span data-feature-location-text>Malabar Wastewater Treatment Plant</span>
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -1224,19 +1260,20 @@
     })();
   </script>
 
-  <!-- Card image parallax: each photo drifts a few pixels against the scroll
-       for depth. Measures the frame with getBoundingClientRect (never
-       offsetParent) and is rAF-throttled — LESSONS.md. The image carries a
-       baseline zoom (_card.scss `scale`) so the drift never exposes an edge.
-       The JS writes only the independent `translate` property, which composes
-       with that CSS `scale` (resting zoom + the scroll-in entrance zoom) so the
-       two never overwrite each other. Under reduced motion nothing binds and
-       the translate is cleared, leaving the plain CSS image.
+  <!-- Card + feature-banner image parallax: each photo drifts a few pixels
+       against the scroll for depth. Measures the frame with
+       getBoundingClientRect (never offsetParent) and is rAF-throttled —
+       LESSONS.md. The image carries a baseline zoom (_card.scss `scale`, or the
+       Ken Burns floor on the banner) so the drift never exposes an edge. The JS
+       writes only the independent `translate` property, which composes with
+       that CSS `scale`/animation instead of overwriting it. The banner stacks
+       three images, so every image in a frame is shifted (only the active one
+       shows). Under reduced motion nothing binds and the translate is cleared.
        Drupal: move into a once()-guarded behavior on port. -->
   <script>
     (function () {
       var frames = Array.prototype.slice.call(
-        document.querySelectorAll('.card__media')
+        document.querySelectorAll('.card__media, .feature-banner__stage')
       );
       if (!frames.length) return;
 
@@ -1244,6 +1281,11 @@
       var RANGE = 0.04; // peak drift as a fraction of the frame height; the
                         // ~5%-per-side room the CSS scale gives keeps it covered
       var ticking = false;
+
+      function setShift(frame, value) {
+        var imgs = frame.querySelectorAll('img');
+        for (var k = 0; k < imgs.length; k++) imgs[k].style.translate = value;
+      }
 
       function update() {
         ticking = false;
@@ -1261,8 +1303,7 @@
           // Write the INDEPENDENT translate property (not `transform`) so it
           // composes with the CSS `scale` (resting zoom + entrance) instead of
           // overwriting it.
-          var img = frames[i].querySelector('img');
-          if (img) img.style.translate = '0 ' + shift + 'px';
+          setShift(frames[i], '0 ' + shift + 'px');
         }
       }
 
@@ -1278,8 +1319,7 @@
           window.removeEventListener('scroll', requestUpdate);
           window.removeEventListener('resize', requestUpdate);
           for (var i = 0; i < frames.length; i++) {
-            var img = frames[i].querySelector('img');
-            if (img) img.style.translate = ''; // fall back to the CSS image
+            setShift(frames[i], ''); // fall back to the CSS image
           }
         } else {
           window.addEventListener('scroll', requestUpdate, { passive: true });
@@ -1290,6 +1330,49 @@
 
       apply();
       if (reduced.addEventListener) reduced.addEventListener('change', apply);
+    })();
+  </script>
+
+  <!-- Feature banner: hovering/focusing a link crossfades the media to that
+       link's image (CSS transition on .is-active; the Ken Burns drift is
+       CSS-only, gated behind prefers-reduced-motion) and swaps the location
+       pin text. Pure class/text toggles — motion handling stays in CSS.
+       Drupal: move into a once()-guarded behavior on port. -->
+  <script>
+    (function () {
+      var banners = [].slice.call(document.querySelectorAll('[data-feature-banner]'));
+      banners.forEach(function (banner) {
+        var links = [].slice.call(banner.querySelectorAll('[data-feature-image]'));
+        var images = [].slice.call(banner.querySelectorAll('[data-feature-key]'));
+        var locationText = banner.querySelector('[data-feature-location-text]');
+        if (!links.length || !images.length) return;
+
+        var current = null;
+        images.forEach(function (img) {
+          if (img.classList.contains('is-active')) current = img.getAttribute('data-feature-key');
+        });
+
+        function activate(key) {
+          if (key === current) return;
+          var found = false;
+          images.forEach(function (img) {
+            var match = img.getAttribute('data-feature-key') === key;
+            if (match) found = true;
+            img.classList.toggle('is-active', match);
+            if (match && locationText) {
+              // Silent swap, like the hero pin — the label is decorative
+              locationText.textContent = img.getAttribute('data-feature-location') || '';
+            }
+          });
+          if (found) current = key;
+        }
+
+        links.forEach(function (link) {
+          var key = link.getAttribute('data-feature-image');
+          link.addEventListener('mouseenter', function () { activate(key); });
+          link.addEventListener('focus', function () { activate(key); });
+        });
+      });
     })();
   </script>
 

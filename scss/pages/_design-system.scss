@@ -1,0 +1,506 @@
+// -----------------------------------------------------------------------------
+// Design system reference page
+//
+// A living style guide for the GreenPower tokens and components. NOT a Drupal
+// template — an internal reference. Sections are added incrementally; Colours
+// is first. Swatch chip fills reference the $color-* tokens (via the maps
+// below), so no raw hex lives here — hex/Pantone are HTML text labels only.
+// -----------------------------------------------------------------------------
+
+@use 'sass:map';
+
+// --- App shell: full-height sidebar + an independently scrolling content pane -
+// Modelled on an app layout (separate left / content panes, each 100dvh with
+// its own scroll). The sidebar can be toggled; the content pane is a CSS
+// CONTAINER whose width drives the fluid type/space tokens — see .ds-content.
+
+.ds-app {
+  display: flex;
+  height: 100dvh;
+  overflow: hidden; // each pane scrolls on its own
+}
+
+// --- Sidebar (mobile: off-canvas drawer; desktop: in-flow column) ---
+
+.ds-sidebar {
+  position: fixed; // mobile drawer
+  top: 0;
+  left: 0;
+  z-index: $z-nav;
+  width: min(18rem, 82vw);
+  height: 100dvh;
+  padding: var(--space-m) var(--space-s);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background-color: $color-tint-taupe;
+  border-right: 1px solid $color-ui-border;
+  transform: translateX(-100%);
+  @include transition(transform, 0.25s, ease-out);
+
+  // Mobile default is hidden; .is-nav-toggled slides it in
+  .ds-app.is-nav-toggled & {
+    transform: translateX(0);
+  }
+
+  @include respond-to('lg') {
+    position: static;
+    flex: 0 0 16rem;
+    width: auto;
+    transform: none;
+    transition: none;
+  }
+}
+
+// Desktop default is shown; .is-nav-toggled collapses it out of the flex row
+@include respond-to('lg') {
+  .ds-app.is-nav-toggled .ds-sidebar {
+    display: none;
+  }
+}
+
+.ds-sidebar__head {
+  margin-bottom: var(--space-m);
+}
+
+.ds-sidebar__title {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-brand-dark-green;
+}
+
+// Backdrop behind the mobile drawer (tap to close); never on desktop
+.ds-backdrop {
+  display: none;
+}
+
+.ds-app.is-nav-toggled .ds-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: $z-nav - 1;
+  display: block;
+  background-color: $color-ui-scrim;
+
+  @include respond-to('lg') {
+    display: none;
+  }
+}
+
+// --- Main pane: fixed top bar + scrolling content ---
+
+.ds-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.ds-topbar {
+  @include flex-row(var(--space-s));
+  flex: 0 0 auto;
+  padding: var(--space-xs) var(--space-s);
+  border-bottom: 1px solid $color-ui-border;
+}
+
+.ds-topbar__title {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-ui-text;
+}
+
+// Sidebar show/hide toggle
+.ds-navtoggle {
+  @include button-reset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: $color-brand-dark-green;
+  border-radius: $radius-sm;
+  @include transition(background-color);
+
+  &:hover {
+    background-color: $color-tint-taupe;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+// --- Content pane — THE sizing container --------------------------------------
+// container-type: inline-size makes this pane the reference the fluid tokens
+// measure against. Below, the type + space steps are redefined against the
+// container width (cqi) instead of the viewport (vw): identical clamp endpoints
+// and 375->1440 interpolation as tokens/_typography + tokens/_spacing — only
+// the length unit changes — so every component renders at the size it would on
+// a page the width of THIS column, not the whole window. Toggle the sidebar and
+// the column (and the type) resize together.
+
+.ds-content {
+  flex: 1;
+  min-height: 0;
+  padding: var(--space-xl) var(--space-l) var(--space-3xl);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  container-type: inline-size;
+
+  --step--2: clamp(0.6944rem, 0.6785rem + 0.0679cqi, 0.7396rem);
+  --step--1: clamp(0.8333rem, 0.7882rem + 0.1926cqi, 0.9615rem);
+  --step-0: clamp(1rem, 0.912rem + 0.3756cqi, 1.25rem);
+  --step-1: clamp(1.2rem, 1.0504rem + 0.6385cqi, 1.625rem);
+  --step-2: clamp(1.44rem, 1.2032rem + 1.0103cqi, 2.1125rem);
+  --step-3: clamp(1.728rem, 1.3695rem + 1.5298cqi, 2.7462rem);
+  --step-4: clamp(2.0736rem, 1.5467rem + 2.2483cqi, 3.5701rem);
+  --step-5: clamp(2.4883rem, 1.7303rem + 3.2343cqi, 4.6412rem);
+
+  --space-3xs: clamp(0.25rem, 0.228rem + 0.0939cqi, 0.3125rem);
+  --space-2xs: clamp(0.5rem, 0.456rem + 0.1878cqi, 0.625rem);
+  --space-xs: clamp(0.75rem, 0.684rem + 0.2817cqi, 0.9375rem);
+  --space-s: clamp(1rem, 0.912rem + 0.3756cqi, 1.25rem);
+  --space-m: clamp(1.5rem, 1.368rem + 0.5634cqi, 1.875rem);
+  --space-l: clamp(2rem, 1.8239rem + 0.7512cqi, 2.5rem);
+  --space-xl: clamp(3rem, 2.7359rem + 1.1268cqi, 3.75rem);
+  --space-2xl: clamp(4rem, 3.6479rem + 1.5023cqi, 5rem);
+  --space-3xl: clamp(6rem, 5.4718rem + 2.2535cqi, 7.5rem);
+  --space-s-m: clamp(1rem, 0.6919rem + 1.3146cqi, 1.875rem);
+  --space-m-l: clamp(1.5rem, 1.1479rem + 1.5023cqi, 2.5rem);
+  --space-s-l: clamp(1rem, 0.4718rem + 2.2535cqi, 2.5rem);
+}
+
+.ds__header {
+  max-width: 64ch;
+  margin-bottom: var(--space-2xl); // separate the intro from the first section
+
+  > * + * {
+    margin-top: var(--space-s);
+  }
+}
+
+// --- Side navigation ---
+
+.ds-nav__group + .ds-nav__group {
+  margin-top: var(--space-m);
+}
+
+.ds-nav__group-title {
+  padding-bottom: var(--space-3xs);
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $color-ui-text;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ds-nav__list {
+  @include flex-col(0);
+}
+
+.ds-nav__link {
+  display: block;
+  padding: var(--space-3xs) var(--space-2xs);
+  font-size: $font-size-sm;
+  color: $color-brand-dark-green;
+  text-decoration: none;
+  border-radius: $radius-sm;
+  @include transition(background-color);
+
+  // White (not taupe) on hover/active — the sidebar itself is taupe
+  &:hover {
+    background-color: $color-white;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // Scrollspy highlight (JS-added); degrades to plain links without it
+  &.is-active {
+    font-weight: $font-weight-medium;
+    background-color: $color-white;
+  }
+}
+
+// --- Sections ---
+
+.ds-section {
+  scroll-margin-top: var(--space-l);
+}
+
+.ds-section + .ds-section {
+  margin-top: var(--space-3xl);
+}
+
+.ds-section__title {
+  padding-bottom: var(--space-xs);
+  border-bottom: 2px solid $color-brand-green;
+}
+
+.ds-section__intro {
+  max-width: 64ch;
+  margin-top: var(--space-s);
+}
+
+// Inline code / token reference in prose
+.ds-code {
+  font-family: $font-family-mono;
+  font-size: 0.9em;
+  color: $color-brand-dark-green;
+  overflow-wrap: anywhere;
+}
+
+// A labelled group within a section
+.ds-group {
+  margin-top: var(--space-xl);
+}
+
+.ds-group__title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $color-brand-dark-green;
+}
+
+.ds-group__note {
+  max-width: 64ch;
+  margin-top: var(--space-3xs);
+  font-size: $font-size-sm;
+  color: $color-ui-text;
+}
+
+// --- Interactive card demo (toggle the optional parts live) -------------------
+// The controls add/remove the card's REAL child elements (see the inline script)
+// — the .card component CSS is never touched, so it renders exactly as it would
+// when authored with those parts.
+
+.ds-card-demo {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+  margin-top: var(--space-l);
+
+  @include respond-to('md') {
+    grid-template-columns: minmax(0, 22rem) minmax(0, 16rem);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+}
+
+.ds-card-demo__stage {
+  max-width: 22rem; // a realistic card width when the grid is single-column
+}
+
+.ds-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+}
+
+.ds-controls__group {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.ds-controls__legend {
+  padding: 0;
+  margin-bottom: var(--space-2xs);
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $color-ui-text;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+// Checkbox rows (image / icon)
+.ds-control {
+  display: flex;
+  gap: var(--space-2xs);
+  align-items: center;
+  padding-block: var(--space-3xs);
+  font-size: $font-size-sm;
+  color: $color-ui-heading;
+  cursor: pointer;
+
+  input {
+    width: 1.1em;
+    height: 1.1em;
+    accent-color: $color-brand-dark-green;
+  }
+}
+
+// Segmented control (link count) — the radios are visually hidden but focusable;
+// each label styles from its own :has(:checked)/:has(:focus-visible) state.
+.ds-segments {
+  display: inline-flex;
+}
+
+.ds-segment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5em;
+  padding: var(--space-2xs) var(--space-s);
+  font-size: $font-size-sm;
+  color: $color-brand-dark-green;
+  cursor: pointer;
+  border: 1px solid $color-ui-border;
+  border-right: 0;
+  @include transition(background-color);
+
+  &:first-child {
+    border-radius: $radius-sm 0 0 $radius-sm;
+  }
+
+  &:last-child {
+    border-right: 1px solid $color-ui-border;
+    border-radius: 0 $radius-sm $radius-sm 0;
+  }
+
+  &:hover {
+    background-color: $color-tint-taupe;
+  }
+
+  &:has(input:checked) {
+    color: $color-white;
+    background-color: $color-brand-dark-green;
+    border-color: $color-brand-dark-green;
+  }
+
+  &:has(input:focus-visible) {
+    @include focus-ring;
+  }
+
+  input {
+    @include visually-hidden;
+  }
+}
+
+// --- Layout-pattern demos (a labelled, embedded card-section) ---
+
+.ds-demo + .ds-demo {
+  margin-top: var(--space-2xl);
+}
+
+.ds-demo__label {
+  font-family: $font-family-mono;
+  font-size: $font-size-sm;
+  color: $color-brand-dark-green;
+}
+
+// The card-section carries its own page container; strip only its side padding
+// when embedded in a doc column so it fills the column (spacing, not restyle).
+.ds-demo .card-section {
+  padding-block: var(--space-m) 0;
+  padding-inline: 0;
+}
+
+// Full-bleed demo wrapper — escapes the content pane's inline padding so a
+// 100%-width section (e.g. the feature banner) spans edge to edge.
+.ds-bleed {
+  margin-top: var(--space-l);
+  margin-inline: calc(-1 * var(--space-l));
+}
+
+// --- Colour swatches ---
+
+.color-grid {
+  display: grid;
+  // Wide enough for the mono token to fit; min(100%, …) stops the fixed track
+  // from overflowing when the column itself is narrower than the min.
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: var(--space-m);
+  margin-top: var(--space-m);
+}
+
+.color-swatch {
+  overflow: hidden; // clip the chip's corners to the card radius
+  background-color: $color-white;
+  border: 1px solid $color-ui-border;
+  border-radius: $radius-md;
+}
+
+.color-swatch__chip {
+  display: block;
+  height: 6rem;
+  // Inset hairline so white / near-white chips still read against the card
+  box-shadow: inset 0 0 0 1px $color-ui-border;
+}
+
+.color-swatch__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding: var(--space-s);
+}
+
+.color-swatch__name {
+  font-weight: $font-weight-medium;
+  color: $color-ui-heading;
+}
+
+.color-swatch__token {
+  font-family: $font-family-mono;
+  font-size: $font-size-xs; // smaller step so long tokens fit on one line
+  color: $color-brand-dark-green;
+  overflow-wrap: anywhere; // safety: still never overflow the card
+}
+
+.color-swatch__value {
+  font-size: $font-size-sm;
+  color: $color-ui-text;
+}
+
+// Chip fills — generated from the colour TOKENS (no hex leaves _colors.scss).
+// Opaque tokens fill the chip directly.
+$ds-swatches-solid: (
+  'brand-green': $color-brand-green,
+  'brand-blue': $color-brand-blue,
+  'brand-dark-green': $color-brand-dark-green,
+  'brand-light-green': $color-brand-light-green,
+  'brand-pale-mint': $color-brand-pale-mint,
+  'brand-taupe': $color-brand-taupe,
+  'tint-dark-green': $color-tint-dark-green,
+  'tint-light-green': $color-tint-light-green,
+  'tint-pale-mint': $color-tint-pale-mint,
+  'tint-taupe': $color-tint-taupe,
+  'white': $color-white,
+  'black': $color-black,
+  'ui-text': $color-ui-text,
+  'ui-heading': $color-ui-heading,
+  'ui-link': $color-ui-link,
+  'ui-background': $color-ui-background,
+  'ui-surface': $color-ui-surface,
+  'ui-focus': $color-ui-focus,
+);
+
+@each $name, $value in $ds-swatches-solid {
+  .color-swatch__chip--#{$name} {
+    background-color: $value;
+  }
+}
+
+// Translucent tokens — the swatch colour is layered OVER a split light/dark
+// field (white | brand-blue) so its alpha is visible on both a pale and a dark
+// ground, the way it is actually used (hairlines on light, scrims over media).
+$ds-swatches-alpha: (
+  'ui-border': $color-ui-border,
+  'ui-border-strong': $color-ui-border-strong,
+  'ui-overlay': $color-ui-overlay,
+  'ui-scrim': $color-ui-scrim,
+  'ui-scrim-wash': $color-ui-scrim-wash,
+);
+
+@each $name, $value in $ds-swatches-alpha {
+  .color-swatch__chip--#{$name} {
+    background-image:
+      linear-gradient($value, $value),
+      linear-gradient(to right, $color-white 0 50%, $color-brand-blue 50% 100%);
+  }
+}

@@ -1,0 +1,281 @@
+// -----------------------------------------------------------------------------
+// Feature banner — full-bleed dark-green split promo
+//
+// Left: icon eyebrow, title, intro and a white link list. Right: rounded media
+// panel with one image per link; hovering/focusing a link crossfades to its
+// image (JS toggles .is-active) and swaps the location pin text. The active
+// image runs a slow Ken Burns drift. The location badge on the media's
+// bottom-right reuses the hero's angle shape system — the SAME artwork bézier
+// and 45° geometry (see .hero__panel in _hero.scss), horizontally flipped
+// (scaleX(-1)) and scaled down via its own --fb-cut/--fb-curve pair.
+//
+// The section background is full-bleed (100% of the page); the content aligns
+// to the standard container. In the design-system pane it escapes the pane
+// padding via the .ds-bleed wrapper.
+//
+// Drupal mapping: Paragraph: feature_banner
+//   Fields: field_banner_icon (media svg, optional), field_banner_title (text),
+//     field_banner_intro (text long), field_banner_items (repeatable paragraph:
+//     link + media image + location text — one item per link/image pair).
+//   Preprocess: first item renders .is-active; data-feature-* attributes come
+//     from the item delta. JS (crossfade + location swap) is inline in the
+//     static build — move to a once()-guarded behavior on port.
+//   Known risks: source PNGs are 1500×1500 and 3–5MB — re-encode (WebP/AVIF,
+//     <300KB) and add srcset/sizes before production (LESSONS.md). Behaviour
+//     is hover/focus-driven; on touch the links simply navigate — the first
+//     image stands alone, so nothing is lost.
+// -----------------------------------------------------------------------------
+
+.feature-banner {
+  color: $color-white;
+  background-color: $color-brand-dark-green;
+
+  &__inner {
+    max-width: $container-max-width;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-m);
+    // Tight frame so the media sits close to the section edges — the same snug
+    // image-to-edge spacing the card images have (no surround panel). The copy
+    // gets its own larger inset via __content below.
+    padding: var(--space-s);
+
+    @include respond-to('md') {
+      grid-template-columns: 1fr 1.15fr;
+      gap: var(--space-2xl);
+      align-items: stretch;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    align-items: flex-start;
+    // Extra inset so the copy sits further from the edges than the media does
+    padding: var(--space-m);
+
+    @include respond-to('md') {
+      padding: var(--space-l) 0 var(--space-l) var(--space-m);
+    }
+  }
+
+  // Same size as .card__icon. The source artwork is dark green — render it
+  // white on this dark panel (same filter trick as the overlay header logo).
+  &__icon {
+    width: 2.75rem;
+    height: 2.75rem;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: brightness(0) invert(100%);
+    }
+  }
+
+  &__title {
+    font-size: $font-size-2xl; // matches .card-section__heading
+    font-weight: $font-weight-demibold;
+    line-height: $line-height-tight;
+    letter-spacing: -0.01em;
+    color: $color-white;
+  }
+
+  &__intro {
+    max-width: 46ch;
+    font-size: $font-size-base; // matches .feature-banner__link
+  }
+
+  &__links {
+    align-self: stretch;
+    // Push the links to the bottom so they share the media panel's baseline
+    // (the design's big mid-panel breathing room); the gap is the floor.
+    margin-top: var(--space-l);
+
+    @include respond-to('md') {
+      margin-top: auto;
+    }
+  }
+
+  &__link {
+    @include flex-row(var(--space-s), center, space-between);
+    padding-block: var(--space-xs);
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    color: $color-white;
+    text-decoration: none;
+    border-bottom: 1px solid rgba($color-white, 0.35);
+    @include transition(color);
+
+    &:hover {
+      color: $color-brand-light-green;
+    }
+
+    &:focus-visible {
+      @include focus-ring($color-white);
+    }
+  }
+
+  &__link-arrow {
+    flex-shrink: 0;
+    width: $arrow-icon-width;
+    height: $arrow-icon-height;
+    @include transition(transform);
+  }
+
+  &__link:hover &__link-arrow {
+    transform: translateX(var(--space-3xs));
+  }
+
+  // --- Media panel ---
+
+  // No surround panel — the media sits close to the section edges (the __inner
+  // padding is deliberately tight), the same snug image-to-edge feel as the
+  // card images. The stage clips the image; the badge sits on its corner.
+  &__media {
+    display: flex; // the stage fills the column
+
+    @include respond-to('md') {
+      height: 100%; // match the content column height (grid align-items: stretch)
+      min-height: 26rem;
+    }
+  }
+
+  &__stage {
+    position: relative;
+    flex: 1;
+    overflow: hidden; // clips the images, the parallax drift and the badge wedge
+    aspect-ratio: 3 / 2;
+    border-radius: $radius-md;
+    background-color: $color-brand-blue; // paints before the first image loads
+
+    @include respond-to('md') {
+      aspect-ratio: auto; // height comes from the flex fill
+    }
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      // Crossfade (opacity) + hover zoom (transform). The Ken Burns `scale` and
+      // parallax `translate` are independent properties and compose over these.
+      transition: opacity 0.5s ease-in-out, transform 0.4s ease;
+
+      &.is-active {
+        opacity: 1;
+      }
+
+      // Ken Burns: gated behind no-preference so reduced-motion users get a
+      // static image (never the global 0.01ms kill snapping to the end frame).
+      // Paused-by-default + running-when-active means an outgoing image
+      // FREEZES at its current zoom while it fades. The 1.1 scale floor is the
+      // parallax overscan (see anim-kenburns); alternate keeps it breathing.
+      @media (prefers-reduced-motion: no-preference) {
+        animation: anim-kenburns 16s ease-in-out infinite alternate;
+        animation-play-state: paused;
+
+        &.is-active {
+          animation-play-state: running;
+        }
+      }
+    }
+  }
+
+  // Hover / focus a link → the active image zooms, the same feel as the card
+  // image hover (transform scale composes over the Ken Burns scale + parallax
+  // translate). Gated behind no-preference so reduced motion never snaps it.
+  @media (prefers-reduced-motion: no-preference) {
+    &:has(.feature-banner__link:hover) &__stage img.is-active,
+    &:has(.feature-banner__link:focus-visible) &__stage img.is-active {
+      transform: scale(1.06);
+    }
+  }
+
+  // --- Location badge — the hero angle shape, flipped and scaled ---
+
+  // Content box: pin + location text over the shape layer below
+  &__location {
+    // Scaled-down hero shape values: --fb-cut = where the diagonal crosses the
+    // top edge (from the shape's own right edge, pre-flip), --fb-curve = the
+    // artwork curve's vertical depth (hero uses 2.5–3rem; half scale here)
+    --fb-cut: 3.5rem;
+    --fb-curve: 1.25rem;
+
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    display: flex;
+    gap: var(--space-2xs);
+    align-items: center;
+    // Left padding clears the diagonal + curve zone (post-flip the flat top
+    // starts at cut + 1.4594 × curve from the left edge)
+    padding: var(--space-xs) var(--space-s) var(--space-xs)
+      calc(var(--fb-cut) + 1.4594 * var(--fb-curve) + var(--space-m));
+    margin: 0;
+    font-size: $font-size-sm;
+    color: $color-white;
+
+    // Direct child only — the artwork curve svg nested in the shape span
+    // must keep its own sizing (a bare `svg` here would outrank it)
+    > svg {
+      flex-shrink: 0;
+      width: 1em;
+      height: 1.25em;
+    }
+  }
+
+  // Shape layer: the hero panel's three-piece system verbatim (slab | artwork
+  // curve | 45° wedge — see _hero.scss for the geometry constants), mirrored
+  // with scaleX(-1) so the cut corner lands top-LEFT. Decorative and isolated,
+  // so the transform has no containing-block side effects. overflow clips the
+  // oversized wedge to the badge box; the media's own overflow rounds the
+  // bottom-right corner.
+  &__location-shape {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    color: $color-brand-dark-green;
+    transform: scaleX(-1);
+
+    &::before,
+    &::after {
+      position: absolute;
+      content: '';
+      background-color: currentcolor;
+    }
+
+    // Flat-top slab, ending where the artwork curve begins
+    &::before {
+      top: -2px;
+      right: calc(var(--fb-cut) + 1.4594 * var(--fb-curve) - 1px);
+      bottom: -2px;
+      left: -2px;
+    }
+
+    // 45° wedge anchored at the bézier's end point (curve, curve)
+    &::after {
+      top: var(--fb-curve);
+      left: calc(100% - var(--fb-cut) + var(--fb-curve));
+      width: 300%;
+      height: 300%;
+      transform: rotate(45deg);
+      transform-origin: 0 0;
+    }
+  }
+
+  &__location-curve {
+    position: absolute;
+    top: 0;
+    left: calc(100% - var(--fb-cut) - 1.4594 * var(--fb-curve));
+    width: calc(4.9189 * var(--fb-curve));
+    height: calc(3.4595 * var(--fb-curve));
+  }
+}

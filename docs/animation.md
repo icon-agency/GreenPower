@@ -23,7 +23,7 @@ This project currently has four animation systems. Use each for the right purpos
 
 **Where the code lives:** `scss/abstracts/_animations.scss` — keyframes `anim-fade-in-up`, `anim-fade-in-down`, `anim-fade-in`, `anim-fade-out`, each with a same-named mixin taking `($duration, $easing, $delay, $fill)`.
 
-**Current uses:** the mega menu (`scss/organisms/_main-nav.scss`) — panels enter with `anim-fade-in-down(0.25s, ease-out, 80ms, both)` and cross-fade out with `anim-fade-out(0.15s, ease-out)` on `.is-leaving`.
+**Current uses:** the mega menu (`scss/organisms/_main-nav.scss`) — panels enter with `anim-fade-in-down(0.25s, ease-out, 80ms, both)` and cross-fade out with `anim-fade-out(0.15s, ease-out)` on `.is-leaving`. The feature banner (`scss/organisms/_feature-banner.scss`) uses the `anim-kenburns` keyframes (slow `scale` drift, 16s infinite alternate) on its active media image — `animation-play-state` paused/running per `.is-active` so an outgoing image freezes mid-zoom while it crossfades, and the whole declaration sits behind `prefers-reduced-motion: no-preference` (a global 0.01ms kill would park `forwards` fills on their end frame).
 
 ```scss
 .my-panel.is-open {
@@ -64,7 +64,7 @@ One global kill switch in `scss/base/_reset.scss` collapses every CSS animation 
 | Template | Element | Speed factor | Notes |
 |---|---|---|---|
 | `home.html` | `.hero__media` (`data-parallax-bg`) | `0.2` | Full-screen background video; RISES at 20% of scroll speed (opposite the page). Bleed (`inset: -30% -2px` in `_hero.scss`) exceeds the max travel so edges never show; reduced motion / no-js collapse the bleed to `-2px`. |
-| `home.html` | `.card__media img` | `RANGE 0.04` | Decorative card photos drift a few px against the scroll. A baseline `scale()` (`_card.scss`) gives the travel room so no edge shows; `overflow: hidden` clips to the rounded frame. Separate inline observer script, rAF-throttled, reduced-motion aware. Images only — never the card text. |
+| `home.html` | `.card__media img` + `.feature-banner__stage img` | `RANGE 0.04` | Decorative photos drift a few px against the scroll. One shared rAF-throttled script (selector `.card__media, .feature-banner__stage`). A baseline `scale()` gives the travel room so no edge shows — the card's resting `scale: 1.1` (`_card.scss`) or the banner's `anim-kenburns` 1.1 floor; `overflow: hidden` on the frame/stage clips it. The banner stacks 3 images, so EVERY image in a frame is shifted (only the active shows). Writes the independent `translate` property, composing with the CSS `scale` + the banner's hover `transform`. Images only — never text. |
 
 ### How it works
 
@@ -108,7 +108,7 @@ The JS only applies a scroll delta. The layer's starting position and overscan c
 
 **What it does:** Fades an element in with a small upward slide as it scrolls into view. One-shot — it never replays when you scroll back.
 
-**Where the code lives:** CSS in `scss/utilities/_scroll-animations.scss`; a single `IntersectionObserver` in an inline `<script>` (currently `home.html` — share across templates when a second page needs it). This is THE shared system — never add another observer.
+**Where the code lives:** CSS in `scss/utilities/_scroll-animations.scss`; a single `IntersectionObserver` in an inline `<script>` duplicated in `home.html` and `design-system.html` (in Drupal this becomes ONE shared theme-library behavior). This is THE shared system — never add another observer.
 
 ### Authoring
 

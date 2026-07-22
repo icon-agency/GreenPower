@@ -49,6 +49,21 @@
   }
 }
 
+// Slow Ken Burns drift for feature imagery. Animates the independent `scale`
+// property so it composes with opacity crossfades, a `transform` hover-zoom and
+// a `translate` parallax. The 1.1 floor doubles as parallax overscan (5% each
+// side clears the 4% drift, like the card's baseline zoom); pair with
+// `animation-play-state` so an outgoing image freezes at its current zoom.
+@keyframes anim-kenburns {
+  from {
+    scale: 1.1;
+  }
+
+  to {
+    scale: 1.18;
+  }
+}
+
 @mixin anim-fade-in-up($duration: 0.22s, $easing: ease, $delay: 0ms, $fill: forwards) {
   animation: anim-fade-in-up $duration $easing $delay $fill;
 }
