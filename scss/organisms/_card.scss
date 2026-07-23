@@ -128,7 +128,7 @@
       // overwrite each other. Transitions cover the scroll-in entrance (scale +
       // opacity) and the hover zoom (transform).
       @media (prefers-reduced-motion: no-preference) {
-        scale: 1.1;
+        scale: 1.14; // resting overscan — room for the (shared) parallax drift
         transition:
           scale 0.45s ease-out,
           opacity 0.45s ease-out,
@@ -231,14 +231,14 @@
 @media (prefers-reduced-motion: no-preference) {
   // Entrance: primed larger + transparent (transition lives on the base img
   // rule so scale/opacity/transform share one declaration). The overzoom is
-  // 1.25× the 1.1 resting scale — half the original 1.5× effect.
+  // 1.25× the 1.14 resting overscan.
   .js-animations .card[data-animate] .card__media img {
-    scale: 1.375; // 1.25 × the 1.1 resting scale; held while the card is hidden
+    scale: 1.425; // 1.25 × the 1.14 resting overscan; held while hidden
     opacity: 0;
   }
 
   .js-animations .card[data-animate].is-visible .card__media img {
-    scale: 1.1; // settle to the resting zoom + fade in as the card appears
+    scale: 1.14; // settle to the resting overscan + fade in as the card appears
     opacity: 1;
   }
 

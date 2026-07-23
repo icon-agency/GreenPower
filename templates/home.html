@@ -1334,13 +1334,17 @@
   <script>
     (function () {
       var frames = Array.prototype.slice.call(
-        document.querySelectorAll('.card__media, .feature-banner__stage')
+        document.querySelectorAll(
+          '.card__media, .feature-banner__stage, .bento-grid__tile--media'
+        )
       );
       if (!frames.length) return;
 
       var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-      var RANGE = 0.04; // peak drift as a fraction of the frame height; the
-                        // ~5%-per-side room the CSS scale gives keeps it covered
+      var RANGE = 0.06; // peak drift as a fraction of the frame height; shared
+                        // by every parallax image. The CSS resting overscan
+                        // (~7% per side: card/bento scale 1.14, banner Ken
+                        // Burns 1.14 floor) keeps the drift covered.
       var ticking = false;
 
       function setShift(frame, value) {

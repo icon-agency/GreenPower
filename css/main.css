@@ -62,10 +62,10 @@
 }
 @keyframes anim-kenburns {
   from {
-    scale: 1.1;
+    scale: 1.14;
   }
   to {
-    scale: 1.18;
+    scale: 1.22;
   }
 }
 *,
@@ -1447,7 +1447,7 @@ a:focus-visible {
 }
 @media (prefers-reduced-motion: no-preference) {
   .card__media img {
-    scale: 1.1;
+    scale: 1.14;
     transition: scale 0.45s ease-out, opacity 0.45s ease-out, transform 0.4s ease;
     will-change: transform;
   }
@@ -1515,11 +1515,11 @@ a:focus-visible {
 
 @media (prefers-reduced-motion: no-preference) {
   .js-animations .card[data-animate] .card__media img {
-    scale: 1.375;
+    scale: 1.425;
     opacity: 0;
   }
   .js-animations .card[data-animate].is-visible .card__media img {
-    scale: 1.1;
+    scale: 1.14;
     opacity: 1;
   }
   .card:hover .card__media img {
@@ -1854,7 +1854,9 @@ a:focus-visible {
 }
 @media (prefers-reduced-motion: no-preference) {
   .bento-grid__tile--media img {
-    transition: transform 0.4s ease;
+    scale: 1.14;
+    transition: scale 0.45s ease-out, transform 0.4s ease;
+    will-change: transform;
   }
 }
 .bento-grid__tile--media::after {
@@ -1967,6 +1969,14 @@ a:focus-visible {
   color: #bce194;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .js-animations .bento-grid__tile--media[data-animate] img {
+    scale: 1.425;
+  }
+  .js-animations .bento-grid__tile--media[data-animate].is-visible img {
+    scale: 1.14;
+  }
+}
 .page-intro {
   max-width: 90rem;
   margin-inline: auto;

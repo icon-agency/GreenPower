@@ -143,11 +143,18 @@
       height: 100%;
       object-fit: cover;
 
-      // Subtle zoom on tile hover (the stretched link makes the whole tile
-      // the click target, so the photo responding to it is honest signalling,
-      // not a false affordance). Motion-gated.
+      // Resting zoom via `scale` (independent of `transform`) so it composes
+      // with the parallax `translate` the JS writes and the entrance `scale`
+      // — the same layering as .card__media img. The overscan gives the shared
+      // parallax drift room so no tile-background edge shows; hover adds a
+      // `transform` zoom on top. Motion-gated so reduced motion gets a plain,
+      // uncropped photo (the parallax script also clears the translate).
       @media (prefers-reduced-motion: no-preference) {
-        transition: transform 0.4s ease;
+        scale: 1.14;
+        transition:
+          scale 0.45s ease-out,
+          transform 0.4s ease;
+        will-change: transform;
       }
     }
 
@@ -302,5 +309,24 @@
     font-size: $font-size-base;
     line-height: $line-height-heading;
     color: $color-brand-light-green;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Media-tile entrance zoom — matches .card__media img: the photo starts scaled
+// up and eases back to its resting overscan as the tile scrolls in (rides the
+// tile's own [data-animate] visibility). Opacity + slide come from the shared
+// scroll-entrance system on the article; this adds only the `scale`, which
+// composes with the parallax `translate` and the hover `transform`. Motion-only
+// and only while the system is live (.js-animations); otherwise the photo rests
+// at its normal overscan.
+// -----------------------------------------------------------------------------
+@media (prefers-reduced-motion: no-preference) {
+  .js-animations .bento-grid__tile--media[data-animate] img {
+    scale: 1.425; // 1.25 × the 1.14 resting overscan; held while hidden
+  }
+
+  .js-animations .bento-grid__tile--media[data-animate].is-visible img {
+    scale: 1.14; // settle to the resting overscan as the tile appears
   }
 }

@@ -55,12 +55,14 @@
 // side clears the 4% drift, like the card's baseline zoom); pair with
 // `animation-play-state` so an outgoing image freezes at its current zoom.
 @keyframes anim-kenburns {
+  // Floor is also the feature-banner image's parallax overscan — keep it in
+  // step with the shared drift RANGE (~7% each side for RANGE 0.06).
   from {
-    scale: 1.1;
+    scale: 1.14;
   }
 
   to {
-    scale: 1.18;
+    scale: 1.22;
   }
 }
 
