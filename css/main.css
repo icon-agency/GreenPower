@@ -1832,6 +1832,7 @@ a:focus-visible {
 }
 .bento-grid__tile {
   position: relative;
+  width: 100%;
   border-radius: 16px;
 }
 .bento-grid__tile--media {

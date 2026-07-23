@@ -107,6 +107,14 @@
 
   &__tile {
     position: relative;
+    // Explicit cross-size for the md+ flex columns. Older iPadOS WebKit
+    // shrink-wraps a flex item that has an aspect-ratio but no definite
+    // width — it derives the width FROM the ratio instead of stretching, so
+    // the stat tiles rendered at a fixed width and broke the 3-col mosaic
+    // (the sm band was immune: display:contents makes tiles grid items,
+    // which stretch correctly). A definite width leaves aspect-ratio only
+    // the height to resolve; current WebKit/Chromium render identically.
+    width: 100%;
     border-radius: $radius-lg;
   }
 
