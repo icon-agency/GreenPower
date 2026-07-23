@@ -27,6 +27,8 @@
   top: 0;
   left: 0;
   z-index: $z-nav;
+  display: flex;
+  flex-direction: column; // lets the repo link sit at the bottom
   width: min(18rem, 82vw);
   height: 100dvh;
   padding: var(--space-m) var(--space-s);
@@ -66,6 +68,43 @@
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   color: $color-brand-dark-green;
+}
+
+// Repo link pinned to the bottom of the sidebar
+.ds-sidebar__repo {
+  display: flex;
+  gap: var(--space-2xs);
+  align-items: center;
+  margin-top: auto; // push to the bottom of the flex column
+  padding-top: var(--space-m);
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-brand-dark-green;
+  text-decoration: none;
+  border-top: 1px solid $color-ui-border;
+  @include transition(color);
+
+  &:hover {
+    color: $color-brand-blue;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.ds-sidebar__repo-mark {
+  flex-shrink: 0;
+  width: 1.15em;
+  height: 1.15em;
+}
+
+.ds-sidebar__repo-ext {
+  flex-shrink: 0;
+  width: 0.75em;
+  height: 0.75em;
+  margin-left: auto; // trailing external-link glyph
+  opacity: 0.6;
 }
 
 // Backdrop behind the mobile drawer (tap to close); never on desktop
@@ -153,7 +192,8 @@
   container-type: inline-size;
 
   --step--2: clamp(0.6944rem, 0.6785rem + 0.0679cqi, 0.7396rem);
-  --step--1: clamp(0.8333rem, 0.7882rem + 0.1926cqi, 0.9615rem);
+  // min matches the raised 15px floor in tokens/_typography.scss — keep in sync
+  --step--1: clamp(0.9375rem, 0.7882rem + 0.1926cqi, 0.9615rem);
   --step-0: clamp(1rem, 0.912rem + 0.3756cqi, 1.25rem);
   --step-1: clamp(1.2rem, 1.0504rem + 0.6385cqi, 1.625rem);
   --step-2: clamp(1.44rem, 1.2032rem + 1.0103cqi, 2.1125rem);
@@ -302,6 +342,15 @@
   gap: var(--space-l);
 }
 
+// Horizontal variant — the two groups sit side by side (the card-sections
+// controls, which stand alone above the demos rather than beside a single card)
+.ds-controls--inline {
+  flex-flow: row wrap;
+  gap: var(--space-l) var(--space-2xl);
+  align-items: flex-start;
+  margin-block: var(--space-l);
+}
+
 .ds-controls__group {
   padding: 0;
   margin: 0;
@@ -342,6 +391,11 @@
 }
 
 .ds-segment {
+  // Positioning context for the visually-hidden radio inside. Without it the
+  // absolutely-positioned input falls at its static document-flow position deep
+  // in the scrolling content pane, inflating the page height — and focusing it
+  // on click scrolls the whole window down to that stray input (blank screen).
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;

@@ -108,7 +108,7 @@ The JS only applies a scroll delta. The layer's starting position and overscan c
 
 **What it does:** Fades an element in with a small upward slide as it scrolls into view. One-shot — it never replays when you scroll back.
 
-**Where the code lives:** CSS in `scss/utilities/_scroll-animations.scss`; a single `IntersectionObserver` in an inline `<script>` duplicated in `home.html` and `design-system.html` (in Drupal this becomes ONE shared theme-library behavior). This is THE shared system — never add another observer.
+**Where the code lives:** CSS in `scss/utilities/_scroll-animations.scss`; a single `IntersectionObserver` in an inline `<script>` duplicated in `templates/home.html` and the root `index.html` (the design system) — in Drupal this becomes ONE shared theme-library behavior. This is THE shared system — never add another observer.
 
 ### Authoring
 

@@ -1,7 +1,9 @@
 // -----------------------------------------------------------------------------
 // Global typography defaults
-// Text wrapping lives here (headings balance, prose pretty) — never re-apply
-// per component. See docs/content-rhythm.md and LESSONS.md.
+// Text wrapping is set once here: `pretty` on `body` inherits to every text
+// node, headings included. The lone exception is the hero h1, which keeps
+// `balance` (set on .hero__title in _hero.scss). Don't re-apply wrapping per
+// component otherwise. See docs/content-rhythm.md and LESSONS.md.
 // -----------------------------------------------------------------------------
 
 // No max width: above the 1440px design ceiling the root font-size grows with
@@ -30,9 +32,9 @@ body {
   font-synthesis: none; // never fake bold/italic — the kit ships 400/700 only
   font-optical-sizing: auto; // no-op for static fonts, future-proofs variable fonts
 
-  // Site-wide default: text-wrap inherits, so every text node gets the
-  // orphan-avoiding rag (Safari ignores `pretty` gracefully). Headings
-  // override with `balance` below per LESSONS.md.
+  // Site-wide default: text-wrap inherits, so every text node — headings
+  // included — gets the orphan-avoiding rag (Safari ignores `pretty`
+  // gracefully). The hero h1 alone overrides to `balance` (_hero.scss).
   text-wrap: pretty;
 }
 
@@ -44,14 +46,8 @@ h5,
 h6 {
   font-weight: $font-weight-bold;
   line-height: $line-height-heading;
+  letter-spacing: -0.01em; // subtle tightening; em-based so it scales per size
   color: $color-ui-heading;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  text-wrap: balance;
 }
 
 h1 {

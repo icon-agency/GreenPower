@@ -166,15 +166,15 @@
   }
 
   &__title {
-    font-size: $font-size-lg;
+    font-size: $font-size-xl;
     font-weight: $font-weight-demibold;
     line-height: $line-height-heading;
     color: $color-brand-dark-green;
   }
 
-  // Same size as the links; dark green (≥5.8:1 on the taupe card — passes AA)
+  // Dark green (≥5.8:1 on the taupe card — passes AA); a step up from the links
   &__body {
-    font-size: $font-size-sm;
+    font-size: $font-size-base;
     color: $color-brand-dark-green;
   }
 
@@ -218,27 +218,22 @@
   }
 }
 
-// Compact four-up cards: one step less padding so it doesn't dominate the
-// narrow column. The image bleed follows via --card-padding.
-.card-section__grid--four > .card {
-  --card-padding: var(--space-s);
-}
-
 // -----------------------------------------------------------------------------
 // Image entrance zoom
 //
 // As a card scrolls in (the scroll-animation system adds .is-visible) its image
-// starts at 1.5× the resting size and transparent, then quickly fades + eases
+// starts at 1.25× the resting size and transparent, then quickly fades + eases
 // back, for a touch of life on first appearance. The zoom uses the `scale`
 // property so it composes with the parallax `translate` the JS writes — the two
 // never fight. Motion-only, and only while the scroll-animation system is live
 // (.js-animations); otherwise the image simply rests at its normal size.
 // -----------------------------------------------------------------------------
 @media (prefers-reduced-motion: no-preference) {
-  // Entrance: primed at 1.5× and transparent (transition lives on the base img
-  // rule so scale/opacity/transform share one declaration)
+  // Entrance: primed larger + transparent (transition lives on the base img
+  // rule so scale/opacity/transform share one declaration). The overzoom is
+  // 1.25× the 1.1 resting scale — half the original 1.5× effect.
   .js-animations .card[data-animate] .card__media img {
-    scale: 1.65; // 1.5 × the 1.1 resting scale; held while the card is hidden
+    scale: 1.375; // 1.25 × the 1.1 resting scale; held while the card is hidden
     opacity: 0;
   }
 

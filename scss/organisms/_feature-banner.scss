@@ -53,12 +53,7 @@
     flex-direction: column;
     gap: var(--space-m);
     align-items: flex-start;
-    // Extra inset so the copy sits further from the edges than the media does
-    padding: var(--space-m);
-
-    @include respond-to('md') {
-      padding: var(--space-l) 0 var(--space-l) var(--space-m);
-    }
+    padding: var(--space-xs);
   }
 
   // Same size as .card__icon. The source artwork is dark green — render it
@@ -80,8 +75,7 @@
     font-size: $font-size-2xl; // matches .card-section__heading
     font-weight: $font-weight-demibold;
     line-height: $line-height-tight;
-    letter-spacing: -0.01em;
-    color: $color-white;
+    color: $color-white; // letter-spacing comes from the base heading rule
   }
 
   &__intro {
@@ -91,13 +85,8 @@
 
   &__links {
     align-self: stretch;
-    // Push the links to the bottom so they share the media panel's baseline
-    // (the design's big mid-panel breathing room); the gap is the floor.
-    margin-top: var(--space-l);
-
-    @include respond-to('md') {
-      margin-top: auto;
-    }
+    // Sit directly below the intro on the column's own rhythm (the content
+    // gap), so the space above the first link matches the space above the intro.
   }
 
   &__link {
@@ -149,7 +138,7 @@
     flex: 1;
     overflow: hidden; // clips the images, the parallax drift and the badge wedge
     aspect-ratio: 3 / 2;
-    border-radius: $radius-md;
+    border-radius: $radius-lg;
     background-color: $color-brand-blue; // paints before the first image loads
 
     @include respond-to('md') {
@@ -187,6 +176,31 @@
     }
   }
 
+  // Image layer inside the stage (the badge is a sibling, so it never zooms).
+  // Fills the stage and anchors the absolutely-positioned images; its own
+  // `transform` is free — the images use scale (Ken Burns) / translate
+  // (parallax) / transform (hover) — so it carries the scroll-entrance zoom.
+  &__zoom {
+    position: absolute;
+    inset: 0;
+  }
+
+  // Entrance zoom: the image layer starts scaled up and settles as the media
+  // scrolls in (rides the media's [data-animate] visibility + timing). Matches
+  // the card image's (halved) 1.25× overzoom. Gated behind no-preference.
+  @media (prefers-reduced-motion: no-preference) {
+    .js-animations &__media[data-animate] &__zoom {
+      transform: scale(1.25);
+      transition: transform var(--animate-duration, 600ms)
+        var(--animate-easing, ease-out) var(--animate-delay, 0ms);
+      will-change: transform;
+    }
+
+    .js-animations &__media[data-animate].is-visible &__zoom {
+      transform: none;
+    }
+  }
+
   // Hover / focus a link → the active image zooms, the same feel as the card
   // image hover (transform scale composes over the Ken Burns scale + parallax
   // translate). Gated behind no-preference so reduced motion never snaps it.
@@ -203,9 +217,20 @@
   &__location {
     // Scaled-down hero shape values: --fb-cut = where the diagonal crosses the
     // top edge (from the shape's own right edge, pre-flip), --fb-curve = the
-    // artwork curve's vertical depth (hero uses 2.5–3rem; half scale here)
-    --fb-cut: 3.5rem;
-    --fb-curve: 1.25rem;
+    // artwork curve's vertical depth (hero uses 2.5–3rem; half scale here).
+    // Mobile starts with a smaller angle so the pin + location clear it on a
+    // single line in the narrow stage; the full-size angle returns from sm up.
+    // The curve bézier overhangs the badge's left edge by (3.4595·curve − cut);
+    // on mobile a long label makes the badge near-full-width, so keep curve ≤
+    // cut/3.4595 (≈0.578rem here) or that overhang is clipped by the stage edge
+    // as a stray green tab. 0.5rem stays inside with margin.
+    --fb-cut: 2rem;
+    --fb-curve: 0.5rem;
+
+    @include respond-to('sm') {
+      --fb-cut: 3.5rem;
+      --fb-curve: 1.25rem;
+    }
 
     position: absolute;
     right: 0;
@@ -214,10 +239,38 @@
     display: flex;
     gap: var(--space-2xs);
     align-items: center;
+    // Keep the location on one line — the badge width tracks the text (animated
+    // on swap below) instead of the text reflowing to two rows.
+    white-space: nowrap;
+
+    // Smoothly grow/shrink to the next location's width instead of snapping.
+    // The width is set explicitly by the feature-banner script on each swap so
+    // it has two values to interpolate between (auto widths can't transition).
+    @media (prefers-reduced-motion: no-preference) {
+      transition: width 0.35s ease;
+    }
+
+    // Solid backing for the badge's flat (right + bottom) region. The shape
+    // above is three overflow-clipped pieces (slab | curve | wedge); that clip
+    // trims the slab's protective overfill, so at some widths a subpixel seam
+    // of the image leaks along the badge's right/bottom edge. This backing
+    // lives on the badge box itself (no overflow clip) and bleeds past the
+    // stage edges — the stage's own overflow rounds it to the corner. It sits
+    // behind the shape and content (green on green), so it only seals the gap
+    // and never changes the look. Left edge = where the flat slab begins
+    // (post-flip), so it never intrudes on the diagonal cut.
+    &::before {
+      position: absolute;
+      z-index: -1;
+      content: '';
+      inset: 0 -3px -3px calc(var(--fb-cut) + 1.4594 * var(--fb-curve));
+      background-color: $color-brand-dark-green;
+    }
     // Left padding clears the diagonal + curve zone (post-flip the flat top
-    // starts at cut + 1.4594 × curve from the left edge)
+    // starts at cut + 1.4594 × curve from the left edge). A small gap after it
+    // keeps the pin close to the angle rather than adrift in the green slab.
     padding: var(--space-xs) var(--space-s) var(--space-xs)
-      calc(var(--fb-cut) + 1.4594 * var(--fb-curve) + var(--space-m));
+      calc(var(--fb-cut) + 1.4594 * var(--fb-curve) + var(--space-2xs));
     margin: 0;
     font-size: $font-size-sm;
     color: $color-white;

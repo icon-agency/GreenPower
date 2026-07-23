@@ -14,10 +14,10 @@
 - Maintain comfortable measure in text-heavy sections.
 
 ## Text wrapping
-- Use `text-wrap: balance` on headings (`h1`–`h4`) and short display text.
-- Use `text-wrap: pretty` on body paragraphs, card excerpts, and long-form prose.
-- Both are progressive enhancements, so no fallback is required.
-- Apply via base styles or a mixin, not per-component overrides.
+- `text-wrap: pretty` is the site-wide default — set once on `body` (`scss/base/_typography.scss`), it inherits to every text node, headings included.
+- The hero h1 (`.hero__title`) is the lone exception: kept on `text-wrap: balance` so its large display headline reads with evenly filled lines.
+- Both are progressive enhancements, so no fallback is required (Safari ignores `pretty` gracefully).
+- Set it in base styles, not per-component overrides — the hero exception is the only place a component re-applies it.
 
 ## Dense government content
 - Break long content into digestible sections.

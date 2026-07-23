@@ -232,6 +232,10 @@
 
   &__title {
     max-width: 16ch;
+    // The one heading kept on `balance` (the site default is `pretty`, set on
+    // body in _typography.scss): the display headline reads best with evenly
+    // filled lines, and GSAP SplitText splits on these balanced line breaks.
+    text-wrap: balance;
     font-size: $font-size-4xl;
     font-weight: $font-weight-demibold;
     line-height: 1.05; // display size carries $line-height-tight's air — tuck it in

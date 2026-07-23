@@ -18,7 +18,7 @@
       <div class="main-nav__backdrop" aria-hidden="true"></div>
       <div class="main-nav__inner">
 
-        <a class="main-nav__logo" href="/">
+        <a class="main-nav__logo" href="../index.html">
           <img src="../assets/GreenPower-logo.svg" alt="GreenPower Renewable Energy — home" width="250" height="68">
         </a>
 
@@ -524,9 +524,11 @@
         </div>
         <div class="feature-banner__media" data-animate style="--animate-delay: 320ms">
           <div class="feature-banner__stage">
-            <img class="is-active" src="../assets/images/wind.png" alt="" width="1500" height="1500" data-feature-key="electricity" data-feature-location="Malabar Wastewater Treatment Plant">
-            <img src="../assets/images/gas.png" alt="" width="1500" height="1500" loading="lazy" data-feature-key="gas" data-feature-location="Placeholder — gas facility location">
-            <img src="../assets/images/emerging.png" alt="" width="1500" height="1500" loading="lazy" data-feature-key="emerging" data-feature-location="Placeholder — emerging fuels facility">
+            <div class="feature-banner__zoom">
+              <img class="is-active" src="../assets/images/wind.png" alt="" width="1500" height="1500" data-feature-key="electricity" data-feature-location="Malabar Wastewater Treatment Plant">
+              <img src="../assets/images/gas.png" alt="" width="1500" height="1500" loading="lazy" data-feature-key="gas" data-feature-location="Placeholder — gas facility location">
+              <img src="../assets/images/emerging.png" alt="" width="1500" height="1500" loading="lazy" data-feature-key="emerging" data-feature-location="Placeholder — emerging fuels facility">
+            </div>
             <p class="feature-banner__location">
               <span class="feature-banner__location-shape" aria-hidden="true">
                 <svg class="feature-banner__location-curve" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L0 210.3Z" fill="currentColor"/></svg>
@@ -534,6 +536,65 @@
               <svg viewBox="0 0 12 15" aria-hidden="true" focusable="false"><path d="M6 1a5 5 0 0 0-5 5c0 3.75 5 8 5 8s5-4.25 5-8a5 5 0 0 0-5-5Zm0 6.8a1.8 1.8 0 1 1 0-3.6 1.8 1.8 0 0 1 0 3.6Z" fill="currentColor"/></svg>
               <span data-feature-location-text>Malabar Wastewater Treatment Plant</span>
             </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bento-grid">
+      <div class="bento-grid__inner">
+        <h2 class="bento-grid__heading" data-animate>Our vital impact</h2>
+        <div class="bento-grid__grid">
+          <div class="bento-grid__col" data-animate-stagger>
+            <article class="bento-grid__tile bento-grid__tile--media" data-animate>
+              <img src="../assets/images/wind.png" alt="" width="1500" height="1500" loading="lazy">
+              <div class="bento-grid__overlay">
+                <h3 class="bento-grid__title">Melbourne Airport</h3>
+                <a class="bento-grid__link" href="#">Read impact story<span class="visually-hidden"> — Melbourne Airport</span>
+                  <svg class="bento-grid__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+              </div>
+            </article>
+            <article class="bento-grid__tile bento-grid__tile--stat" data-animate>
+              <span class="bento-grid__icon"><img src="../assets/icons/greenpower.svg" alt="" width="52" height="52" loading="lazy"></span>
+              <div class="bento-grid__stat">
+                <p class="bento-grid__figure">Since 1997</p>
+                <p class="bento-grid__desc">GreenPower renewable energy accreditation</p>
+              </div>
+            </article>
+          </div>
+          <div class="bento-grid__col" data-animate-stagger>
+            <article class="bento-grid__tile bento-grid__tile--stat" data-animate>
+              <span class="bento-grid__icon"><img src="../assets/icons/tick-dollar-shield.svg" alt="" width="52" height="52" loading="lazy"></span>
+              <div class="bento-grid__stat">
+                <p class="bento-grid__figure">360,000+</p>
+                <p class="bento-grid__desc">Households and businesses that buy GreenPower</p>
+              </div>
+            </article>
+            <article class="bento-grid__tile bento-grid__tile--media" data-animate>
+              <img src="../assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy">
+              <div class="bento-grid__overlay">
+                <h3 class="bento-grid__title">Jemena Malabar Biomethane Project</h3>
+                <a class="bento-grid__link" href="#">Read impact story<span class="visually-hidden"> — Jemena Malabar Biomethane Project</span>
+                  <svg class="bento-grid__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+              </div>
+            </article>
+          </div>
+          <div class="bento-grid__col" data-animate-stagger>
+            <article class="bento-grid__tile bento-grid__tile--media" data-animate>
+              <img src="../assets/images/emerging.png" alt="" width="1500" height="1500" loading="lazy">
+              <div class="bento-grid__overlay">
+                <h3 class="bento-grid__title">LCLF and Biogenic CO2</h3>
+                <a class="bento-grid__link" href="#">Certification announcement
+                  <svg class="bento-grid__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+              </div>
+            </article>
+            <article class="bento-grid__tile bento-grid__tile--stat" data-animate>
+              <span class="bento-grid__icon"><img src="../assets/icons/tick-badge.svg" alt="" width="52" height="52" loading="lazy"></span>
+              <div class="bento-grid__stat">
+                <p class="bento-grid__figure">100% GreenPower</p>
+                <p class="bento-grid__desc">Renewable electricity available through retailers</p>
+              </div>
+            </article>
           </div>
         </div>
       </div>
@@ -1345,6 +1406,8 @@
         var links = [].slice.call(banner.querySelectorAll('[data-feature-image]'));
         var images = [].slice.call(banner.querySelectorAll('[data-feature-key]'));
         var locationText = banner.querySelector('[data-feature-location-text]');
+        var locationEl = banner.querySelector('.feature-banner__location');
+        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         if (!links.length || !images.length) return;
 
         var current = null;
@@ -1352,19 +1415,57 @@
           if (img.classList.contains('is-active')) current = img.getAttribute('data-feature-key');
         });
 
+        // Swap the location label and animate the badge from its current width
+        // to the new one. Auto widths can't transition, so measure both ends and
+        // hand CSS two explicit px values; reset to auto once it settles so the
+        // badge stays responsive. Reduced motion just swaps the text.
+        function setLocation(text) {
+          if (!locationText) return;
+          if (!locationEl || reduceMotion.matches) { locationText.textContent = text; return; }
+          var startW = locationEl.getBoundingClientRect().width;
+          locationEl.style.width = 'auto';
+          locationText.textContent = text;
+          var endW = locationEl.getBoundingClientRect().width;
+          locationEl.style.width = startW + 'px';
+          locationEl.getBoundingClientRect(); // force reflow so the next set animates
+          locationEl.style.width = endW + 'px';
+          var done = function (e) {
+            if (e.propertyName !== 'width') return;
+            locationEl.style.width = '';
+            locationEl.removeEventListener('transitionend', done);
+          };
+          locationEl.addEventListener('transitionend', done);
+        }
+
         function activate(key) {
           if (key === current) return;
-          var found = false;
+          var found = false, loc = '';
           images.forEach(function (img) {
             var match = img.getAttribute('data-feature-key') === key;
-            if (match) found = true;
+            if (match) { found = true; loc = img.getAttribute('data-feature-location') || ''; }
             img.classList.toggle('is-active', match);
-            if (match && locationText) {
-              // Silent swap, like the hero pin — the label is decorative
-              locationText.textContent = img.getAttribute('data-feature-location') || '';
-            }
           });
-          if (found) current = key;
+          if (found) { current = key; setLocation(loc); }
+        }
+
+        // Auto-cycle the images on the hero's cadence: each holds for HOLD_MS,
+        // then a FADE_MS crossfade (matches the .5s opacity transition in
+        // _feature-banner.scss). Hover/focus takes over and pauses; leaving the
+        // links (or blurring) resumes from wherever it stopped. Reduced motion
+        // opts out entirely — the first image just stands.
+        var keys = images.map(function (img) { return img.getAttribute('data-feature-key'); });
+        var HOLD_MS = 5250;
+        var FADE_MS = 500;
+        var autoTimer = null;
+
+        function stopAuto() { clearTimeout(autoTimer); autoTimer = null; }
+        function scheduleAuto() {
+          stopAuto();
+          if (reduceMotion.matches || keys.length < 2) return;
+          autoTimer = setTimeout(function () {
+            activate(keys[(keys.indexOf(current) + 1) % keys.length]);
+            scheduleAuto();
+          }, HOLD_MS + FADE_MS);
         }
 
         links.forEach(function (link) {
@@ -1372,6 +1473,17 @@
           link.addEventListener('mouseenter', function () { activate(key); });
           link.addEventListener('focus', function () { activate(key); });
         });
+
+        // Pause while the reader is on the links, resume when they leave.
+        var linksList = banner.querySelector('.feature-banner__links');
+        if (linksList) {
+          linksList.addEventListener('mouseenter', stopAuto);
+          linksList.addEventListener('mouseleave', scheduleAuto);
+        }
+        banner.addEventListener('focusin', stopAuto);
+        banner.addEventListener('focusout', scheduleAuto);
+
+        scheduleAuto();
       });
     })();
   </script>

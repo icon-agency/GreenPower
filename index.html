@@ -1,34 +1,956 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GreenPower Design System — Templates</title>
-  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+  <title>Design System — GreenPower Renewable Energy</title>
   <link rel="preconnect" href="https://use.typekit.net" crossorigin>
   <link rel="stylesheet" href="https://use.typekit.net/nxc8sxb.css">
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 
-  <main id="main-content">
-    <section class="page-intro">
-      <h1>GreenPower Design System</h1>
-      <p>Static front-end templates for the GreenPower Renewable Energy build. Each template is a standalone HTML page intended for later Drupal/GovCMS handoff.</p>
+  <div class="ds-app" id="ds-app">
 
-      <h2>Templates</h2>
-      <ul>
-        <li><a href="templates/home.html">Home</a> — homepage template</li>
-        <li><a href="templates/page.html">Page</a> — base page shell (header and navigation development)</li>
-      </ul>
+    <div class="ds-backdrop" data-nav-close aria-hidden="true"></div>
 
-      <h2>Reference</h2>
-      <ul>
-        <li><a href="templates/design-system.html">Design system</a> — living style guide (foundations, components, layout patterns)</li>
-      </ul>
+    <aside class="ds-sidebar" id="ds-sidebar">
+      <div class="ds-sidebar__head">
+        <p class="ds-sidebar__title">Design System</p>
+      </div>
+      <nav class="ds-nav" aria-label="Design system">
+        <div class="ds-nav__group">
+          <p class="ds-nav__group-title">Templates</p>
+          <ul class="ds-nav__list">
+            <li><a class="ds-nav__link" href="templates/home.html">Home</a></li>
+            <li><a class="ds-nav__link" href="templates/page.html">Page</a></li>
+          </ul>
+        </div>
+        <div class="ds-nav__group">
+          <p class="ds-nav__group-title">Foundations</p>
+          <ul class="ds-nav__list">
+            <li><a class="ds-nav__link" href="#colours">Colours</a></li>
+          </ul>
+        </div>
+        <div class="ds-nav__group">
+          <p class="ds-nav__group-title">Components</p>
+          <ul class="ds-nav__list">
+            <li><a class="ds-nav__link" href="#card">Card</a></li>
+            <li><a class="ds-nav__link" href="#feature-banner">Feature banner</a></li>
+            <li><a class="ds-nav__link" href="#bento-grid">Bento grid</a></li>
+          </ul>
+        </div>
+        <div class="ds-nav__group">
+          <p class="ds-nav__group-title">Layout patterns</p>
+          <ul class="ds-nav__list">
+            <li><a class="ds-nav__link" href="#card-sections">Card sections</a></li>
+          </ul>
+        </div>
+      </nav>
+      <a class="ds-sidebar__repo" href="https://github.com/icon-agency/GreenPower" target="_blank" rel="noopener">
+        <svg class="ds-sidebar__repo-mark" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub repository</span>
+        <svg class="ds-sidebar__repo-ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </aside>
 
-    </section>
-  </main>
+    <div class="ds-main">
+
+      <div class="ds-topbar">
+        <button class="ds-navtoggle" type="button" data-nav-toggle aria-controls="ds-sidebar" aria-expanded="true">
+          <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="2.5" y="3.5" width="15" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="3.5" x2="8" y2="16.5" stroke="currentColor" stroke-width="1.5"/></svg>
+          <span class="visually-hidden">Hide navigation</span>
+        </button>
+        <p class="ds-topbar__title">GreenPower Design System</p>
+      </div>
+
+      <main class="ds-content" id="main-content">
+
+      <header class="ds__header">
+        <h1>GreenPower Design System</h1>
+        <p>A living reference for the design tokens and components behind the GreenPower build. This page is an internal guide, not a Drupal template. Foundations come first, then components and layout patterns.</p>
+      </header>
+
+      <section class="ds-section" id="colours" aria-labelledby="colours-title">
+        <h2 class="ds-section__title" id="colours-title">Colours</h2>
+        <p class="ds-section__intro">Every colour in the system is a token in <code class="ds-code">scss/tokens/_colors.scss</code> — the only file allowed to hold raw values. Components reference the semantic UI aliases, never the brand values directly.</p>
+
+        <div class="ds-group">
+          <h3 class="ds-group__title">Primary</h3>
+          <ul class="color-grid">
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--brand-green"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Primary Green</span>
+                <span class="color-swatch__token">$color-brand-green</span>
+                <span class="color-swatch__value">#009F4D · Pantone 7482</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--brand-blue"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Primary Blue</span>
+                <span class="color-swatch__token">$color-brand-blue</span>
+                <span class="color-swatch__value">#00263E · Pantone 2965</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="ds-group">
+          <h3 class="ds-group__title">Secondary</h3>
+          <ul class="color-grid">
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--brand-dark-green"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Dark Green</span>
+                <span class="color-swatch__token">$color-brand-dark-green</span>
+                <span class="color-swatch__value">#006341 · Pantone 3425</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--brand-light-green"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Light Green</span>
+                <span class="color-swatch__token">$color-brand-light-green</span>
+                <span class="color-swatch__value">#BCE194 · Pantone 7486</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--brand-pale-mint"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Pale Mint</span>
+                <span class="color-swatch__token">$color-brand-pale-mint</span>
+                <span class="color-swatch__value">#D5E7D2 · Pantone 9561</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--brand-taupe"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Taupe</span>
+                <span class="color-swatch__token">$color-brand-taupe</span>
+                <span class="color-swatch__value">#EBE5D3 · Pantone 9143</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="ds-group">
+          <h3 class="ds-group__title">Tints</h3>
+          <p class="ds-group__note">Accessible background versions — pale enough to carry Primary Green text at AA.</p>
+          <ul class="color-grid">
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--tint-dark-green"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Dark Green 8%</span>
+                <span class="color-swatch__token">$color-tint-dark-green</span>
+                <span class="color-swatch__value">#EBF3F0</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--tint-light-green"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Light Green 35%</span>
+                <span class="color-swatch__token">$color-tint-light-green</span>
+                <span class="color-swatch__value">#E8F4DA</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--tint-pale-mint"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Pale Mint 60%</span>
+                <span class="color-swatch__token">$color-tint-pale-mint</span>
+                <span class="color-swatch__value">#E7F3E5</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--tint-taupe"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Taupe 60%</span>
+                <span class="color-swatch__token">$color-tint-taupe</span>
+                <span class="color-swatch__value">#F3EFE5</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="ds-group">
+          <h3 class="ds-group__title">Neutrals</h3>
+          <ul class="color-grid">
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--white"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">White</span>
+                <span class="color-swatch__token">$color-white</span>
+                <span class="color-swatch__value">#FFFFFF</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--black"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Black</span>
+                <span class="color-swatch__token">$color-black</span>
+                <span class="color-swatch__value">#000000 · translucent media scrims only</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="ds-group">
+          <h3 class="ds-group__title">UI semantic</h3>
+          <p class="ds-group__note">Aliases that components reference. The translucent chips are shown over a split white / Primary&nbsp;Blue field so their alpha reads on both a pale and a dark ground.</p>
+          <ul class="color-grid">
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--ui-text"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Text</span>
+                <span class="color-swatch__token">$color-ui-text</span>
+                <span class="color-swatch__value">→ brand-blue</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--ui-heading"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Heading</span>
+                <span class="color-swatch__token">$color-ui-heading</span>
+                <span class="color-swatch__value">→ brand-blue</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--ui-link"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Link</span>
+                <span class="color-swatch__token">$color-ui-link</span>
+                <span class="color-swatch__value">→ brand-dark-green</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--ui-background"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Background</span>
+                <span class="color-swatch__token">$color-ui-background</span>
+                <span class="color-swatch__value">→ white</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--ui-surface"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Surface</span>
+                <span class="color-swatch__token">$color-ui-surface</span>
+                <span class="color-swatch__value">→ tint-taupe</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--ui-focus"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Focus</span>
+                <span class="color-swatch__token">$color-ui-focus</span>
+                <span class="color-swatch__value">→ brand-green · 3.5:1 on white</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--ui-border"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Border</span>
+                <span class="color-swatch__token">$color-ui-border</span>
+                <span class="color-swatch__value">brand-blue @ 15%</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--ui-border-strong"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Border strong</span>
+                <span class="color-swatch__token">$color-ui-border-strong</span>
+                <span class="color-swatch__value">brand-blue @ 50% · form control boundary</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--ui-overlay"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Overlay</span>
+                <span class="color-swatch__token">$color-ui-overlay</span>
+                <span class="color-swatch__value">brand-blue @ 50% · control chips on media</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--ui-scrim"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Scrim</span>
+                <span class="color-swatch__token">$color-ui-scrim</span>
+                <span class="color-swatch__value">black @ 35% · video scrims</span>
+              </span>
+            </li>
+            <li class="color-swatch">
+              <span class="color-swatch__chip color-swatch__chip--ui-scrim-wash"></span>
+              <span class="color-swatch__body">
+                <span class="color-swatch__name">Scrim wash</span>
+                <span class="color-swatch__token">$color-ui-scrim-wash</span>
+                <span class="color-swatch__value">black @ 10% · flat wash over video</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="ds-section" id="card" aria-labelledby="card-title">
+        <h2 class="ds-section__title" id="card-title">Card</h2>
+        <p class="ds-section__intro">One component composes any of: image, icon, title, body and links — every part optional, and direct children are gap-spaced so leaving one out never leaves a hole. Toggle the parts to watch the same component reconfigure live: the controls add and remove the card’s real child elements, so the <code class="ds-code">.card</code> CSS is never touched. In Drupal each part maps 1:1 to a field on the <code class="ds-code">card</code> paragraph.</p>
+
+        <div class="ds-card-demo" data-card-demo>
+          <div class="ds-card-demo__stage">
+            <article class="card">
+              <div class="card__media">
+                <img src="assets/images/family-eating.png" alt="" width="900" height="600" loading="lazy">
+              </div>
+              <div class="card__content">
+                <span class="card__icon"><img src="assets/icons/home.svg" alt="" width="52" height="52"></span>
+                <h3 class="card__title">Heading 3</h3>
+                <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                <ul class="card__links">
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                </ul>
+              </div>
+            </article>
+          </div>
+          <form class="ds-controls" aria-label="Card configuration">
+            <fieldset class="ds-controls__group">
+              <legend class="ds-controls__legend">Parts</legend>
+              <label class="ds-control"><input type="checkbox" data-toggle="image" checked><span>Image</span></label>
+              <label class="ds-control"><input type="checkbox" data-toggle="icon" checked><span>Icon</span></label>
+            </fieldset>
+            <fieldset class="ds-controls__group">
+              <legend class="ds-controls__legend">Links</legend>
+              <div class="ds-segments" role="radiogroup" aria-label="Number of links">
+                <label class="ds-segment"><input type="radio" name="ds-card-links" value="0"><span>0</span></label>
+                <label class="ds-segment"><input type="radio" name="ds-card-links" value="1"><span>1</span></label>
+                <label class="ds-segment"><input type="radio" name="ds-card-links" value="2"><span>2</span></label>
+                <label class="ds-segment"><input type="radio" name="ds-card-links" value="3"><span>3</span></label>
+                <label class="ds-segment"><input type="radio" name="ds-card-links" value="4" checked><span>4</span></label>
+                <label class="ds-segment"><input type="radio" name="ds-card-links" value="5"><span>5</span></label>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </section>
+
+      <section class="ds-section" id="feature-banner" aria-labelledby="fb-title">
+        <h2 class="ds-section__title" id="fb-title">Feature banner</h2>
+        <p class="ds-section__intro">A full-bleed split promo on Dark Green: icon eyebrow, title, intro and a white link list beside a media panel that sits tight to the section edges (the same snug image-to-edge spacing as the card images). Hovering or focusing a link crossfades to that link's image and zooms it (Ken Burns drift underneath), and swaps the location pin. The image also drifts on scroll (parallax, on the live page). The badge is the hero's angle shape, flipped and scaled. Content enters with the shared <code class="ds-code">data-animate</code> stagger.</p>
+
+        <div class="ds-bleed">
+          <section class="feature-banner" data-feature-banner data-animate-stagger>
+            <div class="feature-banner__inner">
+              <div class="feature-banner__content" data-animate-stagger>
+                <span class="feature-banner__icon" data-animate><img src="assets/icons/greenpower.svg" alt="" width="52" height="52"></span>
+                <h2 class="feature-banner__title" data-animate>Products and solutions</h2>
+                <p class="feature-banner__intro" data-animate>Explore GreenPower renewable electricity, renewable gas and emerging renewable fuels and products. Learn how each solution works and choose the option that best suits your home, business or organisation.</p>
+                <ul class="feature-banner__links" data-animate>
+                  <li><a class="feature-banner__link" href="#" data-feature-image="electricity">GreenPower renewable electricity
+                    <svg class="feature-banner__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="feature-banner__link" href="#" data-feature-image="gas">GreenPower renewable gas
+                    <svg class="feature-banner__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="feature-banner__link" href="#" data-feature-image="emerging">Emerging renewable fuels and products
+                    <svg class="feature-banner__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                </ul>
+              </div>
+              <div class="feature-banner__media" data-animate style="--animate-delay: 320ms">
+                <div class="feature-banner__stage">
+                  <div class="feature-banner__zoom">
+                    <img class="is-active" src="assets/images/wind.png" alt="" width="1500" height="1500" data-feature-key="electricity" data-feature-location="Malabar Wastewater Treatment Plant">
+                    <img src="assets/images/gas.png" alt="" width="1500" height="1500" loading="lazy" data-feature-key="gas" data-feature-location="Placeholder — gas facility location">
+                    <img src="assets/images/emerging.png" alt="" width="1500" height="1500" loading="lazy" data-feature-key="emerging" data-feature-location="Placeholder — emerging fuels facility">
+                  </div>
+                  <p class="feature-banner__location">
+                    <span class="feature-banner__location-shape" aria-hidden="true">
+                      <svg class="feature-banner__location-curve" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L0 210.3Z" fill="currentColor"/></svg>
+                    </span>
+                    <svg viewBox="0 0 12 15" aria-hidden="true" focusable="false"><path d="M6 1a5 5 0 0 0-5 5c0 3.75 5 8 5 8s5-4.25 5-8a5 5 0 0 0-5-5Zm0 6.8a1.8 1.8 0 1 1 0-3.6 1.8 1.8 0 0 1 0 3.6Z" fill="currentColor"/></svg>
+                    <span data-feature-location-text>Malabar Wastewater Treatment Plant</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="ds-section" id="bento-grid" aria-labelledby="bg-title">
+        <h2 class="ds-section__title" id="bg-title">Bento grid</h2>
+        <p class="ds-section__intro">A full-bleed impact mosaic on Taupe: three equal columns, each stacking one media tile (photo with a bottom title and link over a scrim) and one stat tile (icon, figure and support line on Dark Green). The middle column reverses its stack for the staggered bento rhythm — column heights stay aligned automatically because every column holds the same tile pair. Tiles enter with the shared <code class="ds-code">data-animate</code> stagger, per column; everything collapses to a single even stack on small screens.</p>
+
+        <div class="ds-bleed">
+          <section class="bento-grid">
+            <div class="bento-grid__inner">
+              <h2 class="bento-grid__heading" data-animate>Our vital impact</h2>
+              <div class="bento-grid__grid">
+                <div class="bento-grid__col" data-animate-stagger>
+                  <article class="bento-grid__tile bento-grid__tile--media" data-animate>
+                    <img src="assets/images/wind.png" alt="" width="1500" height="1500" loading="lazy">
+                    <div class="bento-grid__overlay">
+                      <h3 class="bento-grid__title">Melbourne Airport</h3>
+                      <a class="bento-grid__link" href="#">Read impact story<span class="visually-hidden"> — Melbourne Airport</span>
+                        <svg class="bento-grid__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                    </div>
+                  </article>
+                  <article class="bento-grid__tile bento-grid__tile--stat" data-animate>
+                    <span class="bento-grid__icon"><img src="assets/icons/greenpower.svg" alt="" width="52" height="52" loading="lazy"></span>
+                    <div class="bento-grid__stat">
+                      <p class="bento-grid__figure">Since 1997</p>
+                      <p class="bento-grid__desc">GreenPower renewable energy accreditation</p>
+                    </div>
+                  </article>
+                </div>
+                <div class="bento-grid__col" data-animate-stagger>
+                  <article class="bento-grid__tile bento-grid__tile--stat" data-animate>
+                    <span class="bento-grid__icon"><img src="assets/icons/tick-dollar-shield.svg" alt="" width="52" height="52" loading="lazy"></span>
+                    <div class="bento-grid__stat">
+                      <p class="bento-grid__figure">360,000+</p>
+                      <p class="bento-grid__desc">Households and businesses that buy GreenPower</p>
+                    </div>
+                  </article>
+                  <article class="bento-grid__tile bento-grid__tile--media" data-animate>
+                    <img src="assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy">
+                    <div class="bento-grid__overlay">
+                      <h3 class="bento-grid__title">Jemena Malabar Biomethane Project</h3>
+                      <a class="bento-grid__link" href="#">Read impact story<span class="visually-hidden"> — Jemena Malabar Biomethane Project</span>
+                        <svg class="bento-grid__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                    </div>
+                  </article>
+                </div>
+                <div class="bento-grid__col" data-animate-stagger>
+                  <article class="bento-grid__tile bento-grid__tile--media" data-animate>
+                    <img src="assets/images/emerging.png" alt="" width="1500" height="1500" loading="lazy">
+                    <div class="bento-grid__overlay">
+                      <h3 class="bento-grid__title">LCLF and Biogenic CO2</h3>
+                      <a class="bento-grid__link" href="#">Certification announcement
+                        <svg class="bento-grid__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                    </div>
+                  </article>
+                  <article class="bento-grid__tile bento-grid__tile--stat" data-animate>
+                    <span class="bento-grid__icon"><img src="assets/icons/tick-badge.svg" alt="" width="52" height="52" loading="lazy"></span>
+                    <div class="bento-grid__stat">
+                      <p class="bento-grid__figure">100% GreenPower</p>
+                      <p class="bento-grid__desc">Renewable electricity available through retailers</p>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="ds-section" id="card-sections" aria-labelledby="cardsec-title" data-card-sections>
+        <h2 class="ds-section__title" id="cardsec-title">Card sections</h2>
+        <p class="ds-section__intro">A card section wraps an optional heading and intro over a responsive grid of cards. Set the column count with a grid modifier; every option collapses to a single column on small screens.</p>
+
+        <form class="ds-controls ds-controls--inline" data-card-controls aria-label="Configure the cards below">
+          <fieldset class="ds-controls__group">
+            <legend class="ds-controls__legend">Parts</legend>
+            <label class="ds-control"><input type="checkbox" data-toggle="image"><span>Image</span></label>
+            <label class="ds-control"><input type="checkbox" data-toggle="icon" checked><span>Icon</span></label>
+          </fieldset>
+          <fieldset class="ds-controls__group">
+            <legend class="ds-controls__legend">Links</legend>
+            <div class="ds-segments" role="radiogroup" aria-label="Number of links">
+              <label class="ds-segment"><input type="radio" name="ds-section-links" value="0"><span>0</span></label>
+              <label class="ds-segment"><input type="radio" name="ds-section-links" value="1" checked><span>1</span></label>
+              <label class="ds-segment"><input type="radio" name="ds-section-links" value="2"><span>2</span></label>
+              <label class="ds-segment"><input type="radio" name="ds-section-links" value="3"><span>3</span></label>
+              <label class="ds-segment"><input type="radio" name="ds-section-links" value="4"><span>4</span></label>
+              <label class="ds-segment"><input type="radio" name="ds-section-links" value="5"><span>5</span></label>
+            </div>
+          </fieldset>
+        </form>
+
+        <div class="ds-demo">
+          <p class="ds-demo__label">3 columns — default · .card-section__grid</p>
+          <section class="card-section">
+            <h3 class="card-section__heading">Optional section heading</h3>
+            <p class="card-section__intro">Optional intro text describing the group of cards below.</p>
+            <div class="card-section__grid">
+              <article class="card">
+                <div class="card__media"><img src="assets/images/family-eating.png" alt="" width="900" height="600" loading="lazy"></div>
+                <div class="card__content">
+                  <span class="card__icon"><img src="assets/icons/home.svg" alt="" width="52" height="52"></span>
+                  <h3 class="card__title">Heading 3</h3>
+                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <ul class="card__links">
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  </ul>
+                </div>
+              </article>
+              <article class="card">
+                <div class="card__media"><img src="assets/images/business-man-office.png" alt="" width="900" height="600" loading="lazy"></div>
+                <div class="card__content">
+                  <span class="card__icon"><img src="assets/icons/business-greenpower.svg" alt="" width="52" height="52"></span>
+                  <h3 class="card__title">Heading 3</h3>
+                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <ul class="card__links">
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  </ul>
+                </div>
+              </article>
+              <article class="card">
+                <div class="card__media"><img src="assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy"></div>
+                <div class="card__content">
+                  <span class="card__icon"><img src="assets/icons/accreditation.svg" alt="" width="52" height="52"></span>
+                  <h3 class="card__title">Heading 3</h3>
+                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <ul class="card__links">
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  </ul>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+
+        <div class="ds-demo">
+          <p class="ds-demo__label">2 columns — .card-section__grid--two</p>
+          <section class="card-section">
+            <div class="card-section__grid card-section__grid--two">
+              <article class="card">
+                <div class="card__media"><img src="assets/images/family-eating.png" alt="" width="900" height="600" loading="lazy"></div>
+                <div class="card__content">
+                  <span class="card__icon"><img src="assets/icons/electricity.svg" alt="" width="52" height="52"></span>
+                  <h3 class="card__title">Heading 3</h3>
+                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <ul class="card__links">
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  </ul>
+                </div>
+              </article>
+              <article class="card">
+                <div class="card__media"><img src="assets/images/business-man-office.png" alt="" width="900" height="600" loading="lazy"></div>
+                <div class="card__content">
+                  <span class="card__icon"><img src="assets/icons/gas.svg" alt="" width="52" height="52"></span>
+                  <h3 class="card__title">Heading 3</h3>
+                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <ul class="card__links">
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  </ul>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+
+        <div class="ds-demo">
+          <p class="ds-demo__label">4 columns — .card-section__grid--four</p>
+          <section class="card-section">
+            <div class="card-section__grid card-section__grid--four">
+              <article class="card">
+                <div class="card__media"><img src="assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy"></div>
+                <div class="card__content">
+                  <span class="card__icon"><img src="assets/icons/greenpower.svg" alt="" width="52" height="52"></span>
+                  <h3 class="card__title">Heading 3</h3>
+                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <ul class="card__links">
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  </ul>
+                </div>
+              </article>
+              <article class="card">
+                <div class="card__media"><img src="assets/images/family-eating.png" alt="" width="900" height="600" loading="lazy"></div>
+                <div class="card__content">
+                  <span class="card__icon"><img src="assets/icons/home.svg" alt="" width="52" height="52"></span>
+                  <h3 class="card__title">Heading 3</h3>
+                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <ul class="card__links">
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  </ul>
+                </div>
+              </article>
+              <article class="card">
+                <div class="card__media"><img src="assets/images/business-man-office.png" alt="" width="900" height="600" loading="lazy"></div>
+                <div class="card__content">
+                  <span class="card__icon"><img src="assets/icons/business-greenpower.svg" alt="" width="52" height="52"></span>
+                  <h3 class="card__title">Heading 3</h3>
+                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <ul class="card__links">
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  </ul>
+                </div>
+              </article>
+              <article class="card">
+                <div class="card__media"><img src="assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy"></div>
+                <div class="card__content">
+                  <span class="card__icon"><img src="assets/icons/accreditation.svg" alt="" width="52" height="52"></span>
+                  <h3 class="card__title">Heading 3</h3>
+                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <ul class="card__links">
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  </ul>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <script>
+    // Interactive Card demo: the controls add/remove the card's REAL child
+    // elements (never display:none), so the .card renders exactly as it would
+    // when authored with those parts — the component CSS is untouched.
+    (function () {
+      var demo = document.querySelector('[data-card-demo]');
+      if (!demo) return;
+      var card = demo.querySelector('.card');
+      var content = card.querySelector('.card__content');
+      var media = card.querySelector('.card__media');
+      var icon = content.querySelector('.card__icon');
+      var linksUl = content.querySelector('.card__links');
+      var linkItems = [].slice.call(linksUl.children);
+
+      // Re-insert at the element's authored position (media first in the card;
+      // icon first in the content; links last in the content).
+      function toggle(node, parent, first, on) {
+        if (on) {
+          if (!node.parentNode) { first ? parent.prepend(node) : parent.appendChild(node); }
+        } else if (node.parentNode) {
+          node.remove();
+        }
+      }
+
+      var imageInput = demo.querySelector('[data-toggle="image"]');
+      var iconInput = demo.querySelector('[data-toggle="icon"]');
+      imageInput.addEventListener('change', function () { toggle(media, card, true, imageInput.checked); });
+      iconInput.addEventListener('change', function () { toggle(icon, content, true, iconInput.checked); });
+
+      demo.querySelectorAll('[name="ds-card-links"]').forEach(function (radio) {
+        radio.addEventListener('change', function () {
+          if (!radio.checked) return;
+          var n = parseInt(radio.value, 10);
+          linkItems.forEach(function (li, i) {
+            if (i < n) { linksUl.appendChild(li); } // in-order re-append keeps 0..n-1
+            else if (li.parentNode) { li.remove(); }
+          });
+          toggle(linksUl, content, false, n > 0); // drop the empty <ul> at 0
+        });
+      });
+    })();
+  </script>
+
+  <script>
+    // Card sections controls: one control set reconfigures EVERY card across the
+    // 3/2/4-column demos at once, by adding/removing each card's real child
+    // elements (same fidelity approach as the single-card demo). Defaults are
+    // read from the control markup: no image, icon on, one link.
+    (function () {
+      var section = document.querySelector('[data-card-sections]');
+      var controls = document.querySelector('[data-card-controls]');
+      if (!section || !controls) return;
+
+      var MAX_LINKS = 5;
+      var cards = [].slice.call(section.querySelectorAll('.card')).map(function (card) {
+        var content = card.querySelector('.card__content');
+        var ul = content.querySelector('.card__links');
+        var items = ul ? [].slice.call(ul.children) : [];
+        // Pad each card's link list up to the control's max by cloning the last
+        // item (the links are identical placeholders), so selecting 5 works
+        // without repeating a fifth <li> in every card's markup. Clones start
+        // detached — setLinks attaches only as many as the chosen count.
+        while (ul && items.length && items.length < MAX_LINKS) {
+          items.push(items[items.length - 1].cloneNode(true));
+        }
+        return {
+          card: card,
+          content: content,
+          media: card.querySelector('.card__media'),
+          icon: content.querySelector('.card__icon'),
+          ul: ul,
+          items: items
+        };
+      });
+
+      function toggle(node, parent, first, on) {
+        if (!node) return;
+        if (on) {
+          if (!node.parentNode) { first ? parent.prepend(node) : parent.appendChild(node); }
+        } else if (node.parentNode) {
+          node.remove();
+        }
+      }
+      function setImage(on) { cards.forEach(function (c) { toggle(c.media, c.card, true, on); }); }
+      function setIcon(on) { cards.forEach(function (c) { toggle(c.icon, c.content, true, on); }); }
+      function setLinks(n) {
+        cards.forEach(function (c) {
+          c.items.forEach(function (li, i) {
+            if (i < n) { c.ul.appendChild(li); } else if (li.parentNode) { li.remove(); }
+          });
+          toggle(c.ul, c.content, false, n > 0);
+        });
+      }
+
+      var img = controls.querySelector('[data-toggle="image"]');
+      var icon = controls.querySelector('[data-toggle="icon"]');
+      img.addEventListener('change', function () { setImage(img.checked); });
+      icon.addEventListener('change', function () { setIcon(icon.checked); });
+      controls.querySelectorAll('[name="ds-section-links"]').forEach(function (radio) {
+        radio.addEventListener('change', function () { if (radio.checked) setLinks(parseInt(radio.value, 10)); });
+      });
+
+      // Apply the default configuration (from the control markup) on load
+      setImage(img.checked);
+      setIcon(icon.checked);
+      var checked = controls.querySelector('[name="ds-section-links"]:checked');
+      setLinks(checked ? parseInt(checked.value, 10) : 1);
+    })();
+  </script>
+
+  <script>
+    // Sidebar show/hide. One state class (.is-nav-toggled) flips the sidebar
+    // from its per-breakpoint default: shown on desktop / hidden (drawer) on
+    // mobile. No class = correct default at either width, so it also works with
+    // JS disabled on desktop and never flashes on load.
+    (function () {
+      var app = document.getElementById('ds-app');
+      if (!app) return;
+      var desktop = window.matchMedia('(min-width: 1200px)');
+      var toggles = [].slice.call(document.querySelectorAll('[data-nav-toggle]'));
+      var closers = [].slice.call(document.querySelectorAll('[data-nav-close]'));
+
+      function syncLabels() {
+        // Visible = desktop default-shown XOR toggled; mobile default-hidden
+        var toggled = app.classList.contains('is-nav-toggled');
+        var visible = desktop.matches ? !toggled : toggled;
+        toggles.forEach(function (t) {
+          t.setAttribute('aria-expanded', visible ? 'true' : 'false');
+          var label = t.querySelector('.visually-hidden');
+          if (label) label.textContent = visible ? 'Hide navigation' : 'Show navigation';
+        });
+      }
+
+      toggles.forEach(function (t) {
+        t.addEventListener('click', function () {
+          app.classList.toggle('is-nav-toggled');
+          syncLabels();
+        });
+      });
+      closers.forEach(function (c) {
+        c.addEventListener('click', function () {
+          app.classList.remove('is-nav-toggled');
+          syncLabels();
+        });
+      });
+      // On mobile, choosing a section closes the drawer
+      document.querySelectorAll('.ds-nav__link').forEach(function (link) {
+        link.addEventListener('click', function () {
+          if (!desktop.matches) { app.classList.remove('is-nav-toggled'); syncLabels(); }
+        });
+      });
+      // Crossing the breakpoint resets to that width's default (no class)
+      if (desktop.addEventListener) {
+        desktop.addEventListener('change', function () {
+          app.classList.remove('is-nav-toggled');
+          syncLabels();
+        });
+      }
+      syncLabels();
+    })();
+  </script>
+
+  <script>
+    // Scrollspy: highlight the nav link of the section nearest the top of the
+    // content pane. The pane scrolls (not the window), so the observer roots on
+    // it. Progressive enhancement — plain anchor links work without it.
+    (function () {
+      var root = document.querySelector('.ds-content');
+      var links = [].slice.call(document.querySelectorAll('.ds-nav__link'));
+      if (!root || !links.length || !('IntersectionObserver' in window)) return;
+
+      var byId = {};
+      var sections = [];
+      links.forEach(function (link) {
+        var id = link.getAttribute('href').slice(1);
+        var section = document.getElementById(id);
+        if (!section) return;
+        byId[id] = link;
+        sections.push(section);
+      });
+
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          links.forEach(function (l) { l.classList.remove('is-active'); });
+          if (byId[entry.target.id]) byId[entry.target.id].classList.add('is-active');
+        });
+      }, { root: root, rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+      sections.forEach(function (s) { io.observe(s); });
+    })();
+  </script>
+
+  <!-- Feature banner: hovering/focusing a link crossfades the media to that
+       link's image and swaps the location pin text. Same script as home.html —
+       Drupal: one once()-guarded behavior shared across pages. -->
+  <script>
+    (function () {
+      var banners = [].slice.call(document.querySelectorAll('[data-feature-banner]'));
+      banners.forEach(function (banner) {
+        var links = [].slice.call(banner.querySelectorAll('[data-feature-image]'));
+        var images = [].slice.call(banner.querySelectorAll('[data-feature-key]'));
+        var locationText = banner.querySelector('[data-feature-location-text]');
+        var locationEl = banner.querySelector('.feature-banner__location');
+        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (!links.length || !images.length) return;
+
+        var current = null;
+        images.forEach(function (img) {
+          if (img.classList.contains('is-active')) current = img.getAttribute('data-feature-key');
+        });
+
+        // Swap the location label and animate the badge from its current width
+        // to the new one. Auto widths can't transition, so measure both ends and
+        // hand CSS two explicit px values; reset to auto once it settles so the
+        // badge stays responsive. Reduced motion just swaps the text.
+        function setLocation(text) {
+          if (!locationText) return;
+          if (!locationEl || reduceMotion.matches) { locationText.textContent = text; return; }
+          var startW = locationEl.getBoundingClientRect().width;
+          locationEl.style.width = 'auto';
+          locationText.textContent = text;
+          var endW = locationEl.getBoundingClientRect().width;
+          locationEl.style.width = startW + 'px';
+          locationEl.getBoundingClientRect(); // force reflow so the next set animates
+          locationEl.style.width = endW + 'px';
+          var done = function (e) {
+            if (e.propertyName !== 'width') return;
+            locationEl.style.width = '';
+            locationEl.removeEventListener('transitionend', done);
+          };
+          locationEl.addEventListener('transitionend', done);
+        }
+
+        function activate(key) {
+          if (key === current) return;
+          var found = false, loc = '';
+          images.forEach(function (img) {
+            var match = img.getAttribute('data-feature-key') === key;
+            if (match) { found = true; loc = img.getAttribute('data-feature-location') || ''; }
+            img.classList.toggle('is-active', match);
+          });
+          if (found) { current = key; setLocation(loc); }
+        }
+
+        // Auto-cycle the images on the hero's cadence: each holds for HOLD_MS,
+        // then a FADE_MS crossfade (matches the .5s opacity transition in
+        // _feature-banner.scss). Hover/focus takes over and pauses; leaving the
+        // links (or blurring) resumes from wherever it stopped. Reduced motion
+        // opts out entirely — the first image just stands.
+        var keys = images.map(function (img) { return img.getAttribute('data-feature-key'); });
+        var HOLD_MS = 5250;
+        var FADE_MS = 500;
+        var autoTimer = null;
+
+        function stopAuto() { clearTimeout(autoTimer); autoTimer = null; }
+        function scheduleAuto() {
+          stopAuto();
+          if (reduceMotion.matches || keys.length < 2) return;
+          autoTimer = setTimeout(function () {
+            activate(keys[(keys.indexOf(current) + 1) % keys.length]);
+            scheduleAuto();
+          }, HOLD_MS + FADE_MS);
+        }
+
+        links.forEach(function (link) {
+          var key = link.getAttribute('data-feature-image');
+          link.addEventListener('mouseenter', function () { activate(key); });
+          link.addEventListener('focus', function () { activate(key); });
+        });
+
+        // Pause while the reader is on the links, resume when they leave.
+        var linksList = banner.querySelector('.feature-banner__links');
+        if (linksList) {
+          linksList.addEventListener('mouseenter', stopAuto);
+          linksList.addEventListener('mouseleave', scheduleAuto);
+        }
+        banner.addEventListener('focusin', stopAuto);
+        banner.addEventListener('focusout', scheduleAuto);
+
+        scheduleAuto();
+      });
+    })();
+  </script>
+
+  <!-- Scroll-entrance animations: the SHARED [data-animate] observer
+       (docs/animation.md rule 1) — same script as home.html, now that a second
+       template uses the system. Progressive enhancement: .js-animations is
+       added only after the observer is live. -->
+  <script>
+    (function () {
+      var STAGGER_MS = 80;
+      var ROOT_MARGIN = '0px 0px -8% 0px';
+      var THRESHOLD = 0.01;
+
+      var els = [].slice.call(document.querySelectorAll('[data-animate]'));
+      if (!els.length) return;
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (reduce.matches || !('IntersectionObserver' in window)) return;
+
+      [].slice.call(document.querySelectorAll('[data-animate-stagger]')).forEach(function (group) {
+        var i = 0;
+        [].slice.call(group.children).forEach(function (child) {
+          if (!child.hasAttribute('data-animate')) return;
+          if (!child.style.getPropertyValue('--animate-delay')) {
+            child.style.setProperty('--animate-delay', (i * STAGGER_MS) + 'ms');
+          }
+          i += 1;
+        });
+      });
+
+      var io = new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        });
+      }, { rootMargin: ROOT_MARGIN, threshold: THRESHOLD });
+
+      els.forEach(function (el) { io.observe(el); });
+
+      document.documentElement.classList.add('js-animations');
+    })();
+  </script>
 
 </body>
 </html>

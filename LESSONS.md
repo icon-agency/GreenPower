@@ -3,7 +3,7 @@
 Running log of corrections. Each entry prevents a future mistake.
 Read before starting work. Append (don't edit) when something goes wrong.
 
-- Headings get `text-wrap: balance`; body copy gets `text-wrap: pretty`.
+- `text-wrap: pretty` is the site-wide default (set on `body`, inherits to every text node including headings). The hero h1 (`.hero__title`) is the lone exception, kept on `text-wrap: balance` for its display headline.
 - Wire text wrapping into base typography or a shared mixin. Do not re-apply it per component.
 - Raster images must ship with `srcset` + `sizes`. The page scales fluidly above the `wide` breakpoint (clamp on root font-size, container max grows to 1600px), so single-resolution images will look soft on large displays.
 - Hero (and any rounded, full-bleed panel with a GPU-composited pseudo-element): use `overflow: hidden`, not `overflow: clip`. `overflow: clip` skips the Block Formatting Context so the compositor is not guaranteed to clip the promoted layer flush with the edge during resize repaints — a sub-pixel strip of the gradient background bleeds through on the right. Also give the `::before` a small horizontal overbleed (`inset: … -2px`) as insurance against fractional-pixel hero widths.

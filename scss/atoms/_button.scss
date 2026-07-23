@@ -11,13 +11,17 @@
   gap: var(--space-2xs);
   align-items: center;
   justify-content: center;
-  padding: 1em 1.5em;
+  padding: 1em 0.8em; // tighter on mobile
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   line-height: 1;
   text-decoration: none;
   border-radius: $radius-pill;
   @include transition(background-color);
+
+  @include respond-to('sm') {
+    padding-inline: 1.5em;
+  }
 
   &:focus-visible {
     @include focus-ring;

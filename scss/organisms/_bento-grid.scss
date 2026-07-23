@@ -1,0 +1,298 @@
+// -----------------------------------------------------------------------------
+// Bento grid — full-bleed impact mosaic on Taupe
+//
+// A heading over three equal columns; each column stacks one MEDIA tile (photo
+// with a bottom title + link over a scrim) and one STAT tile (icon, figure and
+// support line on Dark Green). The middle column reverses its stack, giving
+// the staggered bento rhythm. Column heights stay equal automatically: every
+// column holds the same tile pair (one media + one stat aspect-ratio box and
+// one gap), so no grid-row gymnastics are needed — DOM order alone places the
+// mosaic. Tiles enter with the shared data-animate stagger, per column.
+//
+// The section background is full-bleed (100% of the page); the content aligns
+// to the standard container. In the design-system pane it escapes the pane
+// padding via the .ds-bleed wrapper.
+//
+// Drupal mapping: Paragraph: bento_grid
+//   Fields: field_heading (text), field_tiles (repeatable paragraph, exactly
+//     two bundles: bento_media_tile — field_image (media), field_title (text),
+//     field_link (link); bento_stat_tile — field_icon (media svg),
+//     field_figure (text), field_text (text) — figure + text render grouped
+//     inside ONE .bento-grid__stat wrapper (a single flex child): the tile's
+//     space-between layout pins the icon top and the pair bottom as a unit,
+//     so do not flatten the wrapper in Twig.
+//   Preprocess: chunk the tiles into three .bento-grid__col wrappers in
+//     delivered order (pairs: 1+2, 3+4, 5+6) — authors control the mosaic by
+//     ordering tiles; a media/stat pair per column keeps heights aligned.
+//   Known risks: placeholder PNGs are 1–5MB — production wants ~1200×1300
+//     (12:13, the md+ crop) re-encoded WebP/AVIF <200KB with srcset/sizes
+//     (LESSONS.md). Long figures/text grow a stat tile past its 16:9 box and
+//     the columns drift apart — keep stat copy to a figure + one short line.
+//     Media-tile text contrast is guaranteed by construction (the scrim+blur
+//     band is solid under the whole text block — see __tile--media::after),
+//     so editor-supplied photos cannot break AA.
+// -----------------------------------------------------------------------------
+
+.bento-grid {
+  background-color: $color-brand-taupe;
+
+  &__inner {
+    @include container;
+    padding-block: var(--space-3xl);
+  }
+
+  // Matches .card-section__heading — the shared section-heading treatment
+  &__heading {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-demibold;
+    color: $color-brand-dark-green;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xs);
+    margin-top: var(--space-l);
+
+    // Interim tablet band: two columns of three tiles. The column wrappers go
+    // `display: contents` (below), so the six tiles themselves become the grid
+    // items and auto-flow row — each row pairs one media tile with one stat
+    // tile, alternating sides. Default `stretch` keeps the two tiles in a row
+    // the same height. minmax(0) keeps the halves even against long words.
+    @include respond-to('sm') {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include respond-to('md') {
+      // minmax(0) so a long unbreakable word in one tile can't raise that
+      // column's min-content and silently unbalance the equal thirds
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: start;
+    }
+  }
+
+  // A column is just a same-gap stack (matching the grid gap), so on mobile
+  // the whole grid reads as one continuous list of tiles with even rhythm.
+  &__col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+
+    // Mobile only: flip the middle column so its media tile leads and its fact
+    // follows. DOM order keeps the stat on top for the desktop column, but in
+    // the single stack that would clump two facts (Since 1997 + 360,000+) back
+    // to back; reversing here keeps the stack alternating photo / fact. The sm
+    // grid ignores this (display: contents has no flex axis) and desktop
+    // restores the natural stat-over-media order below.
+    &:nth-child(2) {
+      flex-direction: column-reverse;
+
+      @include respond-to('md') {
+        flex-direction: column;
+      }
+    }
+
+    // Tablet: dissolve the wrapper so its two tiles join the grid directly
+    // (2 cols × 3 rows). DOM order 1–6 → col 1 = media/stat/media, col 2 =
+    // stat/media/stat, so every row is a photo beside a fact.
+    @include respond-to('sm') {
+      display: contents;
+    }
+
+    // Desktop: regroup into three stacked columns (one media + one stat each).
+    @include respond-to('md') {
+      display: flex;
+    }
+  }
+
+  &__tile {
+    position: relative;
+    border-radius: $radius-lg;
+  }
+
+  // --- Media tile: photo, bottom-anchored title + link over a scrim ---
+
+  // overflow lives HERE, not on the tile base: it clips the photo (and its
+  // hover zoom) to the radius, but on an aspect-ratio box it also zeroes the
+  // automatic minimum height — a stat tile with it would CLIP long copy
+  // instead of growing past its 16:9 box.
+  &__tile--media {
+    overflow: hidden;
+    aspect-ratio: 3 / 2; // matches the card image crop while tiles stack
+    // Paints before the image loads (and behind a failed one) so the white
+    // title/link never sit raw on the Taupe section — the feature-banner
+    // stage convention.
+    background-color: $color-brand-blue;
+
+    @include respond-to('md') {
+      aspect-ratio: 12 / 13; // the slightly-portrait bento crop
+    }
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+
+      // Subtle zoom on tile hover (the stretched link makes the whole tile
+      // the click target, so the photo responding to it is honest signalling,
+      // not a false affordance). Motion-gated.
+      @media (prefers-reduced-motion: no-preference) {
+        transition: transform 0.4s ease;
+      }
+    }
+
+    // Legibility band behind the text: the hero's gradient-blur pattern
+    // (.hero__blur) at tile scale — a solid scrim colour + backdrop blur
+    // where ONE mask ramp drives both the colour fade and the blur fade, so
+    // they stay perfectly registered. Black (not brand blue/green) — it
+    // grades better over photography. ONE layer only (no stacked gradient).
+    // Solid by 65% height, which keeps even a two-line title at the md crop
+    // on the fully-opaque band. 0.6 black over a pure-white photo composites
+    // to ≈#666 — white text ≈5.7:1 (AA); the 3.5px blur adds the extra
+    // legibility relief, so the band can stay this light. The light-green
+    // link HOVER is the one worst-case edge (≈4.2:1 over a pure-white pixel);
+    // the resting link is white and safe. -2px overbleed guards fractional
+    // edge slivers (LESSONS.md).
+    &::after {
+      position: absolute;
+      inset: -2px;
+      content: '';
+      pointer-events: none;
+      background-color: rgba($color-black, 0.6);
+      -webkit-backdrop-filter: blur(3.5px); // Safari ≤17 needs the prefix
+      backdrop-filter: blur(3.5px); // half the hero's 7px — a lighter frost
+      -webkit-mask-image: linear-gradient(to bottom, transparent 30%, black 65%);
+      mask-image: linear-gradient(to bottom, transparent 30%, black 65%);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      &:hover img {
+        transform: scale(1.06);
+      }
+    }
+  }
+
+  // Bottom-anchored text block, above the scrim
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    // Left/right match the stat tile's inset (--space-m) so the media text
+    // lines up with the green cards' copy; the bottom stays tighter (--space-s)
+    // to sit the block close to the photo edge.
+    padding: var(--space-s) var(--space-m);
+  }
+
+  &__title {
+    padding-bottom: var(--space-2xs);
+    overflow-wrap: break-word; // an unbreakable word wraps, not clips mid-glyph
+    hyphens: auto;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-demibold;
+    line-height: $line-height-tight;
+    color: $color-white;
+    border-bottom: 1px solid rgba($color-white, 0.35); // the divider the link sits under
+  }
+
+  // Same anatomy as .feature-banner__link (white row, arrow pinned right)
+  // minus the bottom border — the title's divider rules this row instead.
+  &__link {
+    @include flex-row(var(--space-s), center, space-between);
+    padding-block: var(--space-2xs);
+    overflow-wrap: anywhere; // the label is an anonymous flex item — `anywhere`
+    font-size: $font-size-sm; // also lowers its min-content so it never clips
+    font-weight: $font-weight-medium;
+    color: $color-white;
+    text-decoration: none;
+    @include transition(color);
+
+    // Stretch the click target over the whole tile (the overlay is inset: 0,
+    // so this pseudo covers it) — the tile-wide hover zoom and the pointer
+    // now agree that the whole photo is the link.
+    &::after {
+      position: absolute;
+      inset: 0;
+      content: '';
+    }
+
+    &:hover {
+      color: $color-brand-light-green;
+    }
+
+    &:focus-visible {
+      @include focus-ring($color-white);
+    }
+  }
+
+  &__link-arrow {
+    flex-shrink: 0;
+    width: $arrow-icon-width;
+    height: $arrow-icon-height;
+    @include transition(transform);
+  }
+
+  &__link:hover &__link-arrow {
+    transform: translateX(var(--space-3xs));
+  }
+
+  // --- Stat tile: icon top, figure + support line bottom, on Dark Green ---
+
+  // Children are exactly two flex items: __icon and the __stat group (figure
+  // + desc in one wrapper) — do not flatten; space-between depends on the
+  // grouping to pin the icon top and the copy bottom as a unit.
+  &__tile--stat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m); // floor between icon and text if the box ever fills
+    justify-content: space-between;
+    padding: var(--space-m);
+    background-color: $color-brand-dark-green;
+
+    @include respond-to('md') {
+      aspect-ratio: 16 / 9; // the short bento box; grows if the copy needs more
+    }
+  }
+
+  // Same size as .card__icon / .feature-banner__icon. Source SVGs are dark
+  // green — rendered white on this dark panel (the shared filter trick).
+  &__icon {
+    width: 2.75rem;
+    height: 2.75rem;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: brightness(0) invert(100%);
+    }
+  }
+
+  &__figure {
+    overflow-wrap: anywhere; // long tokens wrap; min-content stays low so the
+    font-size: $font-size-xl; // equal thirds never reflow (see __grid minmax)
+    font-weight: $font-weight-demibold;
+    line-height: $line-height-tight;
+    color: $color-white;
+  }
+
+  // Light Green on Dark Green — the brand pairing (≈5.0:1, passes AA).
+  // base (not lg) so two lines of support copy fit the 16:9 box at real
+  // column widths — longer copy still grows the box rather than clipping.
+  &__desc {
+    margin-top: var(--space-3xs);
+    overflow-wrap: anywhere;
+    // Short display copy → `balance` evens the two lines (the site default is
+    // `pretty`, which only rescues very short last-line orphans). Sanctioned
+    // for short display text in docs/content-rhythm.md.
+    text-wrap: balance;
+    font-size: $font-size-base;
+    line-height: $line-height-heading;
+    color: $color-brand-light-green;
+  }
+}
