@@ -3,7 +3,10 @@
 
 .page-body {
   @include container;
-  padding-block: var(--space-xl) var(--space-3xl);
+  // Top padding = the space below the page-header. Matched to the space ABOVE
+  // the header (the nav's bottom gap, --space-m) so the band sits with equal
+  // breathing room top and bottom.
+  padding-block: var(--space-m) var(--space-3xl);
 
   p {
     max-width: 65ch;
