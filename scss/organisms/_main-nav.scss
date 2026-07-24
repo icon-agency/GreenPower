@@ -88,6 +88,12 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
       // stops the pre-existing wrap on the very narrowest (≤360px) widths.
       width: min(13rem, 40vw, calc(100vw - 240px));
       @include transition(filter); // overlay header swaps it white <-> brand
+      // Own compositing layer: on iOS WebKit, closing the mobile menu flips
+      // .main-nav fixed -> static in the same frame this filter swaps back to
+      // the white hero look, and the de-promoted layer sometimes keeps its
+      // stale (green) rasterisation until the next repaint. A stable layer
+      // repaints the filter in place. (Same treatment on the CTA below.)
+      transform: translateZ(0);
     }
 
     &:focus-visible {
@@ -484,6 +490,13 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
     // On mobile the bar has no search icon, so the CTA carries the auto
     // margin and hugs the burger; on desktop the search toggle owns it
     margin-left: auto;
+
+    // Stable compositing layer for the CTA — its background swaps white <->
+    // dark green with the overlay hero look; see the logo img note (iOS WebKit
+    // stale-layer paint on menu close).
+    .btn {
+      transform: translateZ(0);
+    }
 
     @include respond-to('nav') {
       margin-left: 0;

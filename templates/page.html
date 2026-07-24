@@ -521,8 +521,12 @@
           }
         }
 
+        var closeTimer = null;
         toggle.addEventListener('click', function () {
           var willOpen = !nav.classList.contains('is-open');
+          // A single deterministic close timer: cleared on every toggle so
+          // rapid open/close can't leave stale timers cross-firing.
+          clearTimeout(closeTimer);
           if (willOpen) {
             // Reserve the bar's height while the nav is a fixed overlay so
             // the page content behind it doesn't jump up
@@ -536,11 +540,13 @@
             nav.classList.add('is-closing');
             nav.classList.remove('is-open');
             setMenuHeight(false);
-            setTimeout(function () {
+            closeTimer = setTimeout(function () {
               if (nav.classList.contains('is-open')) return; // reopened mid-close
               nav.classList.remove('is-closing');
               document.documentElement.classList.remove('nav-scroll-locked');
               header.style.minHeight = '';
+              // Re-sync scroll-derived header state on close (see home.html)
+              window.dispatchEvent(new Event('scroll'));
             }, 340);
           }
           toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
