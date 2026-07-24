@@ -1,12 +1,9 @@
-// Placeholder page composition — replaced as real page sections are built.
+// Page composition. The banner is the page-header organism; body sections
+// arrive as they're built.
 
-.page-intro {
+.page-body {
   @include container;
   padding-block: var(--space-xl) var(--space-3xl);
-
-  > * + * {
-    margin-top: var(--space-s);
-  }
 
   p {
     max-width: 65ch;

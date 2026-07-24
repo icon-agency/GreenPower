@@ -1,0 +1,169 @@
+// -----------------------------------------------------------------------------
+// Page header — interior-page banner: breadcrumb, H1, summary + angled image
+//
+// A Dark Green rounded band under the standard header. Content (breadcrumb,
+// title, intro) sits left; from md an image fills the band's right side, its
+// top-left corner cut by the brand angle — the SAME 45° + artwork-bézier
+// geometry as the hero panel and the corner badges (constants 1.4594 / 4.9189
+// / 3.4595, see _hero.scss), here painted green OVER the image's corner:
+//   · the wedge (::before) is a rotated square whose bottom edge IS the 45°
+//     diagonal from the image's left edge (0, cut) up to (cut, 0);
+//   · the curve svg carries the bézier easing that diagonal into the band's
+//     top edge — its 45° end sits exactly on the wedge's diagonal at
+//     (cut − 3.4595·curve, 3.4595·curve), so the two register seamlessly.
+// The image's left edge below the cut is the plain vertical boundary with the
+// green band (no extra piece needed — the band background meets it).
+//
+// Drupal mapping: page-level (node), not a paragraph:
+//   Breadcrumb: Drupal's breadcrumb block placed in the band region (the ol
+//     markup below mirrors its output; style, don't re-template).
+//   Fields: node title (H1), field_summary (text long), field_header_image
+//     (media image, optional — the band simply omits __media when empty).
+//   Known risks: placeholder PNG is ~1MB — production wants ~1200×1000
+//     re-encoded WebP/AVIF <200KB (LESSONS.md srcset note applies).
+// -----------------------------------------------------------------------------
+
+.page-header {
+  @include container;
+
+  &__inner {
+    // The brand angle at panel scale (hero-family constants). cut = how deep
+    // the diagonal cuts down the image's left edge; curve = the bézier depth.
+    // Keep curve ≤ cut / 3.4595 so the curve's 45° end stays on the diagonal
+    // inside the media box.
+    --angle-cut: 9rem;
+    --angle-curve: 2.5rem;
+
+    position: relative;
+    overflow: hidden; // clips the image + the oversized wedge to the radius
+    padding: var(--space-l) var(--space-m);
+    color: $color-white;
+    background-color: $color-brand-dark-green;
+    border-radius: $radius-lg;
+
+    @include respond-to('md') {
+      // Clear the media column (45%) plus breathing room
+      padding: var(--space-l) calc(45% + var(--space-l)) var(--space-l)
+        var(--space-l);
+      min-height: 24rem;
+    }
+  }
+
+  // --- Breadcrumb ---
+
+  &__crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs) var(--space-xs);
+    padding: 0;
+    margin: 0 0 var(--space-xl);
+    font-size: $font-size-sm;
+    list-style: none;
+  }
+
+  &__crumb {
+    display: flex;
+    gap: var(--space-xs);
+    align-items: center;
+
+    // Chevron separator (pure CSS, silent to screen readers)
+    & + &::before {
+      display: inline-block;
+      width: 0.45em;
+      height: 0.45em;
+      content: '';
+      border-top: 1.5px solid rgba($color-white, 0.7);
+      border-right: 1.5px solid rgba($color-white, 0.7);
+      transform: rotate(45deg);
+    }
+
+    a {
+      color: $color-white;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+      }
+
+      &:focus-visible {
+        @include focus-ring($color-white);
+      }
+    }
+
+    &[aria-current] {
+      color: rgba($color-white, 0.85);
+    }
+  }
+
+  // --- Copy ---
+
+  &__title {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-demibold;
+    line-height: $line-height-tight;
+    color: $color-white;
+  }
+
+  &__intro {
+    max-width: 52ch;
+    margin-top: var(--space-l);
+    font-size: $font-size-lg;
+  }
+
+  // --- Media: right column with the angle-cut corner (md and up) ---
+
+  &__media {
+    display: none;
+
+    @include respond-to('md') {
+      position: absolute;
+      inset: 0 0 0 auto;
+      display: block;
+      width: 45%;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  // Green corner piece over the image's top-left — decorative, never
+  // intercepts clicks on a (future) linked image.
+  &__angle {
+    position: absolute;
+    inset: 0;
+    color: $color-brand-dark-green;
+    pointer-events: none;
+  }
+
+  // The 45° wedge: a huge square whose BOTTOM edge runs from (0, cut) up to
+  // (cut, 0) after the rotation — everything above-left of that line paints
+  // green; the band's overflow clips the rest.
+  &__angle::before {
+    position: absolute;
+    top: calc(var(--angle-cut) - 300%);
+    left: 0;
+    width: 300%;
+    height: 300%;
+    content: '';
+    background-color: currentcolor;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+  }
+
+  // The artwork bézier easing the diagonal into the band's top edge. The path
+  // is the badge curve closed along its TOP edge (green above), mirrored so
+  // the diagonal descends leftward; its 45° end lands on the wedge's diagonal.
+  &__angle-curve {
+    position: absolute;
+    top: 0;
+    left: calc(var(--angle-cut) - 3.4595 * var(--angle-curve));
+    width: calc(4.9189 * var(--angle-curve));
+    height: calc(3.4595 * var(--angle-curve));
+    fill: currentcolor;
+    transform: scaleX(-1);
+  }
+}
