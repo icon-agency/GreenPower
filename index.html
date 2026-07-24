@@ -38,6 +38,7 @@
             <li><a class="ds-nav__link" href="#card">Card</a></li>
             <li><a class="ds-nav__link" href="#feature-banner">Feature banner</a></li>
             <li><a class="ds-nav__link" href="#bento-grid">Bento grid</a></li>
+            <li><a class="ds-nav__link" href="#caption-image">Caption image</a></li>
           </ul>
         </div>
         <div class="ds-nav__group">
@@ -441,6 +442,26 @@
               </div>
             </div>
           </section>
+        </div>
+      </section>
+
+      <section class="ds-section" id="caption-image" aria-labelledby="ci-title">
+        <h2 class="ds-section__title" id="ci-title">Caption image</h2>
+        <p class="ds-section__intro">A full-width photo with a caption pinned to the bottom-right in the shared hero-angle badge. The image sits in a rounded, clipped stage, carries the same scroll-in entrance zoom as the card and bento images, and drifts with the shared parallax. Built on the feature-banner media panel; the caption badge reuses the angle shape via the shared <code class="ds-code">angle-badge</code> mixin.</p>
+
+        <div class="ds-bleed">
+          <figure class="caption-image" data-animate>
+            <div class="caption-image__stage">
+              <img class="caption-image__img" src="assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
+              <figcaption class="caption-image__caption">
+                <span class="caption-image__caption-shape" aria-hidden="true">
+                  <svg class="caption-image__caption-curve" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L0 210.3Z" fill="currentColor"/></svg>
+                </span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                <span>Image caption GreenPower image description</span>
+              </figcaption>
+            </div>
+          </figure>
         </div>
       </section>
 
@@ -949,6 +970,68 @@
       els.forEach(function (el) { io.observe(el); });
 
       document.documentElement.classList.add('js-animations');
+    })();
+  </script>
+
+  <!-- Image parallax (design-system demos). Same drift as templates/home.html,
+       but the scrollable element here is the .ds-content pane, not the window —
+       so bind to its scroll. getBoundingClientRect stays viewport-relative, so
+       the math is identical. rAF-throttled; reduced motion clears it. -->
+  <script>
+    (function () {
+      var frames = Array.prototype.slice.call(
+        document.querySelectorAll(
+          '.card__media, .feature-banner__stage, .bento-grid__tile--media, .caption-image__stage'
+        )
+      );
+      if (!frames.length) return;
+
+      var scroller = document.querySelector('.ds-content') || window;
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var RANGE = 0.06; // shared with home.html; covered by the ~7%/side overscan
+      var ticking = false;
+
+      function setShift(frame, value) {
+        var imgs = frame.querySelectorAll('img');
+        for (var k = 0; k < imgs.length; k++) imgs[k].style.translate = value;
+      }
+
+      function update() {
+        ticking = false;
+        var vh = window.innerHeight;
+        for (var i = 0; i < frames.length; i++) {
+          var rect = frames[i].getBoundingClientRect();
+          if (rect.bottom < 0 || rect.top > vh) continue;
+          var centre = rect.top + rect.height / 2;
+          var progress = (centre - vh / 2) / ((vh + rect.height) / 2);
+          if (progress < -1) progress = -1;
+          else if (progress > 1) progress = 1;
+          var shift = (-progress * rect.height * RANGE).toFixed(1);
+          setShift(frames[i], '0 ' + shift + 'px');
+        }
+      }
+
+      function requestUpdate() {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      }
+
+      function apply() {
+        if (reduced.matches) {
+          scroller.removeEventListener('scroll', requestUpdate);
+          window.removeEventListener('resize', requestUpdate);
+          for (var i = 0; i < frames.length; i++) setShift(frames[i], '');
+        } else {
+          scroller.addEventListener('scroll', requestUpdate, { passive: true });
+          window.addEventListener('resize', requestUpdate);
+          update();
+        }
+      }
+
+      apply();
+      if (reduced.addEventListener) reduced.addEventListener('change', apply);
     })();
   </script>
 

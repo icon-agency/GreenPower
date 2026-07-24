@@ -12,6 +12,7 @@
 @import 'abstracts/breakpoints';
 @import 'abstracts/variables';
 @import 'abstracts/mixins';
+@import 'abstracts/angle-badge';
 @import 'abstracts/animations';
 
 // 3. Base (element defaults)
@@ -31,6 +32,7 @@
 @import 'organisms/card';
 @import 'organisms/feature-banner';
 @import 'organisms/bento-grid';
+@import 'organisms/caption-image';
 
 // 6. Pages
 @import 'pages/page';

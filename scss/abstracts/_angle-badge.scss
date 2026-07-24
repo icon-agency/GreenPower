@@ -1,0 +1,106 @@
+// -----------------------------------------------------------------------------
+// Angle badge — the hero panel's angle shape as a small corner badge
+//
+// A pill anchored to a media panel's bottom-right corner with the hero's angle
+// cut on its TOP-LEFT (the shape flipped via scaleX(-1)). Shared by the
+// feature-banner location pin and the caption-image caption. The shape is three
+// overflow-clipped pieces (flat slab | artwork bézier curve | 45° wedge) plus a
+// solid backing that seals the flat right/bottom edge against subpixel seams.
+//
+// The caller sets two custom properties (responsively) to size the angle:
+//   --badge-cut   — where the diagonal crosses the top edge (from the shape's
+//                   own right edge, pre-flip)
+//   --badge-curve — the artwork curve's vertical depth
+// Keep --badge-curve ≤ --badge-cut / 3.4595, or the curve overhangs the badge's
+// left edge and a stray tab is clipped by the media's rounded corner (see the
+// feature-banner LESSONS note). The constants 1.4594 / 4.9189 / 3.4595 are the
+// hero artwork bézier's proportions — see scss/organisms/_hero.scss.
+//
+// Usage (three elements: the badge box, a decorative shape span, the curve svg):
+//   &__caption       { @include angle-badge-box; … }
+//   &__caption-shape { @include angle-badge-shape; }
+//   &__caption-curve { @include angle-badge-curve; }
+// -----------------------------------------------------------------------------
+
+// The badge box: bottom-right anchor, a left padding that clears the angle, and
+// a solid ::before backing behind the flat slab so no subpixel media seam shows.
+// The caller adds its own colour, font-size, gap-children and icon sizing.
+@mixin angle-badge-box {
+  // The badge fill (slab / wedge / curve / backing). Defaults to Dark Green;
+  // a caller can set --badge-fill (e.g. white) and pair it with a matching text
+  // colour. Inherits to the shape span, so both pieces stay in step.
+  --badge-fill: #{$color-brand-dark-green};
+
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  gap: var(--space-2xs);
+  align-items: center;
+  margin: 0;
+  // Left padding clears the diagonal + curve zone (post-flip the flat top starts
+  // at cut + 1.4594 × curve from the left edge); a small gap keeps the icon close
+  // to the angle rather than adrift in the green slab.
+  padding: var(--space-xs) var(--space-s) var(--space-xs)
+    calc(var(--badge-cut) + 1.4594 * var(--badge-curve) + var(--space-2xs));
+
+  // Solid backing for the flat (right + bottom) region: the shape above is three
+  // overflow-clipped pieces, and that clip trims the slab's protective overfill,
+  // so at some widths a subpixel media seam leaks along the edge. This backing
+  // sits on the unclipped badge box and bleeds past the stage edges (the stage's
+  // own overflow rounds it to the corner). Behind the shape + content (green on
+  // green), so it only seals the gap. Left edge = where the flat slab begins.
+  &::before {
+    position: absolute;
+    z-index: -1;
+    content: '';
+    inset: 0 -3px -3px calc(var(--badge-cut) + 1.4594 * var(--badge-curve));
+    background-color: var(--badge-fill);
+  }
+}
+
+// The shape layer (a decorative span): the hero panel's slab + 45° wedge, flipped
+// so the cut lands top-LEFT; overflow clips the oversized wedge to the badge box.
+@mixin angle-badge-shape {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  color: var(--badge-fill); // slab/wedge (currentcolor) + the curve svg fill
+  transform: scaleX(-1);
+
+  &::before,
+  &::after {
+    position: absolute;
+    content: '';
+    background-color: currentcolor;
+  }
+
+  // Flat-top slab, ending where the artwork curve begins
+  &::before {
+    top: -2px;
+    right: calc(var(--badge-cut) + 1.4594 * var(--badge-curve) - 1px);
+    bottom: -2px;
+    left: -2px;
+  }
+
+  // 45° wedge anchored at the bézier's end point (curve, curve)
+  &::after {
+    top: var(--badge-curve);
+    left: calc(100% - var(--badge-cut) + var(--badge-curve));
+    width: 300%;
+    height: 300%;
+    transform: rotate(45deg);
+    transform-origin: 0 0;
+  }
+}
+
+// The artwork bézier curve svg that smooths the slab-to-wedge transition.
+@mixin angle-badge-curve {
+  position: absolute;
+  top: 0;
+  left: calc(100% - var(--badge-cut) - 1.4594 * var(--badge-curve));
+  width: calc(4.9189 * var(--badge-curve));
+  height: calc(3.4595 * var(--badge-curve));
+}

@@ -40,27 +40,33 @@
 
   &__grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-xs);
     margin-top: var(--space-xl);
 
-    // Default 3-up: 2 columns from md, 3 from lg
+    // Tracks are minmax(0, 1fr), never bare 1fr. Bare 1fr == minmax(auto, 1fr):
+    // the auto floor is each column's min-content, and on iPad WebKit an
+    // orientation flip fails to recompute the trailing horizontal-band card's
+    // min-content as it leaves the row layout — the stale floor inflated one
+    // track (707px in a 3-up) and overflowed the row. minmax(0, …) floors at 0
+    // so the tracks stay equal regardless of stale min-content (LESSONS.md).
+    // Default 3-up: 2 columns from md, 3 from lg.
     @include respond-to('md') {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     @include respond-to('lg') {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     // Two-column variant — caps at 2 columns
     &--two {
       @include respond-to('md') {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       @include respond-to('lg') {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
@@ -68,7 +74,7 @@
     // 4 from lg. Excluded from the horizontal-card band below.
     &--four {
       @include respond-to('lg') {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(4, minmax(0, 1fr));
       }
     }
   }
@@ -278,7 +284,7 @@
   // 2-up (overrides the 3-up default from lg — this band sits below it, but
   // pin it explicitly so intent doesn't depend on cascade order)
   .card-section__grid:not(.card-section__grid--two):not(.card-section__grid--four) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   // The trailing odd-one-out only: :last-child:nth-child(odd) matches an

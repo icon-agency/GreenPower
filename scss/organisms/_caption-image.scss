@@ -1,0 +1,117 @@
+// -----------------------------------------------------------------------------
+// Caption image — a full-width photo with a corner caption badge
+//
+// A <figure> whose image spans the content width with rounded corners, and a
+// <figcaption> pinned to the bottom-right as the shared hero-angle badge (a
+// camera icon + caption text). Built on the feature-banner media panel: the
+// same clipped, rounded stage, the same angle badge (via the angle-badge
+// mixins), the same entrance zoom + scroll parallax as the card/bento images.
+//
+// Drupal mapping: Paragraph: caption_image
+//   Fields: field_image (media image, required), field_caption (text, optional
+//     — omit the figcaption when empty). Preprocess: render <figure><figcaption>
+//     with the angle-badge markup (shape span + curve svg are decorative, added
+//     by the template, not fields). Same data-animate entrance + parallax hooks
+//     as the other media; move the parallax to a once()-guarded behavior on port.
+//   Known risks: the placeholder PNG is 1–5MB — production wants a wide crop
+//     (~2400×1200, 2:1) re-encoded WebP/AVIF <250KB with srcset/sizes (LESSONS).
+// -----------------------------------------------------------------------------
+
+.caption-image {
+  // Contained to the standard width, but with the feature-banner's tight frame
+  // (--space-xs all round) rather than the container gutter, so the image sits
+  // snug to the section edges — matching .feature-banner__inner.
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: var(--space-xs);
+
+  &__stage {
+    position: relative;
+    overflow: hidden; // clips the photo, its entrance/parallax drift, and the badge
+    aspect-ratio: 3 / 2; // taller crop while the image is narrow (mobile)
+    border-radius: $radius-lg;
+    background-color: $color-brand-blue; // paints before the image loads
+
+    @include respond-to('md') {
+      aspect-ratio: 2 / 1; // wide full-width band on larger screens
+    }
+  }
+
+  &__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    // Resting overscan via `scale` (independent of the parallax `translate` the
+    // JS writes and the entrance `scale`) — the same layering as the card/bento
+    // images. The overscan gives the shared parallax drift room so no stage
+    // background shows. Motion-gated; reduced motion gets a plain, static photo.
+    @media (prefers-reduced-motion: no-preference) {
+      scale: 1.14;
+      transition: scale 0.45s ease-out;
+      will-change: transform;
+    }
+  }
+
+  // --- Caption badge: the shared hero-angle shape, bottom-right ---
+
+  &__caption {
+    // Same responsive angle as the feature-banner location badge (curve kept
+    // ≤ cut / 3.4595 so it never overhangs the badge's left edge — see the
+    // angle-badge mixin note).
+    --badge-cut: 2rem;
+    --badge-curve: 0.5rem;
+
+    @include respond-to('sm') {
+      --badge-cut: 3.5rem;
+      --badge-curve: 1.25rem;
+    }
+
+    @include angle-badge-box;
+    --badge-fill: #{$color-white}; // white badge; icon + caption text dark green
+    // Cap the badge to the stage width so a long caption wraps to a second line
+    // (shrink-to-fit already clamps it, but be explicit) rather than overflowing
+    // the rounded stage. Unlike the feature-banner pin (nowrap, width-animated),
+    // captions are arbitrary length, so let them reflow.
+    max-width: 100%;
+    font-size: $font-size-sm;
+    color: $color-brand-dark-green;
+    overflow-wrap: anywhere;
+
+    // The camera icon (direct child only — the curve svg in the shape span
+    // keeps its own sizing)
+    > svg {
+      flex-shrink: 0;
+      width: 1.35em;
+      height: 1.35em;
+    }
+  }
+
+  &__caption-shape {
+    @include angle-badge-shape;
+  }
+
+  &__caption-curve {
+    @include angle-badge-curve;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Entrance zoom — matches the card/bento images: the photo starts scaled up and
+// eases to its resting overscan as the figure scrolls in (rides the figure's
+// own [data-animate] visibility). Opacity + slide come from the shared
+// scroll-entrance system on the figure; this adds only the `scale`, which
+// composes with the parallax `translate`. Motion-only, and only while the
+// system is live (.js-animations).
+// -----------------------------------------------------------------------------
+@media (prefers-reduced-motion: no-preference) {
+  .js-animations .caption-image[data-animate] .caption-image__img {
+    scale: 1.425; // 1.25 × the 1.14 resting overscan; held while hidden
+  }
+
+  .js-animations .caption-image[data-animate].is-visible .caption-image__img {
+    scale: 1.14; // settle to the resting overscan as the figure appears
+  }
+}

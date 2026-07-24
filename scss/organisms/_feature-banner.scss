@@ -39,7 +39,7 @@
     // Tight frame so the media sits close to the section edges — the same snug
     // image-to-edge spacing the card images have (no surround panel). The copy
     // gets its own larger inset via __content below.
-    padding: var(--space-s);
+    padding: var(--space-xs);
 
     @include respond-to('md') {
       grid-template-columns: 1fr 1.15fr;
@@ -224,21 +224,18 @@
     // on mobile a long label makes the badge near-full-width, so keep curve ≤
     // cut/3.4595 (≈0.578rem here) or that overhang is clipped by the stage edge
     // as a stray green tab. 0.5rem stays inside with margin.
-    --fb-cut: 2rem;
-    --fb-curve: 0.5rem;
+    --badge-cut: 2rem;
+    --badge-curve: 0.5rem;
 
     @include respond-to('sm') {
-      --fb-cut: 3.5rem;
-      --fb-curve: 1.25rem;
+      --badge-cut: 3.5rem;
+      --badge-curve: 1.25rem;
     }
 
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    display: flex;
-    gap: var(--space-2xs);
-    align-items: center;
+    // The bottom-right angle badge — shared with the caption-image caption
+    @include angle-badge-box;
+    font-size: $font-size-sm;
+    color: $color-white;
     // Keep the location on one line — the badge width tracks the text (animated
     // on swap below) instead of the text reflowing to two rows.
     white-space: nowrap;
@@ -250,31 +247,6 @@
       transition: width 0.35s ease;
     }
 
-    // Solid backing for the badge's flat (right + bottom) region. The shape
-    // above is three overflow-clipped pieces (slab | curve | wedge); that clip
-    // trims the slab's protective overfill, so at some widths a subpixel seam
-    // of the image leaks along the badge's right/bottom edge. This backing
-    // lives on the badge box itself (no overflow clip) and bleeds past the
-    // stage edges — the stage's own overflow rounds it to the corner. It sits
-    // behind the shape and content (green on green), so it only seals the gap
-    // and never changes the look. Left edge = where the flat slab begins
-    // (post-flip), so it never intrudes on the diagonal cut.
-    &::before {
-      position: absolute;
-      z-index: -1;
-      content: '';
-      inset: 0 -3px -3px calc(var(--fb-cut) + 1.4594 * var(--fb-curve));
-      background-color: $color-brand-dark-green;
-    }
-    // Left padding clears the diagonal + curve zone (post-flip the flat top
-    // starts at cut + 1.4594 × curve from the left edge). A small gap after it
-    // keeps the pin close to the angle rather than adrift in the green slab.
-    padding: var(--space-xs) var(--space-s) var(--space-xs)
-      calc(var(--fb-cut) + 1.4594 * var(--fb-curve) + var(--space-2xs));
-    margin: 0;
-    font-size: $font-size-sm;
-    color: $color-white;
-
     // Direct child only — the artwork curve svg nested in the shape span
     // must keep its own sizing (a bare `svg` here would outrank it)
     > svg {
@@ -284,51 +256,11 @@
     }
   }
 
-  // Shape layer: the hero panel's three-piece system verbatim (slab | artwork
-  // curve | 45° wedge — see _hero.scss for the geometry constants), mirrored
-  // with scaleX(-1) so the cut corner lands top-LEFT. Decorative and isolated,
-  // so the transform has no containing-block side effects. overflow clips the
-  // oversized wedge to the badge box; the media's own overflow rounds the
-  // bottom-right corner.
   &__location-shape {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    overflow: hidden;
-    color: $color-brand-dark-green;
-    transform: scaleX(-1);
-
-    &::before,
-    &::after {
-      position: absolute;
-      content: '';
-      background-color: currentcolor;
-    }
-
-    // Flat-top slab, ending where the artwork curve begins
-    &::before {
-      top: -2px;
-      right: calc(var(--fb-cut) + 1.4594 * var(--fb-curve) - 1px);
-      bottom: -2px;
-      left: -2px;
-    }
-
-    // 45° wedge anchored at the bézier's end point (curve, curve)
-    &::after {
-      top: var(--fb-curve);
-      left: calc(100% - var(--fb-cut) + var(--fb-curve));
-      width: 300%;
-      height: 300%;
-      transform: rotate(45deg);
-      transform-origin: 0 0;
-    }
+    @include angle-badge-shape;
   }
 
   &__location-curve {
-    position: absolute;
-    top: 0;
-    left: calc(100% - var(--fb-cut) - 1.4594 * var(--fb-curve));
-    width: calc(4.9189 * var(--fb-curve));
-    height: calc(3.4595 * var(--fb-curve));
+    @include angle-badge-curve;
   }
 }
