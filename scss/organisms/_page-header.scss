@@ -63,6 +63,7 @@
 
     @include respond-to('md') {
       padding-right: calc(34% + var(--space-l));
+      min-height: 19rem; // desktop: a shallower band — the copy sets the pace
     }
   }
 
@@ -183,12 +184,25 @@
       width: 34%;
     }
 
+    // Clips the image's parallax drift + overscan to the media box (the angle
+    // overlay clips itself; the band's own overflow rounds the corners).
+    overflow: hidden;
+
     img {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
+
+      // Overscan via `scale` (independent of the parallax `translate` the JS
+      // writes) so the shared drift never exposes a media-box edge — the same
+      // layering as every other parallax image. Motion-gated; reduced motion
+      // gets a plain, uncropped photo (the script also clears the translate).
+      @media (prefers-reduced-motion: no-preference) {
+        scale: 1.14;
+        will-change: transform;
+      }
     }
   }
 
@@ -229,19 +243,44 @@
     transform-origin: 0 100%;
   }
 
-  // The artwork bézier easing the diagonal into the image's VERTICAL left
-  // edge (the top corner stays sharp — the curve sits at the bottom of the
-  // diagonal, per the design). The path is the badge curve with its axes
-  // swapped (vertical tangent at the bottom, 45° at the top) and closed along
-  // the left, so it fills the green side. Registration: its 45° end lands at
-  // (curve, cut − curve), exactly on the wedge's diagonal y = cut − x, and its
-  // tangent end kisses x = 0 at y = cut + 1.4594·curve.
+  // The artwork bézier easing the diagonal into an edge. Two pieces, one per
+  // layout (both authored in the overlay's PRE-flip left-corner coordinates —
+  // the phone overlay mirror places them visually on the right):
   &__angle-curve {
     position: absolute;
+    fill: currentcolor;
+  }
+
+  // Phone piece: eases the diagonal into the image's TOP edge (visually the
+  // top-right after the overlay mirror); the diagonal's meeting with the
+  // right edge stays SHARP, per the design. This is the badge curve closed
+  // along its top, mirrored so the diagonal descends leftward; its 45° end
+  // lands on the wedge's diagonal.
+  &__angle-curve--top {
+    top: 0;
+    left: calc(var(--angle-cut) - 3.4595 * var(--angle-curve));
+    width: calc(4.9189 * var(--angle-curve));
+    height: calc(3.4595 * var(--angle-curve));
+    transform: scaleX(-1);
+
+    @include respond-to('sm') {
+      display: none;
+    }
+  }
+
+  // Side-by-side piece (sm+): eases the diagonal's LOWER end into the image's
+  // vertical edge, sharp corner at the band's top. Axes-swapped badge curve
+  // closed along the left; its 45° end lands at (curve, cut − curve) on the
+  // wedge's diagonal y = cut − x, tangent kissing x = 0 at cut + 1.4594·curve.
+  &__angle-curve--side {
+    display: none;
     top: calc(var(--angle-cut) - 3.4595 * var(--angle-curve));
     left: 0;
     width: calc(3.4595 * var(--angle-curve));
     height: calc(4.9189 * var(--angle-curve));
-    fill: currentcolor;
+
+    @include respond-to('sm') {
+      display: block;
+    }
   }
 }

@@ -396,7 +396,8 @@
         <div class="page-header__media">
           <img src="../assets/images/family-eating.png" alt="" width="900" height="600" loading="lazy">
           <span class="page-header__angle" aria-hidden="true">
-            <svg class="page-header__angle-curve" viewBox="0 0 210.3 299.02" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 299.02C0.001 209.1 13.03 197.18 60.79 149.51L210.3 0L0 0Z" fill="currentColor"/></svg>
+            <svg class="page-header__angle-curve page-header__angle-curve--top" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L299.02 0Z" fill="currentColor"/></svg>
+            <svg class="page-header__angle-curve page-header__angle-curve--side" viewBox="0 0 210.3 299.02" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 299.02C0.001 209.1 13.03 197.18 60.79 149.51L210.3 0L0 0Z" fill="currentColor"/></svg>
           </span>
         </div>
       </div>
@@ -721,6 +722,68 @@
           ticking = true;
         }
       });
+    })();
+  </script>
+
+  <!-- Image parallax — the shared drift (see templates/home.html): each photo
+       frame's images ease a few px against the scroll. Selector lists every
+       parallax frame so future sections on this template opt in for free.
+       rAF-throttled; reduced motion clears the translate. Drupal: one shared
+       once()-guarded behavior. -->
+  <script>
+    (function () {
+      var frames = Array.prototype.slice.call(
+        document.querySelectorAll(
+          '.card__media, .feature-banner__stage, .bento-grid__tile--media, .caption-image__stage, .page-header__media'
+        )
+      );
+      if (!frames.length) return;
+
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var RANGE = 0.06; // shared drift; covered by the ~7%/side CSS overscan
+      var ticking = false;
+
+      function setShift(frame, value) {
+        var imgs = frame.querySelectorAll('img');
+        for (var k = 0; k < imgs.length; k++) imgs[k].style.translate = value;
+      }
+
+      function update() {
+        ticking = false;
+        var vh = window.innerHeight;
+        for (var i = 0; i < frames.length; i++) {
+          var rect = frames[i].getBoundingClientRect();
+          if (rect.bottom < 0 || rect.top > vh) continue;
+          var centre = rect.top + rect.height / 2;
+          var progress = (centre - vh / 2) / ((vh + rect.height) / 2);
+          if (progress < -1) progress = -1;
+          else if (progress > 1) progress = 1;
+          var shift = (-progress * rect.height * RANGE).toFixed(1);
+          setShift(frames[i], '0 ' + shift + 'px');
+        }
+      }
+
+      function requestUpdate() {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      }
+
+      function apply() {
+        if (reduced.matches) {
+          window.removeEventListener('scroll', requestUpdate);
+          window.removeEventListener('resize', requestUpdate);
+          for (var i = 0; i < frames.length; i++) setShift(frames[i], '');
+        } else {
+          window.addEventListener('scroll', requestUpdate, { passive: true });
+          window.addEventListener('resize', requestUpdate);
+          update();
+        }
+      }
+
+      apply();
+      if (reduced.addEventListener) reduced.addEventListener('change', apply);
     })();
   </script>
 </body>

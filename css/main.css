@@ -2130,6 +2130,7 @@ a:focus-visible {
 @media (min-width: 960px) {
   .page-header__inner {
     padding-right: calc(34% + var(--space-l));
+    min-height: 19rem;
   }
 }
 .page-header__crumbs {
@@ -2220,12 +2221,21 @@ a:focus-visible {
     width: 34%;
   }
 }
+.page-header__media {
+  overflow: hidden;
+}
 .page-header__media img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .page-header__media img {
+    scale: 1.14;
+    will-change: transform;
+  }
 }
 .page-header__angle {
   position: absolute;
@@ -2253,11 +2263,31 @@ a:focus-visible {
 }
 .page-header__angle-curve {
   position: absolute;
+  fill: currentcolor;
+}
+.page-header__angle-curve--top {
+  top: 0;
+  left: calc(var(--angle-cut) - 3.4595 * var(--angle-curve));
+  width: calc(4.9189 * var(--angle-curve));
+  height: calc(3.4595 * var(--angle-curve));
+  transform: scaleX(-1);
+}
+@media (min-width: 640px) {
+  .page-header__angle-curve--top {
+    display: none;
+  }
+}
+.page-header__angle-curve--side {
+  display: none;
   top: calc(var(--angle-cut) - 3.4595 * var(--angle-curve));
   left: 0;
   width: calc(3.4595 * var(--angle-curve));
   height: calc(4.9189 * var(--angle-curve));
-  fill: currentcolor;
+}
+@media (min-width: 640px) {
+  .page-header__angle-curve--side {
+    display: block;
+  }
 }
 
 .page-body {
