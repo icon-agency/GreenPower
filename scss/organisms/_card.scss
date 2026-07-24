@@ -50,29 +50,34 @@
     // min-content as it leaves the row layout — the stale floor inflated one
     // track (707px in a 3-up) and overflowed the row. minmax(0, …) floors at 0
     // so the tracks stay equal regardless of stale min-content (LESSONS.md).
-    // Default 3-up: 2 columns from md, 3 from lg.
-    @include respond-to('md') {
+    // Default 3-up: 2 columns from sm, 3 from md — tuned to the iPad, which
+    // showed a wasteful single column in portrait and only two-up in
+    // landscape under the old md/lg pair. Portrait (768–834) now gets the
+    // 2-up band; landscape (1024+) the full 3-up.
+    @include respond-to('sm') {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    @include respond-to('lg') {
+    @include respond-to('md') {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    // Two-column variant — caps at 2 columns
+    // Two-column variant — caps at 2 columns (pin at md, where the base
+    // rule would go to 3)
     &--two {
       @include respond-to('md') {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-
-      @include respond-to('lg') {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
     }
 
-    // Four-column variant — 2 up from md (inherited from the base rule),
-    // 4 from lg. Excluded from the horizontal-card band below.
+    // Four-column variant — 2 up from sm (inherited from the base rule,
+    // pinned at md against the base 3-up), 4 from lg. Excluded from the
+    // horizontal-card band below.
     &--four {
+      @include respond-to('md') {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
       @include respond-to('lg') {
         grid-template-columns: repeat(4, minmax(0, 1fr));
       }
@@ -267,22 +272,22 @@
 }
 
 // -----------------------------------------------------------------------------
-// Horizontal cards — the 960–1199px band
+// Horizontal cards — the 640–959px band (iPad portrait lives here)
 //
-// In this band the 3-up grid drops to 2-up (matching the md 2-column start).
-// A card left stranded alone in the final row — an odd total, so it lands at
-// an odd nth-child position as the LAST child — spans both columns and lays
-// out image-left / content-right instead of stretching to fill the row at the
-// vertical card's height. Two cards side by side, one full-width below: not
-// three stacked rows. Outside the band the base card is untouched: below md it
-// stacks single-column; at lg the grid is 3-up vertical. The `--two` and
-// `--four` variants are left alone (an even count never strands a card).
+// In this band the grid is 2-up. A card left stranded alone in the final row
+// — an odd total, so it lands at an odd nth-child position as the LAST child
+// — spans both columns and lays out image-left / content-right instead of
+// stretching to fill the row at the vertical card's height. Two cards side by
+// side, one full-width below: not three stacked rows. Outside the band the
+// base card is untouched: below sm it stacks single-column; at md the grid is
+// 3-up vertical. The `--two` and `--four` variants are left alone (an even
+// count never strands a card).
 //
 // Drupal: the same selectors apply to the rendered paragraph list.
 // -----------------------------------------------------------------------------
-@include respond-between('md', 'lg') {
-  // 2-up (overrides the 3-up default from lg — this band sits below it, but
-  // pin it explicitly so intent doesn't depend on cascade order)
+@include respond-between('sm', 'md') {
+  // 2-up (the base rule already sets this from sm — pin it explicitly so
+  // intent doesn't depend on cascade order)
   .card-section__grid:not(.card-section__grid--two):not(.card-section__grid--four) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

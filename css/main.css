@@ -1393,12 +1393,12 @@ a:focus-visible {
   gap: var(--space-xs);
   margin-top: var(--space-xl);
 }
-@media (min-width: 960px) {
+@media (min-width: 640px) {
   .card-section__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 960px) {
   .card-section__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -1408,8 +1408,8 @@ a:focus-visible {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-@media (min-width: 1200px) {
-  .card-section__grid--two {
+@media (min-width: 960px) {
+  .card-section__grid--four {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -1534,7 +1534,7 @@ a:focus-visible {
   transition: opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out), transform var(--animate-duration, 600ms) var(--animate-easing, ease-out), background-color 0.3s ease;
 }
 
-@media (min-width: 960px) and (max-width: 1199.98px) {
+@media (min-width: 640px) and (max-width: 959.98px) {
   .card-section__grid:not(.card-section__grid--two):not(.card-section__grid--four) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
