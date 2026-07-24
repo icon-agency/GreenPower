@@ -7,12 +7,13 @@
 // geometry as the hero panel and the corner badges (constants 1.4594 / 4.9189
 // / 3.4595, see _hero.scss), here painted green OVER the image's corner:
 //   · the wedge (::before) is a rotated square whose bottom edge IS the 45°
-//     diagonal from the image's left edge (0, cut) up to (cut, 0);
-//   · the curve svg carries the bézier easing that diagonal into the band's
-//     top edge — its 45° end sits exactly on the wedge's diagonal at
-//     (cut − 3.4595·curve, 3.4595·curve), so the two register seamlessly.
-// The image's left edge below the cut is the plain vertical boundary with the
-// green band (no extra piece needed — the band background meets it).
+//     diagonal from the image's left edge (0, cut) up to a SHARP corner at
+//     the band's top edge (cut, 0);
+//   · the curve svg carries the bézier easing the diagonal's LOWER end into
+//     the image's vertical left edge — its 45° end sits exactly on the
+//     wedge's diagonal, so the two register seamlessly.
+// Below the curve, the image's left edge is the plain vertical boundary with
+// the green band (no extra piece needed — the band background meets it).
 //
 // Drupal mapping: page-level (node), not a paragraph:
 //   Breadcrumb: Drupal's breadcrumb block placed in the band region (the ol
@@ -24,15 +25,25 @@
 // -----------------------------------------------------------------------------
 
 .page-header {
-  @include container;
+  max-width: $container-max-width;
+  margin-inline: auto;
+  // Tight frame (not the container gutter) so the band runs close to the
+  // viewport edges — the same snug inset as the bento grid / feature banner.
+  padding-inline: var(--space-xs);
 
   &__inner {
     // The brand angle at panel scale (hero-family constants). cut = how deep
-    // the diagonal cuts down the image's left edge; curve = the bézier depth.
+    // the diagonal cuts down the image's edge; curve = the bézier depth.
     // Keep curve ≤ cut / 3.4595 so the curve's 45° end stays on the diagonal
-    // inside the media box.
-    --angle-cut: 9rem;
-    --angle-curve: 2.5rem;
+    // inside the media box. Smaller on phones where the image is a shallow
+    // full-width block; full scale once the image is a side column (sm+).
+    --angle-cut: 5rem;
+    --angle-curve: 1.4rem;
+
+    @include respond-to('sm') {
+      --angle-cut: 9rem;
+      --angle-curve: 2.5rem;
+    }
 
     position: relative;
     overflow: hidden; // clips the image + the oversized wedge to the radius
@@ -41,11 +52,17 @@
     background-color: $color-brand-dark-green;
     border-radius: $radius-lg;
 
-    @include respond-to('md') {
-      // Clear the media column (45%) plus breathing room
-      padding: var(--space-l) calc(45% + var(--space-l)) var(--space-l)
+    // Side-by-side from tablet up: clear the media column plus breathing
+    // room. The column is a touch wider on tablet (40%), settling to a third
+    // (34%, per the design's column guides) from md.
+    @include respond-to('sm') {
+      padding: var(--space-l) calc(40% + var(--space-l)) var(--space-l)
         var(--space-l);
       min-height: 24rem;
+    }
+
+    @include respond-to('md') {
+      padding-right: calc(34% + var(--space-l));
     }
   }
 
@@ -62,19 +79,49 @@
   }
 
   &__crumb {
-    display: flex;
+    // Phones: only the PARENT crumb shows, as an app-style back link
+    // ("‹ What is GreenPower") — the full trail costs two lines on a narrow
+    // band. From sm every crumb returns with the usual separators.
+    display: none;
     gap: var(--space-xs);
     align-items: center;
 
-    // Chevron separator (pure CSS, silent to screen readers)
-    & + &::before {
-      display: inline-block;
-      width: 0.45em;
-      height: 0.45em;
-      content: '';
-      border-top: 1.5px solid rgba($color-white, 0.7);
-      border-right: 1.5px solid rgba($color-white, 0.7);
-      transform: rotate(45deg);
+    &:nth-last-child(2) {
+      display: flex;
+
+      // Back chevron (points left) before the parent link
+      &::before {
+        display: inline-block;
+        width: 0.45em;
+        height: 0.45em;
+        content: '';
+        border-top: 1.5px solid rgba($color-white, 0.7);
+        border-right: 1.5px solid rgba($color-white, 0.7);
+        transform: rotate(-135deg);
+      }
+    }
+
+    @include respond-to('sm') {
+      display: flex;
+
+      // Drop the phone back-chevron (a first-child parent crumb would
+      // otherwise keep it — the separator below only matches later crumbs)…
+      &:nth-last-child(2)::before {
+        content: none;
+      }
+
+      // …and restore the forward separators between crumbs (pure CSS,
+      // silent to screen readers). Same specificity as the rules above, so
+      // source order lets these win from sm up.
+      & + &::before {
+        display: inline-block;
+        width: 0.45em;
+        height: 0.45em;
+        content: '';
+        border-top: 1.5px solid rgba($color-white, 0.7);
+        border-right: 1.5px solid rgba($color-white, 0.7);
+        transform: rotate(45deg);
+      }
     }
 
     a {
@@ -99,7 +146,7 @@
   // --- Copy ---
 
   &__title {
-    font-size: $font-size-3xl;
+    font-size: $font-size-2xl; // --step-3
     font-weight: $font-weight-demibold;
     line-height: $line-height-tight;
     color: $color-white;
@@ -108,35 +155,63 @@
   &__intro {
     max-width: 52ch;
     margin-top: var(--space-l);
-    font-size: $font-size-lg;
+    font-size: $font-size-base; // --step-0
   }
 
   // --- Media: right column with the angle-cut corner (md and up) ---
 
   &__media {
-    display: none;
+    // Phones: an in-flow block below the copy, bleeding to the band's edges
+    // (the negative margins cancel __inner's padding; the band's overflow
+    // rounds its bottom corners). The angle cuts its top-RIGHT here (the
+    // overlay is mirrored below), tying the photo back into the green above.
+    position: relative;
+    aspect-ratio: 2 / 1;
+    margin: var(--space-l) calc(-1 * var(--space-m)) calc(-1 * var(--space-l));
 
-    @include respond-to('md') {
+    // Tablet up: a right-hand column, angle on its top-left toward the copy
+    @include respond-to('sm') {
       position: absolute;
       inset: 0 0 0 auto;
-      display: block;
-      width: 45%;
+      width: 40%;
+      aspect-ratio: auto;
+      margin: 0;
+    }
+
+    @include respond-to('md') {
+      // A third of the band, per the design's column guides
+      width: 34%;
     }
 
     img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
   }
 
-  // Green corner piece over the image's top-left — decorative, never
-  // intercepts clicks on a (future) linked image.
+  // Green corner piece over the image's corner — decorative, never
+  // intercepts clicks on a (future) linked image. overflow clips the
+  // oversized wedge to the media box: without it the rotated square sprawls
+  // up-left across the band and paints over the copy wherever the media
+  // doesn't reach the band's top (the in-flow phone layout).
+  // Phones: the whole overlay is mirrored (scaleX) so the cut sits on the
+  // image's top-RIGHT — the stacked image meets the copy above it, so the
+  // angle reads from the right edge. From sm the image is a right-hand
+  // column and the cut faces the copy on its top-left.
   &__angle {
     position: absolute;
     inset: 0;
+    overflow: hidden;
     color: $color-brand-dark-green;
     pointer-events: none;
+    transform: scaleX(-1);
+
+    @include respond-to('sm') {
+      transform: none;
+    }
   }
 
   // The 45° wedge: a huge square whose BOTTOM edge runs from (0, cut) up to
@@ -154,16 +229,19 @@
     transform-origin: 0 100%;
   }
 
-  // The artwork bézier easing the diagonal into the band's top edge. The path
-  // is the badge curve closed along its TOP edge (green above), mirrored so
-  // the diagonal descends leftward; its 45° end lands on the wedge's diagonal.
+  // The artwork bézier easing the diagonal into the image's VERTICAL left
+  // edge (the top corner stays sharp — the curve sits at the bottom of the
+  // diagonal, per the design). The path is the badge curve with its axes
+  // swapped (vertical tangent at the bottom, 45° at the top) and closed along
+  // the left, so it fills the green side. Registration: its 45° end lands at
+  // (curve, cut − curve), exactly on the wedge's diagonal y = cut − x, and its
+  // tangent end kisses x = 0 at y = cut + 1.4594·curve.
   &__angle-curve {
     position: absolute;
-    top: 0;
-    left: calc(var(--angle-cut) - 3.4595 * var(--angle-curve));
-    width: calc(4.9189 * var(--angle-curve));
-    height: calc(3.4595 * var(--angle-curve));
+    top: calc(var(--angle-cut) - 3.4595 * var(--angle-curve));
+    left: 0;
+    width: calc(3.4595 * var(--angle-curve));
+    height: calc(4.9189 * var(--angle-curve));
     fill: currentcolor;
-    transform: scaleX(-1);
   }
 }

@@ -1787,10 +1787,11 @@ a:focus-visible {
 .bento-grid__inner {
   max-width: 90rem;
   margin-inline: auto;
-  padding-inline: var(--space-s-l);
   padding-block: var(--space-3xl);
+  padding-inline: var(--space-xs);
 }
 .bento-grid__heading {
+  padding-inline: var(--space-s-l);
   font-size: var(--step-3);
   font-weight: 500;
   color: #006341;
@@ -2100,11 +2101,19 @@ a:focus-visible {
 .page-header {
   max-width: 90rem;
   margin-inline: auto;
-  padding-inline: var(--space-s-l);
+  padding-inline: var(--space-xs);
 }
 .page-header__inner {
-  --angle-cut: 9rem;
-  --angle-curve: 2.5rem;
+  --angle-cut: 5rem;
+  --angle-curve: 1.4rem;
+}
+@media (min-width: 640px) {
+  .page-header__inner {
+    --angle-cut: 9rem;
+    --angle-curve: 2.5rem;
+  }
+}
+.page-header__inner {
   position: relative;
   overflow: hidden;
   padding: var(--space-l) var(--space-m);
@@ -2112,10 +2121,15 @@ a:focus-visible {
   background-color: #006341;
   border-radius: 16px;
 }
+@media (min-width: 640px) {
+  .page-header__inner {
+    padding: var(--space-l) calc(40% + var(--space-l)) var(--space-l) var(--space-l);
+    min-height: 24rem;
+  }
+}
 @media (min-width: 960px) {
   .page-header__inner {
-    padding: var(--space-l) calc(45% + var(--space-l)) var(--space-l) var(--space-l);
-    min-height: 24rem;
+    padding-right: calc(34% + var(--space-l));
   }
 }
 .page-header__crumbs {
@@ -2128,18 +2142,38 @@ a:focus-visible {
   list-style: none;
 }
 .page-header__crumb {
-  display: flex;
+  display: none;
   gap: var(--space-xs);
   align-items: center;
 }
-.page-header__crumb + .page-header__crumb::before {
+.page-header__crumb:nth-last-child(2) {
+  display: flex;
+}
+.page-header__crumb:nth-last-child(2)::before {
   display: inline-block;
   width: 0.45em;
   height: 0.45em;
   content: "";
   border-top: 1.5px solid rgba(255, 255, 255, 0.7);
   border-right: 1.5px solid rgba(255, 255, 255, 0.7);
-  transform: rotate(45deg);
+  transform: rotate(-135deg);
+}
+@media (min-width: 640px) {
+  .page-header__crumb {
+    display: flex;
+  }
+  .page-header__crumb:nth-last-child(2)::before {
+    content: none;
+  }
+  .page-header__crumb + .page-header__crumb::before {
+    display: inline-block;
+    width: 0.45em;
+    height: 0.45em;
+    content: "";
+    border-top: 1.5px solid rgba(255, 255, 255, 0.7);
+    border-right: 1.5px solid rgba(255, 255, 255, 0.7);
+    transform: rotate(45deg);
+  }
 }
 .page-header__crumb a {
   color: #ffffff;
@@ -2157,7 +2191,7 @@ a:focus-visible {
   color: rgba(255, 255, 255, 0.85);
 }
 .page-header__title {
-  font-size: var(--step-4);
+  font-size: var(--step-3);
   font-weight: 500;
   line-height: 1.15;
   color: #ffffff;
@@ -2165,20 +2199,30 @@ a:focus-visible {
 .page-header__intro {
   max-width: 52ch;
   margin-top: var(--space-l);
-  font-size: var(--step-1);
+  font-size: var(--step-0);
 }
 .page-header__media {
-  display: none;
+  position: relative;
+  aspect-ratio: 2/1;
+  margin: var(--space-l) calc(-1 * var(--space-m)) calc(-1 * var(--space-l));
 }
-@media (min-width: 960px) {
+@media (min-width: 640px) {
   .page-header__media {
     position: absolute;
     inset: 0 0 0 auto;
-    display: block;
-    width: 45%;
+    width: 40%;
+    aspect-ratio: auto;
+    margin: 0;
+  }
+}
+@media (min-width: 960px) {
+  .page-header__media {
+    width: 34%;
   }
 }
 .page-header__media img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -2186,8 +2230,15 @@ a:focus-visible {
 .page-header__angle {
   position: absolute;
   inset: 0;
+  overflow: hidden;
   color: #006341;
   pointer-events: none;
+  transform: scaleX(-1);
+}
+@media (min-width: 640px) {
+  .page-header__angle {
+    transform: none;
+  }
 }
 .page-header__angle::before {
   position: absolute;
@@ -2202,12 +2253,11 @@ a:focus-visible {
 }
 .page-header__angle-curve {
   position: absolute;
-  top: 0;
-  left: calc(var(--angle-cut) - 3.4595 * var(--angle-curve));
-  width: calc(4.9189 * var(--angle-curve));
-  height: calc(3.4595 * var(--angle-curve));
+  top: calc(var(--angle-cut) - 3.4595 * var(--angle-curve));
+  left: 0;
+  width: calc(3.4595 * var(--angle-curve));
+  height: calc(4.9189 * var(--angle-curve));
   fill: currentcolor;
-  transform: scaleX(-1);
 }
 
 .page-body {

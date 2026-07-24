@@ -37,12 +37,20 @@
   background-color: $color-brand-taupe;
 
   &__inner {
-    @include container;
+    max-width: $container-max-width;
+    margin-inline: auto;
+    // Tight frame so the tiles run close to the section edges (the same snug
+    // image-to-edge feel as the feature banner); the heading keeps the
+    // standard container gutter via its own padding below.
     padding-block: var(--space-3xl);
+    padding-inline: var(--space-xs);
   }
 
-  // Matches .card-section__heading — the shared section-heading treatment
+  // Matches .card-section__heading — the shared section-heading treatment.
+  // Carries the standard container gutter itself, so the heading stays on the
+  // site's text alignment while the grid hugs the edges.
   &__heading {
+    padding-inline: var(--space-s-l);
     font-size: $font-size-2xl;
     font-weight: $font-weight-demibold;
     color: $color-brand-dark-green;
