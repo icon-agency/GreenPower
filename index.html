@@ -30,6 +30,8 @@
           <p class="ds-nav__group-title">Foundations</p>
           <ul class="ds-nav__list">
             <li><a class="ds-nav__link" href="#colours">Colours</a></li>
+            <li><a class="ds-nav__link" href="#typography">Typography</a></li>
+            <li><a class="ds-nav__link" href="#icons">Icons</a></li>
           </ul>
         </div>
         <div class="ds-nav__group">
@@ -39,11 +41,15 @@
             <li><a class="ds-nav__link" href="#feature-banner">Feature banner</a></li>
             <li><a class="ds-nav__link" href="#bento-grid">Bento grid</a></li>
             <li><a class="ds-nav__link" href="#caption-image">Caption image</a></li>
+            <li><a class="ds-nav__link" href="#quote">Quote</a></li>
           </ul>
         </div>
         <div class="ds-nav__group">
           <p class="ds-nav__group-title">Layout patterns</p>
           <ul class="ds-nav__list">
+            <li><a class="ds-nav__link" href="#page-header">Page header</a></li>
+            <li><a class="ds-nav__link" href="#single-column">Single column</a></li>
+            <li><a class="ds-nav__link" href="#page-split">Split section</a></li>
             <li><a class="ds-nav__link" href="#card-sections">Card sections</a></li>
           </ul>
         </div>
@@ -293,6 +299,263 @@
         </div>
       </section>
 
+      <section class="ds-section" id="typography" aria-labelledby="type-title" data-type-specimens>
+        <h2 class="ds-section__title" id="type-title">Typography</h2>
+        <p class="ds-section__intro">One typeface, one fluid scale. Sizes are <code class="ds-code">clamp()</code> steps that interpolate between a 375px and a 1440px viewport, so nothing snaps at a breakpoint; above 1440 the root font-size itself scales, carrying every step with it. Components reference the semantic aliases (<code class="ds-code">$font-size-base</code>), never the raw <code class="ds-code">--step-*</code> names. Pixel values are read live from the cascade — and note they are measured <em>in this pane</em>, which re-scopes the steps to its own column width (<code class="ds-code">cqi</code>) so components preview at the size they would be on a page this wide. Widen the pane or collapse the sidebar and every number here moves.</p>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Typeface</p>
+          <p class="ds-group__note">TT Commons Pro, served from Adobe Fonts. The kit maps the family's faces to shifted CSS weights, so the tokens are named for the face that actually renders — not the number.</p>
+
+          <div class="ds-type">
+            <div class="ds-type__row">
+              <div class="ds-type__sample ds-type__sample--w300">Regular — the quick brown fox</div>
+              <p class="ds-type__meta">$font-weight-light<br><span class="ds-type__px">300</span></p>
+            </div>
+            <div class="ds-type__row">
+              <div class="ds-type__sample ds-type__sample--w400">Medium — the quick brown fox</div>
+              <p class="ds-type__meta">$font-weight-regular<br><span class="ds-type__px">400 · body default</span></p>
+            </div>
+            <div class="ds-type__row">
+              <div class="ds-type__sample ds-type__sample--w500">DemiBold — the quick brown fox</div>
+              <p class="ds-type__meta">$font-weight-medium<br>$font-weight-demibold<br><span class="ds-type__px">500 · all headings</span></p>
+            </div>
+            <div class="ds-type__row">
+              <div class="ds-type__sample ds-type__sample--w700">ExtraBold — the quick brown fox</div>
+              <p class="ds-type__meta">$font-weight-bold<br><span class="ds-type__px">700</span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Headings</p>
+          <p class="ds-group__note">Every level renders at weight 500 with a 1.15 line-height, set once in <code class="ds-code">base/_typography.scss</code>. Components that need a different size set their own; the leading and weight always come from here.</p>
+
+          <div class="ds-type">
+            <div class="ds-type__row">
+              <div class="ds-type__sample"><h1>Heading level 1</h1></div>
+              <p class="ds-type__meta">h1 · $font-size-3xl<br><span class="ds-type__px" data-type-px="h1"></span></p>
+            </div>
+            <div class="ds-type__row">
+              <div class="ds-type__sample"><h2>Heading level 2</h2></div>
+              <p class="ds-type__meta">h2 · $font-size-xl<br><span class="ds-type__px" data-type-px="h2"></span></p>
+            </div>
+            <div class="ds-type__row">
+              <div class="ds-type__sample"><h3>Heading level 3</h3></div>
+              <p class="ds-type__meta">h3 · $font-size-lg<br><span class="ds-type__px" data-type-px="h3"></span></p>
+            </div>
+            <div class="ds-type__row">
+              <div class="ds-type__sample"><h4>Heading level 4</h4></div>
+              <p class="ds-type__meta">h4 · $font-size-base<br><span class="ds-type__px" data-type-px="h4"></span></p>
+            </div>
+            <div class="ds-type__row">
+              <div class="ds-type__sample"><h5>Heading level 5</h5></div>
+              <p class="ds-type__meta">h5 · $font-size-sm<br><span class="ds-type__px" data-type-px="h5"></span></p>
+            </div>
+            <div class="ds-type__row">
+              <div class="ds-type__sample"><h6>Heading level 6</h6></div>
+              <p class="ds-type__meta">h6 · $font-size-xs<br><span class="ds-type__px" data-type-px="h6"></span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">The scale</p>
+          <p class="ds-group__note">The raw steps behind those aliases. Each is a <code class="ds-code">clamp()</code> in <code class="ds-code">tokens/_typography.scss</code>, generated from a 1.2 → 1.3 modular ratio.</p>
+
+          <div class="ds-type">
+            <div class="ds-type__row">
+              <div class="ds-type__sample ds-type__sample--step-5">Step 5</div>
+              <p class="ds-type__meta">--step-5 · $font-size-4xl<br><span class="ds-type__px" data-type-px-var="--step-5"></span></p>
+            </div>
+            <div class="ds-type__row">
+              <div class="ds-type__sample ds-type__sample--step-4">Step 4</div>
+              <p class="ds-type__meta">--step-4 · $font-size-3xl<br><span class="ds-type__px" data-type-px-var="--step-4"></span></p>
+            </div>
+            <div class="ds-type__row">
+              <div class="ds-type__sample ds-type__sample--step-3">Step 3</div>
+              <p class="ds-type__meta">--step-3 · $font-size-2xl<br><span class="ds-type__px" data-type-px-var="--step-3"></span></p>
+            </div>
+            <div class="ds-type__row">
+              <div class="ds-type__sample ds-type__sample--step-2">Step 2</div>
+              <p class="ds-type__meta">--step-2 · $font-size-xl<br><span class="ds-type__px" data-type-px-var="--step-2"></span></p>
+            </div>
+            <div class="ds-type__row">
+              <div class="ds-type__sample ds-type__sample--step-1">Step 1</div>
+              <p class="ds-type__meta">--step-1 · $font-size-lg<br><span class="ds-type__px" data-type-px-var="--step-1"></span></p>
+            </div>
+            <div class="ds-type__row">
+              <div class="ds-type__sample ds-type__sample--step-0">Step 0 — body copy</div>
+              <p class="ds-type__meta">--step-0 · $font-size-base<br><span class="ds-type__px" data-type-px-var="--step-0"></span></p>
+            </div>
+            <div class="ds-type__row">
+              <div class="ds-type__sample ds-type__sample--step--1">Step −1</div>
+              <p class="ds-type__meta">--step--1 · $font-size-sm<br><span class="ds-type__px" data-type-px-var="--step--1"></span></p>
+            </div>
+            <div class="ds-type__row">
+              <div class="ds-type__sample ds-type__sample--step--2">Step −2</div>
+              <p class="ds-type__meta">--step--2 · $font-size-xs<br><span class="ds-type__px" data-type-px-var="--step--2"></span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Body copy</p>
+          <p class="ds-group__note">Body runs at step 0 with a 1.3 line-height and <code class="ds-code">text-wrap: pretty</code> inherited site-wide. Long-form prose is capped to a reading measure — see the page template.</p>
+          <div class="ds-type">
+            <div class="ds-type__row">
+              <!-- step-0 is set explicitly so this reads at the pane's own scale,
+                   like the rows above. Body inherits its size from <body>, which
+                   sits OUTSIDE this container and so resolves against the
+                   viewport — the two differ by a step-fraction in here. -->
+              <div class="ds-type__sample ds-type__sample--step-0">
+                <p>GreenPower makes it easy to recognise and purchase renewable electricity and gas that meets stringent environmental standards. Accreditation applies to the fuel or product itself, not to the organisation producing it.</p>
+              </div>
+              <p class="ds-type__meta">p · $font-size-base<br><span class="ds-type__px" data-type-px="p"></span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ds-section" id="icons" aria-labelledby="icons-title">
+        <h2 class="ds-section__title" id="icons-title">Icons</h2>
+        <p class="ds-section__intro">15 line icons in <code class="ds-code">assets/icons/</code>, drawn on a 55&#215;55 grid in Dark Green. They are referenced as files through <code class="ds-code">&lt;img&gt;</code>, not inlined, so the artwork's own fill is the colour — <code class="ds-code">currentColor</code> has no effect on them. Components render them at <code class="ds-code">2.75rem</code> (card, feature banner, bento and subscribe all share that size). In Drupal these become media entities on <code class="ds-code">field_icon</code>, so editors pick an icon rather than a template hard-coding one.</p>
+
+        <div class="ds-group">
+          <p class="ds-group__title">On light surfaces</p>
+          <p class="ds-group__note">Rendered as authored. The filename is the reference — it is what a template's <code class="ds-code">src</code> points at.</p>
+          <ul class="ds-icons">
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/accreditation.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">accreditation.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/bill.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">bill.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/bio.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">bio.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">business-greenpower.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/document.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">document.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">electricity.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/gas.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">gas.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">greenpower.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/home.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">home.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/magnifi-dollar.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">magnifi-dollar.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/shield-tick-badge.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">shield-tick-badge.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/tick-badge.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">tick-badge.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/tick-dollar-shield.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">tick-dollar-shield.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/tick-lgcs-badge.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">tick-lgcs-badge.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/up-dollar.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">up-dollar.svg</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">On dark surfaces</p>
+          <p class="ds-group__note">The same files knocked out to white with <code class="ds-code">filter: brightness(0) invert(100%)</code> — the shared trick the feature banner, bento stat tiles and footer logo use, since a file-referenced SVG cannot be recoloured any other way.</p>
+          <ul class="ds-icons ds-icons--on-dark">
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/accreditation.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">accreditation.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/bill.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">bill.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/bio.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">bio.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">business-greenpower.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/document.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">document.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">electricity.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/gas.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">gas.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">greenpower.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/home.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">home.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/magnifi-dollar.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">magnifi-dollar.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/shield-tick-badge.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">shield-tick-badge.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/tick-badge.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">tick-badge.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/tick-dollar-shield.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">tick-dollar-shield.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/tick-lgcs-badge.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">tick-lgcs-badge.svg</span>
+            </li>
+            <li class="ds-icon">
+              <span class="ds-icon__art"><img src="assets/icons/up-dollar.svg" alt="" width="55" height="55" loading="lazy"></span>
+              <span class="ds-icon__name">up-dollar.svg</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
       <section class="ds-section" id="card" aria-labelledby="card-title">
         <h2 class="ds-section__title" id="card-title">Card</h2>
         <p class="ds-section__intro">One component composes any of: image, icon, title, body and links — every part optional, and direct children are gap-spaced so leaving one out never leaves a hole. Toggle the parts to watch the same component reconfigure live: the controls add and remove the card’s real child elements, so the <code class="ds-code">.card</code> CSS is never touched. In Drupal each part maps 1:1 to a field on the <code class="ds-code">card</code> paragraph.</p>
@@ -453,15 +716,143 @@
           <figure class="caption-image" data-animate>
             <div class="caption-image__stage">
               <img class="caption-image__img" src="assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
-              <figcaption class="caption-image__caption">
-                <span class="caption-image__caption-shape" aria-hidden="true">
-                  <svg class="caption-image__caption-curve" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L0 210.3Z" fill="currentColor"/></svg>
-                </span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                <span>Image caption GreenPower image description</span>
-              </figcaption>
             </div>
+            <!-- Outside the stage on purpose: the stage clips its overflow, so a
+                 caption that wraps past the image's bottom edge would be cut
+                 off. In flow here, pulled back up one row by CSS. -->
+            <figcaption class="caption-image__caption">
+              <span class="caption-image__caption-shape" aria-hidden="true">
+                <svg class="caption-image__caption-curve" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L0 210.3Z" fill="currentColor"/></svg>
+              </span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span>Image caption GreenPower image description</span>
+            </figcaption>
           </figure>
+        </div>
+      </section>
+
+      <section class="ds-section" id="quote" aria-labelledby="quote-title" data-quote-demo>
+        <h2 class="ds-section__title" id="quote-title">Quote</h2>
+        <p class="ds-section__intro">A standalone testimonial: quote, then an attribution row of portrait, name and role. The portrait is optional — toggle it off and the row is simply name and role, with no empty circle held open. This is a component rather than something an editor types into CKEditor, because the portrait has to be a real media reference to get image styles, <code class="ds-code">srcset</code> and alt handling; a hand-written <code class="ds-code">&lt;img&gt;</code> in a body field gets none of those (<code class="ds-code">docs/wysiwyg-output.md</code>: “CKEditor is not a layout tool”). It shares the green rule and Dark Green text with the prose pull-quote so the two read as one family. In Drupal: paragraph <code class="ds-code">quote</code>, placed as a sibling between body paragraphs — or embedded with <code class="ds-code">entity_embed</code> if it must sit mid-field.</p>
+
+        <form class="ds-controls ds-controls--inline" aria-label="Quote configuration">
+          <fieldset class="ds-controls__group">
+            <legend class="ds-controls__legend">Parts</legend>
+            <label class="ds-control"><input type="checkbox" data-quote-toggle="image" checked><span>Portrait</span></label>
+          </fieldset>
+        </form>
+
+        <div class="ds-demo">
+          <figure class="quote">
+            <blockquote class="quote__text">
+              <p>“Each accredited generator goes through a rigorous review process so that GreenPower customers can trust their electricity choices are driving real change in the energy mix.”</p>
+            </blockquote>
+            <figcaption class="quote__author">
+              <span class="quote__avatar"><img src="assets/images/profile.png" alt="" width="400" height="400" loading="lazy"></span>
+              <span class="quote__meta">
+                <span class="quote__name">Persons Name</span>
+                <span class="quote__role">GreenPower, Program Manager</span>
+              </span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="ds-section" id="page-header" aria-labelledby="ph-title" data-page-header-demo>
+        <h2 class="ds-section__title" id="ph-title">Page header</h2>
+        <p class="ds-section__intro">The interior-page banner: breadcrumb, H1 and summary on a Dark Green band, with an optional image filling the right side and its top-left corner cut by the brand angle — the same 45° + artwork-bézier geometry as the hero panel. Toggle the image off and the shape stays, filled flat in Primary Green; on phones it drops away entirely, so an imageless header ends cleanly after the summary rather than stacking a decorative block. In Drupal this is page-level (node title, <code class="ds-code">field_summary</code>, optional <code class="ds-code">field_header_image</code>) with the breadcrumb block placed in the band — not a paragraph.</p>
+
+        <form class="ds-controls ds-controls--inline" aria-label="Page header configuration">
+          <fieldset class="ds-controls__group">
+            <legend class="ds-controls__legend">Parts</legend>
+            <label class="ds-control"><input type="checkbox" data-ph-toggle="image" checked><span>Image</span></label>
+          </fieldset>
+        </form>
+
+        <div class="ds-bleed">
+          <header class="page-header">
+            <div class="page-header__inner">
+              <nav aria-label="Breadcrumb">
+                <ol class="page-header__crumbs">
+                  <li class="page-header__crumb"><a href="#page-header">Home</a></li>
+                  <li class="page-header__crumb"><a href="#page-header">What is GreenPower</a></li>
+                  <li class="page-header__crumb" aria-current="page">How GreenPower works</li>
+                </ol>
+              </nav>
+              <h1 class="page-header__title">How GreenPower works</h1>
+              <p class="page-header__intro">The GreenPower label makes it easy to recognise and purchase renewable electricity and gas that meets stringent environmental standards.</p>
+              <div class="page-header__media">
+                <img src="assets/images/family-eating.png" alt="" width="900" height="600" loading="lazy">
+                <span class="page-header__angle" aria-hidden="true">
+                  <svg class="page-header__angle-curve page-header__angle-curve--top" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L299.02 0Z" fill="currentColor"/></svg>
+                  <svg class="page-header__angle-curve page-header__angle-curve--side" viewBox="0 0 210.3 299.02" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 299.02C0.001 209.1 13.03 197.18 60.79 149.51L210.3 0L0 0Z" fill="currentColor"/></svg>
+                </span>
+              </div>
+            </div>
+          </header>
+        </div>
+      </section>
+
+      <section class="ds-section" id="single-column" aria-labelledby="sc-title">
+        <h2 class="ds-section__title" id="sc-title">Single column</h2>
+        <p class="ds-section__intro">The default reading layout: one centred column whose width is the reading measure &mdash; <code class="ds-code">--measure: 50ch</code>, tuned against real rendered lines to ~63 characters (Bringhurst's 45&ndash;75 band; see <code class="ds-code">pages/_content.scss</code> for why 50, not 66). Prose inside is styled by the one WYSIWYG wrapper, and the column takes the same blocks the split layout does &mdash; card stacks, caption images, quotes &mdash; as siblings between prose sections. In Drupal this is <code class="ds-code">field_layout: single</code> on the same <code class="ds-code">section</code> paragraph the split uses.</p>
+
+        <div class="ds-demo">
+          <div class="page-content">
+            <div class="page-content__section">
+              <h3>What the certification covers</h3>
+              <p>Accreditation applies to the fuel or product itself, not to the organisation producing it. Each pathway is assessed against the <a href="#single-column">Program Rules</a> before a certificate can be issued.</p>
+              <p>Sources of biogenic CO<sub>2</sub> include biomethane production, ethanol production, biogas to electricity cogeneration, landfill gas operations and waste management facilities.</p>
+            </div>
+            <div class="card-stack">
+              <article class="card">
+                <div class="card__content">
+                  <span class="card__icon"><img src="assets/icons/document.svg" alt="" width="52" height="52" loading="lazy"></span>
+                  <h3 class="card__title">Program Rules</h3>
+                  <p class="card__body">Blocks like this card stack sit between prose sections, aligned to the same measure.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ds-section" id="page-split" aria-labelledby="split-title">
+        <h2 class="ds-section__title" id="split-title">Split section</h2>
+        <p class="ds-section__intro">The sticky two-column alternative to the single reading column: a 50/50 grid from <code class="ds-code">md</code> where the left rail (H2 + description, capped to a narrow measure inside its half) <strong>sticks</strong> while the right half scrolls. The right column takes exactly the same blocks as the single column — prose, card stacks, caption images, quotes — so in Drupal one <code class="ds-code">section</code> paragraph with <code class="ds-code">field_layout</code> (single | split_sticky) switches wrapper without re-entering content. Below <code class="ds-code">md</code> it stacks, intro first, sticky off. Scroll this pane to watch the rail hold.</p>
+
+        <div class="ds-demo">
+          <div class="page-split">
+            <div class="page-split__intro">
+              <h2 class="page-split__heading">How does GreenPower Renewable Electricity work?</h2>
+              <p class="page-split__lede">GreenPower certification uses a different type of certificate for Electricity and Gas.</p>
+            </div>
+            <div class="page-split__body">
+              <div class="card-stack">
+                <article class="card">
+                  <div class="card__content">
+                    <span class="card__icon"><img src="assets/icons/shield-tick-badge.svg" alt="" width="52" height="52" loading="lazy"></span>
+                    <h3 class="card__title">01. GreenPower accreditation</h3>
+                    <p class="card__body">GreenPower generators must meet standards that go above and beyond the Clean Energy Regulator&rsquo;s requirements. Electricity generators eligible to create Large-scale Generation Certificates (LGCs) can apply for GreenPower accreditation.</p>
+                  </div>
+                </article>
+                <article class="card">
+                  <div class="card__content">
+                    <span class="card__icon"><img src="assets/icons/document.svg" alt="" width="52" height="52" loading="lazy"></span>
+                    <h3 class="card__title">02. GreenPower LGCs are created</h3>
+                    <p class="card__body">Accredited generators produce renewable electricity and create LGCs that carry the GreenPower stamp — one certificate for every megawatt hour sent to the grid.</p>
+                  </div>
+                </article>
+                <article class="card">
+                  <div class="card__content">
+                    <span class="card__icon"><img src="assets/icons/electricity.svg" alt="" width="52" height="52" loading="lazy"></span>
+                    <h3 class="card__title">03. Providers match your usage</h3>
+                    <p class="card__body">Your electricity provider buys and surrenders GreenPower LGCs to match the renewable percentage you choose, and the purchase is audited annually.</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -687,6 +1078,100 @@
           toggle(linksUl, content, false, n > 0); // drop the empty <ul> at 0
         });
       });
+    })();
+  </script>
+
+  <script>
+    // Type specimens: fill each row's pixel readout from the CASCADE rather than
+    // hardcoding it, so the panel cannot drift from the real scale — and so it
+    // reports the fluid value at whatever width you are actually viewing. The
+    // steps are re-read on resize for the same reason.
+    (function () {
+      var panel = document.querySelector('[data-type-specimens]');
+      if (!panel) return;
+
+      // Measure a value by rendering it, so `clamp()` resolves exactly as it
+      // would in use — no reimplementation of the formula here.
+      var probe = document.createElement('span');
+      probe.style.position = 'absolute';
+      probe.style.visibility = 'hidden';
+      probe.setAttribute('aria-hidden', 'true');
+
+      function round(px) { return Math.round(parseFloat(px) * 10) / 10 + 'px'; }
+
+      function update() {
+        panel.appendChild(probe);
+
+        panel.querySelectorAll('[data-type-px]').forEach(function (out) {
+          var sel = out.getAttribute('data-type-px');
+          var el = panel.querySelector('.ds-type__sample ' + sel);
+          if (el) out.textContent = round(getComputedStyle(el).fontSize);
+        });
+
+        panel.querySelectorAll('[data-type-px-var]').forEach(function (out) {
+          probe.style.fontSize = 'var(' + out.getAttribute('data-type-px-var') + ')';
+          out.textContent = round(getComputedStyle(probe).fontSize);
+        });
+
+        probe.remove();
+      }
+
+      update();
+      window.addEventListener('resize', update);
+    })();
+  </script>
+
+  <script>
+    // Quote demo: toggling the portrait removes the REAL .quote__avatar, which
+    // is exactly the markup an empty field_quote_image produces — so the row
+    // reflows to name + role with no placeholder circle, and the component CSS
+    // is never touched.
+    (function () {
+      var demo = document.querySelector('[data-quote-demo]');
+      if (!demo) return;
+      var author = demo.querySelector('.quote__author');
+      var input = demo.querySelector('[data-quote-toggle="image"]');
+      if (!author || !input) return;
+      var avatar = author.querySelector('.quote__avatar');
+
+      function apply() {
+        if (input.checked) {
+          if (!avatar.parentNode) author.prepend(avatar); // authored position
+        } else if (avatar.parentNode) {
+          avatar.remove();
+        }
+      }
+
+      input.addEventListener('change', apply);
+      apply();
+    })();
+  </script>
+
+  <script>
+    // Page header demo: toggling the image removes the REAL <img> and flags the
+    // media as empty — exactly the state an unset field_header_image produces in
+    // Drupal — so the .page-header CSS is never touched. The angle overlay stays
+    // put either way; only what sits behind it changes.
+    (function () {
+      var demo = document.querySelector('[data-page-header-demo]');
+      if (!demo) return;
+      var media = demo.querySelector('.page-header__media');
+      var input = demo.querySelector('[data-ph-toggle="image"]');
+      if (!media || !input) return;
+      var img = media.querySelector('img');
+
+      function apply() {
+        if (input.checked) {
+          if (!img.parentNode) media.prepend(img); // back to its authored position
+          media.classList.remove('page-header__media--empty');
+        } else {
+          if (img.parentNode) img.remove();
+          media.classList.add('page-header__media--empty');
+        }
+      }
+
+      input.addEventListener('change', apply);
+      apply(); // honour the control's authored default
     })();
   </script>
 

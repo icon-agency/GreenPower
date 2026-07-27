@@ -1,0 +1,98 @@
+// -----------------------------------------------------------------------------
+// Quote — standalone testimonial with optional author portrait
+//
+// A <figure> holding a <blockquote> and a <figcaption> attribution row: the
+// portrait, the person's name and their role. The portrait is OPTIONAL — with
+// no image the row is simply name + role, no empty circle reserved.
+//
+// Distinct from the pull-quote inside prose (.page-content__section blockquote,
+// pages/_content.scss). That one is something an editor types in CKEditor; this
+// is a component, because the portrait has to be a real media reference to get
+// image styles, srcset and alt handling — none of which survive being typed as
+// an <img> into a body field (docs/wysiwyg-output.md: "CKEditor is not a layout
+// tool"). The two deliberately share the green rule and Dark Green quote colour
+// so they read as one family.
+//
+// Sits in the reading column: wrap it in .page-content, a SIBLING of
+// .page-content__section rather than inside it, so it aligns to the same
+// measure without inheriting prose styling.
+//
+// Drupal mapping: Paragraph: quote
+//   Fields: field_quote_text (text long), field_quote_image (media image,
+//     OPTIONAL — omit .quote__avatar when empty), field_quote_name (text),
+//     field_quote_role (text).
+//   Placement: a sibling paragraph between body-field paragraphs. If it must
+//     appear mid-body-field, embed this same paragraph with entity_embed
+//     rather than rebuilding it as markup an editor maintains.
+//   Preprocess: nothing beyond the field lookups; the avatar is rendered only
+//     when the media reference resolves.
+//   Known risks: placeholder profile.png is 400x400 / ~250KB — production
+//     wants a square image style (~160px served, WebP/AVIF) with srcset, since
+//     it renders at 4.5rem (LESSONS.md).
+// -----------------------------------------------------------------------------
+
+.quote {
+  padding-left: var(--space-m);
+  margin: 0; // <figure> carries a UA margin
+  // Same rule as the prose pull-quote, so the two read as one family
+  border-left: 3px solid $color-brand-green;
+}
+
+.quote__text {
+  margin: 0; // <blockquote> UA margin
+
+  // step-1: a step above body, matching the prose pull-quote. At the reading
+  // measure that lands ~8 words a line — display-weight without the lines
+  // getting so short the quote reads as a list of fragments.
+  font-size: $font-size-lg;
+  line-height: $line-height-heading;
+  color: $color-brand-dark-green;
+
+  // The quote arrives as a rendered text-long field, so it may hold one or
+  // several paragraphs; space them without touching the outer rhythm.
+  > * {
+    margin: 0;
+  }
+
+  > * + * {
+    margin-top: var(--space-s);
+  }
+}
+
+.quote__author {
+  @include flex-row(var(--space-s));
+  margin-top: var(--space-m);
+}
+
+// Present only when there IS an image — no empty circle is reserved otherwise
+.quote__avatar {
+  flex-shrink: 0;
+  width: 4.5rem;
+  height: 4.5rem;
+  overflow: hidden; // clips the portrait to the circle
+  border-radius: 50%;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    // Square source, but cover keeps the crop honest if a non-square image
+    // ever reaches it
+    object-fit: cover;
+  }
+}
+
+.quote__meta {
+  @include flex-col(0);
+  min-width: 0; // long roles wrap rather than pushing the row wide
+}
+
+.quote__name {
+  font-weight: $font-weight-demibold;
+  color: $color-brand-dark-green;
+}
+
+.quote__role {
+  font-size: $font-size-sm;
+  color: $color-ui-text;
+}

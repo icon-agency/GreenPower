@@ -1,0 +1,116 @@
+// -----------------------------------------------------------------------------
+// Page split — the sticky two-column alternative to the single reading column
+//
+// 50/50 from md: the left half carries a narrow intro rail (H2 + description)
+// that STICKS while the right half scrolls through content. The right column
+// takes exactly the same blocks the single column does — .page-content__section
+// prose, .card-stack, .caption-image--inline, .quote — on the same rhythm, so
+// the two layouts are interchangeable per section. Below md it stacks, intro
+// first, sticky off (a stuck heading would hold half a phone screen hostage).
+//
+// Like .page-content, this owns no gutters: it sits inside .page-body, which
+// is the container. The two are siblings in the same section flow.
+//
+// Drupal mapping: one `section` paragraph with field_layout
+//   (single | split_sticky) choosing between the page-content and page-split
+//   wrapper templates:
+//   - field_heading (text) + field_intro (text long) — the rail (unused by the
+//     single layout, which starts straight into content).
+//   - field_content (paragraph refs: wysiwyg / card_grid / caption_image /
+//     quote) — the SAME child paragraphs render into either wrapper, so an
+//     editor switches layout without re-entering content.
+//   Preprocess: template suggestion from field_layout; nothing else.
+// -----------------------------------------------------------------------------
+
+.page-split {
+  @include respond-to('md') {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)); // minmax(0,…) per LESSONS.md
+    gap: var(--space-2xl);
+    // Load-bearing: grid items stretch to the row height by default, and a
+    // full-height item has nowhere to travel — sticky would silently never
+    // engage. start-aligned, the intro is its natural height and sticks for
+    // the rest of the row.
+    align-items: start;
+  }
+}
+
+// The rail: H2 + description. Sticky only where the columns exist.
+.page-split__intro {
+  // Stacked (below md): a normal block above the content
+  margin-bottom: var(--space-l);
+
+  @include respond-to('md') {
+    position: sticky;
+    top: var(--space-l);
+    margin-bottom: 0;
+    // The stuck offset animates on the auto-hide bar's own timing (0.25s
+    // ease-out), so the rail steps down/up WITH the bar rather than being
+    // overlaid — see the sibling rule below.
+    @include transition(top, 0.25s, ease-out);
+  }
+}
+
+// The rail's measure is set PER ELEMENT, in each element's OWN ch — that unit
+// already rides the element's fluid clamp(), so the characters per line (and
+// with them the line BREAKS) hold at every width and breakpoint, mobile
+// included. A single rail-level cap in the intro's body font could never do
+// this: the heading's step-2 grows on a steeper clamp than step-0, so its
+// line length drifted with the viewport and the H2 re-broke at every size.
+// (No separate clamp() needed — the element's ch IS the font's clamp.)
+
+// While the scroll-entrance system is live it sets `transition: opacity,
+// transform` on the rail ([data-animate]), which would silently drop the
+// `top` transition above and turn the step-down into a snap. Re-declare the
+// full list at higher specificity (the same pattern as the card's
+// background-color re-add in _card.scss).
+.js-animations .page-split__intro[data-animate] {
+  @include respond-to('md') {
+    transition:
+      opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out),
+      transform var(--animate-duration, 600ms) var(--animate-easing, ease-out),
+      top 0.25s ease-out;
+  }
+}
+
+// The fixed bar is in (scroll-up reveal): step the stuck rail down below it,
+// and back up as the bar hides. The header and <main> are siblings, so the
+// header's auto-hide state can reach the rail directly. --header-height is
+// written by the shared auto-hide script (it already measures the bar every
+// scroll tick); the fallback only matters before the first scroll, when the
+// bar cannot be pinned anyway.
+.site-header.is-pinned.is-shown ~ main .page-split__intro {
+  @include respond-to('md') {
+    top: calc(var(--header-height, 4.5rem) + var(--space-s));
+  }
+}
+
+.page-split__heading {
+  // ~24 characters of ITS OWN size (see the measure note above). Chosen with
+  // real margin: the wrap boundaries drift ~2ch across rendering scales
+  // (glyph-advance rounding — measured: "Renewable Electricity" needed >19ch
+  // at a 29px font but fit 18ch at 38px), so the narrow 3-line band can sit
+  // safely at one scale and flip at another. The 2-line break's band is wide
+  // open above ~21ch, so 24ch holds the same break at every size; the
+  // site-wide text-wrap: pretty guards the last line from orphaning.
+  max-width: 24ch;
+  // Dark green like the other section-level headings (base h2 colour is the
+  // blue $color-ui-heading; sections carry the brand green).
+  color: $color-brand-dark-green;
+}
+
+.page-split__lede {
+  // Its own font is the intro's body step, so this is the same measure the
+  // old rail cap gave it — now stated where it belongs.
+  max-width: 36ch;
+  margin-top: var(--space-s);
+  color: $color-ui-text;
+}
+
+// The scrolling half: same section-scale rhythm as .page-content, so a block
+// reads identically in either layout.
+.page-split__body {
+  > * + * {
+    margin-top: var(--space-2xl);
+  }
+}

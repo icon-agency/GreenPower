@@ -37,6 +37,28 @@
     }
   }
 
+  // Embedded in the reading column (a sibling of .page-content__section) rather
+  // than sitting full-bleed in a page section.
+  //
+  // Drops the frame padding: that inset exists so the figure sits snug to a
+  // SECTION's edges, but in the column it would hold the image away from the
+  // text edge it should align to. And it holds the 3:2 crop at every width —
+  // the 2:1 band is for a full-width image; at the measure (~535px) it
+  // collapses to a ~270px letterbox strip.
+  //
+  // Drupal: paragraph caption_image placed between body paragraphs (or
+  // entity_embed'd mid-field); preprocess adds the modifier from the
+  // placement, not from an editorial field.
+  &--inline {
+    padding: 0;
+
+    .caption-image__stage {
+      @include respond-to('md') {
+        aspect-ratio: 3 / 2;
+      }
+    }
+  }
+
   &__img {
     position: absolute;
     inset: 0;
@@ -71,21 +93,65 @@
 
     @include angle-badge-box;
     --badge-fill: #{$color-white}; // white badge; icon + caption text dark green
-    // Cap the badge to the stage width so a long caption wraps to a second line
-    // (shrink-to-fit already clamps it, but be explicit) rather than overflowing
-    // the rounded stage. Unlike the feature-banner pin (nowrap, width-animated),
-    // captions are arbitrary length, so let them reflow.
+
+    // Height of the badge holding a SINGLE line — the padding pair plus one
+    // 1.3 line box. Used as the overlap below, so the resting badge sits
+    // exactly on the image's bottom edge.
+    --caption-row: calc(var(--space-xs) + var(--space-3xs) + 1.3em);
+
+    // Overrides the mixin's absolute bottom-right anchor. The caption is a
+    // SIBLING of the stage, in normal flow, pulled back up over the image by
+    // exactly one row — so a one-line caption looks identical to the anchored
+    // version, but a long one grows DOWNWARD out of the image and the figure
+    // grows with it, pushing following content clear.
+    //
+    // It cannot stay inside the stage: that box has a fixed aspect-ratio and
+    // clips its overflow, so a caption growing past the bottom edge would just
+    // be cut off. And it cannot stay absolute, or the figure would not reserve
+    // the extra height and the caption would collide with what follows.
+    position: relative;
+    inset: auto; // clear the mixin's right/bottom
+    width: fit-content;
+    margin-top: calc(-1 * var(--caption-row));
+    margin-left: auto; // right-aligned, as the anchored version was
+
+    // Tighter than the mixin's symmetric --space-xs so the caption sits down ON
+    // the image's bottom edge rather than floating a step above it.
+    padding-bottom: var(--space-3xs);
+
+    // Pull the icon and text in toward the angle. The mixin adds --space-2xs
+    // beyond the diagonal's clearance point (cut + 1.4594 · curve), which is
+    // sized for a vertically CENTRED single line. This badge top-aligns its
+    // content, and the padding above the icon already carries it below the
+    // badge's top edge — where the 45° diagonal has receded left by that same
+    // distance — so that extra gap is clearance the shape no longer needs.
+    padding-left: calc(var(--badge-cut) + 1.4594 * var(--badge-curve) - var(--space-2xs));
+
+    // Out of the stage, nothing clips the badge any more: round the outer
+    // corner to match the image's, and trim the mixin's 3px backing overbleed
+    // (that exists to seal a seam against a clipping stage — here it would
+    // simply stick out).
+    overflow: hidden;
+    border-bottom-right-radius: $radius-lg;
+
+    // Cap to the column so a long caption wraps rather than running wide.
     max-width: 100%;
     font-size: $font-size-sm;
     color: $color-brand-dark-green;
     overflow-wrap: anywhere;
 
+    // Icon holds the FIRST line instead of centring against the whole block, so
+    // a wrapped caption grows down from it and the icon stays put.
+    align-items: flex-start;
+
     // The camera icon (direct child only — the curve svg in the shape span
     // keeps its own sizing)
     > svg {
       flex-shrink: 0;
-      width: 1.35em;
-      height: 1.35em;
+      width: 1.15em;
+      height: 1.15em;
+      // Centre the glyph on the first line box rather than its top edge
+      margin-top: calc((1.3em - 1.15em) / 2);
     }
   }
 

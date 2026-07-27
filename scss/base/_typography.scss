@@ -38,33 +38,49 @@ body {
   text-wrap: pretty;
 }
 
+// One weight and one leading for every heading level: the DemiBold face (500)
+// at $line-height-tight (1.15). Both are tokens, so a sub-theme retunes them
+// in one place. Components that set their own heading weight already use this
+// same token, so the base and the components agree.
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-weight: $font-weight-bold;
-  line-height: $line-height-heading;
+  font-weight: $font-weight-demibold;
+  line-height: $line-height-tight;
   letter-spacing: -0.01em; // subtle tightening; em-based so it scales per size
   color: $color-ui-heading;
 }
 
+// Levels h2 down each take the step that used to belong to the level below
+// them, so the whole run sits one step quieter than the type scale's default
+// pairing. h5/h6 are pinned here too (they previously had no size of their own
+// and fell back to body size), which keeps the full ladder in one place instead
+// of leaving the bottom two to individual components.
 h1 {
-  font-size: $font-size-3xl;
-  line-height: $line-height-tight;
+  font-size: $font-size-3xl; // leading comes from the group rule above
 }
 
 h2 {
-  font-size: $font-size-2xl;
-}
-
-h3 {
   font-size: $font-size-xl;
 }
 
-h4 {
+h3 {
   font-size: $font-size-lg;
+}
+
+h4 {
+  font-size: $font-size-base;
+}
+
+h5 {
+  font-size: $font-size-sm;
+}
+
+h6 {
+  font-size: $font-size-xs;
 }
 
 a {

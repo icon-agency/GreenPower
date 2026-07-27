@@ -45,7 +45,15 @@ $line-height-base: 1.3 !default; // body copy
   // back-solved 0.8333rem (~13.3px) to 0.9375rem (15px) so small copy doesn't
   // read too small on mobile/tablet. Max (desktop) is unchanged.
   --step--1: clamp(0.9375rem, 0.7882rem + 0.1926vw, 0.9615rem);
-  --step-0: clamp(1rem, 0.912rem + 0.3756vw, 1.25rem);
+  // step-0 (base — body copy): max lowered from the scale's 1.25rem (20px)
+  // to 1.125rem (18px) — 20px body read oversized on desktop, and kept
+  // growing past 1440 with the root. Regenerated with the shared formula
+  // (16px -> 18px across 375 -> 1440), not just re-capped, so the
+  // interpolation stays genuinely fluid. Like the raised --step--1 floor
+  // below, a documented per-step deviation: the REST of the scale keeps the
+  // 20px base, so heading/display sizes are unchanged (the step-0 -> step-1
+  // jump at the max widens from 1.3x to ~1.44x as a result).
+  --step-0: clamp(1rem, 0.956rem + 0.1878vw, 1.125rem);
   --step-1: clamp(1.2rem, 1.0504rem + 0.6385vw, 1.625rem);
   --step-2: clamp(1.44rem, 1.2032rem + 1.0103vw, 2.1125rem);
   --step-3: clamp(1.728rem, 1.3695rem + 1.5298vw, 2.7462rem);

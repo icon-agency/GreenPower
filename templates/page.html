@@ -383,17 +383,17 @@
 
   <main id="main-content">
     <header class="page-header">
-      <div class="page-header__inner">
-        <nav aria-label="Breadcrumb">
+      <div class="page-header__inner" data-animate-stagger>
+        <nav aria-label="Breadcrumb" data-animate>
           <ol class="page-header__crumbs">
             <li class="page-header__crumb"><a href="../index.html">Home</a></li>
             <li class="page-header__crumb"><a href="#">What is GreenPower</a></li>
             <li class="page-header__crumb" aria-current="page">How GreenPower works</li>
           </ol>
         </nav>
-        <h1 class="page-header__title">How GreenPower works</h1>
-        <p class="page-header__intro">The GreenPower label makes it easy to recognise and purchase renewable electricity and gas that meets stringent environmental standards.</p>
-        <div class="page-header__media">
+        <h1 class="page-header__title" data-animate>How GreenPower works</h1>
+        <p class="page-header__intro" data-animate>The GreenPower label makes it easy to recognise and purchase renewable electricity and gas that meets stringent environmental standards.</p>
+        <div class="page-header__media" data-animate>
           <img src="../assets/images/family-eating.png" alt="" width="900" height="600" loading="lazy">
           <span class="page-header__angle" aria-hidden="true">
             <svg class="page-header__angle-curve page-header__angle-curve--top" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L299.02 0Z" fill="currentColor"/></svg>
@@ -404,7 +404,195 @@
     </header>
 
     <section class="page-body">
-      <p>Placeholder content — real page sections will replace this as components are built.</p>
+      <!-- The centred reading column. In Drupal the inner wrapper takes the
+           rendered body field verbatim: {{ content.body }} — everything inside
+           is styled by .page-content__section alone (docs/wysiwyg-output.md). -->
+      <div class="page-content">
+        <div class="page-content__section" data-animate>
+          <h2>LCLF and Biogenic CO<sub>2</sub> Certification</h2>
+
+          <p>These certifications will aim to support emerging renewable fuels production and help hard-to-abate sectors decarbonise, such as heavy transport, aviation, mining, agriculture, maritime and industrial processes.</p>
+
+          <p>Biogenic CO<sub>2</sub> is carbon dioxide that originates from natural biological sources, primarily through the combustion, fermentation or decomposition of biomass. It is part of the short-term natural carbon cycle, meaning the carbon released was recently absorbed from the atmosphere by plants during photosynthesis.</p>
+
+          <p>Sources of biogenic CO<sub>2</sub> include biomethane production, ethanol production, biogas to electricity cogeneration, landfill gas operations and waste management facilities. Demand includes the food and beverage industry, agriculture, industrial applications, chemicals manufacturing, water treatment, renewable fuel production, and <a href="#">carbon capture and storage</a> operations.</p>
+
+          <h3>What the certification covers</h3>
+
+          <p>Accreditation applies to the fuel or product itself, not to the organisation producing it. Each pathway is assessed against the Program Rules before a certificate can be issued.</p>
+        </div>
+
+        <!-- Caption image in the reading column. Sibling of the prose wrapper,
+             so it aligns to the measure; --inline drops the full-bleed frame
+             padding and holds the 3:2 crop. -->
+        <figure class="caption-image caption-image--inline" data-animate>
+          <div class="caption-image__stage">
+            <img class="caption-image__img" src="../assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
+          </div>
+          <!-- Outside the stage on purpose: the stage clips its overflow, so a
+               caption that wraps past the image's bottom edge would be cut off.
+               In flow here, pulled back up one row by CSS. -->
+          <figcaption class="caption-image__caption">
+            <span class="caption-image__caption-shape" aria-hidden="true">
+              <svg class="caption-image__caption-curve" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L0 210.3Z" fill="currentColor"/></svg>
+            </span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span>Low carbon liquid fuels under assessment</span>
+          </figcaption>
+        </figure>
+
+        <div class="page-content__section" data-animate>
+          <ul>
+            <li>Low carbon liquid fuels for heavy transport and aviation</li>
+            <li>Biogenic CO<sub>2</sub> captured from qualifying biological sources</li>
+            <li>Renewable gas delivered under an <strong>RGGO</strong> certificate
+              <ul>
+                <li>Biomethane from wastewater treatment</li>
+                <li>Biomethane from agricultural feedstock</li>
+              </ul>
+            </li>
+          </ul>
+
+          <blockquote>
+            Certification gives buyers a single, verifiable claim — one that stands up to scrutiny from regulators, auditors and customers alike.
+            <cite>GreenPower Program Rules, 2026</cite>
+          </blockquote>
+        </div>
+
+        <!-- Cards in the reading column. .card-stack, not .card-section__grid:
+             the column stays ~535px at every desktop width, so the section
+             grid's viewport-driven 3-up would shrink these to ~170px. -->
+        <div class="card-stack" data-animate-stagger>
+          <article class="card" data-animate>
+            <div class="card__content">
+              <span class="card__icon"><img src="../assets/icons/document.svg" alt="" width="52" height="52" loading="lazy"></span>
+              <h3 class="card__title">Program Rules</h3>
+              <p class="card__body">The full eligibility criteria, measurement requirements and audit obligations for each accredited pathway.</p>
+              <ul class="card__links">
+                <li><a class="card__link" href="#">Read the Program Rules
+                  <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+              </ul>
+            </div>
+          </article>
+          <article class="card" data-animate>
+            <div class="card__content">
+              <span class="card__icon"><img src="../assets/icons/accreditation.svg" alt="" width="52" height="52" loading="lazy"></span>
+              <h3 class="card__title">Become accredited</h3>
+              <p class="card__body">Select the pathway that best describes your operation to start an application.</p>
+              <ul class="card__links">
+                <li><a class="card__link" href="#">Gas producers
+                  <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                <li><a class="card__link" href="#">Electricity generators
+                  <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+              </ul>
+            </div>
+          </article>
+        </div>
+
+        <div class="page-content__section" data-animate>
+          <h3>Eligibility at a glance</h3>
+
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Pathway</th>
+                <th scope="col">Certificate</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Renewable electricity</td>
+                <td>LGC</td>
+                <td>Open</td>
+              </tr>
+              <tr>
+                <td>Renewable gas</td>
+                <td>RGGO</td>
+                <td>Open</td>
+              </tr>
+              <tr>
+                <td>Low carbon liquid fuels</td>
+                <td>LCLF</td>
+                <td>In consultation</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- The quote component is a SIBLING of the prose wrapper, not inside
+             it: it aligns to the same reading column (.page-content) without
+             inheriting prose styling. In Drupal it is its own paragraph in the
+             page's list, so the portrait stays a real media reference. -->
+        <figure class="quote" data-animate>
+          <blockquote class="quote__text">
+            <p>“Each accredited generator goes through a rigorous review process so that GreenPower customers can trust their electricity choices are driving real change in the energy mix.”</p>
+          </blockquote>
+          <figcaption class="quote__author">
+            <span class="quote__avatar"><img src="../assets/images/profile.png" alt="" width="400" height="400" loading="lazy"></span>
+            <span class="quote__meta">
+              <span class="quote__name">Persons Name</span>
+              <span class="quote__role">GreenPower, Program Manager</span>
+            </span>
+          </figcaption>
+        </figure>
+
+        <div class="page-content__section" data-animate>
+          <h4>Applying</h4>
+
+          <ol>
+            <li>Confirm your feedstock and production pathway are in scope.</li>
+            <li>Submit supporting measurement and chain-of-custody evidence.</li>
+            <li>Complete an independent audit before certificates are issued.</li>
+          </ol>
+
+          <hr>
+
+          <h5>Related guidance</h5>
+
+          <p>Program documentation is published as it is finalised. For terminology used throughout these pages, see the glossary entry for <code>biogenic</code>.</p>
+        </div>
+      </div>
+
+      <!-- The CMS's other section layout: field_layout = split_sticky. Same
+           child blocks as .page-content, but a 50/50 grid whose intro rail
+           sticks while the content half scrolls. -->
+      <div class="page-split">
+        <div class="page-split__intro" data-animate>
+          <h2 class="page-split__heading">How does GreenPower Renewable Electricity work?</h2>
+          <p class="page-split__lede">GreenPower certification uses a different type of certificate for Electricity and Gas.</p>
+        </div>
+        <div class="page-split__body">
+          <div class="card-stack" data-animate-stagger>
+            <article class="card" data-animate>
+              <div class="card__content">
+                <span class="card__icon"><img src="../assets/icons/shield-tick-badge.svg" alt="" width="52" height="52" loading="lazy"></span>
+                <h3 class="card__title">01. GreenPower accreditation</h3>
+                <p class="card__body">GreenPower generators must meet standards that go above and beyond the Clean Energy Regulator&rsquo;s requirements. Electricity generators eligible to create Large-scale Generation Certificates (LGCs) can apply for GreenPower accreditation.</p>
+              </div>
+            </article>
+            <article class="card" data-animate>
+              <div class="card__content">
+                <span class="card__icon"><img src="../assets/icons/document.svg" alt="" width="52" height="52" loading="lazy"></span>
+                <h3 class="card__title">02. GreenPower LGCs are created</h3>
+                <p class="card__body">Accredited generators produce renewable electricity and create LGCs that carry the GreenPower stamp — one certificate for every megawatt hour sent to the grid.</p>
+              </div>
+            </article>
+            <article class="card" data-animate>
+              <div class="card__content">
+                <span class="card__icon"><img src="../assets/icons/electricity.svg" alt="" width="52" height="52" loading="lazy"></span>
+                <h3 class="card__title">03. Providers match your usage</h3>
+                <p class="card__body">Your electricity provider buys and surrenders GreenPower LGCs to match the renewable percentage you choose, and the purchase is audited annually.</p>
+              </div>
+            </article>
+          </div>
+
+          <div class="page-content__section" data-animate>
+            <p>The result: every unit of GreenPower you buy is matched by accredited renewable generation added to the grid on your behalf, over and above what the law already requires of your provider.</p>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -426,8 +614,8 @@
       </section>
     </div>
 
-    <div class="site-footer__content">
-      <div class="site-footer__top">
+    <div class="site-footer__content" data-animate-stagger>
+      <div class="site-footer__top" data-animate>
         <a class="site-footer__logo" href="../index.html">
           <img src="../assets/GreenPower-logo.svg" alt="GreenPower Renewable Energy — home" width="250" height="68">
         </a>
@@ -436,7 +624,7 @@
         </a>
       </div>
 
-      <div class="site-footer__body">
+      <div class="site-footer__body" data-animate>
         <div class="site-footer__brand">
           <p class="site-footer__acknowledgement">We pay our respects to the Traditional Owners of the lands where we work as well as across the lands we travel through. We also acknowledge Elders past, present and emerging.</p>
           <a class="btn btn--white" href="#">Buy GreenPower</a>
@@ -472,6 +660,10 @@
         </nav>
       </div>
 
+      <!-- No data-animate: this is the LAST element on the page, and the shared
+           observer's -8% bottom rootMargin means anything sitting inside the
+           final viewport's bottom 8% can never intersect — it would stay hidden
+           for good (and only on taller viewports, so it passes casual testing). -->
       <div class="site-footer__legal">
         <p class="site-footer__copyright">© 2026 Copyright</p>
         <ul class="site-footer__legal-links">
@@ -727,6 +919,7 @@
       var lastY = window.scrollY;
       var ticking = false;
       var hideTimer = null;
+      var lastHH = 0;
       var DELTA = 8; // ignore sub-8px jitter when deciding direction
       // Only the transparent hero header morphs in the top zone; a standard
       // (non-overlay) header stays in flow, so it keeps the natural top drop.
@@ -759,6 +952,12 @@
         ticking = false;
         var y = window.scrollY;
         var hh = header.offsetHeight;
+        if (hh !== lastHH) {
+          // Published for sticky elements that step below the fixed bar
+          // (e.g. the page-split rail) — cheaper than a second measurer.
+          document.documentElement.style.setProperty('--header-height', hh + 'px');
+          lastHH = hh;
+        }
         if (y <= 1) {
           // At the very top the fixed bar and the natural header coincide, so
           // drop every state class with no visible jump (the overlay is already

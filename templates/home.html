@@ -619,8 +619,8 @@
       </section>
     </div>
 
-    <div class="site-footer__content">
-      <div class="site-footer__top">
+    <div class="site-footer__content" data-animate-stagger>
+      <div class="site-footer__top" data-animate>
         <a class="site-footer__logo" href="../index.html">
           <img src="../assets/GreenPower-logo.svg" alt="GreenPower Renewable Energy — home" width="250" height="68">
         </a>
@@ -629,7 +629,7 @@
         </a>
       </div>
 
-      <div class="site-footer__body">
+      <div class="site-footer__body" data-animate>
         <div class="site-footer__brand">
           <p class="site-footer__acknowledgement">We pay our respects to the Traditional Owners of the lands where we work as well as across the lands we travel through. We also acknowledge Elders past, present and emerging.</p>
           <a class="btn btn--white" href="#">Buy GreenPower</a>
@@ -665,6 +665,10 @@
         </nav>
       </div>
 
+      <!-- No data-animate: this is the LAST element on the page, and the shared
+           observer's -8% bottom rootMargin means anything sitting inside the
+           final viewport's bottom 8% can never intersect — it would stay hidden
+           for good (and only on taller viewports, so it passes casual testing). -->
       <div class="site-footer__legal">
         <p class="site-footer__copyright">© 2026 Copyright</p>
         <ul class="site-footer__legal-links">
@@ -1333,6 +1337,7 @@
       var lastY = window.scrollY;
       var ticking = false;
       var hideTimer = null;
+      var lastHH = 0;
       var DELTA = 8; // ignore sub-8px jitter when deciding direction
       // Only the transparent hero header morphs in the top zone; a standard
       // (non-overlay) header stays in flow, so it keeps the natural top drop.
@@ -1365,6 +1370,12 @@
         ticking = false;
         var y = window.scrollY;
         var hh = header.offsetHeight;
+        if (hh !== lastHH) {
+          // Published for sticky elements that step below the fixed bar
+          // (e.g. the page-split rail) — cheaper than a second measurer.
+          document.documentElement.style.setProperty('--header-height', hh + 'px');
+          lastHH = hh;
+        }
         if (y <= 1) {
           // At the very top the fixed bar and the natural header coincide, so
           // drop every state class with no visible jump (the overlay is already

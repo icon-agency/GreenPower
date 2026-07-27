@@ -72,8 +72,32 @@
     text-align: center;
 
     @include respond-to('sm') {
+      // Lifted above the media so the seam cover below can paint over the
+      // join — the panel is earlier in the DOM, so it would otherwise lose.
+      position: relative;
+      z-index: 1;
       grid-area: 1 / 2;
       padding: var(--space-xl) var(--space-m);
+
+      // Seam cover. The photo's clipped edge lands on a FRACTIONAL pixel
+      // whenever the grid resolves these columns to half-pixel widths (at a
+      // 1001px viewport the join sits at exactly 500.5), so that pixel
+      // composites half photo, half mint and reads as a faint vertical line
+      // down the whole join. It comes and goes because it depends entirely on
+      // where the column boundary lands. Nothing here is transparent enough to
+      // help on its own: the panel takes its mint from the band, so there is no
+      // opaque layer over the join. This 2px strip is that layer — mint on
+      // mint above the diagonal, and 1px over the photo's edge below it, so it
+      // is invisible either way while removing the blend outright.
+      &::before {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: -1px;
+        width: 2px;
+        content: '';
+        background-color: $color-brand-pale-mint;
+      }
     }
 
     @include respond-to('md') {
@@ -103,8 +127,7 @@
     text-wrap: balance;
     font-size: $font-size-xl;
     font-weight: $font-weight-demibold;
-    line-height: $line-height-heading;
-    color: $color-brand-dark-green;
+    color: $color-brand-dark-green; // leading comes from the base heading rule
   }
 
   &__media {
@@ -122,7 +145,9 @@
     // Becomes the left column here (the page-header's sm split). Its height
     // comes from the row, so the deeper floor at sm keeps the band generous
     // while the columns are narrow, then shallows at md where the copy sets
-    // the pace — the page-header's 24rem -> 19rem step.
+    // the pace — the page-header's deeper-then-shallower step (its own values
+    // have since been retuned; this band keeps 24 -> 19, as its centred panel
+    // content fills the taller box).
     @include respond-to('sm') {
       --angle-cut: 8rem;
       --angle-curve: 2.25rem;
@@ -226,30 +251,10 @@
     }
   }
 
-  // Seam sealer — sm+ only, where the SIDE piece is what defines the photo's
-  // outer edge. Its fill ends exactly ON that edge, so whenever the grid
-  // resolves the column to a fractional width the antialiasing covers only
-  // part of the boundary pixel and a sliver of photo shows through against the
-  // mint panel. This strip carries the fill 2px PAST the edge (the media's
-  // overflow trims it) and overlaps 1px back into the curve so the two never
-  // seam against each other — the hero's overbleed pattern (LESSONS.md). It
-  // stops at the curve's tangent point, where the mint leaves that edge.
-  //
-  // Deliberately NOT applied on phones: there the TOP piece is in play and the
-  // edge is held by the wedge alone, whose rotated square already overhangs
-  // the box. Running it there would paint 1.4594 · curve of mint BELOW where
-  // the diagonal exits — a 1px tab hanging off the cut.
-  @include respond-to('sm') {
-    &__angle::after {
-      position: absolute;
-      top: 0;
-      left: -2px;
-      width: 3px;
-      height: calc(var(--angle-cut) + 1.4594 * var(--angle-curve));
-      content: '';
-      background-color: currentcolor;
-    }
-  }
+  // NOTE: the fractional-pixel seam down the media/panel join is handled by
+  // __panel::before above, not from inside the media. An overbleed strip in
+  // here can only ever reach the angle's own depth, and — being inside the
+  // media — is clipped by its overflow at the very edge it needs to cross.
 }
 
 // Entrance zoom — matches the card/bento/caption images: the photo starts
@@ -314,10 +319,20 @@
       flex-shrink: 0;
       width: 0.7em;
       height: 1em;
+      // Rises on hover — the same arrow-nudge affordance the card and banner
+      // links carry, turned to point at the top of the page. ease-out so it
+      // leaves promptly and settles, rather than drifting at both ends. The
+      // global reduced-motion reset collapses it to a plain state change.
+      @include transition(transform, 0.2s, ease-out);
     }
 
     &:hover {
       color: $color-brand-light-green;
+
+      // Same travel as the horizontal arrows (--space-3xs), just upward
+      svg {
+        transform: translateY(calc(-1 * var(--space-3xs)));
+      }
     }
 
     &:focus-visible {
@@ -331,7 +346,17 @@
     gap: var(--space-2xl);
 
     @include respond-to('md') {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+      // The nav column starts on the subscribe image's right edge. That edge
+      // lands on the container's horizontal CENTRE by construction: the band
+      // shares this content's outer box (same max-width, both centred) and its
+      // symmetric --space-xs padding cancels, so half the band's inner width
+      // plus its own left inset is exactly half the outer box.
+      //
+      // Half of THIS grid's inner width resolves to the same point once its
+      // gutter is accounted for, so first column + gap = 50% puts column two
+      // on that edge — hence calc(50% - gap) rather than an fr ratio, which
+      // could only ever approximate it and would drift with the viewport.
+      grid-template-columns: calc(50% - var(--space-3xl)) minmax(0, 1fr);
       gap: var(--space-3xl);
     }
   }

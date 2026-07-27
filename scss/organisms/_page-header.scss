@@ -58,7 +58,10 @@
     @include respond-to('sm') {
       padding: var(--space-l) calc(40% + var(--space-l)) var(--space-l)
         var(--space-l);
-      min-height: 24rem;
+      // Was 24rem — authored when the crumbs ran two lines and the intro sat
+      // a space-l below the title. Both have since tightened, so the old
+      // floor engaged hard and left a slab of dead green under the intro.
+      min-height: 20rem;
     }
 
     @include respond-to('md') {
@@ -141,6 +144,17 @@
 
     &[aria-current] {
       color: rgba($color-white, 0.85);
+
+      // Tablet band: the current page drops out of the trail — it repeats the
+      // H1 directly below, and in the narrow sm–md copy column (the image
+      // takes 40%) it wraps the trail onto a second line. Ancestors only
+      // here; the full trail returns from md where there is room. Phones
+      // never showed it (only the parent back-link renders below sm), and
+      // hiding the last crumb takes its leading separator with it, so the
+      // trail never ends on a dangling chevron.
+      @include respond-between('sm', 'md') {
+        display: none;
+      }
     }
   }
 
@@ -155,7 +169,7 @@
 
   &__intro {
     max-width: 52ch;
-    margin-top: var(--space-l);
+    margin-top: var(--space-s);
     font-size: $font-size-base; // --step-0
   }
 
@@ -203,6 +217,26 @@
         scale: 1.14;
         will-change: transform;
       }
+    }
+  }
+
+  // Imageless variant (field_header_image empty): the band keeps its angled
+  // right-hand shape, filled flat in Primary Green instead of a photo — the
+  // hero panel's shape colour, so it reads as a soft tonal step off the Dark
+  // Green band rather than a new hue. The angle overlay is unchanged: it still
+  // paints the band colour over this shape's top-left corner, so the cut reads
+  // exactly as it does over a photo.
+  //
+  // Dropped entirely below sm. The shape only earns its place once the media is
+  // a side column; stacked under the copy on a phone it would be a purely
+  // decorative block adding height to the band, so the imageless header simply
+  // ends after the summary.
+  &__media--empty {
+    display: none;
+    background-color: $color-brand-green;
+
+    @include respond-to('sm') {
+      display: block;
     }
   }
 
@@ -282,5 +316,23 @@
     @include respond-to('sm') {
       display: block;
     }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Entrance zoom — matches the card/bento/caption/subscribe images: the photo
+// starts scaled up and eases to its resting overscan as the band enters (rides
+// the media's own [data-animate] visibility). Opacity + slide come from the
+// shared scroll-entrance system; this adds only the `scale`, which composes
+// with the parallax `translate`. Motion-only, and only while the system is
+// live (.js-animations).
+// -----------------------------------------------------------------------------
+@media (prefers-reduced-motion: no-preference) {
+  .js-animations .page-header__media[data-animate] img {
+    scale: 1.425; // 1.25 × the 1.14 resting overscan; held while hidden
+  }
+
+  .js-animations .page-header__media[data-animate].is-visible img {
+    scale: 1.14; // settle to the resting overscan as the band appears
   }
 }

@@ -1035,6 +1035,20 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
 // hover) rather than the fixed bar vanishing and the overlay re-sliding in.
 .js .site-header {
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  // Smooths the docked bar's tighter padding (below) through the dock <->
+  // hero/natural morphs, on the same timing as the reveal slide.
+  .main-nav__inner {
+    transition: padding 0.25s ease-out;
+  }
+}
+
+// The docked bar rides tighter: half the space under the nav row
+// (--space-2xs IS half of --space-s — 0.5x vs 1x the base multiplier).
+// Never in the hero top zone: there the fixed bar must match the natural
+// header underneath, or the logo would jump at the y=0 class handoff.
+.site-header.is-pinned:not(.is-hero-top) .main-nav__inner {
+  padding-bottom: var(--space-2xs);
 }
 
 .site-header.is-pinned {

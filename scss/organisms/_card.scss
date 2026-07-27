@@ -85,6 +85,42 @@
   }
 }
 
+// -----------------------------------------------------------------------------
+// Card stack — cards embedded in the reading column
+//
+// A group of cards placed between prose blocks, as a sibling of
+// .page-content__section. Deliberately NOT .card-section__grid: that grid is
+// driven by the VIEWPORT (2-up from sm, 3-up from md), but a card in the
+// reading column is constrained by the COLUMN, which holds ~535px at every
+// width above md. Reusing it would hand a desktop reader three ~170px cards.
+//
+// So: one card per row, always. If a 2-up is ever wanted here it should come
+// from a container query on the column, not a viewport breakpoint — the
+// viewport tells you nothing about how wide this column is.
+//
+// Gap matches the section grid's, so a stack reads as the same family as a
+// card row elsewhere on the site.
+//
+// Drupal: paragraph card_grid placed between body paragraphs, with preprocess
+// emitting this class instead of .card-section__grid when the placement is
+// in-column. The cards themselves are unchanged — same paragraph, same fields.
+// -----------------------------------------------------------------------------
+
+.card-stack {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr); // minmax(0,…) per the LESSONS.md note below
+  gap: var(--space-xs);
+
+  // A card title is an h3 — and so are the prose headings it now sits among.
+  // The card's own step-2 was sized for a grid column with no surrounding
+  // hierarchy; in the reading column it renders at the prose H2's size,
+  // shouting over the very h3 that introduces the card. Step down so the two
+  // h3s match, and the ladder reads h2 > h3 = card title > body.
+  .card__title {
+    font-size: $font-size-lg;
+  }
+}
+
 .card {
   // Single source for the card padding so the image bleed (the negative
   // margins below) always tracks it — variants retune padding via this one var.
@@ -98,10 +134,12 @@
   border-radius: $radius-lg;
   @include transition(background-color);
 
-  // Hover: lighten the card surface ~20% (20% white mixed into the taupe) as
-  // an affordance — the image zoom lives on .card__media img below.
+  // Hover: lift the surface to the Taupe 60% tint as an affordance — the
+  // image zoom lives on .card__media img below. A real token rather than the
+  // ad-hoc mix() this used to carry, so the lifted state is the same value
+  // used for tinted surfaces elsewhere in the system.
   &:hover {
-    background-color: mix($color-white, $color-brand-taupe, 20%);
+    background-color: $color-tint-taupe;
   }
 
   // Optional image — 3:2 crop matching the 900×600 sources
@@ -179,8 +217,7 @@
   &__title {
     font-size: $font-size-xl;
     font-weight: $font-weight-demibold;
-    line-height: $line-height-heading;
-    color: $color-brand-dark-green;
+    color: $color-brand-dark-green; // leading comes from the base heading rule
 
     // The grid goes 3-up at md, so the columns are at their narrowest here
     // while the fluid step-2 has already climbed near its cap — the title
@@ -217,6 +254,7 @@
   // Dark green (passes AA on the taupe card); arrow pinned right
   &__link {
     @include flex-row(var(--space-s), center, space-between);
+    position: relative; // containing block for the divider highlight below
     padding-block: var(--space-2xs);
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
@@ -225,8 +263,32 @@
     border-bottom: 1px solid $color-ui-border;
     @include transition(color);
 
+    // Divider highlight — the main-nav underline mechanism (_main-nav.scss):
+    // a bar that SCALES in from the centre out to both edges on hover and
+    // retracts back to the centre on leave, rather than fading. An ::after,
+    // never box-shadow (LESSONS.md: shadow underlines seam at fractional x).
+    // Sits at bottom: -1px so it covers the resting rule — the divider itself
+    // appears to light up. Primary Green: 3:1 on the card's lifted tint, so
+    // the cue still reads (it is decorative, but a faint one is no cue).
+    // Reduced motion collapses the transition globally, leaving a clean
+    // on/off highlight.
+    &::after {
+      position: absolute;
+      inset: auto 0 -1px;
+      height: 2px;
+      content: '';
+      background-color: $color-brand-green;
+      transform: scaleX(0);
+      transform-origin: center;
+      @include transition(transform, 0.3s, ease-out);
+    }
+
     &:hover {
       color: $color-brand-blue;
+    }
+
+    &:hover::after {
+      transform: scaleX(1);
     }
 
     &:focus-visible {

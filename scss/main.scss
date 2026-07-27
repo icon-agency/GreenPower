@@ -34,8 +34,11 @@
 @import 'organisms/bento-grid';
 @import 'organisms/caption-image';
 @import 'organisms/page-header';
+@import 'organisms/quote';
 @import 'organisms/footer';
 
 // 6. Pages
 @import 'pages/page';
+@import 'pages/content';
+@import 'pages/page-split';
 @import 'pages/design-system';

@@ -53,7 +53,10 @@
     flex-direction: column;
     gap: var(--space-m);
     align-items: flex-start;
-    padding: var(--space-xs);
+    // Double inset along the bottom so the last link clears the section edge.
+    // --space-m IS 2 × --space-xs on this scale (0.75 -> 1.5rem at the floor,
+    // 0.9375 -> 1.875rem at the cap), so this stays a token, not a calc().
+    padding: var(--space-xs) var(--space-xs) var(--space-m);
   }
 
   // Same size as .card__icon. The source artwork is dark green — render it
@@ -91,6 +94,7 @@
 
   &__link {
     @include flex-row(var(--space-s), center, space-between);
+    position: relative; // containing block for the divider highlight below
     padding-block: var(--space-xs);
     font-size: $font-size-base;
     font-weight: $font-weight-medium;
@@ -99,8 +103,28 @@
     border-bottom: 1px solid rgba($color-white, 0.35);
     @include transition(color);
 
+    // Divider highlight — the same main-nav underline mechanism the card
+    // links use: scales in from the centre out on hover, retracts on leave.
+    // Light Green here rather than Primary Green: it matches the label's own
+    // hover colour and reads at 5:1 on this Dark Green panel, where Primary
+    // Green would nearly disappear.
+    &::after {
+      position: absolute;
+      inset: auto 0 -1px;
+      height: 2px;
+      content: '';
+      background-color: $color-brand-light-green;
+      transform: scaleX(0);
+      transform-origin: center;
+      @include transition(transform, 0.3s, ease-out);
+    }
+
     &:hover {
       color: $color-brand-light-green;
+    }
+
+    &:hover::after {
+      transform: scaleX(1);
     }
 
     &:focus-visible {
@@ -253,8 +277,8 @@
     // (the tall 12×15 pin it replaced was the one thing wanting 1 × 1.25em).
     > svg {
       flex-shrink: 0;
-      width: 1.35em;
-      height: 1.35em;
+      width: 1.15em;
+      height: 1.15em;
     }
   }
 

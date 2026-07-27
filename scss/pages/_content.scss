@@ -1,0 +1,259 @@
+// -----------------------------------------------------------------------------
+// Page content — the centred reading column and the WYSIWYG prose wrapper
+//
+//   .page-content          — centres the column and owns the MEASURE.
+//   .page-content__section — the ONE wrapper that styles CKEditor output
+//                            (docs/wysiwyg-output.md). Every element an editor
+//                            can emit is styled here and nowhere else, so prose
+//                            can never leak into component styles: a .card__title
+//                            that happens to be an h2 is untouched by any of it.
+//
+// THE MEASURE
+// Bringhurst (The Elements of Typographic Style) gives 45–75 characters as a
+// satisfactory line for a single-column page, with 66 as the ideal — about 11
+// words of English at ~5 letters plus a space. Dyson & Haselgrove's eye-tracking
+// work puts effective reading around the middle of that band, and WCAG 1.4.8
+// (AAA) caps line length at 80 characters; 66 sits comfortably inside both.
+//
+// Set in `ch`, which is the advance width of "0" — NOT the average glyph. In TT
+// Commons Pro the digits are wide, so 1ch measured ~1.4x the average character:
+// the obvious "66ch" renders about 87 characters, past Bringhurst's ceiling and
+// past WCAG's cap. The value below is therefore tuned against real rendered
+// lines rather than taken at face value. Measured at 50ch: 63 characters on a
+// typical full line, 72 at the longest — the whole range inside 45–75, with
+// headroom under 80 for longer words than this copy happens to contain.
+//
+// It stays in `ch` (not rem/px) so the column tracks the fluid type scale and
+// the character count holds at every viewport. RE-MEASURE if the body face ever
+// changes; the number does not transfer between typefaces.
+// -----------------------------------------------------------------------------
+
+.page-content {
+  // One custom property so the column and anything that needs to align to it
+  // read from the same source.
+  --measure: 50ch;
+
+  max-width: var(--measure);
+  margin-inline: auto;
+
+  // The column holds several blocks in sequence — prose sections with
+  // components (quote, embedded media) between them. Section-scale rhythm
+  // here, well clear of the paragraph and heading gaps the prose wrapper sets
+  // internally, so a component reads as a break rather than another paragraph.
+  > * + * {
+    margin-top: var(--space-2xl);
+  }
+}
+
+// --- The WYSIWYG wrapper ------------------------------------------------------
+// Render any CKEditor / body field inside this and it styles correctly with no
+// per-component CSS:  <div class="page-content__section">{{ content.body }}</div>
+
+.page-content__section {
+  // Leading is inherited, not set: prose runs on the same $line-height-base
+  // (1.3) as the rest of the body, so there is one source for it rather than
+  // the wrapper drifting from the site default.
+
+  // Flow rhythm — one rule instead of per-element margins, so any order of
+  // elements an editor produces spaces consistently.
+  > * + * {
+    margin-top: var(--space-m);
+  }
+
+  // Headings take more space above than below, so they bind to the text they
+  // introduce rather than floating between blocks. Prose starts at h2: the page
+  // owns the h1 (docs/wysiwyg-output.md, accessibility).
+  // Leading is NOT set here: the base heading rule owns it, so prose headings
+  // stay in step with every other heading on the site rather than drifting.
+  > h2,
+  > h3,
+  > h4,
+  > h5,
+  > h6 {
+    margin-top: var(--space-xl);
+    color: $color-brand-dark-green;
+  }
+
+  // Sizes and weight for every level now come from base/_typography.scss, so
+  // prose headings track the site ladder. h6 keeps only its own treatment: at
+  // the bottom of the scale it is smaller than body copy, and the uppercase
+  // sets it apart as a label rather than a run of shrunken text.
+  > h6 {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  // First and last child margin resets, so the wrapper never introduces a gap
+  // its container did not ask for.
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  // --- Inline ---
+
+  a {
+    color: $color-ui-link;
+    // Never colour alone: the underline carries the link for anyone who cannot
+    // separate the green from the body blue (docs/wysiwyg-output.md). This is
+    // the RESTING state, which is what that requirement is about; on hover the
+    // animated bar below takes over as the underline.
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+    text-decoration-thickness: from-font;
+
+    // Hover underline — the main-nav motion (grows from the centre out to both
+    // edges, retracts back to the centre; never fades) rebuilt for inline text.
+    // A gradient grown via background-size, NOT the nav's absolutely-positioned
+    // ::after: prose links wrap, and an ::after anchors to the bounding box of
+    // ALL the fragments, striking one bar across every line between the first
+    // and last. A background paints per fragment, so each wrapped line gets its
+    // own correct underline — box-decoration-break: clone makes that explicit
+    // rather than letting the box be sliced.
+    background-image: linear-gradient($color-brand-green, $color-brand-green);
+    background-repeat: no-repeat;
+    // 50% is what centres the growth: at 0% width the bar sits mid-link and
+    // expands both ways from there. Positioned to land ON the text-decoration's
+    // own line, not below it, so the two never read as a double rule.
+    background-position: 50% calc(100% - 0.07em);
+    background-size: 0% 2px; // 2px = double the text-decoration's own weight
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    transition: color 0.2s ease-in-out, background-size 0.3s ease-out;
+
+    // The bar REPLACES the resting underline rather than stacking under it —
+    // the decoration is hidden (not removed, so nothing reflows) the moment
+    // hover starts, leaving the green bar as the only rule.
+    &:hover {
+      color: $color-brand-blue;
+      background-size: 100% 2px;
+      text-decoration-color: transparent;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  strong,
+  b {
+    font-weight: $font-weight-demibold;
+  }
+
+  code {
+    padding: 0.1em 0.35em;
+    font-family: $font-family-mono;
+    font-size: 0.9em;
+    color: $color-brand-dark-green;
+    background-color: $color-tint-taupe;
+    border-radius: $radius-sm;
+    overflow-wrap: anywhere;
+  }
+
+  // --- Lists ---
+
+  ul,
+  ol {
+    padding-left: var(--space-m);
+  }
+
+  li + li {
+    margin-top: var(--space-2xs);
+  }
+
+  // Nested lists sit tighter than the gap between top-level items
+  li > ul,
+  li > ol {
+    margin-top: var(--space-2xs);
+  }
+
+  // --- Blockquote ---
+  // A real <blockquote> with a <cite>, not an italic paragraph (accessibility
+  // note in docs/wysiwyg-output.md).
+  blockquote {
+    padding-left: var(--space-m);
+    font-size: $font-size-lg;
+    line-height: $line-height-heading;
+    color: $color-brand-dark-green;
+    border-left: 3px solid $color-brand-green;
+
+    cite {
+      display: block;
+      margin-top: var(--space-s);
+      font-size: $font-size-sm;
+      font-style: normal;
+      color: $color-ui-text;
+
+      &::before {
+        content: '— ';
+      }
+    }
+  }
+
+  // --- Code block ---
+
+  pre {
+    padding: var(--space-s);
+    overflow-x: auto; // long lines scroll rather than widening the column
+    font-family: $font-family-mono;
+    font-size: $font-size-sm;
+    line-height: 1.5;
+    background-color: $color-tint-taupe;
+    border-radius: $radius-md;
+
+    code {
+      padding: 0;
+      background: none;
+    }
+  }
+
+  // --- Tables ---
+  // Wider than the measure by nature; the wrapper scrolls rather than letting a
+  // table stretch the reading column.
+  table {
+    width: 100%;
+    font-size: $font-size-sm;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: var(--space-2xs) var(--space-s);
+    text-align: left;
+    border-bottom: 1px solid $color-ui-border;
+  }
+
+  th {
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    border-bottom-color: $color-brand-green;
+  }
+
+  // --- Figures and images ---
+
+  img {
+    border-radius: $radius-md;
+  }
+
+  figure {
+    margin-inline: 0;
+  }
+
+  figcaption {
+    margin-top: var(--space-2xs);
+    font-size: $font-size-sm;
+    color: $color-ui-text;
+  }
+
+  // --- Divider ---
+
+  hr {
+    height: 1px;
+    margin-block: var(--space-xl);
+    border: 0;
+    background-color: $color-ui-border;
+  }
+}

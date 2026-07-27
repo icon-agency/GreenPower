@@ -105,6 +105,14 @@
   height: 0.75em;
   margin-left: auto; // trailing external-link glyph
   opacity: 0.6;
+  @include transition(transform, 0.2s, ease-out);
+}
+
+// The glyph already points up-and-right, so send it that way on hover — the
+// same nudge-in-the-direction-of-travel idea as the horizontal link arrows
+// and the footer's back-to-top.
+.ds-sidebar__repo:hover .ds-sidebar__repo-ext {
+  transform: translate(var(--space-3xs), calc(-1 * var(--space-3xs)));
 }
 
 // Backdrop behind the mobile drawer (tap to close); never on desktop
@@ -189,12 +197,18 @@
   padding: var(--space-xl) var(--space-l) var(--space-3xl);
   overflow-y: auto;
   overscroll-behavior: contain;
+  // The sidebar anchors scroll THIS pane, not the window, so smooth belongs
+  // here rather than on html. Sections carry scroll-margin-top (below) so the
+  // landing still clears the top bar. The reduced-motion reset in
+  // base/_reset.scss already forces this back to auto.
+  scroll-behavior: smooth;
   container-type: inline-size;
 
   --step--2: clamp(0.6944rem, 0.6785rem + 0.0679cqi, 0.7396rem);
   // min matches the raised 15px floor in tokens/_typography.scss — keep in sync
   --step--1: clamp(0.9375rem, 0.7882rem + 0.1926cqi, 0.9615rem);
-  --step-0: clamp(1rem, 0.912rem + 0.3756cqi, 1.25rem);
+  // step-0 mirrors the lowered 18px body cap in tokens/_typography.scss — keep in sync
+  --step-0: clamp(1rem, 0.956rem + 0.1878cqi, 1.125rem);
   --step-1: clamp(1.2rem, 1.0504rem + 0.6385cqi, 1.625rem);
   --step-2: clamp(1.44rem, 1.2032rem + 1.0103cqi, 2.1125rem);
   --step-3: clamp(1.728rem, 1.3695rem + 1.5298cqi, 2.7462rem);
@@ -250,11 +264,16 @@
   color: $color-brand-dark-green;
   text-decoration: none;
   border-radius: $radius-sm;
-  @include transition(background-color);
+  // Written out rather than @include transition(): the fill keeps the mixin's
+  // ease-in-out, while the nudge eases OUT — the footer back-to-top feel.
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-out;
 
   // White (not taupe) on hover/active — the sidebar itself is taupe
   &:hover {
     background-color: $color-white;
+    // Same travel as the arrow nudges elsewhere (--space-3xs). The whole row
+    // slides, chip and all, since the label has no wrapper of its own.
+    transform: translateX(var(--space-3xs));
   }
 
   &:focus-visible {
@@ -438,6 +457,13 @@
 
 // --- Layout-pattern demos (a labelled, embedded card-section) ---
 
+// Air above every demo so its content never sits against the section intro —
+// the single-column and split demos start with real headings that otherwise
+// touch the doc text above them.
+.ds-demo {
+  margin-top: var(--space-l);
+}
+
 .ds-demo + .ds-demo {
   margin-top: var(--space-2xl);
 }
@@ -460,6 +486,147 @@
 .ds-bleed {
   margin-top: var(--space-l);
   margin-inline: calc(-1 * var(--space-l));
+}
+
+// --- Type specimens ---
+// Each row shows a live element beside its token, so the sample IS the styling
+// under test — nothing here restyles type, it only lays the rows out. Computed
+// sizes are filled in by the inline script (read from the cascade, not hardcoded,
+// so they stay honest when the scale is retuned).
+
+.ds-type {
+  margin-top: var(--space-m);
+  border-top: 1px solid $color-ui-border;
+}
+
+.ds-type__row {
+  display: grid;
+  gap: var(--space-2xs);
+  padding-block: var(--space-s);
+  border-bottom: 1px solid $color-ui-border;
+
+  // Token column is fixed so the samples all start on the same left edge and
+  // the metadata never squeezes the specimen.
+  @include respond-to('sm') {
+    grid-template-columns: minmax(0, 1fr) 15rem;
+    gap: var(--space-m);
+    align-items: baseline;
+  }
+}
+
+// The specimen itself carries no styling — it renders as whatever element or
+// token the row is demonstrating.
+.ds-type__sample {
+  min-width: 0;
+  overflow-wrap: anywhere;
+
+  // Headings inside a specimen row keep their own scale but shed the flow
+  // margins they would carry in prose.
+  > * {
+    margin: 0;
+  }
+}
+
+.ds-type__meta {
+  font-family: $font-family-mono;
+  font-size: $font-size-xs;
+  line-height: $line-height-base;
+  color: $color-brand-dark-green;
+}
+
+// The demonstrated weight/step, as modifier classes so the specimen markup
+// carries no inline styles (frontend-rules.md hard rule) — generated the way
+// the colour swatch chips are.
+.ds-type__sample--w300 {
+  font-weight: $font-weight-light;
+}
+
+.ds-type__sample--w400 {
+  font-weight: $font-weight-regular;
+}
+
+.ds-type__sample--w500 {
+  font-weight: $font-weight-demibold;
+}
+
+.ds-type__sample--w700 {
+  font-weight: $font-weight-bold;
+}
+
+// 1 -> --step-1, -1 -> --step--1: the doubled hyphen keeps negative steps
+// distinct from positive ones in both the class and the variable it reads.
+@each $step in (5, 4, 3, 2, 1, 0, -1, -2) {
+  .ds-type__sample--step-#{$step} {
+    font-size: var(--step-#{$step});
+  }
+}
+
+.ds-type__px {
+  color: $color-ui-text;
+}
+
+// --- Icon set ---
+// Icons ship as standalone SVG files rendered through <img>, so they are opaque
+// to CSS: the artwork's own Dark Green fill is the colour, and recolouring is
+// only possible via the brightness/invert filter the dark panels use. Sized in
+// rem, matching the 2.75rem the card / banner / bento icons all share.
+
+.ds-icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 9rem), 1fr));
+  gap: var(--space-s);
+  margin-top: var(--space-m);
+}
+
+.ds-icon {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  align-items: center;
+  padding: var(--space-s) var(--space-2xs);
+  text-align: center;
+  background-color: $color-white;
+  border: 1px solid $color-ui-border;
+  border-radius: $radius-md;
+}
+
+.ds-icon__art {
+  width: 2.75rem; // the shared component icon size
+  height: 2.75rem;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+// Filename is the reference — it is what a template's src points at
+.ds-icon__name {
+  font-family: $font-family-mono;
+  font-size: $font-size-xs;
+  line-height: $line-height-base;
+  color: $color-brand-dark-green;
+  overflow-wrap: anywhere;
+}
+
+// The same artwork on Dark Green, knocked out with the shared filter, so the
+// two treatments sit side by side.
+.ds-icons--on-dark {
+  .ds-icon {
+    color: $color-white;
+    background-color: $color-brand-dark-green;
+    border-color: transparent;
+  }
+
+  .ds-icon__art img {
+    filter: brightness(0) invert(100%);
+  }
+
+  .ds-icon__name {
+    color: $color-brand-light-green;
+  }
 }
 
 // --- Colour swatches ---
