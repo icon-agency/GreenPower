@@ -28,11 +28,14 @@
 // changes; the number does not transfer between typefaces.
 // -----------------------------------------------------------------------------
 
-.page-content {
-  // One custom property so the column and anything that needs to align to it
-  // read from the same source.
+// One property shared by every reading-width consumer — .page-content and the
+// stacked .page-split. A ch length in a custom property resolves at the point
+// of USE, so each consumer measures against its own (body) font.
+:root {
   --measure: 50ch;
+}
 
+.page-content {
   max-width: var(--measure);
   margin-inline: auto;
 

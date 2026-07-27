@@ -1,12 +1,14 @@
 // -----------------------------------------------------------------------------
 // Page split — the sticky two-column alternative to the single reading column
 //
-// 50/50 from md: the left half carries a narrow intro rail (H2 + description)
-// that STICKS while the right half scrolls through content. The right column
-// takes exactly the same blocks the single column does — .page-content__section
-// prose, .card-stack, .caption-image--inline, .quote — on the same rhythm, so
-// the two layouts are interchangeable per section. Below md it stacks, intro
-// first, sticky off (a stuck heading would hold half a phone screen hostage).
+// A third / two-thirds from sm: the left third carries the intro rail (H2 +
+// description) that STICKS while the right two-thirds scrolls through content.
+// The right column takes exactly the same blocks the single column does —
+// .page-content__section prose, .card-stack, .caption-image--inline, .quote —
+// on the same rhythm, so the two layouts are interchangeable per section.
+// Below sm it stacks, intro first, sticky off — and the stacked state wears
+// the single column's own clothes (the shared --measure, centred), so once
+// linearised the two layouts are indistinguishable.
 //
 // Like .page-content, this owns no gutters: it sits inside .page-body, which
 // is the container. The two are siblings in the same section flow.
@@ -23,24 +25,38 @@
 // -----------------------------------------------------------------------------
 
 .page-split {
-  @include respond-to('md') {
+  // Stacked (below sm): read exactly like the single column — the shared
+  // measure, centred — so a linearised split section and a single-column
+  // section are the same thing on a phone.
+  max-width: var(--measure);
+  margin-inline: auto;
+
+  @include respond-to('sm') {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr)); // minmax(0,…) per LESSONS.md
-    gap: var(--space-2xl);
+    // A third for the rail, two-thirds for the content (minmax(0,…) per
+    // LESSONS.md — bare fr tracks inherit stale min-content floors).
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: var(--space-xl);
     // Load-bearing: grid items stretch to the row height by default, and a
     // full-height item has nowhere to travel — sticky would silently never
     // engage. start-aligned, the intro is its natural height and sticks for
     // the rest of the row.
     align-items: start;
+    max-width: none;
+    margin-inline: 0;
+  }
+
+  @include respond-to('md') {
+    gap: var(--space-2xl);
   }
 }
 
 // The rail: H2 + description. Sticky only where the columns exist.
 .page-split__intro {
-  // Stacked (below md): a normal block above the content
+  // Stacked (below sm): a normal block above the content
   margin-bottom: var(--space-l);
 
-  @include respond-to('md') {
+  @include respond-to('sm') {
     position: sticky;
     top: var(--space-l);
     margin-bottom: 0;
@@ -65,7 +81,7 @@
 // full list at higher specificity (the same pattern as the card's
 // background-color re-add in _card.scss).
 .js-animations .page-split__intro[data-animate] {
-  @include respond-to('md') {
+  @include respond-to('sm') {
     transition:
       opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out),
       transform var(--animate-duration, 600ms) var(--animate-easing, ease-out),
@@ -80,7 +96,7 @@
 // scroll tick); the fallback only matters before the first scroll, when the
 // bar cannot be pinned anyway.
 .site-header.is-pinned.is-shown ~ main .page-split__intro {
-  @include respond-to('md') {
+  @include respond-to('sm') {
     top: calc(var(--header-height, 4.5rem) + var(--space-s));
   }
 }
