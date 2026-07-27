@@ -1384,7 +1384,7 @@ a:focus-visible {
 .card-section__intro {
   max-width: 44ch;
   margin-top: var(--space-s);
-  font-size: var(--step-1);
+  font-size: var(--step-0);
   color: #00263e;
 }
 .card-section__grid {
@@ -1478,9 +1478,19 @@ a:focus-visible {
   line-height: 1.25;
   color: #006341;
 }
+@media (min-width: 960px) and (max-width: 1199.98px) {
+  .card__title {
+    font-size: var(--step-1);
+  }
+}
 .card__body {
   font-size: var(--step-0);
   color: #006341;
+}
+@media (min-width: 960px) {
+  .card__body {
+    font-size: clamp(1rem, 0.75rem + 0.4167vw, 1.125rem);
+  }
 }
 .card__links {
   padding: 0;

@@ -34,7 +34,7 @@
   &__intro {
     max-width: 44ch;
     margin-top: var(--space-s);
-    font-size: $font-size-lg;
+    font-size: $font-size-base; // one step down from lg — reads calmer under the heading
     color: $color-ui-text;
   }
 
@@ -181,12 +181,30 @@
     font-weight: $font-weight-demibold;
     line-height: $line-height-heading;
     color: $color-brand-dark-green;
+
+    // The grid goes 3-up at md, so the columns are at their narrowest here
+    // while the fluid step-2 has already climbed near its cap — the title
+    // reads a size too big for the column. Drop one step through the 3-up
+    // band; lg widens the columns and restores step-2. The 2-up/single bands
+    // below md keep step-2 (their columns have the room).
+    @include respond-between('md', 'lg') {
+      font-size: $font-size-lg;
+    }
   }
 
   // Dark green (≥5.8:1 on the taupe card — passes AA); a step up from the links
   &__body {
     font-size: $font-size-base;
     color: $color-brand-dark-green;
+
+    // 3-up band (md and up): the columns are narrow the whole way, so run the
+    // body on a gentler fluid curve than step-0 — 16px at the md start, easing
+    // to ~18px by the 1440 ceiling (step-0 would hit 20px). A component-level
+    // clamp rather than a token: this shallower slope is specific to the narrow
+    // card column. Below md the wider 2-up/single columns keep the full step-0.
+    @include respond-to('md') {
+      font-size: clamp(1rem, 0.75rem + 0.4167vw, 1.125rem);
+    }
   }
 
   // Optional links — a divided list. Spacing above comes from the card gap
