@@ -248,11 +248,13 @@
     }
 
     // Direct child only — the artwork curve svg nested in the shape span
-    // must keep its own sizing (a bare `svg` here would outrank it)
+    // must keep its own sizing (a bare `svg` here would outrank it).
+    // Square, matching the caption-image badge: the glyph is the 24×24 camera
+    // (the tall 12×15 pin it replaced was the one thing wanting 1 × 1.25em).
     > svg {
       flex-shrink: 0;
-      width: 1em;
-      height: 1.25em;
+      width: 1.35em;
+      height: 1.35em;
     }
   }
 

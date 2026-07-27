@@ -64,7 +64,7 @@ One global kill switch in `scss/base/_reset.scss` collapses every CSS animation 
 | Template | Element | Speed factor | Notes |
 |---|---|---|---|
 | `home.html` | `.hero__media` (`data-parallax-bg`) | `0.2` | Full-screen background video; RISES at 20% of scroll speed (opposite the page). Bleed (`inset: -30% -2px` in `_hero.scss`) exceeds the max travel so edges never show; reduced motion / no-js collapse the bleed to `-2px`. |
-| `home.html` | `.card__media img` + `.feature-banner__stage img` | `RANGE 0.04` | Decorative photos drift a few px against the scroll. One shared rAF-throttled script (selector `.card__media, .feature-banner__stage`). A baseline `scale()` gives the travel room so no edge shows — the card's resting `scale: 1.1` (`_card.scss`) or the banner's `anim-kenburns` 1.1 floor; `overflow: hidden` on the frame/stage clips it. The banner stacks 3 images, so EVERY image in a frame is shifted (only the active shows). Writes the independent `translate` property, composing with the CSS `scale` + the banner's hover `transform`. Images only — never text. |
+| both templates | photo frames: `.card__media`, `.feature-banner__stage`, `.bento-grid__tile--media`, `.caption-image__stage`, `.page-header__media`, `.footer-subscribe__media` (every `img` inside) | `RANGE 0.06` | Decorative photos drift a few px against the scroll. One shared rAF-throttled script per template — extend the selector list when a new photo frame lands. A baseline `scale()` gives the travel room so no edge shows — the resting `scale: 1.14` overscan or the banner's `anim-kenburns` 1.14 floor; `overflow: hidden` on the frame/stage clips it. The banner stacks 3 images, so EVERY image in a frame is shifted (only the active shows). Writes the independent `translate` property, composing with the CSS `scale` + the banner's hover `transform`. Images only — never text. |
 
 ### How it works
 
@@ -108,7 +108,7 @@ The JS only applies a scroll delta. The layer's starting position and overscan c
 
 **What it does:** Fades an element in with a small upward slide as it scrolls into view. One-shot — it never replays when you scroll back.
 
-**Where the code lives:** CSS in `scss/utilities/_scroll-animations.scss`; a single `IntersectionObserver` in an inline `<script>` duplicated in `templates/home.html` and the root `index.html` (the design system) — in Drupal this becomes ONE shared theme-library behavior. This is THE shared system — never add another observer.
+**Where the code lives:** CSS in `scss/utilities/_scroll-animations.scss`; a single `IntersectionObserver` in an inline `<script>` duplicated in `templates/home.html`, `templates/page.html` and the root `index.html` (the design system) — in Drupal this becomes ONE shared theme-library behavior. This is THE shared system — never add another observer.
 
 ### Authoring
 

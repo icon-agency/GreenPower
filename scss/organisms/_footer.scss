@@ -1,0 +1,467 @@
+// -----------------------------------------------------------------------------
+// Site footer — subscribe band + footer content (always rendered together)
+//
+// Two blocks in one organism (the way _card.scss holds .card-section + .card):
+//   .footer-subscribe — rounded pale-mint band, snug-inset (--space-xs) at the
+//     top of the dark-green footer: photo left (md+), centred panel right
+//     (leaf icon, heading, Subscribe CTA). The photo's top-right corner
+//     carries the brand angle — the page-header wedge + artwork-bézier
+//     construction (constants 1.4594 / 4.9189 / 3.4595, see _hero.scss),
+//     mirrored so the cut sits top-RIGHT and filled with the band's mint, so
+//     the panel colour sweeps around the photo's corner. The photo gets the
+//     standard media treatment: 1.14 resting overscan, entrance zoom riding
+//     the band's [data-animate], shared parallax drift (selector list in the
+//     template scripts).
+//   .site-footer — the dark-green footer proper: white logo + back-to-top,
+//     acknowledgement + Buy GreenPower, footer link groups (2-col from sm,
+//     auto-flow puts Support under GreenPower), LinkedIn, hairline legal row.
+//     Feature-banner conventions throughout: white text, light-green hovers,
+//     rgba(white) rules, white focus rings.
+//
+// Drupal mapping: the footer is the THEME's footer region, not a paragraph.
+//   - Link groups: three footer menus (footer_greenpower, footer_for_you,
+//     footer_support) placed as menu blocks; group titles are block titles.
+//   - Acknowledgement of Country + copyright: custom block (text long).
+//   - Social: custom block or menu; back-to-top is theme markup (region twig).
+//   - Subscribe band: custom block type footer_subscribe —
+//     field_subscribe_image (media image), field_subscribe_heading (text),
+//     field_subscribe_cta (link). Rendered inside the footer region template
+//     so the band and the footer always travel together.
+//   Preprocess: none beyond block placement — the white logo is the same SVG
+//   as the header with the shared CSS filter trick (no second asset). JS:
+//   none of its own (parallax + data-animate are the shared behaviors).
+// Known risks: mother-daughter.png is a 4096×2731 PNG at ~15MB — re-encode
+//   (WebP/AVIF, <250KB) and add srcset/sizes before production (LESSONS.md).
+//   The Subscribe CTA is a link placeholder — confirm whether production wants
+//   an inline email field (GovCMS newsletter integrations vary).
+// -----------------------------------------------------------------------------
+
+// --- Subscribe band ---
+
+.footer-subscribe {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden; // rounds the photo + clips the angle wedge (hidden, never clip)
+  background-color: $color-brand-pale-mint;
+  border-radius: $radius-lg;
+
+  // Side by side from sm — the same breakpoint the page-header band splits at,
+  // so both banners change shape together rather than one lagging a step. The
+  // media takes the smaller share while the columns are tight, evening out to
+  // half once there is room (mirrors the page-header's 40% -> 34% step, in the
+  // direction this band's design wants).
+  @include respond-to('sm') {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  }
+
+  @include respond-to('md') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  // Panel first in DOM (reading order: heading before decorative photo); the
+  // grid swaps it to the right at sm. On mobile the panel stacks ABOVE the
+  // photo, so the mint angle on the photo's top-right ties it back into the
+  // panel colour above — the page-header phone pattern.
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xl) var(--space-l);
+    text-align: center;
+
+    @include respond-to('sm') {
+      grid-area: 1 / 2;
+      padding: var(--space-xl) var(--space-m);
+    }
+
+    @include respond-to('md') {
+      padding: var(--space-2xl) var(--space-l);
+    }
+  }
+
+  // Same size as .card__icon / .feature-banner__icon; source SVG is already
+  // dark green — correct on the mint panel.
+  &__icon {
+    width: 2.75rem;
+    height: 2.75rem;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  // step-2, not the 2xl section-heading step: the band is a compact promo,
+  // and the design sits its heading ~2.2× the button text. Balance evens the
+  // two centred lines (sanctioned for short display text, content-rhythm.md).
+  &__title {
+    max-width: 30ch;
+    text-wrap: balance;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-demibold;
+    line-height: $line-height-heading;
+    color: $color-brand-dark-green;
+  }
+
+  &__media {
+    // The brand angle at badge-family scale: cut = where the diagonal crosses
+    // the top edge (from the photo's right edge, post-mirror), curve = the
+    // artwork bézier's vertical depth. Keep curve ≤ cut / 3.4595 (the mixin
+    // note) so the curve never overhangs its edge.
+    --angle-cut: 5rem;
+    --angle-curve: 1.4rem;
+
+    position: relative;
+    overflow: hidden; // clips the overscan + parallax drift to the media box
+    aspect-ratio: 3 / 2;
+
+    // Becomes the left column here (the page-header's sm split). Its height
+    // comes from the row, so the deeper floor at sm keeps the band generous
+    // while the columns are narrow, then shallows at md where the copy sets
+    // the pace — the page-header's 24rem -> 19rem step.
+    @include respond-to('sm') {
+      --angle-cut: 8rem;
+      --angle-curve: 2.25rem;
+
+      grid-area: 1 / 1;
+      aspect-ratio: auto;
+      min-height: 24rem;
+    }
+
+    @include respond-to('md') {
+      min-height: 19rem;
+    }
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+
+      // Resting overscan via `scale` (independent of the parallax `translate`
+      // the JS writes) — the same layering as every other parallax image.
+      // Motion-gated; reduced motion gets a plain, uncropped photo.
+      @media (prefers-reduced-motion: no-preference) {
+        scale: 1.14;
+        transition: scale 0.45s ease-out;
+        will-change: transform;
+      }
+    }
+  }
+
+  // Mint corner piece over the photo's top-right — decorative, no pointer.
+  // Authored in pre-flip top-LEFT coordinates (the page-header construction)
+  // and mirrored, so the cut lands top-RIGHT at every breakpoint. overflow
+  // clips the oversized wedge to the media box.
+  // No overflow of its own: the media's own `overflow: hidden` already clips
+  // every piece, and letting them overhang the media box is what lets the
+  // fill bleed PAST the photo's edge (see the seam sealer below).
+  &__angle {
+    position: absolute;
+    inset: 0;
+    color: $color-brand-pale-mint;
+    pointer-events: none;
+    transform: scaleX(-1);
+  }
+
+  // The 45° wedge: a huge rotated square whose BOTTOM edge runs from (0, cut)
+  // up to (cut, 0) — everything above-left of that line paints mint.
+  &__angle::before {
+    position: absolute;
+    top: calc(var(--angle-cut) - 300%);
+    left: 0;
+    width: 300%;
+    height: 300%;
+    content: '';
+    background-color: currentcolor;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+  }
+
+  // The artwork bézier easing the diagonal into an edge. Two pieces, one per
+  // layout — the page-header's pair, for the same reason: which edge the cut
+  // should ease into depends on where the photo sits relative to the mint.
+  // Both are authored in the overlay's PRE-flip left-corner coordinates; the
+  // overlay's scaleX(-1) places them visually on the photo's right.
+  &__angle-curve {
+    position: absolute;
+    fill: currentcolor;
+  }
+
+  // Phone piece: the photo is stacked BELOW the mint panel, so the cut has to
+  // read down out of the panel above it — the curve eases into the photo's TOP
+  // edge (visually top-RIGHT after the mirror) and the meeting with the side
+  // edge stays SHARP.
+  &__angle-curve--top {
+    top: 0;
+    left: calc(var(--angle-cut) - 3.4595 * var(--angle-curve));
+    width: calc(4.9189 * var(--angle-curve));
+    height: calc(3.4595 * var(--angle-curve));
+    transform: scaleX(-1);
+
+    @include respond-to('sm') {
+      display: none;
+    }
+  }
+
+  // Side-by-side piece (sm+): the photo is now a column BESIDE the panel, so
+  // the cut eases into its vertical edge instead, with the corner at the
+  // band's top staying sharp. Axes-swapped curve closed along the left; its
+  // 45° end lands at (curve, cut − curve) on the wedge's diagonal y = cut − x,
+  // tangent kissing x = 0 at cut + 1.4594·curve.
+  &__angle-curve--side {
+    display: none;
+    top: calc(var(--angle-cut) - 3.4595 * var(--angle-curve));
+    left: 0;
+    width: calc(3.4595 * var(--angle-curve));
+    height: calc(4.9189 * var(--angle-curve));
+
+    @include respond-to('sm') {
+      display: block;
+    }
+  }
+
+  // Seam sealer — sm+ only, where the SIDE piece is what defines the photo's
+  // outer edge. Its fill ends exactly ON that edge, so whenever the grid
+  // resolves the column to a fractional width the antialiasing covers only
+  // part of the boundary pixel and a sliver of photo shows through against the
+  // mint panel. This strip carries the fill 2px PAST the edge (the media's
+  // overflow trims it) and overlaps 1px back into the curve so the two never
+  // seam against each other — the hero's overbleed pattern (LESSONS.md). It
+  // stops at the curve's tangent point, where the mint leaves that edge.
+  //
+  // Deliberately NOT applied on phones: there the TOP piece is in play and the
+  // edge is held by the wedge alone, whose rotated square already overhangs
+  // the box. Running it there would paint 1.4594 · curve of mint BELOW where
+  // the diagonal exits — a 1px tab hanging off the cut.
+  @include respond-to('sm') {
+    &__angle::after {
+      position: absolute;
+      top: 0;
+      left: -2px;
+      width: 3px;
+      height: calc(var(--angle-cut) + 1.4594 * var(--angle-curve));
+      content: '';
+      background-color: currentcolor;
+    }
+  }
+}
+
+// Entrance zoom — matches the card/bento/caption images: the photo starts
+// scaled up and eases to its resting overscan as the band scrolls in (rides
+// the band's own [data-animate] visibility). Motion-only, and only while the
+// scroll-entrance system is live (.js-animations).
+@media (prefers-reduced-motion: no-preference) {
+  .js-animations .footer-subscribe[data-animate] .footer-subscribe__media img {
+    scale: 1.425; // 1.25 × the 1.14 resting overscan; held while hidden
+  }
+
+  .js-animations .footer-subscribe[data-animate].is-visible .footer-subscribe__media img {
+    scale: 1.14; // settle to the resting overscan as the band appears
+  }
+}
+
+// --- Footer content ---
+
+.site-footer {
+  color: $color-white;
+  background-color: $color-brand-dark-green;
+
+  // Snug frame for the subscribe band — the bento/feature-banner tight inset
+  &__band {
+    max-width: $container-max-width;
+    padding: var(--space-xs) var(--space-xs) 0;
+    margin-inline: auto;
+  }
+
+  &__content {
+    @include container;
+    padding-block: var(--space-2xl) var(--space-l);
+  }
+
+  &__top {
+    @include flex-row(var(--space-s), center, space-between);
+    margin-bottom: var(--space-m);
+  }
+
+  &__logo {
+    display: inline-flex;
+    flex-shrink: 0;
+
+    img {
+      width: min(13rem, 55vw); // header sizing family, without the bar's calc
+      filter: brightness(0) invert(100%); // the shared white-logo trick
+    }
+
+    &:focus-visible {
+      @include focus-ring($color-white);
+    }
+  }
+
+  &__back-to-top {
+    @include flex-row(var(--space-2xs));
+    font-size: $font-size-sm;
+    color: $color-white;
+    text-decoration: none;
+    @include transition(color);
+
+    svg {
+      flex-shrink: 0;
+      width: 0.7em;
+      height: 1em;
+    }
+
+    &:hover {
+      color: $color-brand-light-green;
+    }
+
+    &:focus-visible {
+      @include focus-ring($color-white);
+    }
+  }
+
+  &__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2xl);
+
+    @include respond-to('md') {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+      gap: var(--space-3xl);
+    }
+  }
+
+  &__brand {
+    @include flex-col(var(--space-l));
+    align-items: flex-start;
+
+    // The grid stretches this column to the nav's height; pinning the CTA to
+    // the bottom sits it on the nav's baseline (the design's placement)
+    @include respond-to('md') {
+      justify-content: space-between;
+    }
+  }
+
+  &__acknowledgement {
+    max-width: 38ch;
+  }
+
+  // The Buy pill sits among the footer's light-green link hovers, where the
+  // atom's default hover (blue on taupe) reads as a different family. Swap it
+  // for the same brand pairing the links use — Dark Green on Light Green,
+  // 5.0:1, AA for normal text (the bento stat tiles use the same pair).
+  //
+  // Scoped here rather than changed in the atom: .btn--white also sits on the
+  // hero's Primary Green shape, and a Light Green fill would drop the pill's
+  // edge against that background to ~2.4:1 — under the 3:1 that WCAG 1.4.11
+  // wants for a control's boundary.
+  &__brand .btn--white:hover {
+    color: $color-brand-dark-green;
+    background-color: $color-brand-light-green;
+  }
+
+  // White ring for the Buy pill on the dark panel (hero-panel convention)
+  &__brand .btn:focus-visible {
+    @include focus-ring($color-white);
+  }
+
+  &__nav {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-l) var(--space-l);
+    align-items: start;
+
+    // Two columns; natural auto-flow places GreenPower (1,1), For you (2,1),
+    // Support (1,2) — and the LinkedIn link takes (2,2), pinned bottom-right.
+    @include respond-to('sm') {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  &__group-title {
+    padding-bottom: var(--space-2xs);
+    margin-bottom: var(--space-s);
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid rgba($color-white, 0.7);
+  }
+
+  &__group-list {
+    @include flex-col(0);
+    align-items: stretch;
+  }
+
+  &__link {
+    display: inline-block;
+    // A little air around the label — enough to separate the rows and keep a
+    // comfortable target, without the roomy gap the body line-height gave.
+    padding-block: var(--space-3xs);
+    // Set here, not inherited: the legal row scopes sm on its own container,
+    // so without this the nav-group links would sit a step larger than
+    // Privacy / Disclaimer. One size for every footer link.
+    font-size: $font-size-sm;
+    // Tighter than the 1.5 body default: these are short standalone labels,
+    // so the spacing between rows should come from the padding above, not
+    // from leading baked into each line (it also keeps a wrapped label —
+    // "For industry and accreditation" — reading as one item).
+    line-height: $line-height-heading;
+    color: $color-white;
+    text-decoration: none;
+    @include transition(color);
+
+    &:hover {
+      color: $color-brand-light-green;
+    }
+
+    &:focus-visible {
+      @include focus-ring($color-white);
+    }
+  }
+
+  &__social {
+    display: inline-flex;
+    color: $color-white;
+    @include transition(color);
+
+    @include respond-to('sm') {
+      align-self: end;
+      justify-self: end;
+    }
+
+    svg {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+    &:hover {
+      color: $color-brand-light-green;
+    }
+
+    &:focus-visible {
+      @include focus-ring($color-white);
+    }
+  }
+
+  &__legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-l);
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--space-m);
+    margin-top: var(--space-2xl);
+    font-size: $font-size-sm;
+    border-top: 1px solid rgba($color-white, 0.35);
+  }
+
+  &__legal-links {
+    @include flex-row(var(--space-l));
+  }
+}
