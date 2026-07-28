@@ -419,29 +419,18 @@
 
           <h3>What the certification covers</h3>
 
-          <p>Accreditation applies to the fuel or product itself, not to the organisation producing it. Each pathway is assessed against the Program Rules before a certificate can be issued.</p>
-        </div>
+          <p>Accreditation applies to the fuel or product itself, not to the organisation producing it. Each pathway is assessed against the <em>Program Rules</em> before a certificate can be issued.</p>
 
-        <!-- Caption image in the reading column. Sibling of the prose wrapper,
-             so it aligns to the measure; --inline drops the full-bleed frame
-             padding and holds the 3:2 crop. -->
-        <figure class="caption-image caption-image--inline" data-animate>
-          <div class="caption-image__stage">
-            <img class="caption-image__img" src="../assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
-          </div>
-          <!-- Outside the stage on purpose: the stage clips its overflow, so a
-               caption that wraps past the image's bottom edge would be cut off.
-               In flow here, pulled back up one row by CSS. -->
-          <figcaption class="caption-image__caption">
-            <span class="caption-image__caption-shape" aria-hidden="true">
-              <svg class="caption-image__caption-curve" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L0 210.3Z" fill="currentColor"/></svg>
-            </span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-            <span>Low carbon liquid fuels under assessment</span>
-          </figcaption>
-        </figure>
+          <!-- CKEditor's own captioned image: figure + img + figcaption, all
+               from inside the body field, so no component is involved. Note the
+               editor does NOT crop — the image lands at its own ratio, so a
+               Drupal image style should enforce one. The branded angle-badge
+               treatment is the separate caption_image paragraph. -->
+          <figure>
+            <img src="../assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
+            <figcaption>Low carbon liquid fuels under assessment</figcaption>
+          </figure>
 
-        <div class="page-content__section" data-animate>
           <ul>
             <li>Low carbon liquid fuels for heavy transport and aviation</li>
             <li>Biogenic CO<sub>2</sub> captured from qualifying biological sources</li>
@@ -492,32 +481,38 @@
         <div class="page-content__section" data-animate>
           <h3>Eligibility at a glance</h3>
 
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Pathway</th>
-                <th scope="col">Certificate</th>
-                <th scope="col">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Renewable electricity</td>
-                <td>LGC</td>
-                <td>Open</td>
-              </tr>
-              <tr>
-                <td>Renewable gas</td>
-                <td>RGGO</td>
-                <td>Open</td>
-              </tr>
-              <tr>
-                <td>Low carbon liquid fuels</td>
-                <td>LCLF</td>
-                <td>In consultation</td>
-              </tr>
-            </tbody>
-          </table>
+          <!-- figure.table is what CKEditor 5 emits around a table, and it is
+               the scroll container — `overflow` does nothing on display: table,
+               so a wide table would otherwise bleed out of the reading column.
+               See docs/wysiwyg-output.md. -->
+          <figure class="table">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Pathway</th>
+                  <th scope="col">Certificate</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Renewable electricity</td>
+                  <td>LGC</td>
+                  <td>Open</td>
+                </tr>
+                <tr>
+                  <td>Renewable gas</td>
+                  <td>RGGO</td>
+                  <td>Open</td>
+                </tr>
+                <tr>
+                  <td>Low carbon liquid fuels</td>
+                  <td>LCLF</td>
+                  <td>In consultation</td>
+                </tr>
+              </tbody>
+            </table>
+          </figure>
 
         </div>
 
@@ -573,29 +568,18 @@
 
             <h3>What the certification covers</h3>
 
-            <p>Accreditation applies to the fuel or product itself, not to the organisation producing it. Each pathway is assessed against the Program Rules before a certificate can be issued.</p>
-          </div>
+            <p>Accreditation applies to the fuel or product itself, not to the organisation producing it. Each pathway is assessed against the <em>Program Rules</em> before a certificate can be issued.</p>
 
-          <!-- Caption image in the reading column. Sibling of the prose wrapper,
-               so it aligns to the measure; --inline drops the full-bleed frame
-               padding and holds the 3:2 crop. -->
-          <figure class="caption-image caption-image--inline" data-animate>
-            <div class="caption-image__stage">
-              <img class="caption-image__img" src="../assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
-            </div>
-            <!-- Outside the stage on purpose: the stage clips its overflow, so a
-                 caption that wraps past the image's bottom edge would be cut off.
-                 In flow here, pulled back up one row by CSS. -->
-            <figcaption class="caption-image__caption">
-              <span class="caption-image__caption-shape" aria-hidden="true">
-                <svg class="caption-image__caption-curve" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L0 210.3Z" fill="currentColor"/></svg>
-              </span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-              <span>Low carbon liquid fuels under assessment</span>
-            </figcaption>
-          </figure>
+            <!-- CKEditor's own captioned image: figure + img + figcaption, all
+                 from inside the body field, so no component is involved. Note
+                 the editor does NOT crop — the image lands at its own ratio, so
+                 a Drupal image style should enforce one. The branded angle-badge
+                 treatment is the separate caption_image paragraph. -->
+            <figure>
+              <img src="../assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
+              <figcaption>Low carbon liquid fuels under assessment</figcaption>
+            </figure>
 
-          <div class="page-content__section" data-animate>
             <ul>
               <li>Low carbon liquid fuels for heavy transport and aviation</li>
               <li>Biogenic CO<sub>2</sub> captured from qualifying biological sources</li>
@@ -646,32 +630,34 @@
           <div class="page-content__section" data-animate>
             <h3>Eligibility at a glance</h3>
 
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col">Pathway</th>
-                  <th scope="col">Certificate</th>
-                  <th scope="col">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Renewable electricity</td>
-                  <td>LGC</td>
-                  <td>Open</td>
-                </tr>
-                <tr>
-                  <td>Renewable gas</td>
-                  <td>RGGO</td>
-                  <td>Open</td>
-                </tr>
-                <tr>
-                  <td>Low carbon liquid fuels</td>
-                  <td>LCLF</td>
-                  <td>In consultation</td>
-                </tr>
-              </tbody>
-            </table>
+            <figure class="table">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Pathway</th>
+                    <th scope="col">Certificate</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Renewable electricity</td>
+                    <td>LGC</td>
+                    <td>Open</td>
+                  </tr>
+                  <tr>
+                    <td>Renewable gas</td>
+                    <td>RGGO</td>
+                    <td>Open</td>
+                  </tr>
+                  <tr>
+                    <td>Low carbon liquid fuels</td>
+                    <td>LCLF</td>
+                    <td>In consultation</td>
+                  </tr>
+                </tbody>
+              </table>
+            </figure>
 
           </div>
 
@@ -1229,6 +1215,45 @@
       // state. If anything above threw, this never runs and the page stays
       // fully visible.
       document.documentElement.classList.add('js-animations');
+    })();
+  </script>
+
+  <!-- Prose tables: a table wider than the reading column scrolls inside its
+       figure.table wrapper (CSS, pages/_content.scss). A scroll box that holds
+       nothing focusable cannot be scrolled from the keyboard (WCAG 2.1.1), so
+       promote ONLY the wrappers that actually overflow to a focusable, labelled
+       region — a table that fits adds no tab stop and no landmark. Re-checked on
+       resize and once webfonts settle, because the column and the type scale are
+       both fluid. Drupal: one once()-guarded behavior, label through t(). -->
+  <script>
+    (function () {
+      var wrappers = [].slice.call(document.querySelectorAll('.page-content__section figure.table'));
+      if (!wrappers.length) return;
+
+      var LABEL = 'Scrollable table';
+
+      function sync() {
+        wrappers.forEach(function (el) {
+          // +1 absorbs sub-pixel rounding: a fluid column routinely resolves to
+          // a fractional width, where scrollWidth reads a pixel over
+          // clientWidth with nothing actually clipped.
+          if (el.scrollWidth > el.clientWidth + 1) {
+            el.setAttribute('tabindex', '0');
+            el.setAttribute('role', 'region');
+            el.setAttribute('aria-label', LABEL);
+          } else if (el !== document.activeElement) {
+            // Never strip the attributes off the element currently holding
+            // focus — that would drop the user's focus to <body> mid-resize.
+            el.removeAttribute('tabindex');
+            el.removeAttribute('role');
+            el.removeAttribute('aria-label');
+          }
+        });
+      }
+
+      sync();
+      window.addEventListener('resize', sync);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
     })();
   </script>
 </body>

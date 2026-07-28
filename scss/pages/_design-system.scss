@@ -287,6 +287,42 @@
   }
 }
 
+// --- Category bands ---
+// Chapter dividers between the sidebar's nav groups (Foundations, Components,
+// Layout patterns). Full-bleed out of the content pane's inline padding — the
+// .ds-bleed technique — so scrolling from one category into the next is
+// unmissable rather than something you infer from the sidebar highlight.
+//
+// Primary Blue on purpose. Every component demo on this page is green, taupe or
+// mint, so a blue band cannot be mistaken for another component: it reads as the
+// page's own chrome. It is also the one brand primary the components never use
+// as a large surface.
+
+.ds-category {
+  padding: var(--space-xl) var(--space-l);
+  // Chapter-scale air above, section-scale below — the band belongs to the
+  // sections that follow it, not to the ones it just closed.
+  margin-block: var(--space-3xl) var(--space-2xl);
+  // Escape the pane's inline padding (matches .ds-bleed), so the band spans the
+  // full width of the scrolling column while its text stays on the content edge.
+  margin-inline: calc(-1 * var(--space-l));
+  background-color: $color-brand-blue;
+}
+
+.ds-category__title {
+  // A step above .ds-section__title, and above the section-heading step the
+  // components themselves use, so the chapter always outranks what follows it.
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-demibold;
+  color: $color-white;
+}
+
+.ds-category__note {
+  max-width: 64ch;
+  margin-top: var(--space-2xs);
+  color: $color-brand-light-green; // ~10.8:1 on Primary Blue
+}
+
 // --- Sections ---
 
 .ds-section {
@@ -299,6 +335,11 @@
 
 .ds-section__title {
   padding-bottom: var(--space-xs);
+  // Pinned rather than inherited from the element: section titles are h3 (the
+  // category band above them owns the h2), but they keep the size they had as
+  // h2 — the heading LEVEL changed to fit the new chapter structure, the visual
+  // rank did not.
+  font-size: $font-size-xl;
   border-bottom: 2px solid $color-brand-green;
 }
 
@@ -583,6 +624,19 @@
 
 .ds-type__px {
   color: $color-ui-text;
+}
+
+// --- Measure demo ---
+// A sample paragraph held at the reading measure (--measure, set in
+// pages/_content.scss and consumed by .page-content and .page-split__body).
+// The dashed rule marks where the cap falls, so the width being discussed is
+// visible rather than inferred.
+
+.ds-measure {
+  max-width: var(--measure);
+  padding-right: var(--space-s);
+  margin-top: var(--space-2xs); // pairs tight with the mono label above it
+  border-right: 2px dashed $color-ui-border-strong;
 }
 
 // --- Icon set ---

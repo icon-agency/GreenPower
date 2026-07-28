@@ -214,8 +214,36 @@
   }
 
   // --- Tables ---
-  // Wider than the measure by nature; the wrapper scrolls rather than letting a
-  // table stretch the reading column.
+  // A table is wider than the measure by nature, so it scrolls inside a wrapper
+  // rather than stretching — or bleeding out of — the reading column.
+  //
+  // The scroll MUST live on a wrapper: `overflow` has no effect on
+  // `display: table`, so `table { overflow-x: auto }` silently does nothing
+  // (which is why this used to bleed). `display: block` on the table would make
+  // it scroll, but it drops the table out of the table layout algorithm and its
+  // column sizing goes with it.
+  //
+  // The wrapper is `figure.table` — the markup CKEditor 5 already emits around
+  // an inserted table. Styling the editor's own output rather than inventing a
+  // class means no preprocess has to rewrite the body field, and the static
+  // templates here mirror production exactly. Legacy content that predates
+  // CKEditor 5 arrives as a bare <table> with no wrapper: it cannot scroll, so
+  // wrap it during migration (see docs/wysiwyg-output.md).
+  //
+  // `width: 100%` on the table is only a PREFERRED width — when the table's
+  // min-content exceeds the column the table wins and the wrapper scrolls;
+  // when it fits, the table fills the column as before.
+  figure.table {
+    overflow-x: auto;
+
+    // The inline scripts promote an overflowing wrapper to a focusable region
+    // (a scroll box holding nothing focusable cannot be scrolled from the
+    // keyboard — WCAG 2.1.1), so it needs a visible focus state.
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
   table {
     width: 100%;
     font-size: $font-size-sm;

@@ -1,8 +1,11 @@
 // -----------------------------------------------------------------------------
 // Page split — the sticky two-column alternative to the single reading column
 //
-// A third / two-thirds from sm: the left third carries the intro rail (H2 +
-// description) that STICKS while the right two-thirds scrolls through content.
+// Equal halves from sm: the left half carries the intro rail (H2 + description)
+// that STICKS while the right half scrolls through content — capped at the same
+// reading measure the single column uses, so the prose is equally readable in
+// either layout. Both halves hold their content at the track's start, each with
+// open space to its right once the tracks outgrow the content caps.
 // The right column takes exactly the same blocks the single column does —
 // .page-content__section prose, .card-stack, .caption-image--inline, .quote —
 // on the same rhythm, so the two layouts are interchangeable per section.
@@ -33,9 +36,11 @@
 
   @include respond-to('sm') {
     display: grid;
-    // A third for the rail, two-thirds for the content (minmax(0,…) per
-    // LESSONS.md — bare fr tracks inherit stale min-content floors).
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    // Equal halves (minmax(0,…) per LESSONS.md — bare fr tracks inherit stale
+    // min-content floors). The TRACKS are 50/50; the readable width comes from
+    // the content caps — the rail's 24ch/36ch below, the body's measure cap —
+    // not from skewing the ratio.
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-xl);
     // Load-bearing: grid items stretch to the row height by default, and a
     // full-height item has nowhere to travel — sticky would silently never
@@ -126,6 +131,14 @@
 // The scrolling half: same section-scale rhythm as .page-content, so a block
 // reads identically in either layout.
 .page-split__body {
+  // The single column's optimal-readability cap, applied to the same blocks.
+  // Once the 50/50 track outgrows the measure (from roughly ~1250px viewport)
+  // the content holds at the measure and the leftover track space stays to its
+  // right — a stretched grid item with a max size start-aligns, no justify-self
+  // needed. On narrower screens the track is under the measure and this is
+  // inert; below sm the stacked .page-split is already capped at the measure.
+  max-width: var(--measure);
+
   > * + * {
     margin-top: var(--space-2xl);
   }

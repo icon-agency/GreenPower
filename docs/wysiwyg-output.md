@@ -72,6 +72,23 @@ Prefer option 1 for anything non-trivial. CKEditor is not a layout tool.
 
 ---
 
+## Wide tables
+
+A table's natural width is whatever its content needs, which is routinely wider than the reading measure. Left alone it stretches — or bleeds out of — the column, so it scrolls inside a wrapper instead.
+
+**The wrapper is `figure.table`, which is CKEditor 5's own output.** The editor already emits `<figure class="table"><table>…</table></figure>` around an inserted table, so the scroll container is in the markup for free: no preprocess has to rewrite the body field, and the static templates mirror production exactly. `scss/pages/_content.scss` styles that figure.
+
+Two things to know before changing this:
+
+- **`overflow` does nothing on `display: table`.** `table { overflow-x: auto }` reads as correct and silently has no effect — the scroll has to sit on a wrapper element. (`display: block` on the table would also scroll, but it drops the table out of the table layout algorithm and takes its column sizing with it.)
+- **`width: 100%` on the table is only a *preferred* width.** Where the table's min-content exceeds the column, min-content wins and the wrapper scrolls; where it fits, the table fills the column. One rule covers both.
+
+**Legacy content.** Anything authored before CKEditor 5 arrives as a bare `<table>` with no figure, so it cannot scroll. Wrap those during migration rather than adding a second styling path — the alternative is a preprocess DOM pass over every body field on every request.
+
+**Keyboard access.** A scrollable box containing nothing focusable cannot be scrolled from the keyboard (WCAG 2.1.1). A small shared script gives the wrapper `tabindex="0"`, `role="region"` and a label — but **only when it actually overflows**, so a table that fits adds no tab stop and no landmark. It re-checks on resize and once webfonts settle, because the column and the type scale are both fluid. In Drupal this belongs in a `once()`-guarded behavior with the label run through `t()`.
+
+---
+
 ## Accessibility
 
 - Ensure heading levels inside prose start at `h2` (the page owns `h1`).
@@ -90,4 +107,6 @@ Prefer option 1 for anything non-trivial. CKEditor is not a layout tool.
 - [ ] CKEditor toolbar matches what the wrapper supports
 - [ ] Heading levels start at `h2`
 - [ ] Table headers use `scope`
+- [ ] Tables sit in a `figure.table` wrapper so a wide one scrolls instead of bleeding
+- [ ] An overflowing table wrapper is keyboard-scrollable (focusable, labelled)
 - [ ] Links are distinguishable without colour alone

@@ -23,7 +23,7 @@
           <p class="ds-nav__group-title">Templates</p>
           <ul class="ds-nav__list">
             <li><a class="ds-nav__link" href="templates/home.html">Home</a></li>
-            <li><a class="ds-nav__link" href="templates/master-page.html">Master page</a></li>
+            <li><a class="ds-nav__link" href="templates/master-template.html">Master template</a></li>
           </ul>
         </div>
         <div class="ds-nav__group">
@@ -37,11 +37,13 @@
         <div class="ds-nav__group">
           <p class="ds-nav__group-title">Components</p>
           <ul class="ds-nav__list">
+            <li><a class="ds-nav__link" href="#wysiwyg">CKEditor WYSIWYG</a></li>
             <li><a class="ds-nav__link" href="#card">Card</a></li>
             <li><a class="ds-nav__link" href="#feature-banner">Feature banner</a></li>
             <li><a class="ds-nav__link" href="#bento-grid">Bento grid</a></li>
             <li><a class="ds-nav__link" href="#caption-image">Caption image</a></li>
             <li><a class="ds-nav__link" href="#quote">Quote</a></li>
+            <li><a class="ds-nav__link" href="#accordion">Accordion</a></li>
           </ul>
         </div>
         <div class="ds-nav__group">
@@ -78,12 +80,21 @@
         <p>A living reference for the design tokens and components behind the GreenPower build. This page is an internal guide, not a Drupal template. Foundations come first, then components and layout patterns.</p>
       </header>
 
+      <!-- Category bands mark the sidebar's nav groups in the scrolling column,
+           so a new category is obvious without reading the sidebar. Templates
+           has no band: those two entries link out to other pages, so scrolling
+           never enters that category. -->
+      <div class="ds-category">
+        <h2 class="ds-category__title">Foundations</h2>
+        <p class="ds-category__note">The values everything else is built from: the colour tokens, the fluid type scale and the icon set. Change one here and it changes everywhere it is used.</p>
+      </div>
+
       <section class="ds-section" id="colours" aria-labelledby="colours-title">
-        <h2 class="ds-section__title" id="colours-title">Colours</h2>
+        <h3 class="ds-section__title" id="colours-title">Colours</h3>
         <p class="ds-section__intro">Every colour in the system is a token in <code class="ds-code">scss/tokens/_colors.scss</code> — the only file allowed to hold raw values. Components reference the semantic UI aliases, never the brand values directly.</p>
 
         <div class="ds-group">
-          <h3 class="ds-group__title">Primary</h3>
+          <h4 class="ds-group__title">Primary</h4>
           <ul class="color-grid">
             <li class="color-swatch">
               <span class="color-swatch__chip color-swatch__chip--brand-green"></span>
@@ -105,7 +116,7 @@
         </div>
 
         <div class="ds-group">
-          <h3 class="ds-group__title">Secondary</h3>
+          <h4 class="ds-group__title">Secondary</h4>
           <ul class="color-grid">
             <li class="color-swatch">
               <span class="color-swatch__chip color-swatch__chip--brand-dark-green"></span>
@@ -143,7 +154,7 @@
         </div>
 
         <div class="ds-group">
-          <h3 class="ds-group__title">Tints</h3>
+          <h4 class="ds-group__title">Tints</h4>
           <p class="ds-group__note">Accessible background versions — pale enough to carry Primary Green text at AA.</p>
           <ul class="color-grid">
             <li class="color-swatch">
@@ -182,7 +193,7 @@
         </div>
 
         <div class="ds-group">
-          <h3 class="ds-group__title">Neutrals</h3>
+          <h4 class="ds-group__title">Neutrals</h4>
           <ul class="color-grid">
             <li class="color-swatch">
               <span class="color-swatch__chip color-swatch__chip--white"></span>
@@ -204,7 +215,7 @@
         </div>
 
         <div class="ds-group">
-          <h3 class="ds-group__title">UI semantic</h3>
+          <h4 class="ds-group__title">UI semantic</h4>
           <p class="ds-group__note">Aliases that components reference. The translucent chips are shown over a split white / Primary&nbsp;Blue field so their alpha reads on both a pale and a dark ground.</p>
           <ul class="color-grid">
             <li class="color-swatch">
@@ -300,7 +311,7 @@
       </section>
 
       <section class="ds-section" id="typography" aria-labelledby="type-title" data-type-specimens>
-        <h2 class="ds-section__title" id="type-title">Typography</h2>
+        <h3 class="ds-section__title" id="type-title">Typography</h3>
         <p class="ds-section__intro">One typeface, one fluid scale. Sizes are <code class="ds-code">clamp()</code> steps that interpolate between a 375px and a 1440px viewport, so nothing snaps at a breakpoint; above 1440 the root font-size itself scales, carrying every step with it. Components reference the semantic aliases (<code class="ds-code">$font-size-base</code>), never the raw <code class="ds-code">--step-*</code> names. Pixel values are read live from the cascade — and note they are measured <em>in this pane</em>, which re-scopes the steps to its own column width (<code class="ds-code">cqi</code>) so components preview at the size they would be on a page this wide. Widen the pane or collapse the sidebar and every number here moves.</p>
 
         <div class="ds-group">
@@ -401,7 +412,7 @@
 
         <div class="ds-group">
           <p class="ds-group__title">Body copy</p>
-          <p class="ds-group__note">Body runs at step 0 with a 1.3 line-height and <code class="ds-code">text-wrap: pretty</code> inherited site-wide. Long-form prose is capped to a reading measure — see the page template.</p>
+          <p class="ds-group__note">Body runs at step 0 with a 1.3 line-height and <code class="ds-code">text-wrap: pretty</code> inherited site-wide. Long-form prose is capped to the reading measure — see The measure, below.</p>
           <div class="ds-type">
             <div class="ds-type__row">
               <!-- step-0 is set explicitly so this reads at the pane's own scale,
@@ -415,10 +426,23 @@
             </div>
           </div>
         </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">The measure</p>
+          <p class="ds-group__note"><strong>Measure</strong> is the traditional typographic name for a column&rsquo;s line length. Bringhurst (<em>The Elements of Typographic Style</em>) gives 45&ndash;75 characters as satisfactory for a single-column page, with 66 as the classic ideal &mdash; about 9&ndash;12 English words; WCAG&nbsp;1.4.8 (AAA) caps line length at 80. It is set once as <code class="ds-code">--measure: 50ch</code> in <code class="ds-code">pages/_content.scss</code> and consumed by the single column and the split section&rsquo;s scrolling half.</p>
+          <p class="ds-group__note">Why 50 and not the textbook 66: <code class="ds-code">ch</code> is the advance width of the digit <code class="ds-code">0</code>, not the average glyph &mdash; and TT Commons Pro&rsquo;s digits are wide, so 1ch &asymp; 1.4 average characters. The obvious <code class="ds-code">66ch</code> would render about 87 characters a line, past both ceilings. <code class="ds-code">50ch</code> was tuned against real rendered lines: ~63 characters on a typical full line, 72 at the longest, all inside the 45&ndash;75 band. It stays in <code class="ds-code">ch</code> so the character count holds at every viewport &mdash; and it must be <strong>re-measured if the body face ever changes</strong>; the number does not transfer between typefaces.</p>
+
+          <div class="ds-demo">
+            <p class="ds-demo__label">--measure: 50ch &middot; the dashed rule marks the cap</p>
+            <div class="ds-measure">
+              <p>GreenPower comes from energy sourced from the sun, wind, water and waste, which produce no additional greenhouse gas emissions. It is bought by your energy provider on your behalf, and every certificate is checked in the program&rsquo;s annual audits. The measure holds a line like this one to a comfortable read &mdash; the eye drops to the next line without losing its place.</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="ds-section" id="icons" aria-labelledby="icons-title">
-        <h2 class="ds-section__title" id="icons-title">Icons</h2>
+        <h3 class="ds-section__title" id="icons-title">Icons</h3>
         <p class="ds-section__intro">15 line icons in <code class="ds-code">assets/icons/</code>, drawn on a 55&#215;55 grid in Dark Green. They are referenced as files through <code class="ds-code">&lt;img&gt;</code>, not inlined, so the artwork's own fill is the colour — <code class="ds-code">currentColor</code> has no effect on them. Components render them at <code class="ds-code">2.75rem</code> (card, feature banner, bento and subscribe all share that size). In Drupal these become media entities on <code class="ds-code">field_icon</code>, so editors pick an icon rather than a template hard-coding one.</p>
 
         <div class="ds-group">
@@ -556,8 +580,148 @@
         </div>
       </section>
 
+      <div class="ds-category">
+        <h2 class="ds-category__title">Components</h2>
+        <p class="ds-category__note">Reusable blocks. Each one maps to a Drupal paragraph type, and each carries its field list, preprocess notes and known risks in the SCSS partial that styles it.</p>
+      </div>
+
+      <section class="ds-section" id="wysiwyg" aria-labelledby="wysiwyg-title">
+        <h3 class="ds-section__title" id="wysiwyg-title">CKEditor WYSIWYG</h3>
+        <p class="ds-section__intro">Every rich-text body field renders inside one wrapper — <code class="ds-code">.page-content__section</code> — and that wrapper is the only place prose is styled: <code class="ds-code">&lt;div class="page-content__section"&gt;{{ content.body }}&lt;/div&gt;</code>. Scoping it this way is what stops prose styling leaking into components — a <code class="ds-code">.card__title</code> that happens to be an <code class="ds-code">h2</code> is untouched by any of it. The inventory below is everything the wrapper styles, and it is meant to be exhaustive: whatever is not here, the CKEditor toolbar should not offer (<code class="ds-code">docs/wysiwyg-output.md</code>).</p>
+
+        <div class="ds-group">
+          <p class="ds-group__title">The elements</p>
+          <p class="ds-group__note">Each block below is its own <code class="ds-code">.page-content__section</code> at the reading measure, labelled with the tags it covers. Nothing here carries component CSS — the one wrapper class does all of it.</p>
+
+          <!-- Real h2–h6 elements, not stand-ins: the specimen IS the styling
+               under test, the same approach the Typography section takes.
+               Prose starts at h2 because the page owns the h1. -->
+          <div class="ds-demo">
+            <div class="page-content">
+
+              <p class="ds-part-label">h2 &ndash; h6 &middot; heading levels</p>
+              <div class="page-content__section">
+                <p>Headings take more space above than below, so each binds to the text it introduces rather than floating between blocks. Size and weight come from the site ladder in <code>base/_typography.scss</code> — the wrapper adds only the prose rhythm and the Dark Green.</p>
+                <h2>Heading level 2</h2>
+                <p>Prose starts at h2: the page itself owns the h1, so an editor never types one.</p>
+                <h3>Heading level 3</h3>
+                <p>Body text follows the heading it belongs to.</p>
+                <h4>Heading level 4</h4>
+                <p>Body text follows the heading it belongs to.</p>
+                <h5>Heading level 5</h5>
+                <p>Body text follows the heading it belongs to.</p>
+                <h6>Heading level 6</h6>
+                <p>The smallest level is uppercased so it reads as a label rather than a run of shrunken text.</p>
+              </div>
+
+              <p class="ds-part-label">p &middot; a &middot; strong &middot; em &middot; code</p>
+              <div class="page-content__section">
+                <p>Body copy runs at the base step on the site's own leading, and <a href="#wysiwyg">links carry a resting underline</a> so colour is never the only thing marking them. Hover one and a green bar grows from the centre out, replacing that underline rather than stacking beneath it — and because it is painted per line fragment, a link that wraps gets a correct rule on each of its lines. Emphasis comes through <strong>strong</strong> and <em>emphasis</em>; a token or filename reads as <code>--space-m</code> inline.</p>
+                <p>Chemistry and units keep their real markup too — biogenic CO<sub>2</sub>, a footnote marker<sup>1</sup> — both on browser defaults, since neither needs a rule of its own.</p>
+              </div>
+
+              <p class="ds-part-label">ul &middot; ol &middot; li &middot; nested lists</p>
+              <div class="page-content__section">
+                <ul>
+                  <li>Renewable electricity, certified with an LGC</li>
+                  <li>Renewable gas, certified with an RGGO
+                    <ul>
+                      <li>Biomethane from wastewater treatment</li>
+                      <li>Biomethane from agricultural feedstock</li>
+                    </ul>
+                  </li>
+                  <li>Emerging renewable fuels and products</li>
+                </ul>
+                <ol>
+                  <li>Confirm your feedstock and production pathway are in scope.</li>
+                  <li>Submit supporting measurement and chain-of-custody evidence.</li>
+                  <li>Complete an independent audit before certificates are issued.</li>
+                </ol>
+              </div>
+
+              <p class="ds-part-label">blockquote &middot; cite &mdash; the editor-typed pull-quote</p>
+              <div class="page-content__section">
+                <blockquote>
+                  Certification gives buyers a single, verifiable claim &mdash; one that stands up to scrutiny from regulators, auditors and customers alike.
+                  <cite>GreenPower Program Rules, 2026</cite>
+                </blockquote>
+              </div>
+
+              <p class="ds-part-label">pre &middot; code &mdash; code block</p>
+              <div class="page-content__section">
+                <pre><code>&lt;div class="page-content__section"&gt;
+  {{ content.body }}
+&lt;/div&gt;</code></pre>
+              </div>
+
+              <p class="ds-part-label">figure.table &middot; table &middot; thead &middot; tbody &middot; th &middot; td</p>
+              <!-- figure.table is CKEditor 5's own wrapper, and it is the scroll
+                   container: `overflow` has no effect on display: table, so the
+                   table itself can never scroll. Narrow the window and this one
+                   scrolls sideways instead of bleeding out of the column. -->
+              <div class="page-content__section">
+                <figure class="table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th scope="col">Pathway</th>
+                        <th scope="col">Certificate</th>
+                        <th scope="col">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Renewable electricity</td>
+                        <td>LGC</td>
+                        <td>Open</td>
+                      </tr>
+                      <tr>
+                        <td>Renewable gas</td>
+                        <td>RGGO</td>
+                        <td>Open</td>
+                      </tr>
+                      <tr>
+                        <td>Low carbon liquid fuels</td>
+                        <td>LCLF</td>
+                        <td>In consultation</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </figure>
+              </div>
+
+              <p class="ds-part-label">figure &middot; img &middot; figcaption</p>
+              <div class="page-content__section">
+                <figure>
+                  <img src="assets/images/family-eating.png" alt="A family preparing a meal together at home" width="900" height="600" loading="lazy">
+                  <figcaption>An image placed straight into the body field: rounded, capped to the column, caption below. Anything that has to break out of the column is a paragraph component instead.</figcaption>
+                </figure>
+              </div>
+
+              <p class="ds-part-label">hr &mdash; divider</p>
+              <div class="page-content__section">
+                <p>The divider separates two runs of content inside a single body field.</p>
+                <hr>
+                <p>It carries its own generous space above and below, so it reads as a break rather than a rule between paragraphs.</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Editor configuration</p>
+          <p class="ds-group__note">The toolbar should offer exactly what is above — no more. Strip inline styles in the text format filter, disable the font size and font colour plugins, and allow headings h2 to h4 only. Otherwise editors can insert an element with no style, or hard-code colours and sizes that break the design system. CKEditor 5 wraps inserted images and tables in a <code class="ds-code">&lt;figure&gt;</code>; the wrapper already styles figures, so that output needs nothing extra.</p>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">What belongs in a component instead</p>
+          <p class="ds-group__note">CKEditor is not a layout tool. A photo that breaks the column, a quote with a portrait, or a group of cards are paragraph components placed as siblings of the body field — see Caption image, Quote and Card. They need real media references for image styles, <code class="ds-code">srcset</code> and alt handling, none of which survive being typed as markup into a body field.</p>
+        </div>
+      </section>
+
       <section class="ds-section" id="card" aria-labelledby="card-title">
-        <h2 class="ds-section__title" id="card-title">Card</h2>
+        <h3 class="ds-section__title" id="card-title">Card</h3>
         <p class="ds-section__intro">One component composes any of: image, icon, title, body and links — every part optional, and direct children are gap-spaced so leaving one out never leaves a hole. Toggle the parts to watch the same component reconfigure live: the controls add and remove the card’s real child elements, so the <code class="ds-code">.card</code> CSS is never touched. In Drupal each part maps 1:1 to a field on the <code class="ds-code">card</code> paragraph.</p>
 
         <div class="ds-card-demo" data-card-demo>
@@ -602,7 +766,7 @@
       </section>
 
       <section class="ds-section" id="feature-banner" aria-labelledby="fb-title">
-        <h2 class="ds-section__title" id="fb-title">Feature banner</h2>
+        <h3 class="ds-section__title" id="fb-title">Feature banner</h3>
         <p class="ds-section__intro">A full-bleed split promo on Dark Green: icon eyebrow, title, intro and a white link list beside a media panel that sits tight to the section edges (the same snug image-to-edge spacing as the card images). Hovering or focusing a link crossfades to that link's image and zooms it (Ken Burns drift underneath), and swaps the location pin. The image also drifts on scroll (parallax, on the live page). The badge is the hero's angle shape, flipped and scaled. Content enters with the shared <code class="ds-code">data-animate</code> stagger.</p>
 
         <div class="ds-bleed">
@@ -643,7 +807,7 @@
       </section>
 
       <section class="ds-section" id="bento-grid" aria-labelledby="bg-title">
-        <h2 class="ds-section__title" id="bg-title">Bento grid</h2>
+        <h3 class="ds-section__title" id="bg-title">Bento grid</h3>
         <p class="ds-section__intro">A full-bleed impact mosaic on Taupe: three equal columns, each stacking one media tile (photo with a bottom title and link over a scrim) and one stat tile (icon, figure and support line on Dark Green). The middle column reverses its stack for the staggered bento rhythm — column heights stay aligned automatically because every column holds the same tile pair. Tiles enter with the shared <code class="ds-code">data-animate</code> stagger, per column; everything collapses to a single even stack on small screens.</p>
 
         <div class="ds-bleed">
@@ -709,7 +873,7 @@
       </section>
 
       <section class="ds-section" id="caption-image" aria-labelledby="ci-title">
-        <h2 class="ds-section__title" id="ci-title">Caption image</h2>
+        <h3 class="ds-section__title" id="ci-title">Caption image</h3>
         <p class="ds-section__intro">A full-width photo with a caption pinned to the bottom-right in the shared hero-angle badge. The image sits in a rounded, clipped stage, carries the same scroll-in entrance zoom as the card and bento images, and drifts with the shared parallax. Built on the feature-banner media panel; the caption badge reuses the angle shape via the shared <code class="ds-code">angle-badge</code> mixin.</p>
 
         <div class="ds-bleed">
@@ -732,7 +896,7 @@
       </section>
 
       <section class="ds-section" id="quote" aria-labelledby="quote-title" data-quote-demo>
-        <h2 class="ds-section__title" id="quote-title">Quote</h2>
+        <h3 class="ds-section__title" id="quote-title">Quote</h3>
         <p class="ds-section__intro">A standalone testimonial: quote, then an attribution row of portrait, name and role. The portrait is optional — toggle it off and the row is simply name and role, with no empty circle held open. This is a component rather than something an editor types into CKEditor, because the portrait has to be a real media reference to get image styles, <code class="ds-code">srcset</code> and alt handling; a hand-written <code class="ds-code">&lt;img&gt;</code> in a body field gets none of those (<code class="ds-code">docs/wysiwyg-output.md</code>: “CKEditor is not a layout tool”). It shares the green rule and Dark Green text with the prose pull-quote so the two read as one family. In Drupal: paragraph <code class="ds-code">quote</code>, placed as a sibling between body paragraphs — or embedded with <code class="ds-code">entity_embed</code> if it must sit mid-field.</p>
 
         <form class="ds-controls ds-controls--inline" aria-label="Quote configuration">
@@ -758,8 +922,94 @@
         </div>
       </section>
 
+      <section class="ds-section" id="accordion" aria-labelledby="accordion-title">
+        <h3 class="ds-section__title" id="accordion-title">Accordion</h3>
+        <p class="ds-section__intro">A divided list of disclosure rows for FAQs and dense reference copy. Built on <code class="ds-code">&lt;details&gt;</code> and <code class="ds-code">&lt;summary&gt;</code>, so opening, closing, keyboard operation and the collapsed/expanded announcement all come from the browser — this component ships <strong>no JavaScript</strong>. The height animation is pure CSS (<code class="ds-code">::details-content</code> plus <code class="ds-code">interpolate-size</code>); where a browser doesn't support it the panel just opens instantly, still fully functional, so there is no fallback script to write. Each panel body is rich text wrapped in <code class="ds-code">.page-content__section</code>, so lists, links and tables come free rather than being restyled here.</p>
+
+        <div class="ds-group">
+          <p class="ds-group__title">In the reading column</p>
+          <p class="ds-group__note">Shown at the reading measure, which is where this belongs — the questions are prose, not a grid. Open two at once: the group is deliberately not exclusive, because FAQ readers routinely compare answers. Adding a shared <code class="ds-code">name</code> attribute to every <code class="ds-code">&lt;details&gt;</code> makes it exclusive natively, still with no script.</p>
+
+          <div class="ds-demo">
+            <div class="page-content">
+              <div class="accordion">
+
+                <details class="accordion__item">
+                  <summary class="accordion__trigger">
+                    <h4 class="accordion__title">Where does GreenPower come from?
+                      <svg class="accordion__icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </h4>
+                  </summary>
+                  <div class="accordion__panel">
+                    <div class="page-content__section">
+                      <p>GreenPower comes from energy sourced from the sun, wind, water and waste which produce no additional greenhouse gas emissions. It is bought by your energy provider on your behalf. GreenPower is the only government accredited renewable energy in Australia.</p>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="accordion__item">
+                  <summary class="accordion__trigger">
+                    <h4 class="accordion__title">How do I know that I am getting the GreenPower I pay for?
+                      <svg class="accordion__icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </h4>
+                  </summary>
+                  <div class="accordion__panel">
+                    <div class="page-content__section">
+                      <p>Every year, the GreenPower program accesses the sales and purchase records of all GreenPower Providers and checks that they are buying the renewable energy sold to their customers. This is published in the annual audit reports.</p>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="accordion__item">
+                  <summary class="accordion__trigger">
+                    <h4 class="accordion__title">Why switch to GreenPower?
+                      <svg class="accordion__icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </h4>
+                  </summary>
+                  <div class="accordion__panel">
+                    <div class="page-content__section">
+                      <ul>
+                        <li>Electricity makes up around 50 per cent of a typical household’s greenhouse gas emissions. If you buy 100 per cent GreenPower, your energy company will replace the same amount of energy from renewable sources that would have otherwise been sourced from fossil fuels such as coal.</li>
+                        <li>Drive demand for renewable energy. Your contributions will help grow the renewable energy sector.</li>
+                        <li>You can help reduce water consumption. Renewable energy generators use much less water than coal and gas powered stations.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="accordion__item">
+                  <summary class="accordion__trigger">
+                    <h4 class="accordion__title">How much GreenPower should I buy?
+                      <svg class="accordion__icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </h4>
+                  </summary>
+                  <div class="accordion__panel">
+                    <div class="page-content__section">
+                      <p>The more you buy the better. You can choose what percentage of your electricity usage you would like to match with GreenPower.</p>
+                      <p>For example — if you buy 100 per cent GreenPower you have matched all of your household or organisation’s electricity consumption with renewable energy.* This energy is added to Australia’s electricity grids. The more people and organisations that choose to buy GreenPower the more renewable energy is added to the grid.</p>
+                      <p>* Some GreenPower products are calculated based on the average Australian household’s electricity consumption. Check with your electricity retailer to confirm the amount of electricity in kWh you are matching with GreenPower.</p>
+                    </div>
+                  </div>
+                </details>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Heading level is contextual</p>
+          <p class="ds-group__note">A <code class="ds-code">&lt;summary&gt;</code> may hold either phrasing content or a single heading element, so each question is a real heading — which lets screen reader users jump between questions by heading. The LEVEL is not the component's decision: it is <code class="ds-code">h4</code> here because these sit under an <code class="ds-code">h3</code> section title, and would be <code class="ds-code">h3</code> on a page where the accordion follows an <code class="ds-code">h2</code>. In Drupal, expose it as a preprocess variable rather than hard-coding one.</p>
+        </div>
+      </section>
+
+      <div class="ds-category">
+        <h2 class="ds-category__title">Layout patterns</h2>
+        <p class="ds-category__note">How those components compose into a page: the interior banner, the two reading layouts they sit in, and the card grids.</p>
+      </div>
+
       <section class="ds-section" id="page-header" aria-labelledby="ph-title" data-page-header-demo>
-        <h2 class="ds-section__title" id="ph-title">Page header</h2>
+        <h3 class="ds-section__title" id="ph-title">Page header</h3>
         <p class="ds-section__intro">The interior-page banner: breadcrumb, H1 and summary on a Dark Green band, with an optional image filling the right side and its top-left corner cut by the brand angle — the same 45° + artwork-bézier geometry as the hero panel. Toggle the image off and the shape stays, filled flat in Primary Green; on phones it drops away entirely, so an imageless header ends cleanly after the summary rather than stacking a decorative block. In Drupal this is page-level (node title, <code class="ds-code">field_summary</code>, optional <code class="ds-code">field_header_image</code>) with the breadcrumb block placed in the band — not a paragraph.</p>
 
         <form class="ds-controls ds-controls--inline" aria-label="Page header configuration">
@@ -794,7 +1044,7 @@
       </section>
 
       <section class="ds-section" id="single-column" aria-labelledby="sc-title">
-        <h2 class="ds-section__title" id="sc-title">Single column</h2>
+        <h3 class="ds-section__title" id="sc-title">Single column</h3>
         <p class="ds-section__intro">The default reading layout: one centred column whose width is the reading measure &mdash; <code class="ds-code">--measure: 50ch</code>, tuned against real rendered lines to ~63 characters (Bringhurst's 45&ndash;75 band; see <code class="ds-code">pages/_content.scss</code> for why 50, not 66). Prose inside is styled by the one WYSIWYG wrapper, and the column takes the same blocks the split layout does &mdash; card stacks, caption images, quotes &mdash; as siblings between prose sections. In Drupal this is <code class="ds-code">field_layout: single</code> on the same <code class="ds-code">section</code> paragraph the split uses.</p>
 
         <div class="ds-demo">
@@ -802,11 +1052,35 @@
             <p class="ds-part-label">CKEditor WYSIWYG &mdash; wysiwyg paragraph &middot; .page-content__section</p>
             <div class="page-content__section">
               <h3>Heading &mdash; h2 to h4, from the body field</h3>
-              <p>Body text &mdash; the CKEditor field. Everything an editor can emit is styled by this one wrapper: paragraphs, <a href="#single-column">links</a>, lists, blockquotes, tables and figures.</p>
+              <p>Body text &mdash; the CKEditor field. One wrapper styles everything an editor can emit, <a href="#single-column">links</a>, <strong>strong</strong>, <em>emphasis</em> and <code>code</code> included. The full inventory is in the CKEditor WYSIWYG section; this is one of each.</p>
               <ul>
                 <li>List item &mdash; editors control the content, never the markup</li>
+                <li>List item &mdash; ordered and nested lists come through the same way</li>
               </ul>
-
+              <figure>
+                <img src="assets/images/family-eating.png" alt="A family preparing a meal together at home" width="900" height="600" loading="lazy">
+                <figcaption>Image caption &mdash; CKEditor's own figure and figcaption, straight from the body field</figcaption>
+              </figure>
+              <figure class="table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Pathway</th>
+                      <th scope="col">Certificate</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Renewable electricity</td>
+                      <td>LGC</td>
+                    </tr>
+                    <tr>
+                      <td>Renewable gas</td>
+                      <td>RGGO</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </figure>
               <blockquote>Pull-quote &mdash; typed by an editor in the body field, styled by the prose wrapper. Distinct from the quote COMPONENT below, which carries a portrait and a real media reference.<cite>Attribution &mdash; cite</cite></blockquote>
             </div>
 
@@ -823,20 +1097,6 @@
                 </div>
               </article>
             </div>
-
-            <p class="ds-part-label">caption_image &middot; .caption-image--inline</p>
-            <figure class="caption-image caption-image--inline">
-              <div class="caption-image__stage">
-                <img class="caption-image__img" src="assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
-              </div>
-              <figcaption class="caption-image__caption">
-                <span class="caption-image__caption-shape" aria-hidden="true">
-                  <svg class="caption-image__caption-curve" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L0 210.3Z" fill="currentColor"/></svg>
-                </span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                <span>Caption &mdash; field_caption, optional</span>
-              </figcaption>
-            </figure>
 
             <p class="ds-part-label">quote &middot; .quote</p>
             <figure class="quote">
@@ -856,8 +1116,8 @@
       </section>
 
       <section class="ds-section" id="page-split" aria-labelledby="split-title">
-        <h2 class="ds-section__title" id="split-title">Split section</h2>
-        <p class="ds-section__intro">The sticky two-column alternative to the single reading column: a third / two-thirds grid from <code class="ds-code">sm</code> where the left rail (H2 + description) <strong>sticks</strong> while the wider column beside it scrolls. The right column takes exactly the same blocks as the single column — prose, card stacks, caption images, quotes — so in Drupal one <code class="ds-code">section</code> paragraph with <code class="ds-code">field_layout</code> (single | split_sticky) switches wrapper without re-entering content. Below <code class="ds-code">sm</code> it stacks, intro first, sticky off &mdash; taking the single column&rsquo;s own measure, so a linearised split section and a single-column section are identical. Scroll this pane to watch the rail hold.</p>
+        <h3 class="ds-section__title" id="split-title">Split section</h3>
+        <p class="ds-section__intro">The sticky two-column alternative to the single reading column: equal halves from <code class="ds-code">sm</code> where the left rail (H2 + description) <strong>sticks</strong> while the column beside it scrolls. The scrolling column is capped at the same reading measure as the single column — on wide screens both halves hold their content left with open space to the right, the rail by its own 24ch/36ch caps, the body by <code class="ds-code">--measure</code>. It takes exactly the same blocks as the single column — prose, card stacks, quotes — so in Drupal one <code class="ds-code">section</code> paragraph with <code class="ds-code">field_layout</code> (single | split_sticky) switches wrapper without re-entering content. Below <code class="ds-code">sm</code> it stacks, intro first, sticky off &mdash; identical to a single-column section. Scroll this pane to watch the rail hold.</p>
 
         <div class="ds-demo">
           <div class="page-split">
@@ -869,11 +1129,35 @@
               <p class="ds-part-label">CKEditor WYSIWYG &mdash; wysiwyg paragraph &middot; .page-content__section</p>
               <div class="page-content__section">
                 <h3>Heading &mdash; h2 to h4, from the body field</h3>
-                <p>Body text &mdash; the CKEditor field. Everything an editor can emit is styled by this one wrapper: paragraphs, <a href="#page-split">links</a>, lists, blockquotes, tables and figures.</p>
+                <p>Body text &mdash; the CKEditor field. One wrapper styles everything an editor can emit, <a href="#page-split">links</a>, <strong>strong</strong>, <em>emphasis</em> and <code>code</code> included. The full inventory is in the CKEditor WYSIWYG section; this is one of each.</p>
                 <ul>
                   <li>List item &mdash; editors control the content, never the markup</li>
+                  <li>List item &mdash; ordered and nested lists come through the same way</li>
                 </ul>
-
+                <figure>
+                  <img src="assets/images/family-eating.png" alt="A family preparing a meal together at home" width="900" height="600" loading="lazy">
+                  <figcaption>Image caption &mdash; CKEditor's own figure and figcaption, straight from the body field</figcaption>
+                </figure>
+                <figure class="table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th scope="col">Pathway</th>
+                        <th scope="col">Certificate</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Renewable electricity</td>
+                        <td>LGC</td>
+                      </tr>
+                      <tr>
+                        <td>Renewable gas</td>
+                        <td>RGGO</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </figure>
                 <blockquote>Pull-quote &mdash; typed by an editor in the body field, styled by the prose wrapper. Distinct from the quote COMPONENT below, which carries a portrait and a real media reference.<cite>Attribution &mdash; cite</cite></blockquote>
               </div>
 
@@ -890,20 +1174,6 @@
                   </div>
                 </article>
               </div>
-
-              <p class="ds-part-label">caption_image &middot; .caption-image--inline</p>
-              <figure class="caption-image caption-image--inline">
-                <div class="caption-image__stage">
-                  <img class="caption-image__img" src="assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
-                </div>
-                <figcaption class="caption-image__caption">
-                  <span class="caption-image__caption-shape" aria-hidden="true">
-                    <svg class="caption-image__caption-curve" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L0 210.3Z" fill="currentColor"/></svg>
-                  </span>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                  <span>Caption &mdash; field_caption, optional</span>
-                </figcaption>
-              </figure>
 
               <p class="ds-part-label">quote &middot; .quote</p>
               <figure class="quote">
@@ -924,7 +1194,7 @@
       </section>
 
       <section class="ds-section" id="card-sections" aria-labelledby="cardsec-title" data-card-sections>
-        <h2 class="ds-section__title" id="cardsec-title">Card sections</h2>
+        <h3 class="ds-section__title" id="cardsec-title">Card sections</h3>
         <p class="ds-section__intro">A card section wraps an optional heading and intro over a responsive grid of cards. Set the column count with a grid modifier; every option collapses to a single column on small screens.</p>
 
         <form class="ds-controls ds-controls--inline" data-card-controls aria-label="Configure the cards below">
@@ -1584,6 +1854,45 @@
 
       apply();
       if (reduced.addEventListener) reduced.addEventListener('change', apply);
+    })();
+  </script>
+
+  <!-- Prose tables: a table wider than the reading column scrolls inside its
+       figure.table wrapper (CSS, pages/_content.scss). A scroll box that holds
+       nothing focusable cannot be scrolled from the keyboard (WCAG 2.1.1), so
+       promote ONLY the wrappers that actually overflow to a focusable, labelled
+       region — a table that fits adds no tab stop and no landmark. Re-checked on
+       resize and once webfonts settle, because the column and the type scale are
+       both fluid. Drupal: one once()-guarded behavior, label through t(). -->
+  <script>
+    (function () {
+      var wrappers = [].slice.call(document.querySelectorAll('.page-content__section figure.table'));
+      if (!wrappers.length) return;
+
+      var LABEL = 'Scrollable table';
+
+      function sync() {
+        wrappers.forEach(function (el) {
+          // +1 absorbs sub-pixel rounding: a fluid column routinely resolves to
+          // a fractional width, where scrollWidth reads a pixel over
+          // clientWidth with nothing actually clipped.
+          if (el.scrollWidth > el.clientWidth + 1) {
+            el.setAttribute('tabindex', '0');
+            el.setAttribute('role', 'region');
+            el.setAttribute('aria-label', LABEL);
+          } else if (el !== document.activeElement) {
+            // Never strip the attributes off the element currently holding
+            // focus — that would drop the user's focus to <body> mid-resize.
+            el.removeAttribute('tabindex');
+            el.removeAttribute('role');
+            el.removeAttribute('aria-label');
+          }
+        });
+      }
+
+      sync();
+      window.addEventListener('resize', sync);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
     })();
   </script>
 

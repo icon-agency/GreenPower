@@ -1,0 +1,138 @@
+// -----------------------------------------------------------------------------
+// Accordion — a divided list of disclosure rows (FAQs, dense reference copy)
+//
+// Built on <details>/<summary>, so opening, closing, keyboard operation and the
+// expanded/collapsed announcement are the BROWSER'S — this component ships no
+// JavaScript at all. The height animation is a pure-CSS progressive enhancement
+// (::details-content + interpolate-size); where either is unsupported the panel
+// simply opens instantly, still fully functional, which is why there is no
+// script fallback to write.
+//
+// Deliberately NOT the nav's accordion pattern: that one predates
+// ::details-content and animates a JS-measured height (docs/animation.md 1b)
+// because it is a custom button + panel. Don't copy it here — a disclosure that
+// can be native should be native.
+//
+// Each panel body is rich text, so it is wrapped in .page-content__section — the
+// one prose wrapper (docs/wysiwyg-output.md) — and gets paragraphs, lists,
+// links and tables for free rather than restyling them here.
+//
+// Drupal mapping: Paragraph: accordion
+//   Fields: field_accordion_heading (text, optional — rendered above the list),
+//           field_accordion_items (repeatable paragraph: accordion_item, with
+//           field_accordion_title (text) + field_accordion_body (text long)).
+//   Preprocess: nothing beyond the field lookups. The question's heading LEVEL
+//     is contextual, not a component decision — expose it as a variable so the
+//     template can emit h3 under an h2 section, h4 under an h3, and so on.
+//   Variant: give every <details> in one accordion the same `name` attribute and
+//     the browser makes the group EXCLUSIVE (one open at a time), no JS. Left
+//     off here on purpose: FAQ readers routinely compare two answers, and an
+//     exclusive group closes the one they were reading.
+//   Known risks: open state does not survive a page load. If deep-linking to an
+//     item is ever wanted, that is the one thing here that needs JS (open the
+//     details whose id matches location.hash, before scroll).
+// -----------------------------------------------------------------------------
+
+.accordion {
+  // Lets ::details-content interpolate to and from `auto` below. It inherits,
+  // so scoping it to the block covers every item without touching :root.
+  interpolate-size: allow-keywords;
+
+  border-top: 1px solid $color-ui-border;
+}
+
+.accordion__item {
+  border-bottom: 1px solid $color-ui-border;
+}
+
+// The clickable row. <summary> may hold EITHER phrasing content or a single
+// heading element, so the heading below carries the layout and this stays a
+// bare, focusable wrapper.
+.accordion__trigger {
+  cursor: pointer;
+  // Drops the default disclosure triangle everywhere but WebKit…
+  list-style: none;
+
+  // …which needs its own reset.
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.accordion__title {
+  @include flex-row(var(--space-s), center, space-between);
+  position: relative; // containing block for the hover underline below
+  padding-block: var(--space-s);
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $color-brand-dark-green; // leading comes from the base heading rule
+  @include transition(color);
+
+  // Hover underline — the main-nav link mechanism: a bar that SCALES in from
+  // the centre out to both edges and retracts back to the centre on leave,
+  // rather than fading. An ::after, never box-shadow (LESSONS.md: shadow
+  // underlines leave a 1px seam at fractional x-positions). Anchored to the
+  // row's own bottom, so it underlines the question whether the item is open
+  // or closed — the item's divider is a separate rule on __item.
+  &::after {
+    position: absolute;
+    inset: auto 0 0;
+    height: 2px;
+    content: '';
+    background-color: $color-brand-green;
+    transform: scaleX(0);
+    transform-origin: center;
+    @include transition(transform, 0.3s, ease-out);
+  }
+}
+
+// Blue, matching the card and nav links: Primary Green as TEXT is 3.5:1 on
+// white and fails AA at this size.
+.accordion__trigger:hover .accordion__title {
+  color: $color-brand-blue;
+}
+
+.accordion__trigger:hover .accordion__title::after {
+  transform: scaleX(1);
+}
+
+// Chevron, sized in em so it tracks the fluid question size (the width/height
+// attributes on the SVG are only fallbacks — CSS wins).
+.accordion__icon {
+  flex-shrink: 0;
+  width: 0.8em;
+  height: 0.8em;
+  @include transition(transform);
+}
+
+.accordion__item[open] .accordion__icon {
+  transform: rotate(180deg);
+}
+
+.accordion__panel {
+  padding-bottom: var(--space-m);
+}
+
+// The open/close animation. ::details-content is the browser's own wrapper
+// around everything after the <summary>, and it is the only thing that can be
+// animated here — the panel itself is not a separate box the browser sizes.
+//
+// content-visibility has to transition too (with allow-discrete), or the
+// content pops in and out at the ends instead of being revealed by the height.
+// The global reduced-motion reset in base/_reset.scss collapses both to 0.01ms,
+// so no per-component motion query is needed.
+.accordion__item::details-content {
+  overflow: hidden;
+  block-size: 0;
+  transition:
+    block-size 0.3s ease-out,
+    content-visibility 0.3s ease-out allow-discrete;
+}
+
+.accordion__item[open]::details-content {
+  block-size: auto;
+}
