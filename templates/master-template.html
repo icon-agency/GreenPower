@@ -1218,19 +1218,20 @@
     })();
   </script>
 
-  <!-- Prose tables: a table wider than the reading column scrolls inside its
-       figure.table wrapper (CSS, pages/_content.scss). A scroll box that holds
-       nothing focusable cannot be scrolled from the keyboard (WCAG 2.1.1), so
-       promote ONLY the wrappers that actually overflow to a focusable, labelled
-       region — a table that fits adds no tab stop and no landmark. Re-checked on
-       resize and once webfonts settle, because the column and the type scale are
-       both fluid. Drupal: one once()-guarded behavior, label through t(). -->
+  <!-- Prose scroll regions: a table scrolls inside its figure.table wrapper and
+       a code block inside its own pre (CSS, pages/_content.scss). A scroll box
+       that holds nothing focusable cannot be scrolled from the keyboard
+       (WCAG 2.1.1), so promote ONLY the boxes that actually overflow to a
+       focusable, labelled region — one that fits adds no tab stop and no
+       landmark. Re-checked on resize and once webfonts settle, because the
+       column and the type scale are both fluid. Drupal: one once()-guarded
+       behavior, labels through t(). -->
   <script>
     (function () {
-      var wrappers = [].slice.call(document.querySelectorAll('.page-content__section figure.table'));
+      var wrappers = [].slice.call(document.querySelectorAll(
+        '.page-content__section figure.table, .page-content__section pre'
+      ));
       if (!wrappers.length) return;
-
-      var LABEL = 'Scrollable table';
 
       function sync() {
         wrappers.forEach(function (el) {
@@ -1240,7 +1241,7 @@
           if (el.scrollWidth > el.clientWidth + 1) {
             el.setAttribute('tabindex', '0');
             el.setAttribute('role', 'region');
-            el.setAttribute('aria-label', LABEL);
+            el.setAttribute('aria-label', el.matches('pre') ? 'Scrollable code block' : 'Scrollable table');
           } else if (el !== document.activeElement) {
             // Never strip the attributes off the element currently holding
             // focus — that would drop the user's focus to <body> mid-resize.

@@ -2528,6 +2528,11 @@ a:focus-visible {
   block-size: auto;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .accordion__item::details-content {
+    transition-duration: 0.01ms;
+  }
+}
 .footer-subscribe {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -2975,6 +2980,10 @@ a:focus-visible {
   line-height: 1.5;
   background-color: #f3efe5;
   border-radius: 8px;
+}
+.page-content__section pre:focus-visible {
+  outline: 3px solid #009f4d;
+  outline-offset: 2px;
 }
 .page-content__section pre code {
   padding: 0;

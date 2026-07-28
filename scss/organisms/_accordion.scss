@@ -123,8 +123,6 @@
 //
 // content-visibility has to transition too (with allow-discrete), or the
 // content pops in and out at the ends instead of being revealed by the height.
-// The global reduced-motion reset in base/_reset.scss collapses both to 0.01ms,
-// so no per-component motion query is needed.
 .accordion__item::details-content {
   overflow: hidden;
   block-size: 0;
@@ -135,4 +133,16 @@
 
 .accordion__item[open]::details-content {
   block-size: auto;
+}
+
+// Reduced motion needs its own rule: the global kill in base/_reset.scss
+// targets `*, *::before, *::after`, and a universal selector does NOT reach
+// other pseudo-elements — this transition survives it. Kept STANDALONE on
+// purpose: adding ::details-content to the reset's shared selector list would
+// invalidate that entire list in browsers that don't recognise the
+// pseudo-element, silently disabling the site-wide kill (see LESSONS.md).
+@media (prefers-reduced-motion: reduce) {
+  .accordion__item::details-content {
+    transition-duration: 0.01ms;
+  }
 }

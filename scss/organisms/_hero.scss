@@ -32,9 +32,9 @@
 // Preprocess: expose video URL, poster, both CTAs. The only static strings are
 //   the playback button labels ("Pause video"/"Play video") — run those
 //   through t() in the theme JS/Twig.
-// Known risks: source videos 14–45MB EACH (gas.mp4 is 45MB) and the rotation
-//   preloads the next one — re-encode all three before production (<3MB,
-//   1080p, no audio). Contrast is footage-dependent BY DESIGN (Figma spec: 35% black
+// Known risks: source videos are 2.9–3.8MB (wind 2.9, solar/gas 3.8) and the
+//   rotation preloads the next one — solar and gas still sit above the <3MB
+//   production target, so one more encoding pass is wanted (1080p, no audio). Contrast is footage-dependent BY DESIGN (Figma spec: 35% black
 //   max, plus a flat 10% wash on __media): worst-case bright frame under
 //   wash + full scrim composites to ~#959595 → white text ~2.9:1 (the old
 //   50% brand-blue scrim floored at 3.2:1); the wash alone gives ~10%

@@ -85,7 +85,7 @@ Two things to know before changing this:
 
 **Legacy content.** Anything authored before CKEditor 5 arrives as a bare `<table>` with no figure, so it cannot scroll. Wrap those during migration rather than adding a second styling path — the alternative is a preprocess DOM pass over every body field on every request.
 
-**Keyboard access.** A scrollable box containing nothing focusable cannot be scrolled from the keyboard (WCAG 2.1.1). A small shared script gives the wrapper `tabindex="0"`, `role="region"` and a label — but **only when it actually overflows**, so a table that fits adds no tab stop and no landmark. It re-checks on resize and once webfonts settle, because the column and the type scale are both fluid. In Drupal this belongs in a `once()`-guarded behavior with the label run through `t()`.
+**Keyboard access.** A scrollable box containing nothing focusable cannot be scrolled from the keyboard (WCAG 2.1.1). A small shared script gives the wrapper `tabindex="0"`, `role="region"` and a label — but **only when it actually overflows**, so a table that fits adds no tab stop and no landmark. The same script covers `pre` code blocks, which scroll the same way (`overflow-x: auto`) and would otherwise have the same gap. It re-checks on resize and once webfonts settle, because the column and the type scale are both fluid. In Drupal this belongs in a `once()`-guarded behavior with the labels run through `t()`.
 
 ---
 

@@ -207,6 +207,14 @@
     background-color: $color-tint-taupe;
     border-radius: $radius-md;
 
+    // The shared scroll-region script promotes an overflowing pre to a
+    // focusable region (same WCAG 2.1.1 treatment as figure.table — a scroll
+    // box holding nothing focusable cannot be scrolled from the keyboard),
+    // so it needs a visible focus state.
+    &:focus-visible {
+      @include focus-ring;
+    }
+
     code {
       padding: 0;
       background: none;
