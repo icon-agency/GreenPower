@@ -474,6 +474,26 @@
   color: $color-brand-dark-green;
 }
 
+// Names the component that follows it inside a layout demo, so the palette
+// reads as "here is what you can put in this column" rather than as page
+// content. A SIBLING of the component, never a wrapper: the components must
+// stay direct children of the column, or the demo would stop showing the
+// real structure (and the column's own flow rhythm).
+.ds-part-label {
+  font-family: $font-family-mono;
+  font-size: $font-size-xs;
+  color: $color-brand-dark-green;
+}
+
+// Pull the labelled component up tight under its own label. Beats the
+// column's `> * + *` section rhythm on specificity (two classes vs one class
+// plus the universal selector), so the label groups with what it names while
+// the gap ABOVE each label still separates one part from the next.
+.page-content > .ds-part-label + *,
+.page-split__body > .ds-part-label + * {
+  margin-top: var(--space-2xs);
+}
+
 // The card-section carries its own page container; strip only its side padding
 // when embedded in a doc column so it fills the column (spacing, not restyle).
 .ds-demo .card-section {

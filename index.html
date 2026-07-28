@@ -799,58 +799,125 @@
 
         <div class="ds-demo">
           <div class="page-content">
+            <p class="ds-part-label">CKEditor WYSIWYG &mdash; wysiwyg paragraph &middot; .page-content__section</p>
             <div class="page-content__section">
-              <h3>What the certification covers</h3>
-              <p>Accreditation applies to the fuel or product itself, not to the organisation producing it. Each pathway is assessed against the <a href="#single-column">Program Rules</a> before a certificate can be issued.</p>
-              <p>Sources of biogenic CO<sub>2</sub> include biomethane production, ethanol production, biogas to electricity cogeneration, landfill gas operations and waste management facilities.</p>
+              <h3>Heading &mdash; h2 to h4, from the body field</h3>
+              <p>Body text &mdash; the CKEditor field. Everything an editor can emit is styled by this one wrapper: paragraphs, <a href="#single-column">links</a>, lists, blockquotes, tables and figures.</p>
+              <ul>
+                <li>List item &mdash; editors control the content, never the markup</li>
+              </ul>
+
+              <blockquote>Pull-quote &mdash; typed by an editor in the body field, styled by the prose wrapper. Distinct from the quote COMPONENT below, which carries a portrait and a real media reference.<cite>Attribution &mdash; cite</cite></blockquote>
             </div>
+
+            <p class="ds-part-label">card_grid &middot; .card-stack &mdash; one card per row in a column</p>
             <div class="card-stack">
               <article class="card">
                 <div class="card__content">
                   <span class="card__icon"><img src="assets/icons/document.svg" alt="" width="52" height="52" loading="lazy"></span>
-                  <h3 class="card__title">Program Rules</h3>
-                  <p class="card__body">Blocks like this card stack sit between prose sections, aligned to the same measure.</p>
+                  <h3 class="card__title">Card title &mdash; field_title</h3>
+                  <p class="card__body">Card body &mdash; field_body, optional. Every part of a card is optional, so leaving one out never leaves a hole.</p>
+                  <ul class="card__links">
+                    <li><a class="card__link" href="#single-column">Card link &mdash; field_links, repeatable <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  </ul>
                 </div>
               </article>
             </div>
+
+            <p class="ds-part-label">caption_image &middot; .caption-image--inline</p>
+            <figure class="caption-image caption-image--inline">
+              <div class="caption-image__stage">
+                <img class="caption-image__img" src="assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
+              </div>
+              <figcaption class="caption-image__caption">
+                <span class="caption-image__caption-shape" aria-hidden="true">
+                  <svg class="caption-image__caption-curve" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L0 210.3Z" fill="currentColor"/></svg>
+                </span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                <span>Caption &mdash; field_caption, optional</span>
+              </figcaption>
+            </figure>
+
+            <p class="ds-part-label">quote &middot; .quote</p>
+            <figure class="quote">
+              <blockquote class="quote__text">
+                <p>Quote text &mdash; field_quote_text. Sized a step above body copy, with the brand rule on the left.</p>
+              </blockquote>
+              <figcaption class="quote__author">
+                <span class="quote__avatar"><img src="assets/images/profile.png" alt="" width="400" height="400" loading="lazy"></span>
+                <span class="quote__meta">
+                  <span class="quote__name">Name &mdash; field_quote_name</span>
+                  <span class="quote__role">Role &mdash; field_quote_role</span>
+                </span>
+              </figcaption>
+            </figure>
           </div>
         </div>
       </section>
 
       <section class="ds-section" id="page-split" aria-labelledby="split-title">
         <h2 class="ds-section__title" id="split-title">Split section</h2>
-        <p class="ds-section__intro">The sticky two-column alternative to the single reading column: a 50/50 grid from <code class="ds-code">md</code> where the left rail (H2 + description, capped to a narrow measure inside its half) <strong>sticks</strong> while the right half scrolls. The right column takes exactly the same blocks as the single column — prose, card stacks, caption images, quotes — so in Drupal one <code class="ds-code">section</code> paragraph with <code class="ds-code">field_layout</code> (single | split_sticky) switches wrapper without re-entering content. Below <code class="ds-code">md</code> it stacks, intro first, sticky off. Scroll this pane to watch the rail hold.</p>
+        <p class="ds-section__intro">The sticky two-column alternative to the single reading column: a third / two-thirds grid from <code class="ds-code">sm</code> where the left rail (H2 + description) <strong>sticks</strong> while the wider column beside it scrolls. The right column takes exactly the same blocks as the single column — prose, card stacks, caption images, quotes — so in Drupal one <code class="ds-code">section</code> paragraph with <code class="ds-code">field_layout</code> (single | split_sticky) switches wrapper without re-entering content. Below <code class="ds-code">sm</code> it stacks, intro first, sticky off &mdash; taking the single column&rsquo;s own measure, so a linearised split section and a single-column section are identical. Scroll this pane to watch the rail hold.</p>
 
         <div class="ds-demo">
           <div class="page-split">
             <div class="page-split__intro">
-              <h2 class="page-split__heading">How does GreenPower Renewable Electricity work?</h2>
-              <p class="page-split__lede">GreenPower certification uses a different type of certificate for Electricity and Gas.</p>
+              <h2 class="page-split__heading">Section heading &mdash; field_heading</h2>
+              <p class="page-split__lede">Section intro &mdash; field_intro. This rail sticks while the column beside it scrolls.</p>
             </div>
             <div class="page-split__body">
+              <p class="ds-part-label">CKEditor WYSIWYG &mdash; wysiwyg paragraph &middot; .page-content__section</p>
+              <div class="page-content__section">
+                <h3>Heading &mdash; h2 to h4, from the body field</h3>
+                <p>Body text &mdash; the CKEditor field. Everything an editor can emit is styled by this one wrapper: paragraphs, <a href="#page-split">links</a>, lists, blockquotes, tables and figures.</p>
+                <ul>
+                  <li>List item &mdash; editors control the content, never the markup</li>
+                </ul>
+
+                <blockquote>Pull-quote &mdash; typed by an editor in the body field, styled by the prose wrapper. Distinct from the quote COMPONENT below, which carries a portrait and a real media reference.<cite>Attribution &mdash; cite</cite></blockquote>
+              </div>
+
+              <p class="ds-part-label">card_grid &middot; .card-stack &mdash; one card per row in a column</p>
               <div class="card-stack">
                 <article class="card">
                   <div class="card__content">
-                    <span class="card__icon"><img src="assets/icons/shield-tick-badge.svg" alt="" width="52" height="52" loading="lazy"></span>
-                    <h3 class="card__title">01. GreenPower accreditation</h3>
-                    <p class="card__body">GreenPower generators must meet standards that go above and beyond the Clean Energy Regulator&rsquo;s requirements. Electricity generators eligible to create Large-scale Generation Certificates (LGCs) can apply for GreenPower accreditation.</p>
-                  </div>
-                </article>
-                <article class="card">
-                  <div class="card__content">
                     <span class="card__icon"><img src="assets/icons/document.svg" alt="" width="52" height="52" loading="lazy"></span>
-                    <h3 class="card__title">02. GreenPower LGCs are created</h3>
-                    <p class="card__body">Accredited generators produce renewable electricity and create LGCs that carry the GreenPower stamp — one certificate for every megawatt hour sent to the grid.</p>
-                  </div>
-                </article>
-                <article class="card">
-                  <div class="card__content">
-                    <span class="card__icon"><img src="assets/icons/electricity.svg" alt="" width="52" height="52" loading="lazy"></span>
-                    <h3 class="card__title">03. Providers match your usage</h3>
-                    <p class="card__body">Your electricity provider buys and surrenders GreenPower LGCs to match the renewable percentage you choose, and the purchase is audited annually.</p>
+                    <h3 class="card__title">Card title &mdash; field_title</h3>
+                    <p class="card__body">Card body &mdash; field_body, optional. Every part of a card is optional, so leaving one out never leaves a hole.</p>
+                    <ul class="card__links">
+                      <li><a class="card__link" href="#page-split">Card link &mdash; field_links, repeatable <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                    </ul>
                   </div>
                 </article>
               </div>
+
+              <p class="ds-part-label">caption_image &middot; .caption-image--inline</p>
+              <figure class="caption-image caption-image--inline">
+                <div class="caption-image__stage">
+                  <img class="caption-image__img" src="assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
+                </div>
+                <figcaption class="caption-image__caption">
+                  <span class="caption-image__caption-shape" aria-hidden="true">
+                    <svg class="caption-image__caption-curve" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L0 210.3Z" fill="currentColor"/></svg>
+                  </span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  <span>Caption &mdash; field_caption, optional</span>
+                </figcaption>
+              </figure>
+
+              <p class="ds-part-label">quote &middot; .quote</p>
+              <figure class="quote">
+                <blockquote class="quote__text">
+                  <p>Quote text &mdash; field_quote_text. Sized a step above body copy, with the brand rule on the left.</p>
+                </blockquote>
+                <figcaption class="quote__author">
+                  <span class="quote__avatar"><img src="assets/images/profile.png" alt="" width="400" height="400" loading="lazy"></span>
+                  <span class="quote__meta">
+                    <span class="quote__name">Name &mdash; field_quote_name</span>
+                    <span class="quote__role">Role &mdash; field_quote_role</span>
+                  </span>
+                </figcaption>
+              </figure>
             </div>
           </div>
         </div>
@@ -889,13 +956,13 @@
                 <div class="card__media"><img src="assets/images/family-eating.png" alt="" width="900" height="600" loading="lazy"></div>
                 <div class="card__content">
                   <span class="card__icon"><img src="assets/icons/home.svg" alt="" width="52" height="52"></span>
-                  <h3 class="card__title">Heading 3</h3>
-                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <h3 class="card__title">Card title &mdash; field_title</h3>
+                  <p class="card__body">Card body &mdash; field_body, optional</p>
                   <ul class="card__links">
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
                 </div>
               </article>
@@ -903,13 +970,13 @@
                 <div class="card__media"><img src="assets/images/business-man-office.png" alt="" width="900" height="600" loading="lazy"></div>
                 <div class="card__content">
                   <span class="card__icon"><img src="assets/icons/business-greenpower.svg" alt="" width="52" height="52"></span>
-                  <h3 class="card__title">Heading 3</h3>
-                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <h3 class="card__title">Card title &mdash; field_title</h3>
+                  <p class="card__body">Card body &mdash; field_body, optional</p>
                   <ul class="card__links">
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
                 </div>
               </article>
@@ -917,13 +984,13 @@
                 <div class="card__media"><img src="assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy"></div>
                 <div class="card__content">
                   <span class="card__icon"><img src="assets/icons/accreditation.svg" alt="" width="52" height="52"></span>
-                  <h3 class="card__title">Heading 3</h3>
-                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <h3 class="card__title">Card title &mdash; field_title</h3>
+                  <p class="card__body">Card body &mdash; field_body, optional</p>
                   <ul class="card__links">
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
                 </div>
               </article>
@@ -939,13 +1006,13 @@
                 <div class="card__media"><img src="assets/images/family-eating.png" alt="" width="900" height="600" loading="lazy"></div>
                 <div class="card__content">
                   <span class="card__icon"><img src="assets/icons/electricity.svg" alt="" width="52" height="52"></span>
-                  <h3 class="card__title">Heading 3</h3>
-                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <h3 class="card__title">Card title &mdash; field_title</h3>
+                  <p class="card__body">Card body &mdash; field_body, optional</p>
                   <ul class="card__links">
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
                 </div>
               </article>
@@ -953,13 +1020,13 @@
                 <div class="card__media"><img src="assets/images/business-man-office.png" alt="" width="900" height="600" loading="lazy"></div>
                 <div class="card__content">
                   <span class="card__icon"><img src="assets/icons/gas.svg" alt="" width="52" height="52"></span>
-                  <h3 class="card__title">Heading 3</h3>
-                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <h3 class="card__title">Card title &mdash; field_title</h3>
+                  <p class="card__body">Card body &mdash; field_body, optional</p>
                   <ul class="card__links">
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
                 </div>
               </article>
@@ -975,13 +1042,13 @@
                 <div class="card__media"><img src="assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy"></div>
                 <div class="card__content">
                   <span class="card__icon"><img src="assets/icons/greenpower.svg" alt="" width="52" height="52"></span>
-                  <h3 class="card__title">Heading 3</h3>
-                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <h3 class="card__title">Card title &mdash; field_title</h3>
+                  <p class="card__body">Card body &mdash; field_body, optional</p>
                   <ul class="card__links">
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
                 </div>
               </article>
@@ -989,13 +1056,13 @@
                 <div class="card__media"><img src="assets/images/family-eating.png" alt="" width="900" height="600" loading="lazy"></div>
                 <div class="card__content">
                   <span class="card__icon"><img src="assets/icons/home.svg" alt="" width="52" height="52"></span>
-                  <h3 class="card__title">Heading 3</h3>
-                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <h3 class="card__title">Card title &mdash; field_title</h3>
+                  <p class="card__body">Card body &mdash; field_body, optional</p>
                   <ul class="card__links">
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
                 </div>
               </article>
@@ -1003,13 +1070,13 @@
                 <div class="card__media"><img src="assets/images/business-man-office.png" alt="" width="900" height="600" loading="lazy"></div>
                 <div class="card__content">
                   <span class="card__icon"><img src="assets/icons/business-greenpower.svg" alt="" width="52" height="52"></span>
-                  <h3 class="card__title">Heading 3</h3>
-                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <h3 class="card__title">Card title &mdash; field_title</h3>
+                  <p class="card__body">Card body &mdash; field_body, optional</p>
                   <ul class="card__links">
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
                 </div>
               </article>
@@ -1017,13 +1084,13 @@
                 <div class="card__media"><img src="assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy"></div>
                 <div class="card__content">
                   <span class="card__icon"><img src="assets/icons/accreditation.svg" alt="" width="52" height="52"></span>
-                  <h3 class="card__title">Heading 3</h3>
-                  <p class="card__body">Optional intro text. Choose accredited renewable electricity through your energy provider.</p>
+                  <h3 class="card__title">Card title &mdash; field_title</h3>
+                  <p class="card__body">Card body &mdash; field_body, optional</p>
                   <ul class="card__links">
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
                 </div>
               </article>

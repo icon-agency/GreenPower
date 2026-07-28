@@ -3408,6 +3408,17 @@ a:focus-visible {
   color: #006341;
 }
 
+.ds-part-label {
+  font-family: ui-monospace, "SF Mono", "SFMono-Regular", menlo, consolas, monospace;
+  font-size: var(--step--2);
+  color: #006341;
+}
+
+.page-content > .ds-part-label + *,
+.page-split__body > .ds-part-label + * {
+  margin-top: var(--space-2xs);
+}
+
 .ds-demo .card-section {
   padding-block: var(--space-m) 0;
   padding-inline: 0;
