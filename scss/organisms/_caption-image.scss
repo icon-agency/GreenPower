@@ -127,12 +127,21 @@
     // distance — so that extra gap is clearance the shape no longer needs.
     padding-left: calc(var(--badge-cut) + 1.4594 * var(--badge-curve) - var(--space-2xs));
 
-    // Out of the stage, nothing clips the badge any more: round the outer
-    // corner to match the image's, and trim the mixin's 3px backing overbleed
-    // (that exists to seal a seam against a clipping stage — here it would
-    // simply stick out).
-    overflow: hidden;
-    border-bottom-right-radius: $radius-lg;
+    // NO overflow clip here, deliberately. Clipping the badge at its own box
+    // re-created the seam the mixin's backing overbleed exists to prevent: the
+    // badge's right/bottom edges coincide with the image's, so two separately
+    // antialiased clips met on the same fractional boundary and a sliver of
+    // photo showed through (worst at the rounded corner, where the arc
+    // stretches that boundary along the curve).
+    //
+    // Left unclipped, the backing's -3px right/bottom bleed carries the fill
+    // PAST the image's edge, so the boundary pixel is fully covered. The
+    // overhang lands outside the photo on the page background, which is the
+    // same white as the badge — so it is invisible, and it also fills the
+    // image's rounded corner without the badge needing a radius of its own
+    // (which could never know whether a given corner sits mid-image or on the
+    // image's corner). NOTE: this assumes a white page behind — the one place
+    // to revisit if a caption image is ever placed on a tinted section.
 
     // Cap to the column so a long caption wraps rather than running wide.
     max-width: 100%;

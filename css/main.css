@@ -2122,8 +2122,6 @@ a:focus-visible {
   margin-left: auto;
   padding-bottom: var(--space-3xs);
   padding-left: calc(var(--badge-cut) + 1.4594 * var(--badge-curve) - var(--space-2xs));
-  overflow: hidden;
-  border-bottom-right-radius: 16px;
   max-width: 100%;
   font-size: var(--step--1);
   color: #006341;
