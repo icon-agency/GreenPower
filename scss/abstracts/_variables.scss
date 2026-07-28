@@ -2,10 +2,17 @@
 // Layout internals — not design tokens, but shared structural values
 // -----------------------------------------------------------------------------
 
-// 90rem = 1440px at the default root size. Above 1440 the root font-size
-// scales with the viewport (see base/_typography.scss), making 90rem = 100vw —
-// i.e. the container never hard-caps; only the gutters inset the content.
-$container-max-width: 90rem !default;
+// The page's maximum content width. ABSOLUTE rather than rem, and that is the
+// whole point: while this was 90rem it tracked the root font-size, which made
+// layout width and TYPE SIZE the same knob (see base/_typography.scss). You
+// could have comfortable type or a full-width layout, never both — capping the
+// root to calm the type also stopped the container tracking the viewport.
+//
+// Fixed at 1960px the two are independent: the container keeps widening after
+// the root caps at ~1656px, so a wide screen gains LINE LENGTH instead of
+// SCALE. Below 1960 it simply fills the viewport; beyond it, content holds
+// 1960 and centres while the margins grow.
+$container-max-width: 1960px !default;
 
 // Z-index scale — always reference, never invent ad-hoc values
 $z-nav: 100 !default;
@@ -19,3 +26,11 @@ $z-skip-link: 200 !default;
 // the artwork's viewBox at the default root.
 $arrow-icon-width: 0.875rem !default; // 14px at the default root
 $arrow-icon-height: 0.625rem !default; // 10px — keeps the 14:10 aspect
+
+// The component icon — the 55×55 line icons in assets/icons/, rendered through
+// <img> at the head of a card, feature banner, bento stat tile and the footer's
+// subscribe panel. Square and FIXED for the same reason as the arrow above: one
+// size wherever the set appears, independent of the surrounding text step. This
+// was the same value hard-coded in five files; it is a variable so "make the
+// icons a little smaller" stays a one-line change.
+$icon-size: 2.5rem !default; // 40px at the default root (was 2.75rem / 44px)

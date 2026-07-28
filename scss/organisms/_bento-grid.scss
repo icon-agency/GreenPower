@@ -285,8 +285,8 @@
   // Same size as .card__icon / .feature-banner__icon. Source SVGs are dark
   // green — rendered white on this dark panel (the shared filter trick).
   &__icon {
-    width: 2.75rem;
-    height: 2.75rem;
+    width: $icon-size;
+    height: $icon-size;
 
     img {
       display: block;

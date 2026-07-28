@@ -315,10 +315,14 @@
     font-size: $font-size-sm;
     color: $color-white;
 
+    // The camera glyph the caption badges use (feature banner, caption image),
+    // so every "this is where the picture was taken" line carries one mark.
+    // Square 1.15em, matching those badges — the map pin it replaced was the
+    // one thing here wanting a taller 1 × 1.25em box.
     svg {
       flex-shrink: 0;
-      width: 1em;
-      height: 1.25em;
+      width: 1.15em;
+      height: 1.15em;
     }
   }
 

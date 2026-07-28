@@ -1,5 +1,10 @@
 // -----------------------------------------------------------------------------
-// Caption image — a full-width photo with a corner caption badge
+// Full width image caption — a full-width photo with a corner caption badge
+//
+// Named "Full width image caption" in the design system; the BEM block stays
+// `caption-image` (and the Drupal paragraph `caption_image`) so the markup,
+// the SCSS and the field names keep the short shared root that
+// docs/field-naming.md depends on.
 //
 // A <figure> whose image spans the content width with rounded corners, and a
 // <figcaption> pinned to the bottom-right as the shared hero-angle badge (a

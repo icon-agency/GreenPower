@@ -1,0 +1,227 @@
+// -----------------------------------------------------------------------------
+// Client logos — a centred heading over a band of customer logos
+//
+// THE WHOLE PROBLEM IS OPTICAL BALANCE. The pack runs from Uniqlo (square, 0.98)
+// to Envato (a wordmark at 5.24) — a 5.3x spread of aspect ratios. Match them on
+// WIDTH and the square marks become giant tiles beside hairline wordmarks; match
+// them on HEIGHT alone and Envato renders ~3x wider than Uniqlo and owns the row.
+//
+// So: a fixed height AND a max width, with object-fit: contain between them.
+// Every logo up to ~3.1:1 is height-matched and sits on one optical line; only
+// the five genuinely wide wordmarks (Envato, VW, DHL, UniSuper, Reef Authority)
+// hit the width cap and ride a little shorter, which is how wordmarks are
+// supposed to read. Tuned against the real files — re-check the caps if the
+// pack gains a logo more extreme than those.
+//
+// Logos are third-party brand marks: NEVER recolour, filter or greyscale them,
+// and never set them in a coloured tile. They stay full colour on white, which
+// is what the brand guidelines behind them will require.
+//
+// Drupal mapping: Paragraph: client_logos
+//   Fields: field_heading (text), field_logos (media: Image, multiple).
+//   ALT TEXT IS THE ORGANISATION NAME and lives on the MEDIA entity's own alt
+//     field — set once per logo, correct everywhere it is reused. Do not add a
+//     separate "name" field to duplicate it; two sources of the same string go
+//     out of sync and the alt is the one screen readers actually get. These
+//     images are informative, not decorative: the whole point of the section is
+//     WHO the customers are, so alt="" would delete the content.
+//   Preprocess: none beyond the field lookups.
+//   Known risks: the supplied files are medium-sized rasters pulled from the
+//     current site, not vector brand assets — they will soften on large
+//     displays. Ask each organisation for SVG or 2x PNG, and confirm current
+//     brand-usage approval before publication (see the pack's README).
+// -----------------------------------------------------------------------------
+
+// No inline padding: the logo band runs edge to edge, so logos travel off the
+// edges rather than stopping inside a gutter. The heading brings its own gutter
+// (below) so it never touches the edge.
+.client-logos__inner {
+  max-width: $container-max-width;
+  margin-inline: auto;
+  padding-block: var(--space-3xl);
+}
+
+// No font-size of its own: it takes the base h2 step, so it is the same size as
+// every other h2 on the site and stays that way if the ladder is ever retuned.
+// Only the brand colour and the centring are the component's business (the base
+// heading colour is the blue $color-ui-heading; section headings carry green).
+.client-logos__heading {
+  padding-inline: var(--space-s-l); // its own gutter — the band has none
+  color: $color-brand-dark-green;
+  text-align: center;
+  text-wrap: balance; // short display copy — sanctioned in content-rhythm.md
+}
+
+// The band is a HORIZONTAL SCROLLER — one row, scrolled rather than wrapped.
+//
+// A separate element from the list on purpose. The scripts promote an
+// overflowing scroller to a focusable region (a scroll box holding nothing
+// focusable cannot be scrolled from the keyboard — WCAG 2.1.1), and that means
+// role="region" — which, applied to the <ul> itself, would OVERRIDE its list
+// semantics and cost screen reader users the "list, 20 items" announcement.
+// Wrapping keeps both: the div scrolls, the list stays a list.
+//
+// Deliberately no edge-fade affordance. Fading a client's logo to half opacity
+// is poor treatment of someone else's brand mark; a logo cut off at the edge
+// already reads as "there is more", which is the honest affordance.
+// MANUAL SCROLLING IS THE FALLBACK, not the design. The marquee below is a
+// progressive enhancement: the script only mounts it when JS runs AND motion is
+// welcome. Without either, this stays a plain horizontal scroller so the band
+// is still explorable — which is the whole reason the enhancement is safe.
+.client-logos__scroller {
+  margin-top: var(--space-xl);
+  overflow-x: auto;
+  // Stops a trackpad swipe past the end chaining to the browser's back gesture.
+  overscroll-behavior-inline: contain;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// Marquee mounted (script cloned the list). The animation does the travelling
+// now, so the box itself no longer scrolls — and because it is no longer
+// scrollable the shared scroll-region script drops its tab stop, which is
+// correct: there is nothing left for a keyboard to scroll.
+.client-logos__scroller.is-marquee {
+  overflow-x: hidden;
+}
+
+.client-logos__track {
+  display: flex;
+  // Shrink to the content so the animation can translate a known distance, but
+  // never narrower than the band — with only a few logos the track fills and
+  // centres them instead of hugging the left edge.
+  width: max-content;
+  min-width: 100%;
+  justify-content: safe center;
+}
+
+// WCAG 2.2.2 (Pause, Stop, Hide) — motion that starts automatically and runs
+// past five seconds beside other content needs a mechanism to stop it. The
+// control below is that mechanism; hovering the band or moving focus into it
+// pauses as well, which is a convenience rather than the compliance story.
+.client-logos__scroller:hover .client-logos__track,
+.client-logos__scroller:focus-within .client-logos__track,
+.client-logos__scroller.is-paused .client-logos__track {
+  animation-play-state: paused;
+}
+
+// The pause control. Small pill under the band, centred. Hidden in the markup
+// and revealed by the script only when the marquee actually mounts: with no JS
+// or under reduced motion there is no motion to pause, and a button that did
+// nothing would be worse than no button.
+.client-logos__playback {
+  @include button-reset;
+  display: flex;
+  gap: var(--space-2xs);
+  align-items: center;
+  width: fit-content;
+  margin: var(--space-m) auto 0;
+  padding: 0.5em 1em;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-brand-dark-green;
+  background-color: $color-tint-taupe;
+  border-radius: $radius-pill;
+  @include transition(background-color);
+
+  &:hover {
+    color: $color-brand-blue;
+    background-color: $color-brand-taupe;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  svg {
+    width: 0.7em;
+    height: 0.7em;
+
+    // Some engines skip the UA [hidden] rule for inline SVG roots (same note as
+    // the hero's playback control).
+    &[hidden] {
+      display: none;
+    }
+  }
+}
+
+// Gated on no-preference as well as in the script: a preference change at
+// runtime should stop the motion even before the script's listener fires. The
+// global 0.01ms reduced-motion kill cannot be relied on here — it would race an
+// infinite animation to its end frame rather than simply not running it.
+@media (prefers-reduced-motion: no-preference) {
+  .is-marquee .client-logos__track {
+    animation: anim-marquee var(--marquee-duration, 60s) linear infinite;
+  }
+}
+
+// A real list: it IS a list of organisations, and the count is meaningful to
+// anyone hearing it announced.
+.client-logos__list {
+  display: flex;
+  flex-shrink: 0; // inside the track it must keep its natural width
+  align-items: center;
+  // `safe center` centres the row while it fits and falls back to start
+  // alignment once it overflows. Plain `center` centres the OVERFLOW too, so
+  // the first logos become unreachable past the left edge — the classic
+  // centred-flex-overflow trap. Where `safe` is unsupported the declaration is
+  // dropped and flex-start applies, which is the same safe behaviour.
+  justify-content: safe center;
+  gap: var(--space-xl);
+  // Trailing gap belongs to the LIST, not the track: it makes each copy
+  // self-contained, so translating exactly -50% of a two-copy track lands the
+  // seam perfectly. A gap on the track would put half of it inside the travel
+  // and the loop would drift by that much every cycle.
+  //
+  // MARGIN, not padding. The reset's `ul[class] { padding: 0 }` is specificity
+  // (0,1,1) — an element plus an attribute — so it outranks this single class
+  // and a padding here is silently dropped. That left the seam between the two
+  // copies at 0 while every other gap was --space-xl. `* { margin: 0 }` is
+  // (0,0,0), so a margin wins instead. It behaves identically for the loop
+  // maths: the margin is part of the flex item, so the track is still exactly
+  // two equal copies wide.
+  margin-right: var(--space-xl);
+  list-style: none;
+}
+
+// The logo box. Height is fixed so the marks share one optical line; the width
+// cap catches the wide wordmarks before they dominate. See the note at the top
+// for why both bounds are needed.
+// TUNING THE TWO CAPS. They govern DISJOINT sets of logos, which is what makes
+// them a usable pair of dials: the height cap binds only the square and tall
+// marks (Disney, Uniqlo, Xero — low aspect), the width cap binds only the wide
+// wordmarks (Volkswagen, Envato, DHL — high aspect). Nothing is bound by both.
+// So raising the height makes the square marks bigger WITHOUT touching the
+// wordmarks, and lowering the max width makes the wordmarks smaller WITHOUT
+// touching the squares — closing the perceived gap from both ends at once.
+//
+// The crossover is maxWidth / height (~2.1 here): logos wider than that ratio
+// are width-bound, the rest height-bound. Raise the crossover and more logos
+// join the height-matched line; lower it and more get width-capped.
+.client-logos__item {
+  display: flex;
+  // Load-bearing in a scroller: without it the items compress to fit instead of
+  // overflowing, and the row never scrolls — it just squashes every logo.
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  height: 3.25rem;
+
+  @include respond-to('sm') {
+    height: 4.5rem;
+  }
+}
+
+.client-logos__logo {
+  width: auto;
+  max-width: 7rem;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+
+  @include respond-to('sm') {
+    max-width: 9.5rem;
+  }
+}

@@ -108,8 +108,8 @@
   // Same size as .card__icon / .feature-banner__icon; source SVG is already
   // dark green — correct on the mint panel.
   &__icon {
-    width: 2.75rem;
-    height: 2.75rem;
+    width: $icon-size;
+    height: $icon-size;
 
     img {
       display: block;

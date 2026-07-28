@@ -17,7 +17,38 @@
 .ds-app {
   display: flex;
   height: 100dvh;
-  overflow: hidden; // each pane scrolls on its own
+
+  // `clip`, NOT `hidden` — they are not interchangeable here.
+  //
+  // Both hide the overflow, but `hidden` leaves the box a SCROLL CONTAINER:
+  // its scrollTop is still settable, and an anchor click performs a
+  // scroll-into-view that scrolls EVERY scrollable ancestor, not just the pane
+  // you meant. The shell would scroll a little, and because `hidden` shows no
+  // scrollbar there was no way for the user to scroll it back — the top bar and
+  // sidebar head disappeared upward permanently, with dead space below.
+  //
+  // `clip` is not a scroll container at all, so there is nothing to scroll and
+  // the shell cannot be moved by anything. Pair it with the position: relative
+  // below: relative CONTAINS the stray absolutely-positioned descendants (so
+  // they cannot inflate the document), clip makes the box that contains them
+  // unscrollable (so they cannot drag the shell either). See LESSONS.md.
+  overflow: clip;
+
+  // STRUCTURAL GUARD — the document must never scroll on this page. The shell
+  // is 100dvh and only .ds-content scrolls, so anything that gives the ROOT a
+  // scroll height breaks the layout: an anchor click or a focus scrolls the
+  // window as well as the pane, and the top bar and sidebar head disappear
+  // upward with no way back.
+  //
+  // `overflow: hidden` alone does NOT guarantee that. It only clips descendants
+  // whose containing block is inside this box — an absolutely positioned
+  // element with no positioned ancestor resolves against the root instead and
+  // escapes the clip entirely. Every `visually-hidden` element is exactly that
+  // (position: absolute, no offsets, so it sits at its static position deep in
+  // the scrolled pane). Being positioned here makes this the containing block
+  // for all of them, so the clip actually holds and the invariant stops
+  // depending on each component remembering to position itself. See LESSONS.md.
+  position: relative;
 }
 
 // --- Sidebar (mobile: off-canvas drawer; desktop: in-flow column) ---
@@ -287,6 +318,30 @@
   }
 }
 
+// Template links LEAVE the design system — every other nav link jumps to a
+// section on this page — so they carry the same leaves-this-page glyph the
+// repository link at the foot of the sidebar uses.
+.ds-nav__link--external {
+  display: flex;
+  gap: var(--space-2xs);
+  align-items: center;
+}
+
+.ds-nav__ext {
+  flex-shrink: 0;
+  width: 0.75em;
+  height: 0.75em;
+  margin-left: auto; // trailing, like the repo link's
+  opacity: 0.6;
+  @include transition(transform, 0.2s, ease-out);
+}
+
+// The glyph already points up-and-right, so send it that way on hover — the
+// same nudge-in-the-direction-of-travel as the repo link and the arrows.
+.ds-nav__link--external:hover .ds-nav__ext {
+  transform: translate(var(--space-3xs), calc(-1 * var(--space-3xs)));
+}
+
 // --- Category bands ---
 // Chapter dividers between the sidebar's nav groups (Foundations, Components,
 // Layout patterns). Full-bleed out of the content pane's inline padding — the
@@ -535,6 +590,23 @@
   margin-top: var(--space-2xs);
 }
 
+// The same label naming a FULL-WIDTH section rather than a block in a reading
+// column. Those labels sit inside .page-content, which already supplies the
+// gutter and the rhythm; a section-level label is a bare child of <main>, so it
+// carries its own container alignment and section-scale air.
+.ds-part-label--section {
+  @include container;
+  margin-top: var(--space-3xl);
+  margin-bottom: var(--space-2xs);
+}
+
+// A labelled card section drops its own top padding — the label above it
+// already provides the section-scale air, and without this the section's
+// --space-3xl would strand the label from the heading it names.
+.ds-part-label--section + .card-section {
+  padding-top: 0;
+}
+
 // The card-section carries its own page container; strip only its side padding
 // when embedded in a doc column so it fills the column (spacing, not restyle).
 .ds-demo .card-section {
@@ -643,7 +715,8 @@
 // Icons ship as standalone SVG files rendered through <img>, so they are opaque
 // to CSS: the artwork's own Dark Green fill is the colour, and recolouring is
 // only possible via the brightness/invert filter the dark panels use. Sized in
-// rem, matching the 2.75rem the card / banner / bento icons all share.
+// Sized from $icon-size, the shared token the card / banner / bento / subscribe
+// icons all use, so this specimen can never drift from what components render.
 
 .ds-icons {
   display: grid;
@@ -665,8 +738,8 @@
 }
 
 .ds-icon__art {
-  width: 2.75rem; // the shared component icon size
-  height: 2.75rem;
+  width: $icon-size; // the shared component icon size
+  height: $icon-size;
 
   img {
     display: block;

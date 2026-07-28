@@ -1,0 +1,171 @@
+// -----------------------------------------------------------------------------
+// Download — a file card: cover, title, summary, and the file's own metadata
+//
+// ONE component, two placements:
+//   · standalone — a single file dropped into the page content
+//   · inside an accordion item — a GROUP of files under a heading
+// Several groups is simply several accordion items, so there is no separate
+// "download group" component: the accordion organism already does disclosure,
+// and this adds nothing to it. That is the whole design — a group is a
+// composition, not a new thing to build, style and maintain.
+//
+// THE FILE METADATA IS NOT EDITORIAL.
+// Size and format come from the FILE ENTITY, never from fields an editor types:
+//   {{ file.filesize|format_size }} · {{ file.filemime }}
+// A typed "1.42 MB" goes stale the moment the document is replaced, and stale
+// file metadata is a standard finding in government accessibility audits. It
+// also means editors cannot get it wrong, which is the real win.
+//
+// Drupal mapping (GovCMS-friendly — Media + Paragraphs only, no custom module):
+//   Paragraph: download
+//     field_download_file    (media: Document — the SaaS-provided media type)
+//     field_download_title   (text, optional — falls back to the media name)
+//     field_download_summary (text long, optional)
+//     field_download_cover   (media: Image, optional — the document's cover)
+//   Paragraph: download_group
+//     field_download_title   (text — the group heading, reuses the same field)
+//     field_downloads        (paragraph ref: download, multiple)
+//   Preprocess: resolve the file entity ONCE per item and expose url, size and
+//     mime as clean variables; map mime to a short label (application/pdf →
+//     "PDF") with a lookup, not a regex in Twig. Render a download_group as one
+//     <details> of the accordion markup — the group's title is the summary.
+//   Known risks: cover images are portrait A4-ish; enforce a ratio with an
+//     image style rather than trusting the upload. If a file is replaced, the
+//     rendered size updates automatically — but any HARD-CODED size in body
+//     copy will not, so keep file references out of prose.
+//
+// Accessibility: "Download" alone is not a meaningful link name when a page
+// holds twenty of them (WCAG 2.4.4). The link carries the document title in a
+// visually-hidden span plus the size and format, so it announces as
+// "Download 2024 Q1 Quarterly Report, 1.42 MB, PDF" while staying compact on
+// screen. Telling people the format and size BEFORE they follow the link is
+// the point — it is also why neither belongs in an image or an icon alone.
+// -----------------------------------------------------------------------------
+
+.download {
+  // Surface as a custom property so a nested placement can restyle it without
+  // this component knowing where it sits (see the accordion rule at the end).
+  --download-surface: #{$color-brand-taupe};
+
+  display: flex;
+  gap: var(--space-m);
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: var(--space-m);
+  background-color: var(--download-surface);
+  border-radius: $radius-md;
+}
+
+.download__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  min-width: 0; // long filenames wrap rather than forcing the cover out
+}
+
+// step-0, matching .accordion__title — a download sits inside an accordion item
+// as often as it stands alone, and a file name that outranked the group heading
+// above it inverted the hierarchy. Same size means the group title leads and the
+// files sit under it, in both placements.
+.download__title {
+  font-size: $font-size-base;
+  font-weight: $font-weight-demibold;
+  color: $color-ui-heading; // leading comes from the base heading rule
+  overflow-wrap: anywhere; // filenames are not guaranteed to have spaces
+}
+
+// step--1, the same step as the link and its file metadata below: the summary is
+// supporting copy for the download, so it reads as part of that cluster rather
+// than as body copy the card happens to contain.
+.download__summary {
+  max-width: 60ch;
+  font-size: $font-size-sm;
+  color: $color-ui-text;
+}
+
+// The link is the control; the title above it is a heading, not a target.
+.download__link {
+  @include flex-row(var(--space-2xs));
+  // Containing block for the visually-hidden span inside (the document title
+  // that gives the link its accessible name). `visually-hidden` is
+  // position: absolute with no offsets, so without a positioned ancestor it
+  // falls to its static position with the ROOT as its containing block — which
+  // no `overflow: hidden` above it can clip. See LESSONS.md: that is what
+  // inflated the design system's document to 21,000px and let anchor clicks
+  // scroll the app shell's top bar out of reach.
+  position: relative;
+  align-self: flex-start; // shrink to the label, don't span the body column
+  margin-top: var(--space-2xs);
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-brand-dark-green;
+  text-decoration: none;
+  @include transition(color);
+
+  // Blue on hover — the card and nav link convention. Primary Green as TEXT is
+  // 3.5:1 and fails AA at this size.
+  &:hover {
+    color: $color-brand-blue;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// Nudges DOWN on hover — the same affordance the horizontal link arrows and the
+// footer's back-to-top carry, pointed the way this one travels.
+.download__icon {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  @include transition(transform, 0.2s, ease-out);
+}
+
+.download__link:hover .download__icon {
+  transform: translateY(var(--space-3xs));
+}
+
+// Size and format, inside the link so they are announced with it.
+.download__meta {
+  font-weight: $font-weight-regular;
+}
+
+// The document cover. Decorative by definition — the title beside it carries
+// the meaning — so it always ships alt="". Portrait A4-ish; the ratio is held
+// here so a mis-cropped upload cannot change the card's proportions.
+//
+// DROPPED below sm. In a phone-width reading column the cover plus its gap took
+// ~96px of a ~263px card, leaving the body 167px: the title broke to four
+// lines and "Download 1.42 MB · PDF" wrapped mid-label. Nothing is lost by
+// removing it — it carries no information (alt=""), and every fact about the
+// file stays in the title, summary and link.
+.download__cover {
+  display: none;
+
+  @include respond-to('sm') {
+    display: block;
+    flex-shrink: 0;
+    width: 5.5rem;
+    aspect-ratio: 600 / 845;
+    object-fit: cover;
+    border-radius: $radius-sm;
+  }
+}
+
+// A run of downloads — standalone, or filling an accordion item. Same gap as
+// the card stack, so a list of files reads as the same family as a list of
+// cards.
+.download-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+// Nested in an accordion item: the pill is already Taupe, so the files inside
+// lift to white to separate from it. Declared HERE rather than in the accordion
+// because the download is the thing adapting to its container — the accordion
+// stays unaware that downloads exist.
+.accordion__panel .download {
+  --download-surface: #{$color-white};
+}

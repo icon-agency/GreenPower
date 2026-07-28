@@ -66,6 +66,23 @@
   }
 }
 
+// Continuous logo marquee. The track holds the list TWICE (the second copy is
+// cloned by script and aria-hidden), so travelling exactly -50% lands the copy
+// precisely where the original began and the loop is seamless. Each list
+// carries its own trailing gap, which is what keeps -50% exact — with the gap
+// on the track instead, half of it would fall inside the travel and the seam
+// would drift. Duration is set per-instance from the measured width so the
+// SPEED stays constant however many logos there are.
+@keyframes anim-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 @mixin anim-fade-in-up($duration: 0.22s, $easing: ease, $delay: 0ms, $fill: forwards) {
   animation: anim-fade-in-up $duration $easing $delay $fill;
 }

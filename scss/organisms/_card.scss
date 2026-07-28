@@ -106,19 +106,14 @@
 // in-column. The cards themselves are unchanged — same paragraph, same fields.
 // -----------------------------------------------------------------------------
 
+// The card title needs no step-down here any more: it is step-1 in the
+// component itself, which is already the prose h3 size, so a card in the
+// reading column lands on the same rung as the h3 that introduces it and the
+// ladder reads h2 > h3 = card title > body without an override.
 .card-stack {
   display: grid;
   grid-template-columns: minmax(0, 1fr); // minmax(0,…) per the LESSONS.md note below
   gap: var(--space-xs);
-
-  // A card title is an h3 — and so are the prose headings it now sits among.
-  // The card's own step-2 was sized for a grid column with no surrounding
-  // hierarchy; in the reading column it renders at the prose H2's size,
-  // shouting over the very h3 that introduces the card. Step down so the two
-  // h3s match, and the ladder reads h2 > h3 = card title > body.
-  .card__title {
-    font-size: $font-size-lg;
-  }
 }
 
 .card {
@@ -189,8 +184,8 @@
 
   // Optional icon — the source SVGs are already dark green
   &__icon {
-    width: 2.75rem;
-    height: 2.75rem;
+    width: $icon-size;
+    height: $icon-size;
 
     img {
       display: block;
@@ -215,18 +210,15 @@
   }
 
   &__title {
-    font-size: $font-size-xl;
+    // step-1, matching .bento-grid__title — the two are the same kind of thing,
+    // a title sitting inside a tile in a grid, and they now read as one family.
+    // step-2 was a size too large for a card column: it needed a band-specific
+    // step-down at md–lg (where the 3-up columns are narrowest and step-2 had
+    // climbed near its cap), and a second override for cards in the reading
+    // column. One size at every width retires both.
+    font-size: $font-size-lg;
     font-weight: $font-weight-demibold;
     color: $color-brand-dark-green; // leading comes from the base heading rule
-
-    // The grid goes 3-up at md, so the columns are at their narrowest here
-    // while the fluid step-2 has already climbed near its cap — the title
-    // reads a size too big for the column. Drop one step through the 3-up
-    // band; lg widens the columns and restores step-2. The 2-up/single bands
-    // below md keep step-2 (their columns have the room).
-    @include respond-between('md', 'lg') {
-      font-size: $font-size-lg;
-    }
   }
 
   // Dark green (≥5.8:1 on the taupe card — passes AA); a step up from the links

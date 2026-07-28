@@ -6,13 +6,26 @@
 // component otherwise. See docs/content-rhythm.md and LESSONS.md.
 // -----------------------------------------------------------------------------
 
-// No max width: above the 1440px design ceiling the root font-size grows with
-// the viewport (1440px / 90rem = 1.1111vw), so every rem-based token — type
-// steps, space scale, the 90rem container — scales up uniformly. Below 1440
-// the individual clamp() tokens handle the interpolation and this resolves
-// to the user's default size.
+// Above the 1440px design ceiling the root font-size grows with the viewport
+// (1440px / 90rem = 1.1111vw), so the type and space scales step up together
+// rather than the design looking stranded on a large display. CAPPED at 115%
+// — root 18.4px, body ~20.7px — which it reaches at ~1656px.
+//
+// Type growth and layout width are DECOUPLED, deliberately. They used to be
+// one knob: the container was 90rem, so it only tracked the viewport for as
+// long as the root kept growing. That forced a choice — calm type meant an
+// early centred layout, a full-width layout meant ~25px body copy. The
+// container is now an absolute 1960px (abstracts/_variables.scss), so past
+// 1656px the layout keeps widening while the type holds still: a wide screen
+// gains MORE WORDS PER LINE instead of BIGGER EVERYTHING, which is both the
+// conventional wide-screen behaviour and the more readable one.
+//
+// Below 1440 the individual clamp() tokens handle the interpolation and this
+// resolves to the user's default size. To retune: this cap moves the ceiling
+// type size; $container-max-width moves the layout width; they no longer drag
+// each other around.
 html {
-  font-size: max(100%, 1.1111vw);
+  font-size: clamp(100%, 1.1111vw, 115%);
 }
 
 body {

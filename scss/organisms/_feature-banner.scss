@@ -23,7 +23,11 @@
 //   Known risks: source PNGs are 1500×1500 and 3–5MB — re-encode (WebP/AVIF,
 //     <300KB) and add srcset/sizes before production (LESSONS.md). Behaviour
 //     is hover/focus-driven; on touch the links simply navigate — the first
-//     image stands alone, so nothing is lost.
+//     image stands alone, so nothing is lost. Location labels must fit ONE
+//     line at the mobile stage width (~35 characters): the badge's angle
+//     geometry assumes a single-line height, so a wrapped label leaves the
+//     diagonal stopping partway (LESSONS.md) — enforce as an editorial rule
+//     (Drupal: field_banner_items location as text with a maxlength).
 // -----------------------------------------------------------------------------
 
 .feature-banner {
@@ -34,15 +38,23 @@
     max-width: $container-max-width;
     margin-inline: auto;
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-m);
     // Tight frame so the media sits close to the section edges — the same snug
     // image-to-edge spacing the card images have (no surround panel). The copy
     // gets its own larger inset via __content below.
     padding: var(--space-xs);
 
+    // Side-by-side from md, NOT sm (tried and reverted): in the sm band the
+    // split makes the stage a ~300–430px half-column, and the location badge's
+    // angle geometry assumes a SINGLE-LINE badge — a long location either
+    // overflows the stage or wraps to two lines, and a two-line badge leaves
+    // the 45° diagonal stopping partway with a vertical stub below it (see
+    // LESSONS.md). Full-width stacked stages keep every location on one line.
+    // minmax(0,…) per LESSONS.md — bare fr tracks inherit stale min-content
+    // floors.
     @include respond-to('md') {
-      grid-template-columns: 1fr 1.15fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
       gap: var(--space-2xl);
       align-items: stretch;
     }
@@ -62,8 +74,8 @@
   // Same size as .card__icon. The source artwork is dark green — render it
   // white on this dark panel (same filter trick as the overlay header logo).
   &__icon {
-    width: 2.75rem;
-    height: 2.75rem;
+    width: $icon-size;
+    height: $icon-size;
 
     img {
       display: block;
@@ -261,7 +273,11 @@
     font-size: $font-size-sm;
     color: $color-white;
     // Keep the location on one line — the badge width tracks the text (animated
-    // on swap below) instead of the text reflowing to two rows.
+    // on swap below) instead of the text reflowing to two rows. ONE LINE IS
+    // LOAD-BEARING: the angle geometry sizes its diagonal to a single-line
+    // badge height, and the swap animation only stays level when every label
+    // shares that height (see LESSONS.md). Long labels are a content rule, not
+    // a layout case — see known risks in the header.
     white-space: nowrap;
 
     // Smoothly grow/shrink to the next location's width instead of snapping.
