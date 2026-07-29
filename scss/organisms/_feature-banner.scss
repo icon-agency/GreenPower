@@ -65,10 +65,16 @@
     flex-direction: column;
     gap: var(--space-m);
     align-items: flex-start;
+    // Block-only inset. NO horizontal padding by design: __inner's own
+    // --space-xs is the whole left inset, which puts this copy on the same
+    // vertical line as the bento tiles in the section below (both sit one
+    // --space-xs off the full-bleed edge). A second --space-xs here used to
+    // stack on top of it and pushed the copy one step further in than every
+    // card edge on the page.
     // Double inset along the bottom so the last link clears the section edge.
     // --space-m IS 2 × --space-xs on this scale (0.75 -> 1.5rem at the floor,
     // 0.9375 -> 1.875rem at the cap), so this stays a token, not a calc().
-    padding: var(--space-xs) var(--space-xs) var(--space-m);
+    padding: var(--space-xs) 0 var(--space-m);
   }
 
   // Same size as .card__icon. The source artwork is dark green — render it

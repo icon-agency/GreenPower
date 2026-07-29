@@ -57,7 +57,7 @@
             <li><a class="ds-nav__link" href="#page-header">Page header</a></li>
             <li><a class="ds-nav__link" href="#content-single-column">Content: Single column</a></li>
             <li><a class="ds-nav__link" href="#content-split-sticky-left">Content: Split sticky left</a></li>
-            <li><a class="ds-nav__link" href="#card-sections">Card sections</a></li>
+            <li><a class="ds-nav__link" href="#multi-card-section">Multi-card section</a></li>
           </ul>
         </div>
       </nav>
@@ -1563,9 +1563,9 @@
         </div>
       </section>
 
-      <section class="ds-section" id="card-sections" aria-labelledby="cardsec-title" data-card-sections>
-        <h3 class="ds-section__title" id="cardsec-title">Card sections</h3>
-        <p class="ds-section__intro">A card section wraps a heading and description over a grid of cards &mdash; and the grid is <strong>count-adaptive</strong>: the number of cards the editor adds <em>is</em> the layout. One card lays out horizontally, image beside content. Two cards hold two columns; three is the standard 3-up; four runs 2&times;2 until <code class="ds-code">lg</code> gives four-across the room; five and more flow in threes (3+2, 3+3&hellip;). In Drupal there is <strong>no column field</strong> &mdash; the content is the configuration, so a columns-vs-cards mismatch cannot exist. Change the card count below and watch the same section reconfigure.</p>
+      <section class="ds-section" id="multi-card-section" aria-labelledby="cardsec-title" data-card-sections>
+        <h3 class="ds-section__title" id="cardsec-title">Multi-card section</h3>
+        <p class="ds-section__intro">A multi-card section wraps a heading and description over a grid of cards &mdash; and the grid is <strong>count-adaptive</strong>: the number of cards the editor adds <em>is</em> the layout. One card lays out horizontally, image beside content. Two cards hold two columns; three is the standard 3-up; four runs 2&times;2 until <code class="ds-code">lg</code> gives four-across the room; five and more flow in threes (3+2, 3+3&hellip;). In Drupal there is <strong>no column field</strong> &mdash; the content is the configuration, so a columns-vs-cards mismatch cannot exist. Change the card count below and watch the same section reconfigure.</p>
 
         <form class="ds-controls ds-controls--inline" data-card-controls aria-label="Configure the cards below">
           <fieldset class="ds-controls__group">
@@ -1824,7 +1824,7 @@
   </script>
 
   <script>
-    // Card sections controls. The count control detaches/attaches REAL card
+    // Multi-card section controls. The count control detaches/attaches REAL card
     // elements (never display:none), so the grid's :has() quantity queries see
     // exactly the DOM Drupal would render for that many cards — the layout
     // being tested is the real mechanism, not a simulation of it. Image/icon/
@@ -1979,15 +1979,59 @@
         sections.push(section);
       });
 
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          links.forEach(function (l) { l.classList.remove('is-active'); });
-          if (byId[entry.target.id]) byId[entry.target.id].classList.add('is-active');
+      // The band the observer watches: the top 30% of the pane, which is what
+      // the -70% bottom rootMargin leaves. A section counts as "reached" once
+      // its top edge has travelled up into it.
+      var BAND_FRACTION = 0.3;
+
+      // Recompute the winner from GEOMETRY on every callback, rather than
+      // letting whichever entry arrived last set the highlight. Reacting to
+      // entries was the bug: the old callback early-returned on
+      // !entry.isIntersecting, so only ENTERING the band ever set a link and
+      // nothing recomputed when a section left it. A tall section whose top
+      // has scrolled above the band but whose bottom is still below it never
+      // stops intersecting at threshold 0, so scrolling back up into it fired
+      // no new event and the previous section kept .is-active. Several
+      // sections can also be in the band at once, where the last entry in the
+      // batch won regardless of where the reader actually was.
+      function update() {
+        var rootRect = root.getBoundingClientRect();
+        var bandBottom = rootRect.top + rootRect.height * BAND_FRACTION;
+
+        // The most recently reached section = the one whose top is closest to
+        // the band's bottom without having dropped below it. Chosen by
+        // comparing tops rather than by array position, so this does not
+        // depend on the nav being ordered the same way as the document.
+        var winner = null;
+        var winnerTop = -Infinity;
+        sections.forEach(function (s) {
+          var top = s.getBoundingClientRect().top;
+          if (top <= bandBottom && top > winnerTop) {
+            winnerTop = top;
+            winner = s;
+          }
         });
-      }, { root: root, rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+        links.forEach(function (l) { l.classList.remove('is-active'); });
+        if (winner && byId[winner.id]) byId[winner.id].classList.add('is-active');
+      }
+
+      // The observer stays the trigger (cheap — it only fires on band
+      // crossings, not every scroll tick) and keeps the same root/rootMargin,
+      // so a section still activates at the same scroll position as before.
+      // Its entries are deliberately unused; crossing the band is the signal
+      // to re-decide, not the decision itself.
+      var io = new IntersectionObserver(update, {
+        root: root,
+        rootMargin: '0px 0px -70% 0px',
+        threshold: 0
+      });
 
       sections.forEach(function (s) { io.observe(s); });
+
+      // Resizing moves bandBottom (it is a fraction of the pane height) and
+      // reflows every section, but crosses no boundary the observer watches.
+      window.addEventListener('resize', update);
     })();
   </script>
 

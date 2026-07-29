@@ -1651,7 +1651,7 @@ a:focus-visible {
   flex-direction: column;
   gap: var(--space-m);
   align-items: flex-start;
-  padding: var(--space-xs) var(--space-xs) var(--space-m);
+  padding: var(--space-xs) 0 var(--space-m);
 }
 .feature-banner__icon {
   width: 2.5rem;
@@ -1891,7 +1891,6 @@ a:focus-visible {
 @media (min-width: 960px) {
   .bento-grid__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    align-items: start;
   }
 }
 .bento-grid__col {
@@ -2041,6 +2040,7 @@ a:focus-visible {
 @media (min-width: 960px) {
   .bento-grid__tile--stat {
     aspect-ratio: 16/9;
+    flex: 1;
   }
 }
 .bento-grid__icon {

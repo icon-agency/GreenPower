@@ -78,7 +78,13 @@
       // minmax(0) so a long unbreakable word in one tile can't raise that
       // column's min-content and silently unbalance the equal thirds
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      align-items: start;
+      // Default `stretch` (NOT start): every column takes the row's full
+      // height, and the stat tile inside absorbs the difference — see
+      // __tile--stat. `start` let each column be its own natural height, which
+      // only looked aligned while every stat tile stayed inside its 16:9 box.
+      // The moment one tile's support copy wrapped to an extra line (narrower
+      // panes do this readily) that column grew alone and the bottom edges went
+      // ragged. Alignment is now structural rather than a property of the copy.
     }
   }
 
@@ -312,6 +318,14 @@
 
     @include respond-to('md') {
       aspect-ratio: 16 / 9; // the short bento box; grows if the copy needs more
+      // Absorb whatever height the column has left over. The media tile beside
+      // it is pinned by its own aspect-ratio, so the stat tile is the only part
+      // that can flex — and because every column is the same stretched height
+      // with the same fixed media tile, they all resolve to the SAME leftover.
+      // That is what keeps the bottom edges level no matter how many lines any
+      // one support line wraps to. flex-basis: 0 means the ratio above acts as
+      // a floor for a short tile rather than a fixed size.
+      flex: 1;
     }
   }
 
