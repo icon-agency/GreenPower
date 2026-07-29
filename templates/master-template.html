@@ -715,11 +715,15 @@
       </figcaption>
     </figure>
 
-    <!-- Multi-card section. Every one carries a heading and a description, and
-         the grid is COUNT-ADAPTIVE: the number of cards decides the columns
-         (see _card.scss) — these three sections differ only in how many cards
-         they hold, which is the whole point of the component. -->
-    <p class="ds-part-label ds-part-label--section">card_grid &middot; .card-section__grid &mdash; count-adaptive: 3 cards &rarr; 3 columns</p>
+    <!-- Multi-card section. ONE layout component, shown once: an editor adds as
+         many cards as they like to field_cards and the grid COUNT-ADAPTS to
+         them (see _card.scss) — 1 card lays out horizontally, 2 holds two
+         columns, 3 is the standard 3-up, 4 runs 2×2 until lg, 5+ flow in threes
+         (3+2, 3+3…). There is deliberately no column field: the content IS the
+         configuration, so a columns-vs-cards mismatch cannot exist. Three
+         near-identical sections used to sit here, one per column count, which
+         read as three components rather than one. -->
+    <p class="ds-part-label ds-part-label--section">card_grid &middot; .card-section__grid &mdash; count-adaptive: add cards to field_cards, the columns follow (3 shown)</p>
     <section class="card-section" data-animate-stagger>
       <h2 class="card-section__heading" data-animate>Section heading &mdash; field_heading</h2>
       <p class="card-section__intro" data-animate>Section description &mdash; field_intro. One or two lines introducing the cards below.</p>
@@ -763,97 +767,14 @@
       </div>
     </section>
 
-    <p class="ds-part-label ds-part-label--section">card_grid &middot; .card-section__grid &mdash; count-adaptive: 2 cards &rarr; 2 columns</p>
-    <section class="card-section" data-animate-stagger>
-      <h2 class="card-section__heading" data-animate>Section heading &mdash; field_heading</h2>
-      <p class="card-section__intro" data-animate>Section description &mdash; field_intro. One or two lines introducing the cards below.</p>
-      <div class="card-section__grid" data-animate-stagger>
-        <article class="card" data-animate>
-          <div class="card__media"><img src="../assets/images/family-eating.png" alt="A family preparing a meal together at home" width="900" height="600" loading="lazy"></div>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/electricity.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title">Card title &mdash; field_title</h3>
-            <p class="card__body">Card body &mdash; field_body, optional</p>
-            <ul class="card__links">
-              <li><a class="card__link" href="#">Card link &mdash; field_links
-                <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            </ul>
-          </div>
-        </article>
-        <article class="card" data-animate>
-          <div class="card__media"><img src="../assets/images/business-man-office.png" alt="A man standing in a modern open-plan office" width="900" height="600" loading="lazy"></div>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/gas.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title">Card title &mdash; field_title</h3>
-            <p class="card__body">Card body &mdash; field_body, optional</p>
-            <ul class="card__links">
-              <li><a class="card__link" href="#">Card link &mdash; field_links
-                <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            </ul>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <p class="ds-part-label ds-part-label--section">card_grid &middot; .card-section__grid &mdash; count-adaptive: 4 cards &rarr; 2&times;2, then 4 from lg</p>
-    <section class="card-section" data-animate-stagger>
-      <h2 class="card-section__heading" data-animate>Section heading &mdash; field_heading</h2>
-      <p class="card-section__intro" data-animate>Section description &mdash; field_intro. One or two lines introducing the cards below.</p>
-      <div class="card-section__grid" data-animate-stagger>
-        <article class="card" data-animate>
-          <div class="card__media"><img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy"></div>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/greenpower.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title">Card title &mdash; field_title</h3>
-            <p class="card__body">Card body &mdash; field_body, optional</p>
-            <ul class="card__links">
-              <li><a class="card__link" href="#">Card link &mdash; field_links
-                <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            </ul>
-          </div>
-        </article>
-        <article class="card" data-animate>
-          <div class="card__media"><img src="../assets/images/family-eating.png" alt="A family preparing a meal together at home" width="900" height="600" loading="lazy"></div>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/home.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title">Card title &mdash; field_title</h3>
-            <p class="card__body">Card body &mdash; field_body, optional</p>
-            <ul class="card__links">
-              <li><a class="card__link" href="#">Card link &mdash; field_links
-                <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            </ul>
-          </div>
-        </article>
-        <article class="card" data-animate>
-          <div class="card__media"><img src="../assets/images/business-man-office.png" alt="A man standing in a modern open-plan office" width="900" height="600" loading="lazy"></div>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/document.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title">Card title &mdash; field_title</h3>
-            <p class="card__body">Card body &mdash; field_body, optional</p>
-            <ul class="card__links">
-              <li><a class="card__link" href="#">Card link &mdash; field_links
-                <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            </ul>
-          </div>
-        </article>
-        <article class="card" data-animate>
-          <div class="card__media"><img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy"></div>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/tick-badge.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title">Card title &mdash; field_title</h3>
-            <p class="card__body">Card body &mdash; field_body, optional</p>
-            <ul class="card__links">
-              <li><a class="card__link" href="#">Card link &mdash; field_links
-                <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            </ul>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- Location labels must fit ONE line at the mobile stage width: the angle
+    <!-- Feature banner. Also ONE component shown once: field_banner_items is
+         repeatable, so an editor adds as many links as they need and each one
+         carries its own image and location — hovering or focusing a link
+         crossfades the media to it. Three are shown because three is enough to
+         demonstrate the crossfade, not because three is the layout.
+         Location labels must fit ONE line at the mobile stage width: the angle
          badge's geometry assumes a single-line height (LESSONS.md). -->
-    <p class="ds-part-label ds-part-label--section">feature_banner &middot; .feature-banner</p>
+    <p class="ds-part-label ds-part-label--section">feature_banner &middot; .feature-banner &mdash; add links to field_banner_items, each with its own image (3 shown)</p>
     <section class="feature-banner" data-feature-banner data-animate-stagger>
       <div class="feature-banner__inner">
         <div class="feature-banner__content" data-animate-stagger>
