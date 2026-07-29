@@ -5,7 +5,7 @@
 // STICKS while the right scrolls through content — capped at the same reading
 // measure the single column uses, so the prose is equally readable in either
 // layout. The ratio is a third / two-thirds through the mid band and equal
-// halves from xl, because the measure outranks the symmetry: see the
+// halves from lg, because the measure outranks the symmetry: see the
 // grid-template-columns note below. Both halves hold their content at the
 // track's start, each with open space to its right once the tracks outgrow the
 // content caps.
@@ -39,7 +39,7 @@
 
   @include respond-to('sm') {
     display: grid;
-    // A third / two-thirds through the MID band, 50/50 only at xl (below).
+    // A third / two-thirds through the MID band, 50/50 from lg (below).
     //
     // The measure is what the ratio is protecting. Split 50/50, the body half
     // is (content − gap) / 2, which does not reach --measure until roughly
@@ -51,7 +51,7 @@
     // the body-favoured split is still the better read.
     //
     // 50/50 is the right answer only once BOTH halves can afford their
-    // content — at xl the body caps at the measure with room to spare, and
+    // content — from lg the body caps at the measure with room to spare, and
     // equal tracks then read as deliberate rather than as a squeeze.
     // minmax(0,…) per LESSONS.md — bare fr tracks inherit stale min-content
     // floors.
@@ -70,10 +70,15 @@
     gap: var(--space-2xl);
   }
 
-  // Equal halves once they are affordable: at xl the body half clears the
-  // measure on its own, so the cap — not the track — decides the line length
-  // and the surplus falls to the right of the copy as open space.
-  @include respond-to('xl') {
+  // Equal halves as soon as they are affordable, which is lg — NOT xl.
+  // Measured: a 50/50 body half first clears --measure at about 1209px, so lg
+  // is 9px early and the worst case is 3.4px of measure at exactly 1200 (about
+  // a third of one character, against a 45–75ch guideline). Holding out for xl
+  // instead cost the whole 1200–1440 range — every common laptop width — a
+  // two-thirds split it did not need, with the surplus sitting as dead space
+  // to the right of the copy. Above the crossover the cap, not the track,
+  // decides the line length.
+  @include respond-to('lg') {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
