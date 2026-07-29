@@ -394,6 +394,10 @@
   // radius and Leaflet's content margin has to go — the body below re-adds the
   // inset as padding, which the image then sits outside of.
   .leaflet-popup-content-wrapper {
+    // Leaflet's own `padding: 1px` drew a white hairline all the way round
+    // the full-bleed photo — a frame nobody asked for, and obvious against a
+    // dark image. The popup's inset comes from __body instead.
+    padding: 0;
     overflow: hidden;
     border-radius: $radius-md;
   }
@@ -402,14 +406,6 @@
     margin: 0;
     font-size: $font-size-sm;
     line-height: $line-height-base;
-  }
-
-  // Leaflet ships `.leaflet-popup-content p { margin: 18px 0 }` — (0,1,1), so
-  // it outranks the reset's `* { margin: 0 }` and was pushing every line of
-  // the popup apart. Two classes plus the element to take it back; the
-  // popup's own rules then own the rhythm.
-  .leaflet-popup-content p {
-    margin: 0;
   }
 
   // Leaflet parks its close button at the wrapper's top-right, which with a
@@ -468,28 +464,41 @@
     padding: var(--space-s);
   }
 
-  &__title {
+  // EVERY text row below is a <p>, and Leaflet ships
+  // `.leaflet-popup-content p { margin: 18px 0 }` at (0,1,1). So each rule
+  // carries the ELEMENT as well as its class — `p.generator-popup__line`
+  // nested here resolves to (0,2,1) and takes the margin back.
+  //
+  // A blanket `.leaflet-popup-content p { margin: 0 }` used to do that job,
+  // and it was the wrong tool: at (0,2,1) it also outranked these very rules
+  // (plain classes, (0,1,0)), so the popup's own rhythm was being zeroed by
+  // its own reset — the address lines lost their step and the website link
+  // lost the space above it. Qualify each rule instead of resetting broadly.
+  p#{&}__title {
     // Clears the close button, which sits on this line at the popup's right:
     // its 2rem box plus the --space-2xs it is inset by.
     padding-right: 2.75rem;
+    margin: 0;
     font-size: $font-size-base;
     font-weight: $font-weight-demibold;
     line-height: $line-height-tight;
     color: $color-brand-dark-green;
   }
 
-  &__line {
-    margin-top: var(--space-3xs);
+  p#{&}__line {
+    margin: var(--space-3xs) 0 0;
     color: $color-ui-text;
   }
 
   // The facts sit as their own tight cluster, a step clear of the address
   // lines above so the two read as separate groups rather than one list.
+  // A <div>, so Leaflet's paragraph rule never reached it.
   &__meta {
     margin-top: var(--space-2xs);
   }
 
-  &__meta-row {
+  p#{&}__meta-row {
+    margin: 0;
     color: $color-ui-text;
 
     strong {
@@ -498,8 +507,10 @@
     }
   }
 
-  &__link {
-    margin-top: var(--space-s);
+  // A full step clear of the facts above: the link is the popup's one action,
+  // and at the paragraph rhythm it read as a fourth line of the record.
+  p#{&}__link {
+    margin: var(--space-m) 0 0;
 
     a {
       font-weight: $font-weight-medium;
