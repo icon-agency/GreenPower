@@ -26,20 +26,29 @@
 // -----------------------------------------------------------------------------
 
 .generator-directory {
-  max-width: $container-max-width;
-  // The band's tight frame so the map runs snug to the page edge; the list
-  // column restores the standard text gutter itself (below). Top padding is
-  // the --tight-top step: the band above already provides closure.
-  padding: var(--space-s-l) var(--space-xs) var(--space-3xl);
-  margin-inline: auto;
+  // ONE token for the outer gutters AND the gap between the columns, so the
+  // three run at a single width and the split reads as evenly spaced rather
+  // than as two panels that happen to sit near each other. Declared here and
+  // referenced by __layout's gap, so they cannot drift apart.
+  //
+  // A tight step rather than the page's standard --space-s-l gutter: this
+  // section is two large surfaces side by side, not a reading column, and the
+  // wide gutter spent width the map and the cards both wanted. (It was also
+  // asymmetric at first — the tight frame with the list restoring the text
+  // gutter on its own — which put ~40px left against ~15px right and read as
+  // the map hanging off the edge rather than as a pair.)
+  --directory-gutter: var(--space-s);
+  // The popup photo's height. Declared HERE, not on the popup body: the
+  // close button Leaflet positions is a sibling of the popup wrapper, so it
+  // could never inherit the value from inside it.
+  --popup-media-h: 9.5rem;
 
-  // The list column's text sits on the page's STANDARD gutter (--space-s-l),
-  // stated as the difference from the section's tight frame — the
-  // .page-body--article pattern.
-  &__toolbar,
-  &__results {
-    padding-inline-start: calc(var(--space-s-l) - var(--space-xs));
-  }
+  max-width: $container-max-width;
+  margin-inline: auto;
+  padding-inline: var(--directory-gutter);
+  // Top padding is the --tight-top step — the band above already provides
+  // closure — and the section keeps a full break beneath it.
+  padding-block: var(--space-s-l) var(--space-3xl);
 
   &__toolbar {
     display: flex;
@@ -174,13 +183,15 @@
   &__layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-m);
+    // The same token as the gutters either side — see --directory-gutter.
+    gap: var(--directory-gutter);
     align-items: start; // load-bearing for the sticky map (page-split's rule)
 
-    // Side by side once both earn their width: the list holds a readable
-    // card, the map a useful viewport. minmax(0,…) per LESSONS.md.
+    // Equal halves from lg: the list and the map are peers here — neither is
+    // the subordinate of the other — and the card column reads comfortably at
+    // half a capped page. minmax(0,…) per LESSONS.md.
     @include respond-to('lg') {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
@@ -302,17 +313,63 @@
     display: none;
   }
 
-  // The marker dot: a Leaflet divIcon carrying ONLY this class, so the pin is
-  // pure CSS — no image assets to host, a token colour, and the white ring
-  // keeps it readable on any tile. Primary Green: the map's one brand moment,
-  // as on the pagination's current page.
+  // The map pin. A Leaflet divIcon holding an inline SVG teardrop — the same
+  // shape as the card's "View on map" glyph, so the control and the thing it
+  // points at wear one mark. INLINE (not a file through <img>) precisely so
+  // `currentColor` reaches it and the colour stays a token here rather than a
+  // filter chain; the marker's own anchor puts the tip on the coordinate.
+  // Dark Green, not Primary: the pin sits on pale tiles where Primary Green
+  // is thin, and the white knock-out inside carries the contrast either way.
   &__pin {
-    background-color: $color-brand-green;
-    border: 2px solid $color-white;
-    border-radius: 50%;
+    color: $color-brand-dark-green;
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      // Lifts the pin off busy tiles without a second shape to maintain.
+      filter: drop-shadow(0 1px 1px rgba($color-black, 0.35));
+    }
 
     &:focus-visible {
       @include focus-ring;
+      // The ring is drawn around the icon BOX, which is taller than the
+      // teardrop; a small offset keeps it off the point.
+      outline-offset: 1px;
+    }
+  }
+
+  // --- Cluster ---
+  //
+  // Leaflet.markercluster groups pins that would otherwise pile up — a real
+  // directory has dozens of generators in one wind region. The plugin's own
+  // theme is NOT loaded (only its structural stylesheet, for the spiderfy and
+  // zoom animations): the count bubble is built by iconCreateFunction and
+  // styled entirely here, so it wears the system's colour and type instead of
+  // the library's default blue-green splat.
+  //
+  // Dark Green with a white ring — the pin's palette, one step louder because
+  // a cluster stands for several. The count is the accessible name too
+  // (markercluster makes the bubble a focusable button).
+  &__cluster {
+    display: grid;
+    place-items: center;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-demibold;
+    color: $color-white;
+    background-color: $color-brand-dark-green;
+    border: 2px solid $color-white;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba($color-black, 0.35);
+    @include transition(background-color);
+
+    &:hover {
+      background-color: $color-brand-green;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+      outline-offset: 2px;
     }
   }
 
@@ -328,50 +385,130 @@
     }
   }
 
+  // The popup's photo runs edge to edge, so the wrapper has to CLIP to its own
+  // radius and Leaflet's content margin has to go — the body below re-adds the
+  // inset as padding, which the image then sits outside of.
   .leaflet-popup-content-wrapper {
+    overflow: hidden;
     border-radius: $radius-md;
   }
 
   .leaflet-popup-content {
-    margin: var(--space-s);
+    margin: 0;
     font-size: $font-size-sm;
     line-height: $line-height-base;
   }
-}
 
-// The marker popup's content — built by the directory script from the card it
-// mirrors. Its own block, not directory elements: it renders inside Leaflet's
-// popup DOM, and its pieces belong to the popup, not the page layout.
-.generator-popup__title {
-  font-size: $font-size-base;
-  font-weight: $font-weight-demibold;
-  color: $color-brand-dark-green;
-}
+  // Leaflet ships `.leaflet-popup-content p { margin: 18px 0 }` — (0,1,1), so
+  // it outranks the reset's `* { margin: 0 }` and was pushing every line of
+  // the popup apart. Two classes plus the element to take it back; the
+  // popup's own rules then own the rhythm.
+  .leaflet-popup-content p {
+    margin: 0;
+  }
 
-.generator-popup__line,
-.generator-popup__meta {
-  margin-top: var(--space-3xs);
-  color: $color-ui-text;
-}
-
-.generator-popup__meta strong {
-  font-weight: $font-weight-medium;
-  color: $color-brand-dark-green;
-}
-
-.generator-popup__link {
-  margin-top: var(--space-2xs);
-
-  a {
-    font-weight: $font-weight-medium;
-    color: $color-brand-dark-green;
+  // Leaflet parks its close button at the wrapper's top-right, which with a
+  // full-bleed photo would drop it onto the image. Step it down past the
+  // media so it lands on the title's line, per the design. The height is a
+  // custom property (declared on the directory, since the button is a SIBLING
+  // of the wrapper and could not inherit it from the popup body) and the
+  // popup is a fixed width, so the media's height is deterministic rather
+  // than something this has to guess.
+  // Leaflet's own rule is `.leaflet-container a.leaflet-popup-close-button`
+  // — (0,2,1) — so a plain two-class override loses on the element component
+  // and the button stayed pinned at top: 0 over the photo. Matched shape,
+  // one class deeper.
+  .leaflet-container a.leaflet-popup-close-button {
+    // Past the media, then down by the body's own inset so the glyph lands on
+    // the TITLE'S line rather than floating above it (measured: centres within
+    // 2px of the title's).
+    top: calc(var(--popup-media-h) + var(--space-xs));
+    right: var(--space-2xs);
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    font-size: 1.25rem;
+    line-height: 2rem;
+    color: $color-ui-text;
 
     &:hover {
-      color: $color-brand-blue;
+      color: $color-brand-dark-green;
     }
 
     &:focus-visible {
       @include focus-ring;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Marker popup — a miniature of the card it stands for
+//
+// Photo across the top, then the same record the card carries: name, operator,
+// place, the three facts, and the website link. Built by the directory script
+// FROM the card, so the two can never disagree.
+//
+// Its own block rather than directory elements: it renders inside Leaflet's
+// own popup DOM, and its pieces belong to the popup, not to the page layout.
+// -----------------------------------------------------------------------------
+.generator-popup {
+  &__media {
+    display: block;
+    width: 100%;
+    height: var(--popup-media-h);
+    object-fit: cover;
+  }
+
+  &__body {
+    padding: var(--space-s);
+  }
+
+  &__title {
+    // Clears the close button, which sits on this line at the popup's right:
+    // its 2rem box plus the --space-2xs it is inset by.
+    padding-right: 2.75rem;
+    font-size: $font-size-base;
+    font-weight: $font-weight-demibold;
+    line-height: $line-height-tight;
+    color: $color-brand-dark-green;
+  }
+
+  &__line {
+    margin-top: var(--space-3xs);
+    color: $color-ui-text;
+  }
+
+  // The facts sit as their own tight cluster, a step clear of the address
+  // lines above so the two read as separate groups rather than one list.
+  &__meta {
+    margin-top: var(--space-2xs);
+  }
+
+  &__meta-row {
+    color: $color-ui-text;
+
+    strong {
+      font-weight: $font-weight-medium;
+      color: $color-brand-dark-green;
+    }
+  }
+
+  &__link {
+    margin-top: var(--space-s);
+
+    a {
+      font-weight: $font-weight-medium;
+      color: $color-brand-dark-green;
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+
+      &:hover {
+        color: $color-brand-blue;
+      }
+
+      &:focus-visible {
+        @include focus-ring;
+      }
     }
   }
 }

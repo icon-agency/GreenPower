@@ -64,10 +64,25 @@
     background-color: $color-brand-dark-green;
     border-radius: $radius-pill;
 
-    svg {
+    // The GreenPower mark, not a generic tick: accreditation IS the program,
+    // so the badge carries the program's own symbol.
+    //
+    // Sized in em (NOT $icon-size) — this glyph rides the badge's own text
+    // step so the pill stays a pill; $icon-size is the 40px component icon
+    // that heads a card or a banner, a different job entirely. 1.15em matches
+    // the camera/location marks in the angle badges, the system's other
+    // inline-with-text glyph.
+    //
+    // The artwork is a file-referenced SVG, so currentColor cannot reach it
+    // (see the design system's Icons section) — white on this dark pill comes
+    // from the shared knockout filter, as on the feature banner, the bento
+    // stat tiles and the footer logo.
+    img {
       flex-shrink: 0;
-      width: 0.8em;
-      height: 0.8em;
+      width: 1.15em;
+      height: 1.15em;
+      object-fit: contain;
+      filter: brightness(0) invert(100%);
     }
   }
 
@@ -84,19 +99,29 @@
     color: $color-ui-text;
   }
 
-  // Small identifying photo, top-right. Decorative (alt="") and dropped below
-  // sm exactly as the download cover is: in a phone-width column it taxes the
+  // Identifying photo, top-right. Decorative (alt="") and dropped below sm
+  // exactly as the download cover is: in a phone-width column it taxes the
   // name's line length and carries no information the text doesn't.
+  //
+  // Sized to READ as a photograph rather than as a favicon: at 6.5rem a wind
+  // farm was an unidentifiable smudge, which is the one job this image has.
+  // It steps up with the column — the card is full width below lg and half a
+  // capped page above it, so md is where the surrounding text can afford the
+  // width.
   &__media {
     display: none;
 
     @include respond-to('sm') {
       display: block;
       flex-shrink: 0;
-      width: 6.5rem;
+      width: 10rem;
       aspect-ratio: 4 / 3;
       object-fit: cover;
       border-radius: $radius-md;
+    }
+
+    @include respond-to('md') {
+      width: 12.5rem;
     }
   }
 

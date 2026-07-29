@@ -114,19 +114,68 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     color: $color-white;
   }
 
-  // The wrap exists to carry the chevron: appearance: none strips the UA's
-  // arrow, and a select cannot paint a pseudo-element of its own.
-  &__select-wrap {
+  // --- Multi-select: a native disclosure over a checkbox group ---
+  //
+  // NOT a <select multiple>. That control needs ctrl/cmd-click to take a
+  // second value (undiscoverable, and impossible on a touch keyboard), cannot
+  // be styled to match this row, and renders as a scrolling listbox rather
+  // than the pill the design asks for. Checkboxes in a <fieldset> are the
+  // honest markup for "choose any number of these", and each one is its own
+  // 44px-ish target.
+  //
+  // <details>/<summary> carries the open/close, so this ships NO JavaScript
+  // for the disclosure itself — the browser owns the toggle, the keyboard
+  // operation and the expanded/collapsed announcement (_accordion.scss: a
+  // disclosure that can be native should be native). The script only syncs
+  // the trigger's label and adds outside-click/Escape closing; without it the
+  // control still opens, still filters, and still submits state=vic&state=nsw
+  // as a plain GET.
+  //
+  // The panel sits IN FLOW rather than floating over the page: .page-header
+  // __inner is position: relative with overflow: hidden (it clips the media
+  // and the angle wedge to the band's radius), so it is the containing block
+  // for any absolutely-positioned descendant AND would clip it. An in-flow
+  // panel simply grows the band — which the band now allows, since a filter
+  // row releases its min-height floor (_page-header.scss).
+  &__multi {
     position: relative;
-    display: block;
+  }
 
+  &__multi-toggle {
+    display: flex;
+    gap: var(--space-2xs);
+    align-items: center;
+    justify-content: space-between;
+    // Containing block for the visually-hidden field name inside. Without it
+    // that span resolves against the ROOT and escapes every clip above it,
+    // adding its own depth to the document (LESSONS.md).
+    position: relative;
+    height: 3em;
+    padding: 0 var(--space-s);
+    font-size: max(#{$font-size-sm}, 1rem); // the search input's iOS-zoom floor
+    color: $color-ui-text;
+    cursor: pointer;
+    background-color: $color-white;
+    border: 1px solid $color-ui-border-strong; // WCAG 1.4.11 boundary contrast
+    border-radius: $radius-pill;
+    // Drops the default disclosure triangle everywhere but WebKit…
+    list-style: none;
+
+    // …which needs its own reset.
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &:focus-visible {
+      @include focus-ring($color-white);
+    }
+
+    // The chevron, matching the search glyph's weight. A masked pseudo rather
+    // than an inline SVG so the summary's own text stays its accessible name.
     &::after {
-      position: absolute;
-      top: 50%;
-      right: var(--space-s);
+      flex-shrink: 0;
       width: 0.8em;
       height: 0.55em;
-      pointer-events: none; // clicks fall through to the select
       content: '';
       background-color: $color-brand-dark-green;
       -webkit-mask-image: $chevron-icon;
@@ -137,26 +186,59 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
       mask-position: center;
       -webkit-mask-size: contain;
       mask-size: contain;
-      transform: translateY(-50%);
+      @include transition(transform);
     }
   }
 
-  &__select {
-    width: 100%;
-    height: 3em;
-    padding: 0 calc(var(--space-s) + 0.8em + var(--space-2xs)) 0 var(--space-s);
-    // Floored at 1rem like the search input — selects trigger the same iOS
-    // focus zoom below 16px.
-    font-size: max(#{$font-size-sm}, 1rem);
-    color: $color-ui-text;
-    appearance: none; // the wrap's ::after carries the chevron
-    cursor: pointer;
-    background-color: $color-white;
-    border: 1px solid $color-ui-border-strong;
-    border-radius: $radius-pill;
+  &__multi[open] &__multi-toggle::after {
+    transform: rotate(180deg);
+  }
 
-    &:focus-visible {
-      @include focus-ring($color-white);
+  // The checkbox group. A real <fieldset> with a visually-hidden <legend>:
+  // the legend is what names the group for a screen reader moving through the
+  // checkboxes, and the visible label above the trigger is its sighted twin.
+  &__multi-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2xs);
+    padding: var(--space-s);
+    margin-top: var(--space-2xs);
+    border: 0;
+    background-color: $color-white;
+    border-radius: $radius-md;
+
+    // Two columns once there is width for them — eight states and territories
+    // is four rows rather than eight.
+    @include respond-to('sm') {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-2xs) var(--space-s);
+    }
+  }
+
+  &__option {
+    display: flex;
+    gap: var(--space-2xs);
+    align-items: center;
+    font-size: $font-size-sm;
+    color: $color-ui-text;
+    cursor: pointer;
+
+    input {
+      flex-shrink: 0;
+      width: 1.1em;
+      height: 1.1em;
+      accent-color: $color-brand-dark-green; // the .ds-control convention
+    }
+
+    &:hover {
+      color: $color-brand-dark-green;
+    }
+
+    // The ring belongs on the row, not the 1.1em box — :has() so the label
+    // can wear its own checkbox's focus. Unsupported :has() simply leaves the
+    // browser's own outline on the input, which is still a visible state.
+    &:has(input:focus-visible) {
+      @include focus-ring;
     }
   }
 }

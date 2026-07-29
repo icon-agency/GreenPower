@@ -10,6 +10,10 @@
   <!-- Leaflet CSS before main.css so the theme's scoped overrides win by
        source order. Pinned CDN build — self-host on the Drupal port. -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+  <!-- markercluster's STRUCTURAL stylesheet only (spiderfy + zoom
+       animations). Its default theme is deliberately not loaded — the
+       count bubble is ours, styled from tokens in _generator-directory.scss. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
   <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
@@ -415,28 +419,52 @@
               <span class="visually-hidden">Search</span>
             </button>
           </div>
+          <!-- Multi-select filters: a native <details> disclosure over a real
+               checkbox <fieldset>, NOT <select multiple> (see
+               _tool-filter.scss). No JS for the toggle; with no JS at all the
+               group still opens and still submits state=vic&state=nsw.
+               Drupal: the exposed filter's "checkboxes" widget renders exactly
+               this shape — the <details> wrapper is the theme's. -->
           <div class="tool-filter__fields">
             <div class="tool-filter__field">
-              <label class="tool-filter__label" for="gen-state">State or territory</label>
-              <span class="tool-filter__select-wrap">
-                <select id="gen-state" class="tool-filter__select" name="state">
-                  <option value="">All states and territories</option>
-                  <option value="nsw">New South Wales</option>
-                  <option value="qld">Queensland</option>
-                  <option value="vic">Victoria</option>
-                </select>
-              </span>
+              <p class="tool-filter__label" id="gen-state-label">State or territory</p>
+              <details class="tool-filter__multi" data-gen-multi="state">
+                <summary class="tool-filter__multi-toggle">
+                  <!-- Names the trigger without JS: the summary's accessible
+                       name is "State or territory: All states and
+                       territories", and the script only swaps the second
+                       span as boxes are ticked. -->
+                  <span class="visually-hidden">State or territory: </span>
+                  <span data-gen-multi-label>All states and territories</span>
+                </summary>
+                <fieldset class="tool-filter__multi-panel">
+                  <legend class="visually-hidden">State or territory</legend>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="act"><span>Australian Capital Territory</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="nsw"><span>New South Wales</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="nt"><span>Northern Territory</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="qld"><span>Queensland</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="sa"><span>South Australia</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="tas"><span>Tasmania</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="vic"><span>Victoria</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="wa"><span>Western Australia</span></label>
+                </fieldset>
+              </details>
             </div>
             <div class="tool-filter__field">
-              <label class="tool-filter__label" for="gen-type">Renewable generator type</label>
-              <span class="tool-filter__select-wrap">
-                <select id="gen-type" class="tool-filter__select" name="type">
-                  <option value="">All energy sources</option>
-                  <option value="hydro">Hydro</option>
-                  <option value="solar">Solar</option>
-                  <option value="wind">Wind</option>
-                </select>
-              </span>
+              <p class="tool-filter__label" id="gen-type-label">Renewable generator type</p>
+              <details class="tool-filter__multi" data-gen-multi="type">
+                <summary class="tool-filter__multi-toggle">
+                  <span class="visually-hidden">Renewable generator type: </span>
+                  <span data-gen-multi-label>All energy sources</span>
+                </summary>
+                <fieldset class="tool-filter__multi-panel">
+                  <legend class="visually-hidden">Renewable generator type</legend>
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="bioenergy"><span>Bioenergy</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="hydro"><span>Hydro</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="solar"><span>Solar</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="wind"><span>Wind</span></label>
+                </fieldset>
+              </details>
             </div>
             <button class="btn btn--white" type="submit">Apply</button>
           </div>
@@ -460,7 +488,7 @@
              (server-rendered in Drupal); each chip removes its filter. -->
         <ul class="generator-directory__chips" data-gen-chips aria-label="Active filters" hidden></ul>
         <div class="generator-directory__status">
-          <p class="generator-directory__count" aria-live="polite" data-gen-count>Showing 7 accredited generators</p>
+          <p class="generator-directory__count" aria-live="polite" data-gen-count>Showing 13 accredited generators</p>
           <!-- List/map view toggle — only rendered useful below the lg split,
                where the two columns cannot share the width. List is the
                default and the no-JS state; the map needs JS regardless. -->
@@ -478,7 +506,7 @@
             <article class="generator-card" data-animate data-gen-item data-lat="-32.3603" data-lng="148.9498" data-state="nsw" data-type="wind">
               <div class="generator-card__head">
                 <div class="generator-card__intro">
-                  <p class="generator-card__badge"><svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 6.5l2.6 2.6L10 3.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Accredited</p>
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
                   <h3 class="generator-card__title">Bodangora Wind Farm</h3>
                   <p class="generator-card__company">Bodangora Wind Farm Pty Limited</p>
                   <p class="generator-card__place">Wellington, New South Wales</p>
@@ -503,7 +531,7 @@
             <article class="generator-card" data-animate data-gen-item data-lat="-29.7726" data-lng="151.5540" data-state="nsw" data-type="wind">
               <div class="generator-card__head">
                 <div class="generator-card__intro">
-                  <p class="generator-card__badge"><svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 6.5l2.6 2.6L10 3.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Accredited</p>
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
                   <h3 class="generator-card__title">White Rock Wind Farm</h3>
                   <p class="generator-card__company">White Rock Wind Farm Pty Ltd</p>
                   <p class="generator-card__place">Glen Innes, New South Wales</p>
@@ -528,7 +556,7 @@
             <article class="generator-card" data-animate data-gen-item data-lat="-37.2094" data-lng="142.9861" data-state="vic" data-type="wind">
               <div class="generator-card__head">
                 <div class="generator-card__intro">
-                  <p class="generator-card__badge"><svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 6.5l2.6 2.6L10 3.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Accredited</p>
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
                   <h3 class="generator-card__title">Ararat Wind Farm</h3>
                   <p class="generator-card__company">Ararat Wind Farm Pty Ltd</p>
                   <p class="generator-card__place">Ararat, Victoria</p>
@@ -553,7 +581,7 @@
             <article class="generator-card" data-animate data-gen-item data-lat="-36.0217" data-lng="145.4419" data-state="vic" data-type="solar">
               <div class="generator-card__head">
                 <div class="generator-card__intro">
-                  <p class="generator-card__badge"><svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 6.5l2.6 2.6L10 3.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Accredited</p>
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
                   <h3 class="generator-card__title">Numurkah Solar Farm</h3>
                   <p class="generator-card__company">Neoen Australia Pty Ltd</p>
                   <p class="generator-card__place">Numurkah, Victoria</p>
@@ -578,7 +606,7 @@
             <article class="generator-card" data-animate data-gen-item data-lat="-35.7180" data-lng="143.8460" data-state="vic" data-type="solar">
               <div class="generator-card__head">
                 <div class="generator-card__intro">
-                  <p class="generator-card__badge"><svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 6.5l2.6 2.6L10 3.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Accredited</p>
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
                   <h3 class="generator-card__title">Gannawarra Solar Farm</h3>
                   <p class="generator-card__company">Gannawarra Energy Pty Ltd</p>
                   <p class="generator-card__place">Kerang, Victoria</p>
@@ -603,7 +631,7 @@
             <article class="generator-card" data-animate data-gen-item data-lat="-19.4062" data-lng="146.7481" data-state="qld" data-type="solar">
               <div class="generator-card__head">
                 <div class="generator-card__intro">
-                  <p class="generator-card__badge"><svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 6.5l2.6 2.6L10 3.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Accredited</p>
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
                   <h3 class="generator-card__title">Ross River Solar Farm</h3>
                   <p class="generator-card__company">Palisade Investment Partners</p>
                   <p class="generator-card__place">Ross River, Queensland</p>
@@ -628,7 +656,7 @@
             <article class="generator-card" data-animate data-gen-item data-lat="-36.1052" data-lng="147.0322" data-state="nsw" data-type="hydro">
               <div class="generator-card__head">
                 <div class="generator-card__intro">
-                  <p class="generator-card__badge"><svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 6.5l2.6 2.6L10 3.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Accredited</p>
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
                   <h3 class="generator-card__title">Hume Hydro Power Station</h3>
                   <p class="generator-card__company">Meridian Energy Australia</p>
                   <p class="generator-card__place">Albury, New South Wales</p>
@@ -647,6 +675,160 @@
                 <button class="generator-card__map-link" type="button" data-gen-map-focus>
                   <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
                   View on map<span class="visually-hidden"> &mdash; Hume Hydro Power Station</span></button>
+              </div>
+            </article>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-31.2333" data-lng="117.7167" data-state="wa" data-type="wind">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Collgar Wind Farm</h3>
+                  <p class="generator-card__company">Collgar Renewables Pty Ltd</p>
+                  <p class="generator-card__place">Merredin, Western Australia</p>
+                </div>
+                <img class="generator-card__media" src="../assets/images/wind.png" alt="" width="1500" height="1500" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Wind</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>206 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>WD02WA01</dd></div>
+              </dl>
+              <p class="generator-card__desc">Western Australia&rsquo;s largest single wind farm, feeding the South West Interconnected System from the Wheatbelt.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Collgar Wind Farm</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Collgar Wind Farm</span></button>
+              </div>
+            </article>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-32.4833" data-lng="137.7667" data-state="sa" data-type="solar">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Bungala Solar Farm</h3>
+                  <p class="generator-card__company">Bungala Solar One Pty Ltd</p>
+                  <p class="generator-card__place">Port Augusta, South Australia</p>
+                </div>
+                <img class="generator-card__media" src="../assets/video/Glenrowan.png" alt="" width="1920" height="1080" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Solar</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>220 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>SL06SA02</dd></div>
+              </dl>
+              <p class="generator-card__desc">Built on the arid plains north of Spencer Gulf, Bungala tracks the sun across more than 800,000 panels.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Bungala Solar Farm</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Bungala Solar Farm</span></button>
+              </div>
+            </article>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-40.8333" data-lng="148.0833" data-state="tas" data-type="wind">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Musselroe Wind Farm</h3>
+                  <p class="generator-card__company">Woolnorth Renewables</p>
+                  <p class="generator-card__place">Cape Portland, Tasmania</p>
+                </div>
+                <img class="generator-card__media" src="../assets/images/wind.png" alt="" width="1500" height="1500" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Wind</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>168 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>WD04TS01</dd></div>
+              </dl>
+              <p class="generator-card__desc">Fifty-six turbines on Tasmania&rsquo;s north-east tip, exposed to some of the most consistent wind resource in the country.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Musselroe Wind Farm</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Musselroe Wind Farm</span></button>
+              </div>
+            </article>
+
+            <!-- The next three sit within ~40km of Ararat, alongside the
+                 Ararat entry above: four in one wind region, which is what a
+                 real directory looks like and what the map's cluster bubble
+                 is there to handle. -->
+            <article class="generator-card" data-animate data-gen-item data-lat="-37.0669" data-lng="143.0219" data-state="vic" data-type="wind">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Crowlands Wind Farm</h3>
+                  <p class="generator-card__company">Pacific Blue Renewables</p>
+                  <p class="generator-card__place">Crowlands, Victoria</p>
+                </div>
+                <img class="generator-card__media" src="../assets/images/wind.png" alt="" width="1500" height="1500" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Wind</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>80 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>WD07VC04</dd></div>
+              </dl>
+              <p class="generator-card__desc">Thirty-nine turbines north of Ararat, underwritten by a long-term agreement with the City of Melbourne&rsquo;s renewable energy purchasing group.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Crowlands Wind Farm</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Crowlands Wind Farm</span></button>
+              </div>
+            </article>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-37.0361" data-lng="142.8264" data-state="vic" data-type="wind">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Bulgana Green Power Hub</h3>
+                  <p class="generator-card__company">Neoen Australia Pty Ltd</p>
+                  <p class="generator-card__place">Bulgana, Victoria</p>
+                </div>
+                <img class="generator-card__media" src="../assets/images/wind.png" alt="" width="1500" height="1500" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Wind</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>204 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>WD09VC06</dd></div>
+              </dl>
+              <p class="generator-card__desc">Wind generation paired with a 20 MW battery, supplying a nearby glasshouse alongside the grid.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Bulgana Green Power Hub</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Bulgana Green Power Hub</span></button>
+              </div>
+            </article>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-37.3639" data-lng="143.2547" data-state="vic" data-type="solar">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Ararat Solar Farm</h3>
+                  <p class="generator-card__company">Ararat Solar Pty Ltd</p>
+                  <p class="generator-card__place">Ararat, Victoria</p>
+                </div>
+                <img class="generator-card__media" src="../assets/video/Glenrowan.png" alt="" width="1920" height="1080" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Solar</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>80 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>SL11VC03</dd></div>
+              </dl>
+              <p class="generator-card__desc">Sharing the Ararat terminal station with the wind farms around it, so one grid connection carries both resources.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Ararat Solar Farm</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Ararat Solar Farm</span></button>
               </div>
             </article>
 
@@ -1443,6 +1625,7 @@
        policy covers development-scale traffic, not a government site's. The
        attribution control is a licence requirement — never remove it. -->
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
   <script>
     // Generator directory: the map, the list/map view toggle, and the
     // reference-chrome filters.
@@ -1477,7 +1660,15 @@
       var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
       var wide = window.matchMedia('(min-width: 1200px)'); // respond-to('lg')
       var map = null;
+      var cluster = null; // the markercluster group every marker lives in
       var entries = []; // { card, marker } pairs, built once at init
+
+      // The pin: the same teardrop the cards' "View on map" button carries.
+      // Inline SVG in a divIcon so currentColor reaches it and the colour
+      // stays a token in the stylesheet.
+      var PIN_SVG = '<svg viewBox="0 0 24 32" aria-hidden="true" focusable="false">' +
+        '<path d="M12 0C5.373 0 0 5.373 0 12c0 8.5 12 20 12 20s12-11.5 12-20c0-6.627-5.373-12-12-12z" fill="currentColor"/>' +
+        '<circle cx="12" cy="12" r="4.5" fill="#fff"/></svg>';
 
       function hidden(card) {
         return card.style.display === 'none';
@@ -1485,25 +1676,68 @@
 
       // --- Map ---
 
+      // The popup is a miniature of the card: the same photo, the same record.
+      // Composed with DOM nodes, not an HTML string — the copy comes from
+      // editorial fields, and textContent cannot be talked into being markup
+      // the way innerHTML can.
       function popupFor(card) {
         function text(sel) {
           var el = card.querySelector(sel);
           return el ? el.textContent.trim() : '';
         }
-        var html = '<p class="generator-popup__title">' + text('.generator-card__title') + '</p>' +
-          '<p class="generator-popup__line">' + text('.generator-card__company') + '</p>' +
-          '<p class="generator-popup__line">' + text('.generator-card__place') + '</p>';
-        var rows = card.querySelectorAll('.generator-card__meta-row');
-        for (var i = 0; i < rows.length; i++) {
-          html += '<p class="generator-popup__meta"><strong>' +
-            rows[i].querySelector('dt').textContent + ':</strong> ' +
-            rows[i].querySelector('dd').textContent + '</p>';
+        function p(cls, str) {
+          var el = document.createElement('p');
+          el.className = cls;
+          el.textContent = str;
+          return el;
         }
+
+        var root = document.createElement('div');
+        root.className = 'generator-popup';
+
+        // The card's own thumbnail — decorative here too, so alt stays empty:
+        // the name directly under it carries the meaning.
+        var thumb = card.querySelector('.generator-card__media');
+        if (thumb) {
+          var img = document.createElement('img');
+          img.className = 'generator-popup__media';
+          img.src = thumb.getAttribute('src');
+          img.alt = '';
+          root.appendChild(img);
+        }
+
+        var body = document.createElement('div');
+        body.className = 'generator-popup__body';
+        body.appendChild(p('generator-popup__title', text('.generator-card__title')));
+        body.appendChild(p('generator-popup__line', text('.generator-card__company')));
+        body.appendChild(p('generator-popup__line', text('.generator-card__place')));
+
+        var meta = document.createElement('div');
+        meta.className = 'generator-popup__meta';
+        [].slice.call(card.querySelectorAll('.generator-card__meta-row')).forEach(function (row) {
+          var line = document.createElement('p');
+          line.className = 'generator-popup__meta-row';
+          var label = document.createElement('strong');
+          label.textContent = row.querySelector('dt').textContent + ':';
+          line.appendChild(label);
+          line.appendChild(document.createTextNode(' ' + row.querySelector('dd').textContent));
+          meta.appendChild(line);
+        });
+        body.appendChild(meta);
+
         var site = card.querySelector('[data-gen-website]');
         if (site) {
-          html += '<p class="generator-popup__link"><a href="' + site.getAttribute('href') + '">Visit website</a></p>';
+          var wrap = document.createElement('p');
+          wrap.className = 'generator-popup__link';
+          var a = document.createElement('a');
+          a.href = site.getAttribute('href');
+          a.textContent = 'Visit website';
+          wrap.appendChild(a);
+          body.appendChild(wrap);
         }
-        return html;
+
+        root.appendChild(body);
+        return root;
       }
 
       function initMap() {
@@ -1523,17 +1757,49 @@
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
+        // Pins that would overlap are grouped into one counted bubble —
+        // without it a wind region reads as a single blob and the pins
+        // underneath are unreachable. The plugin's default theme is not
+        // loaded: iconCreateFunction builds our own bubble (styled in
+        // _generator-directory.scss), so the map keeps the system's palette.
+        cluster = L.markerClusterGroup({
+          showCoverageOnHover: false, // the hull polygon is library-blue chrome
+          maxClusterRadius: 44,
+          animate: !reduced.matches, // spiderfy/zoom easing is motion
+          iconCreateFunction: function (c) {
+            var n = c.getChildCount();
+            return L.divIcon({
+              className: 'generator-directory__cluster',
+              // The count IS the accessible name — markercluster makes the
+              // bubble a focusable button.
+              html: '<span>' + n + '</span>',
+              iconSize: [40, 40]
+            });
+          }
+        });
+        map.addLayer(cluster);
+
         entries = cards.map(function (card) {
           var marker = L.marker(
             [parseFloat(card.getAttribute('data-lat')), parseFloat(card.getAttribute('data-lng'))],
             {
-              // CSS-styled dot instead of Leaflet's default image pin — no
-              // assets to host, and the colour is the system's own token.
-              icon: L.divIcon({ className: 'generator-directory__pin', iconSize: [16, 16] }),
+              icon: L.divIcon({
+                className: 'generator-directory__pin',
+                html: PIN_SVG,
+                iconSize: [24, 32],
+                iconAnchor: [12, 32], // the TIP sits on the coordinate
+                popupAnchor: [0, -30] // …so the popup opens above the head
+              }),
               // Markers are keyboard-focusable; the title names each one
               title: (card.querySelector('.generator-card__title') || { textContent: 'Generator' }).textContent.trim()
             }
-          ).addTo(map).bindPopup(popupFor(card));
+          ).bindPopup(popupFor(card), {
+            // A fixed width so the photo's height is deterministic — the
+            // close button is stepped past it in CSS (--popup-media-h).
+            minWidth: 252,
+            maxWidth: 252
+          });
+          cluster.addLayer(marker);
           return { card: card, marker: marker };
         });
 
@@ -1560,14 +1826,16 @@
         map.fitBounds(L.latLngBounds(pts).pad(0.15), { animate: !!animate && !reduced.matches });
       }
 
-      // Markers follow the filtered list — one source of truth.
+      // Markers follow the filtered list — one source of truth. They join and
+      // leave the CLUSTER group, not the map, so the counts re-form around
+      // whatever the filter left behind.
       function syncMarkers() {
-        if (!map) return;
+        if (!map || !cluster) return;
         entries.forEach(function (e) {
           if (hidden(e.card)) {
-            map.removeLayer(e.marker);
-          } else if (!map.hasLayer(e.marker)) {
-            e.marker.addTo(map);
+            cluster.removeLayer(e.marker);
+          } else if (!cluster.hasLayer(e.marker)) {
+            cluster.addLayer(e.marker);
           }
         });
         fitVisible(false);
@@ -1621,7 +1889,14 @@
           if (!entry) return;
           map.invalidateSize();
           map.setView(entry.marker.getLatLng(), 11, { animate: !reduced.matches });
-          entry.marker.openPopup();
+          // The pin may be inside a cluster bubble at this zoom, and a marker
+          // that is not on the map cannot open a popup — zoomToShowLayer
+          // breaks the cluster open first, then hands back.
+          if (cluster && !map.hasLayer(entry.marker)) {
+            cluster.zoomToShowLayer(entry.marker, function () { entry.marker.openPopup(); });
+          } else {
+            entry.marker.openPopup();
+          }
           // Put the keyboard where the action landed — the map container is
           // focusable. preventScroll: at lg the map is already alongside.
           mapEl.focus({ preventScroll: true });
@@ -1637,12 +1912,64 @@
       if (!form || !chipsEl || !countEl || !emptyEl) return;
 
       var search = form.querySelector('#gen-search');
-      var state = form.querySelector('#gen-state');
-      var type = form.querySelector('#gen-type');
+      var groups = [].slice.call(form.querySelectorAll('[data-gen-multi]')).map(function (el) {
+        return {
+          key: el.getAttribute('data-gen-multi'),
+          el: el,
+          label: el.querySelector('[data-gen-multi-label]'),
+          // The label to fall back to when nothing is ticked ("All states and
+          // territories") — read from the markup rather than restated here,
+          // so the copy lives in one place and stays translatable.
+          allLabel: el.querySelector('[data-gen-multi-label]').textContent,
+          boxes: [].slice.call(el.querySelectorAll('input[type="checkbox"]'))
+        };
+      });
 
-      function optionLabel(select) {
-        return select.options[select.selectedIndex].textContent;
+      function checked(group) {
+        return group.boxes.filter(function (b) { return b.checked; });
       }
+
+      function boxLabel(box) {
+        return box.parentNode.querySelector('span').textContent;
+      }
+
+      // The trigger reports its own state: the option's name while one is
+      // ticked, a count past that (listing four state names would outgrow the
+      // pill), the authored "All …" when none are.
+      function syncTriggers() {
+        groups.forEach(function (group) {
+          var on = checked(group);
+          group.label.textContent = !on.length ? group.allLabel
+            : on.length === 1 ? boxLabel(on[0])
+            : on.length + ' selected';
+        });
+      }
+
+      // Close every open group — the disclosure is native, so this is only
+      // the outside-click / Escape convenience on top of it.
+      function closeGroups() {
+        groups.forEach(function (group) { group.el.open = false; });
+      }
+
+      document.addEventListener('click', function (event) {
+        if (!form.contains(event.target)) closeGroups();
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Escape') return;
+        var open = groups.filter(function (g) { return g.el.open; })[0];
+        if (!open) return;
+        closeGroups();
+        // Send focus back to the trigger the reader was in, the nav's Escape
+        // behaviour — but only if focus is currently inside that group.
+        if (open.el.contains(document.activeElement)) open.el.querySelector('summary').focus();
+      });
+
+      groups.forEach(function (group) {
+        group.boxes.forEach(function (box) {
+          box.addEventListener('change', syncTriggers);
+        });
+      });
 
       function chip(label, onRemove) {
         var li = document.createElement('li');
@@ -1659,27 +1986,50 @@
 
       function apply() {
         var q = (search.value || '').trim().toLowerCase();
-        var st = state.value;
-        var ty = type.value;
+        // One array of ticked values per group, in the DOM order of the
+        // checkboxes — so the chips read in the same order as the panel.
+        var picked = groups.map(function (group) {
+          return { group: group, boxes: checked(group) };
+        });
         var shown = 0;
 
         cards.forEach(function (card) {
           var haystack = (card.querySelector('.generator-card__title').textContent + ' ' +
             card.querySelector('.generator-card__company').textContent).toLowerCase();
-          var match =
-            (!st || card.getAttribute('data-state') === st) &&
-            (!ty || card.getAttribute('data-type') === ty) &&
-            (!q || haystack.indexOf(q) !== -1);
+          // A group with nothing ticked does not constrain — the news
+          // filter's "no selection means all" rule, per group.
+          var match = picked.every(function (p) {
+            if (!p.boxes.length) return true;
+            return p.boxes.some(function (b) {
+              return card.getAttribute('data-' + p.group.key) === b.value;
+            });
+          }) && (!q || haystack.indexOf(q) !== -1);
           card.style.display = match ? '' : 'none';
           if (match) shown += 1;
         });
 
-        // Chips mirror the applied state; each one removes its own filter.
+        // Chips mirror the applied state — ONE PER SELECTED VALUE, so
+        // "Victoria + New South Wales + Solar" is three removable chips, and
+        // each one unticks its own box.
         chipsEl.textContent = '';
-        if (st) chipsEl.appendChild(chip(optionLabel(state), function () { state.value = ''; apply(); }));
-        if (ty) chipsEl.appendChild(chip(optionLabel(type), function () { type.value = ''; apply(); }));
-        if (q) chipsEl.appendChild(chip('“' + search.value.trim() + '”', function () { search.value = ''; apply(); }));
-        if (st || ty || q) {
+        var any = !!q;
+        picked.forEach(function (p) {
+          p.boxes.forEach(function (box) {
+            any = true;
+            chipsEl.appendChild(chip(boxLabel(box), function () {
+              box.checked = false;
+              syncTriggers();
+              apply();
+            }));
+          });
+        });
+        if (q) {
+          chipsEl.appendChild(chip('“' + search.value.trim() + '”', function () {
+            search.value = '';
+            apply();
+          }));
+        }
+        if (any) {
           var li = document.createElement('li');
           var clear = document.createElement('button');
           clear.type = 'button';
@@ -1687,14 +2037,16 @@
           clear.textContent = 'Clear all';
           clear.addEventListener('click', function () {
             search.value = '';
-            state.value = '';
-            type.value = '';
+            groups.forEach(function (group) {
+              group.boxes.forEach(function (box) { box.checked = false; });
+            });
+            syncTriggers();
             apply();
           });
           li.appendChild(clear);
           chipsEl.appendChild(li);
         }
-        chipsEl.hidden = !(st || ty || q);
+        chipsEl.hidden = !any;
 
         // The visible count doubles as the live status — one region, no
         // duplicate announcement.
@@ -1704,10 +2056,28 @@
         syncMarkers();
       }
 
+      // Ticking a box filters IMMEDIATELY — a checkbox is a committed choice,
+      // and a chip that only appeared after a second click on Apply read as a
+      // control that had ignored you. Free text is the exception: it commits
+      // on Enter or Apply, because filtering (and drawing a chip) per
+      // keystroke would flicker through every prefix of the word.
+      groups.forEach(function (group) {
+        group.boxes.forEach(function (box) {
+          box.addEventListener('change', apply);
+        });
+      });
+
       form.addEventListener('submit', function (event) {
         event.preventDefault(); // the view's AJAX round-trip in Drupal
+        closeGroups();
         apply();
       });
+
+      // Run once on load: the count then always reports the DOM rather than a
+      // number typed into the markup, so adding a card cannot leave the
+      // heading stale. (The authored value is the no-JS fallback.)
+      syncTriggers();
+      apply();
     })();
   </script>
 </body>
