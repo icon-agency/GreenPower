@@ -342,7 +342,7 @@ a:focus-visible {
   display: none;
 }
 .main-nav__inner {
-  max-width: 1960px;
+  max-width: 1700px;
   margin-inline: auto;
   padding-inline: var(--space-s-l);
   display: flex;
@@ -924,7 +924,7 @@ a:focus-visible {
     border-radius: 0 0 16px 16px;
   }
   .main-nav__panel-inner {
-    max-width: 1960px;
+    max-width: 1700px;
     margin-inline: auto;
     padding-inline: var(--space-s-l);
     display: grid;
@@ -1185,7 +1185,7 @@ a:focus-visible {
   mask-image: linear-gradient(to bottom, transparent, black 31svh);
 }
 .hero__content {
-  max-width: 1960px;
+  max-width: 1700px;
   margin-inline: auto;
   padding-inline: var(--space-s-l);
   position: absolute;
@@ -1361,7 +1361,7 @@ a:focus-visible {
   }
 }
 .hero__panel-inner {
-  max-width: 1960px;
+  max-width: 1700px;
   margin-inline: auto;
   padding-inline: var(--space-s-l);
   position: relative;
@@ -1394,7 +1394,7 @@ a:focus-visible {
 }
 
 .card-section {
-  max-width: 1960px;
+  max-width: 1700px;
   margin-inline: auto;
   padding-inline: var(--space-s-l);
   padding-block: var(--space-3xl);
@@ -1632,7 +1632,7 @@ a:focus-visible {
   background-color: #006341;
 }
 .feature-banner__inner {
-  max-width: 1960px;
+  max-width: 1700px;
   margin-inline: auto;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -1867,7 +1867,7 @@ a:focus-visible {
   background-color: #ebe5d3;
 }
 .bento-grid__inner {
-  max-width: 1960px;
+  max-width: 1700px;
   margin-inline: auto;
   padding-block: var(--space-3xl);
   padding-inline: var(--space-xs);
@@ -2143,7 +2143,7 @@ a:focus-visible {
   }
 }
 .caption-image {
-  max-width: 1960px;
+  max-width: 1700px;
   margin: 0 auto;
   padding: var(--space-xs);
 }
@@ -2277,7 +2277,7 @@ a:focus-visible {
   }
 }
 .page-header {
-  max-width: 1960px;
+  max-width: 1700px;
   margin-inline: auto;
   padding-inline: var(--space-xs);
 }
@@ -2713,7 +2713,7 @@ a:focus-visible {
 }
 
 .client-logos__inner {
-  max-width: 1960px;
+  max-width: 1700px;
   margin-inline: auto;
   padding-block: var(--space-3xl);
 }
@@ -2739,6 +2739,13 @@ a:focus-visible {
   overflow-x: hidden;
 }
 
+@media (min-width: 1700px) {
+  .client-logos__scroller.is-marquee {
+    --logo-fade: var(--space-xl);
+    -webkit-mask-image: linear-gradient(to right, transparent, black var(--logo-fade), black calc(100% - var(--logo-fade)), transparent);
+    mask-image: linear-gradient(to right, transparent, black var(--logo-fade), black calc(100% - var(--logo-fade)), transparent);
+  }
+}
 .client-logos__track {
   display: flex;
   width: max-content;
@@ -2832,7 +2839,7 @@ a:focus-visible {
 }
 
 .pathway-section {
-  max-width: 1960px;
+  max-width: 1700px;
   margin-inline: auto;
   padding: var(--space-3xl) var(--space-xs);
 }
@@ -3138,12 +3145,12 @@ a:focus-visible {
   background-color: #006341;
 }
 .site-footer__band {
-  max-width: 1960px;
+  max-width: 1700px;
   padding: var(--space-xs) var(--space-xs) 0;
   margin-inline: auto;
 }
 .site-footer__content {
-  max-width: 1960px;
+  max-width: 1700px;
   margin-inline: auto;
   padding-inline: var(--space-s-l);
   padding-block: var(--space-2xl) var(--space-l);
@@ -3312,7 +3319,7 @@ a:focus-visible {
 }
 
 .page-body {
-  max-width: 1960px;
+  max-width: 1700px;
   margin-inline: auto;
   padding-inline: var(--space-s-l);
   padding-block: var(--space-3xl);
@@ -4005,7 +4012,7 @@ a:focus-visible {
 }
 
 .ds-part-label--section {
-  max-width: 1960px;
+  max-width: 1700px;
   margin-inline: auto;
   padding-inline: var(--space-s-l);
   margin-top: var(--space-3xl);

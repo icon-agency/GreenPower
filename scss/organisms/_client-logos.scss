@@ -61,9 +61,11 @@
 // semantics and cost screen reader users the "list, 20 items" announcement.
 // Wrapping keeps both: the div scrolls, the list stays a list.
 //
-// Deliberately no edge-fade affordance. Fading a client's logo to half opacity
-// is poor treatment of someone else's brand mark; a logo cut off at the edge
-// already reads as "there is more", which is the honest affordance.
+// No edge fade in THIS state, deliberately: a logo cut off at the edge already
+// reads as "there is more", which is the honest affordance for a band you
+// scroll yourself, and this box is a focusable scroll region whose focus ring
+// a mask would fade at exactly those edges. The marquee state takes one, but
+// only past the container cap — see the rule after .is-marquee below.
 // MANUAL SCROLLING IS THE FALLBACK, not the design. The marquee below is a
 // progressive enhancement: the script only mounts it when JS runs AND motion is
 // welcome. Without either, this stays a plain horizontal scroller so the band
@@ -85,6 +87,49 @@
 // correct: there is nothing left for a keyboard to scroll.
 .client-logos__scroller.is-marquee {
   overflow-x: hidden;
+}
+
+// Edge fade, marquee only, and only once the page has stopped growing.
+//
+// WHY THE CAP AND NOT A BREAKPOINT: below it the band runs to the viewport
+// edge, where a clipped logo reads as the screen edge and needs no help. Past
+// it the band stops at $container-max-width with open margin either side, so a
+// logo leaving the band is chopped by a hard vertical line sitting in white
+// space — which is the thing that looks broken. So this keys off the container
+// variable itself, not respond-to(): it is not a layout breakpoint, and a
+// hard-coded width here would silently drift if the cap ever moves.
+//
+// WHY MARQUEE ONLY: the fallback scroller is a focusable scroll region (WCAG
+// 2.1.1) and a mask clips the element's outline, so its focus ring would fade
+// at these same edges. The marquee has no tab stop and nothing to signal.
+//
+// A MASK, not a white gradient overlay: same result on white, but it fades to
+// whatever is actually behind, so moving this section onto Taupe cannot leave a
+// white smear. It also needs no z-index or pointer-events guard over the band.
+//
+// Note this does fade third-party brand marks near the edges, which the pack's
+// usage rules may not love (see the header — never recolour or filter them).
+// It is a moving logo mid-exit rather than a resting one, and the alternative
+// is the hard chop, but it is worth a look before publication.
+@media (min-width: $container-max-width) {
+  .client-logos__scroller.is-marquee {
+    --logo-fade: var(--space-xl);
+
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black var(--logo-fade),
+      black calc(100% - var(--logo-fade)),
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black var(--logo-fade),
+      black calc(100% - var(--logo-fade)),
+      transparent
+    );
+  }
 }
 
 .client-logos__track {

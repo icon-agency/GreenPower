@@ -8,11 +8,15 @@
 // could have comfortable type or a full-width layout, never both — capping the
 // root to calm the type also stopped the container tracking the viewport.
 //
-// Fixed at 1960px the two are independent: the container keeps widening after
-// the root caps at ~1656px, so a wide screen gains LINE LENGTH instead of
-// SCALE. Below 1960 it simply fills the viewport; beyond it, content holds
-// 1960 and centres while the margins grow.
-$container-max-width: 1960px !default;
+// Fixed in px the two are independent: the container keeps widening after the
+// root caps at ~1656px, so a wide screen gains LINE LENGTH instead of SCALE.
+// Below the cap it simply fills the viewport; beyond it, content holds this
+// width and centres while the margins grow.
+//
+// Anything keyed to "the page has stopped growing" should test against THIS
+// variable rather than hard-coding the number or borrowing a breakpoint — the
+// client-logos edge fade is the current example.
+$container-max-width: 1700px !default;
 
 // Z-index scale — always reference, never invent ad-hoc values
 $z-nav: 100 !default;
