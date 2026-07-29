@@ -444,14 +444,14 @@
                 </button>
                 <fieldset class="tool-filter__multi-panel" id="gen-state-panel" popover>
                   <legend class="visually-hidden">State or territory</legend>
-                  <label class="tool-filter__option"><input type="checkbox" name="state" value="act" data-chip-label="ACT"><span>Australian Capital Territory</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="state" value="nsw" data-chip-label="NSW"><span>New South Wales</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="state" value="nt" data-chip-label="NT"><span>Northern Territory</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="state" value="qld" data-chip-label="QLD"><span>Queensland</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="state" value="sa" data-chip-label="SA"><span>South Australia</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="state" value="tas" data-chip-label="TAS"><span>Tasmania</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="state" value="vic" data-chip-label="VIC"><span>Victoria</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="state" value="wa" data-chip-label="WA"><span>Western Australia</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="act"><span data-option-label>ACT</span> <span class="visually-hidden">Australian Capital Territory</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="nsw"><span data-option-label>NSW</span> <span class="visually-hidden">New South Wales</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="nt"><span data-option-label>NT</span> <span class="visually-hidden">Northern Territory</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="qld"><span data-option-label>QLD</span> <span class="visually-hidden">Queensland</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="sa"><span data-option-label>SA</span> <span class="visually-hidden">South Australia</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="tas"><span data-option-label>TAS</span> <span class="visually-hidden">Tasmania</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="vic"><span data-option-label>VIC</span> <span class="visually-hidden">Victoria</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="wa"><span data-option-label>WA</span> <span class="visually-hidden">Western Australia</span></label>
                 </fieldset>
               </div>
             </div>
@@ -464,10 +464,10 @@
                 </button>
                 <fieldset class="tool-filter__multi-panel" id="gen-type-panel" popover>
                   <legend class="visually-hidden">Renewable generator type</legend>
-                  <label class="tool-filter__option"><input type="checkbox" name="type" value="bioenergy"><span>Bioenergy</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="type" value="hydro"><span>Hydro</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="type" value="solar"><span>Solar</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="type" value="wind"><span>Wind</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="bioenergy"><span data-option-label>Bioenergy</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="hydro"><span data-option-label>Hydro</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="solar"><span data-option-label>Solar</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="wind"><span data-option-label>Wind</span></label>
                 </fieldset>
               </div>
             </div>
@@ -1936,17 +1936,20 @@
         return group.boxes.filter(function (b) { return b.checked; });
       }
 
+      // The option's VISIBLE text — the abbreviation for states ("VIC"), the
+      // plain word for energy types. One lookup drives the panel, the trigger
+      // and the chips, so the three can never disagree about what a value is
+      // called.
       function boxLabel(box) {
-        return box.parentNode.querySelector('span').textContent;
+        return box.parentNode.querySelector('[data-option-label]').textContent;
       }
 
-      // Chips run SHORT — "VIC", not "Victoria" — because the row has to hold
-      // several at once and the full names wrapped it onto a second line.
-      // data-chip-label carries the abbreviation; anything without one (the
-      // energy types, already single words) falls back to its full label, so
-      // only the values that need shortening declare it.
-      function chipLabel(box) {
-        return box.getAttribute('data-chip-label') || boxLabel(box);
+      // The spelt-out name, which rides beside the abbreviation in a
+      // visually-hidden span. Used to enrich accessible names; falls back to
+      // the visible text where a value needs no expansion (the types).
+      function boxFullLabel(box) {
+        var hidden = box.parentNode.querySelector('.visually-hidden');
+        return hidden ? hidden.textContent : boxLabel(box);
       }
 
       // The trigger reports its own state: the option's name while one is
@@ -2018,10 +2021,10 @@
       window.addEventListener('resize', requestPlace);
 
       // `label` is what shows (abbreviated); `spoken` is the accessible name,
-      // which stays the FULL wording — a screen reader announcing "Remove
-      // filter: VIC" would be reading out an abbreviation the panel never
-      // used. Text goes in via textContent, not innerHTML: these strings are
-      // editorial in Drupal.
+      // which must CONTAIN that visible text (WCAG 2.5.3, Label in Name — a
+      // speech-input user saying "VIC" has to match) and then expands it, so
+      // the chip announces "Remove filter: VIC, Victoria". Text goes in via
+      // textContent, not innerHTML: these strings are editorial in Drupal.
       function chip(label, spoken, onRemove) {
         var li = document.createElement('li');
         var b = document.createElement('button');
@@ -2070,7 +2073,7 @@
         picked.forEach(function (p) {
           p.boxes.forEach(function (box) {
             any = true;
-            chipsEl.appendChild(chip(chipLabel(box), boxLabel(box), function () {
+            chipsEl.appendChild(chip(boxLabel(box), boxLabel(box) + ', ' + boxFullLabel(box), function () {
               box.checked = false;
               syncTriggers();
               apply();
