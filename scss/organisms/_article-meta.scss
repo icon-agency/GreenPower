@@ -42,23 +42,13 @@
     }
   }
 
-  // Same recipe as .card__tag, restated rather than borrowed: that one is
-  // pinned absolute over a card photo, this one sits in the rail's flow —
-  // reaching into the card for it would import the positioning with it
-  // (organisms compose, they don't borrow internals). Promote a shared pill
-  // mixin only if a third site appears (docs/mixins.md).
   &__tag {
-    padding: var(--space-3xs) var(--space-xs);
-    // sm, matching __dates — in the header band the two sit side by side in
-    // one row, and the tag a step smaller than the dates beside it read as an
-    // afterthought rather than a label. Note this is a rung ABOVE .card__tag
-    // (xs): that one is a small marker floating over a photo in a grid of many
-    // cards, this one is a page-level label with room to be read.
-    font-size: $font-size-sm;
-    font-weight: $font-weight-medium;
-    color: $color-white;
-    background-color: $color-brand-dark-green;
-    border-radius: $radius-pill;
+    // The shared dark-green tag pill, at sm to match __dates — in the header
+    // band the two sit side by side in one row, and a tag a step smaller than
+    // the dates beside it read as an afterthought rather than a label. (A
+    // rung ABOVE .card__tag's xs: that one floats over a photo in a grid of
+    // many cards; this is a page-level label with room to be read.)
+    @include tag-pill($font-size-sm);
   }
 
   // ~20 characters of the title's OWN size. This is what makes the rail read

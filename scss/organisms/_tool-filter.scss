@@ -114,6 +114,96 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     color: $color-white;
   }
 
+  // A checks group is sized by its pills, not the select column's flex share.
+  &__field--auto {
+    flex: 0 0 auto;
+    max-width: none;
+  }
+
+  // A real <fieldset> so the group is named for free — reset the UA chrome.
+  &__fieldset {
+    padding: 0;
+    margin: 0;
+    border: 0;
+
+    legend {
+      // The legend IS this group's visible label; float clears the UA's
+      // special legend layout so it stacks like the sibling labels do.
+      float: left;
+      width: 100%;
+      padding: 0;
+      margin-bottom: var(--space-2xs);
+    }
+  }
+
+  // --- Inline checkbox pills: a SMALL option set exposed directly ---
+  //
+  // Two-option groups (Household/Business, Electricity/Gas) don't earn a
+  // popover — the pills fit the row, and exposing them saves a click per
+  // filter. Same honest markup as the popover group: real checkboxes in a
+  // real fieldset; the pill is the label, and the box inside it is
+  // visually hidden with its state carried by the pill's fill (the
+  // ds-segment recipe, checkboxes instead of radios).
+  //
+  // :has() drives the checked/focus paint, as the design system's segments
+  // already do; where it is unsupported the UA's own focus outline on the
+  // (hidden) input still fires, and submission is unaffected.
+  &__checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+
+  &__check {
+    // Containing block for the visually-hidden input (LESSONS.md).
+    position: relative;
+    display: inline-flex;
+    gap: var(--space-2xs);
+    align-items: center;
+    height: 3em; // the control-row height (search, selects, Apply)
+    padding: 0 var(--space-s) 0 var(--space-xs);
+    font-size: max(#{$font-size-sm}, 1rem); // the iOS-zoom floor, as siblings
+    color: $color-ui-text;
+    cursor: pointer;
+    background-color: $color-white;
+    border: 1px solid $color-ui-border-strong;
+    border-radius: $radius-pill;
+    @include transition((background-color, color, border-color));
+
+    input {
+      @include visually-hidden;
+    }
+
+    // The option's icon — a file-referenced SVG (dark green artwork), so the
+    // checked state recolours it with the shared knockout filter, not
+    // currentColor.
+    img {
+      flex-shrink: 0;
+      width: 1.4em;
+      height: 1.4em;
+      object-fit: contain;
+      @include transition(filter);
+    }
+
+    &:hover {
+      background-color: $color-tint-taupe;
+    }
+
+    &:has(input:checked) {
+      color: $color-white;
+      background-color: $color-brand-dark-green;
+      border-color: $color-brand-dark-green;
+
+      img {
+        filter: brightness(0) invert(100%);
+      }
+    }
+
+    &:has(input:focus-visible) {
+      @include focus-ring($color-white);
+    }
+  }
+
   // --- Multi-select: a POPOVER checkbox group under a pill trigger ---
   //
   // NOT a <select multiple>. That control needs ctrl/cmd-click to take a

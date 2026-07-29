@@ -1,0 +1,236 @@
+// -----------------------------------------------------------------------------
+// Provider card — one accredited retailer or trader in the buy directory
+//
+// A wide record row: logo, name and one OFFER SECTION per energy type the
+// organisation sells (an electricity retailer, a gas trader, or — Origin —
+// both), beside an action rail (Visit website, phone, "what to ask"). Each
+// offer states who it serves, where, and which products carry GreenPower —
+// as small metadata pills, because these are FACTS about the record, not
+// controls: real buttons and links here are exactly three (website, phone,
+// the explainer), and dressing the facts as chips would bury them.
+//
+// The GAS offer sits on a white inset panel (the download-in-accordion lift):
+// certificates work differently from retail products, and when a card carries
+// both offers the two must read as two propositions, not one run of pills.
+// It keeps the panel when it stands alone so gas reads the same everywhere.
+//
+// Drupal mapping: a node TEASER view mode of accredited_provider, the rows of
+//   the buy view (see _provider-directory.scss):
+//   title, field_logo (media image), field_website (link), field_phone
+//   (telephone), field_ask_link (link — the "what to ask" explainer page),
+//   field_offers (repeatable paragraph provider_offer: field_offer_type
+//   (electricity|gas taxonomy), field_buyers (household/business taxonomy,
+//   multiple), field_states (taxonomy, multiple, or the "all" flag),
+//   field_products (text, multiple — GreenPower 25/50/100 or the certificate
+//   kinds)). The card's data-* filter attributes are the union of its offers,
+//   written by preprocess.
+// -----------------------------------------------------------------------------
+
+.provider-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-m);
+  align-items: flex-start;
+  padding: var(--space-m);
+  background-color: $color-tint-taupe; // the listing surface
+  border-radius: $radius-lg;
+
+  // The organisation's mark. A logo is third-party brand art — full colour on
+  // WHITE, never on a tint (the client-logos rule), hence the white plate.
+  // The demo renders the plate empty with a mono placeholder; Drupal puts the
+  // media image inside and the placeholder text never ships.
+  &__logo {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 5.5rem;
+    height: 5.5rem;
+    overflow: hidden;
+    font-family: $font-family-mono;
+    font-size: $font-size-xs;
+    color: $color-ui-text;
+    background-color: $color-white;
+    border: 1px solid $color-ui-border;
+    border-radius: $radius-md;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: var(--space-2xs);
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex: 1 1 24rem;
+    flex-direction: column;
+    gap: var(--space-s);
+    align-items: flex-start;
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: $font-size-lg; // the card-title step
+    font-weight: $font-weight-demibold;
+    color: $color-brand-dark-green;
+  }
+
+  // One energy type's proposition. Gap-spaced rows; the badge names the type.
+  &__offer {
+    // The pills' surface, flipped by the gas panel below — the --card-surface
+    // pattern: one custom property, two coordinated values.
+    --pill-surface: #{$color-white};
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    align-items: flex-start;
+    align-self: stretch;
+  }
+
+  &__offer--gas {
+    --pill-surface: #{$color-tint-taupe};
+
+    padding: var(--space-s);
+    background-color: $color-white;
+    border-radius: $radius-md;
+  }
+
+  // The shared tag pill with the energy-type glyph — the generator badge's
+  // exact overrides (tight gap, tucked leading edge) for the same
+  // glyph-optics reasons.
+  &__offer-badge {
+    @include tag-pill;
+    gap: var(--space-3xs);
+    padding-left: var(--space-2xs);
+    margin-bottom: var(--space-3xs);
+
+    img {
+      flex-shrink: 0;
+      width: 1.15em;
+      height: 1.15em;
+      object-fit: contain;
+      filter: brightness(0) invert(100%); // dark-green artwork on the dark pill
+    }
+  }
+
+  // Label/value rows as a real <dl> (the generator card's meta pattern);
+  // values are pill LISTS.
+  &__rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    align-self: stretch;
+    margin: 0;
+  }
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs) var(--space-2xs);
+    align-items: center;
+    font-size: $font-size-sm;
+
+    dt {
+      font-weight: $font-weight-medium;
+      color: $color-brand-dark-green;
+
+      // The explainer beside a label ("What are these?") — the base link
+      // styling (green + underline) is right; just keep its weight quiet so
+      // the label leads.
+      a {
+        margin-left: var(--space-3xs);
+        font-weight: $font-weight-regular;
+
+        &:hover {
+          color: $color-brand-blue;
+        }
+      }
+    }
+
+    dd {
+      margin: 0;
+    }
+  }
+
+  // The facts-as-pills. NOT buttons — no hover, no cursor, no border: state
+  // and product names are metadata, and anything pill-shaped that reacts
+  // would read as another filter row.
+  &__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  &__pill {
+    // Containing block for the spelt-out state names the abbreviation pills
+    // carry in visually-hidden spans (LESSONS.md containment rule).
+    position: relative;
+    padding: var(--space-3xs) var(--space-xs);
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    background-color: var(--pill-surface);
+    border-radius: $radius-pill;
+  }
+
+  // --- Action rail ---
+
+  // margin-left: auto keeps it pinned right while the row fits; when the card
+  // wraps (narrow widths) it drops to its own line, still trailing-aligned.
+  &__aside {
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    align-items: flex-end;
+    margin-left: auto;
+    text-align: right;
+  }
+
+  &__phone {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--space-2xs);
+    font-size: $font-size-sm;
+    color: $color-ui-text;
+  }
+
+  // The number is the thing to read across the room — a step up and demibold.
+  // A link (tel:) but not underlined: the phone label above names it, and an
+  // underline at this size read as a second CTA fighting the button.
+  &__phone-num {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-demibold;
+    color: $color-brand-dark-green;
+    text-decoration: none;
+    @include transition(color);
+
+    &:hover {
+      color: $color-brand-blue;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  &__ask {
+    font-size: $font-size-sm;
+    color: $color-brand-dark-green;
+    text-underline-offset: 0.15em;
+    @include transition(color);
+
+    &:hover {
+      color: $color-brand-blue;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+}

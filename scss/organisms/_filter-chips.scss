@@ -1,0 +1,87 @@
+// -----------------------------------------------------------------------------
+// Filter chips — the active-filter summary shared by the directory tools
+//
+// A row of removable chips plus a Clear all, sitting between a tool's filter
+// band and its results (generators, buy). The DIRECTORY script builds them,
+// one chip per selected value; each chip is a button that REMOVES its filter
+// (the × says so, and the accessible name spells it out with the full
+// wording: "Remove filter: VIC, Victoria" — WCAG 2.5.3 keeps the visible
+// abbreviation inside the name).
+//
+// Its own organism at the second site, rather than a third restatement
+// waiting to happen: the generators tool carried these as
+// .generator-directory__chip and the buy tool wanted the identical row.
+//
+// Drupal mapping: the view header's selected-filters summary (a facets
+//   summary block, or the exposed form's own reset markup) themed to these
+//   classes; the count lives with each directory, not here.
+// -----------------------------------------------------------------------------
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  // display: flex outranks the UA's [hidden] rule (author styles beat UA
+  // styles — LESSONS.md), so guard it explicitly.
+  &[hidden] {
+    display: none;
+  }
+
+  &__chip {
+    @include button-reset;
+    display: inline-flex;
+    gap: var(--space-2xs);
+    align-items: center;
+    padding: var(--space-3xs) var(--space-s);
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    background-color: $color-tint-taupe;
+    border-radius: $radius-pill;
+    @include transition((background-color, color));
+
+    svg {
+      flex-shrink: 0;
+      width: 0.65em;
+      height: 0.65em;
+    }
+
+    &:hover {
+      color: $color-brand-blue;
+      background-color: $color-brand-taupe;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  // A step lighter than the chips beside it (regular renders the Medium
+  // face). Clear all is the secondary move — the chips are the filters
+  // themselves, this only sweeps them away — and at the same weight it
+  // competed with them for the same glance. The underline marks it as the
+  // control, not the weight.
+  &__clear {
+    @include button-reset;
+    padding: var(--space-3xs) var(--space-2xs);
+    font-size: $font-size-sm;
+    font-weight: $font-weight-regular;
+    color: $color-brand-dark-green;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+    @include transition(color);
+
+    &:hover {
+      color: $color-brand-blue;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+}

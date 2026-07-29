@@ -642,20 +642,16 @@
   // avoided at the source: the type is announced by the visually-hidden suffix
   // inside __title-link, so THIS pill is aria-hidden in the markup.
   &__tag {
+    // The shared dark-green tag pill; xs (step--2), a rung below the date
+    // row's sm — the tag is a decorative label (aria-hidden; the type is
+    // announced in the title link), so it sits under the card's real text
+    // rather than competing with it. AA is not in play for it, and white on
+    // Dark Green is 7.3:1 regardless.
+    @include tag-pill;
     position: absolute;
     top: var(--space-2xs);
     left: var(--space-2xs);
     z-index: 1; // above the abspos img and its hover/entrance transforms
-    padding: var(--space-3xs) var(--space-xs);
-    // xs (step--2), a rung below the date row's sm: the tag is a decorative
-    // label (aria-hidden — the type is announced in the title link), so it
-    // should sit under the card's real text, not compete with it. AA is not
-    // in play for it, and white on Dark Green is 7.3:1 regardless.
-    font-size: $font-size-xs;
-    font-weight: $font-weight-medium;
-    color: $color-white;
-    background-color: $color-brand-dark-green;
-    border-radius: $radius-pill;
   }
 
   // "Featured" lead-in above the title. Dark Green, NOT Primary Green:
@@ -836,27 +832,16 @@
 // so the display: none below is only standing in for that server behaviour.
 // -----------------------------------------------------------------------------
 .card-section__empty {
-  padding: var(--space-xl) var(--space-m);
-  margin-top: var(--space-xl);
-  text-align: center;
-  background-color: $color-tint-taupe;
-  border-radius: $radius-lg;
-
-  &[hidden] {
-    display: none;
-  }
+  @include empty-state;
+  margin-top: var(--space-xl); // the listing grid's own rhythm, over the recipe's default
 }
 
 .card-section__empty-title {
-  font-size: $font-size-lg;
-  font-weight: $font-weight-demibold;
-  color: $color-brand-dark-green;
+  @include empty-state-title;
 }
 
 .card-section__empty-text {
-  max-width: 44ch;
-  margin: var(--space-2xs) auto 0;
-  color: $color-ui-text;
+  @include empty-state-text;
 }
 
 // An empty result set has no pages. Hiding the pager is part of the same fix:

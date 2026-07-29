@@ -48,29 +48,17 @@
     min-width: 0; // long names wrap rather than pushing the thumbnail out
   }
 
-  // Accreditation mark — the dark-green pill family. THIRD restatement of the
-  // recipe (.card__tag, .article-meta__tag), which is the docs/mixins.md
-  // promotion threshold: a shared tag-pill mixin is now due. Deferred to its
-  // own pass rather than folded in here, so this diff stays the tool — the
-  // three sites differ only in font step and positioning context.
+  // Accreditation mark — the shared tag pill, with two glyph-driven
+  // overrides: the gap tightens (an icon carries whitespace inside its own
+  // box, so the mixin's text gap reads as a hole beside one), and the inline
+  // padding goes asymmetric — the leading edge tucks to --space-2xs because
+  // the mark's own bearing stands in for part of the inset, while the
+  // trailing edge keeps --space-xs so the LABEL is not left hugging the
+  // pill. Even values looked lopsided the other way.
   &__badge {
-    display: inline-flex;
-    // Tight to the mark on both sides: a glyph carries its own whitespace
-    // inside its box, so the token gaps that suit two runs of text read as a
-    // hole either side of it.
+    @include tag-pill;
     gap: var(--space-3xs);
-    align-items: center;
-    // Asymmetric on purpose, and this is the optical correction rather than a
-    // stray value: the leading edge tucks in to --space-2xs because the mark's
-    // own padding is already standing in for part of the inset, while the
-    // trailing edge keeps --space-xs so the LABEL is not left hugging the
-    // pill. Even values here looked lopsided the other way.
-    padding: var(--space-3xs) var(--space-xs) var(--space-3xs) var(--space-2xs);
-    font-size: $font-size-xs;
-    font-weight: $font-weight-medium;
-    color: $color-white;
-    background-color: $color-brand-dark-green;
-    border-radius: $radius-pill;
+    padding-left: var(--space-2xs);
 
     // The GreenPower mark, not a generic tick: accreditation IS the program,
     // so the badge carries the program's own symbol.
