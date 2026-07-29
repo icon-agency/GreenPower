@@ -198,7 +198,17 @@
     // carry in visually-hidden spans (LESSONS.md containment rule).
     position: relative;
     padding: var(--space-3xs) var(--space-xs);
-    font-size: $font-size-xs;
+    // sm, level with the row LABEL above each pill list rather than a step
+    // under it: the pill holds the actual answer ("GreenPower 100%"), and at
+    // xs the data read as smaller than the question.
+    //
+    // That puts every pill in this card on one type step — badge, label and
+    // fact all sm/500 — so the SURFACE is what ranks them: the offer badge is
+    // white on filled Dark Green, these are Dark Green on the card's tint,
+    // and the labels carry no fill at all. Worth knowing before reaching for
+    // a size change here: there is no size headroom left, so a future
+    // distinction has to come from weight or colour.
+    font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     color: $color-brand-dark-green;
     background-color: var(--pill-surface);

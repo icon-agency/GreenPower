@@ -148,10 +148,27 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
   // :has() drives the checked/focus paint, as the design system's segments
   // already do; where it is unsupported the UA's own focus outline on the
   // (hidden) input still fires, and submission is unaffected.
+  // The group wears ONE surrounding pill and the options sit inside it, so a
+  // two-option choice reads as a single control with a selected part rather
+  // than as two loose pills that happen to be adjacent — and the label above
+  // clearly belongs to the whole thing. The design system's segmented control
+  // (.ds-segments) with checkboxes instead of radios and a track around it.
+  //
+  // The container carries the white surface and the boundary; the options are
+  // transparent until chosen. It also owns the em context, so the 3em
+  // control-row height (search, popover trigger, Apply) is measured here and
+  // the options fill what is left inside the padding.
   &__checks {
-    display: flex;
+    display: inline-flex;
     flex-wrap: wrap;
-    gap: var(--space-2xs);
+    gap: var(--space-3xs);
+    align-items: center;
+    min-height: 3em;
+    padding: var(--space-3xs);
+    font-size: max(#{$font-size-sm}, 1rem); // the iOS-zoom floor, as siblings
+    background-color: $color-white;
+    border: 1px solid $color-ui-border-strong; // WCAG 1.4.11 boundary contrast
+    border-radius: $radius-pill;
   }
 
   &__check {
@@ -160,13 +177,19 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     display: inline-flex;
     gap: var(--space-2xs);
     align-items: center;
-    height: 3em; // the control-row height (search, selects, Apply)
+    // The container's 3em less its padding AND its 1px border either side.
+    // min-height is border-box, so it only sets a floor — the option's own
+    // height still adds to the padding and border above it, and leaving the
+    // border out of this sum pushed the group to 50px against the sibling
+    // controls' 48.
+    height: calc(3em - 2 * var(--space-3xs) - 2px);
     padding: 0 var(--space-s) 0 var(--space-xs);
-    font-size: max(#{$font-size-sm}, 1rem); // the iOS-zoom floor, as siblings
     color: $color-ui-text;
     cursor: pointer;
-    background-color: $color-white;
-    border: 1px solid $color-ui-border-strong;
+    // Transparent on the container's white; the boundary belongs to the
+    // group, not to each option.
+    background-color: transparent;
+    border: 1px solid transparent;
     border-radius: $radius-pill;
     @include transition((background-color, color, border-color));
 
@@ -189,14 +212,28 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
       background-color: $color-tint-taupe;
     }
 
+    // Checked: LIGHT GREEN fill with Dark Green text — the brand pairing the
+    // bento stat tiles and the footer's Buy pill already use (5.0:1, AA).
+    //
+    // NOT Dark Green, which is what this was: that is the BAND'S OWN COLOUR,
+    // so a selected pill dissolved into the header and the only thing left on
+    // screen was its white label floating free — the selected state read as
+    // the deleted one. Nor Primary Green, the other obvious fill: white on it
+    // is 3.46:1 and this label is normal-weight text, so it would fail AA
+    // (the same trap the pagination's current page fell into).
+    //
+    // The Dark Green BORDER is load-bearing now that the option sits on the
+    // group's white track: light green against white is only 1.46:1, well
+    // under the 3:1 WCAG 1.4.11 asks of a state indicator, so the fill alone
+    // could not carry the selection. The border reads at 7.3:1 on white and
+    // does.
+    //
+    // The icon keeps its own dark-green artwork here — the knockout filter
+    // the old dark fill needed would now erase it.
     &:has(input:checked) {
-      color: $color-white;
-      background-color: $color-brand-dark-green;
+      color: $color-brand-dark-green;
+      background-color: $color-brand-light-green;
       border-color: $color-brand-dark-green;
-
-      img {
-        filter: brightness(0) invert(100%);
-      }
     }
 
     &:has(input:focus-visible) {

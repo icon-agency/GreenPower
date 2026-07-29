@@ -1438,7 +1438,7 @@ a:focus-visible {
   color: #006341;
   background-color: #f3efe5;
   border-radius: 100em;
-  transition: background-color, color, opacity 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, opacity 0.2s ease-in-out;
 }
 .card-section__arrow svg {
   width: 0.875rem;
@@ -3301,7 +3301,7 @@ a:focus-visible {
   background-color: #006341;
   border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: 100em;
-  transition: background-color, color, border-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
 .news-filter__pill:hover {
   background-color: rgb(30.6, 117.72, 87.8);
@@ -3452,7 +3452,7 @@ a:focus-visible {
   color: #006341;
   text-decoration: none;
   border-radius: 8px;
-  transition: background-color, color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 .pagination__link:hover {
   background-color: #ebe5d3;
@@ -3572,24 +3572,30 @@ a:focus-visible {
   margin-bottom: var(--space-2xs);
 }
 .tool-filter__checks {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
-  gap: var(--space-2xs);
+  gap: var(--space-3xs);
+  align-items: center;
+  min-height: 3em;
+  padding: var(--space-3xs);
+  font-size: max(var(--step--1), 1rem);
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 38, 62, 0.5);
+  border-radius: 100em;
 }
 .tool-filter__check {
   position: relative;
   display: inline-flex;
   gap: var(--space-2xs);
   align-items: center;
-  height: 3em;
+  height: calc(3em - 2 * var(--space-3xs) - 2px);
   padding: 0 var(--space-s) 0 var(--space-xs);
-  font-size: max(var(--step--1), 1rem);
   color: #00263e;
   cursor: pointer;
-  background-color: #ffffff;
-  border: 1px solid rgba(0, 38, 62, 0.5);
+  background-color: transparent;
+  border: 1px solid transparent;
   border-radius: 100em;
-  transition: background-color, color, border-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
 .tool-filter__check input {
   position: absolute;
@@ -3614,12 +3620,9 @@ a:focus-visible {
   background-color: #f3efe5;
 }
 .tool-filter__check:has(input:checked) {
-  color: #ffffff;
-  background-color: #006341;
+  color: #006341;
+  background-color: #bce194;
   border-color: #006341;
-}
-.tool-filter__check:has(input:checked) img {
-  filter: brightness(0) invert(100%);
 }
 .tool-filter__check:has(input:focus-visible) {
   outline: 3px solid #ffffff;
@@ -3752,7 +3755,7 @@ a:focus-visible {
   color: #006341;
   background-color: #f3efe5;
   border-radius: 100em;
-  transition: background-color, color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 .filter-chips__chip svg {
   flex-shrink: 0;
@@ -4011,7 +4014,7 @@ a:focus-visible {
   background-color: #ffffff;
   border: 1px solid rgba(0, 38, 62, 0.5);
   border-radius: 100em;
-  transition: background-color, color, border-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
 .generator-directory__toggle-btn:hover {
   background-color: #f3efe5;
@@ -4374,7 +4377,7 @@ a:focus-visible {
 .provider-card__pill {
   position: relative;
   padding: var(--space-3xs) var(--space-xs);
-  font-size: var(--step--2);
+  font-size: var(--step--1);
   font-weight: 500;
   color: #006341;
   background-color: var(--pill-surface);

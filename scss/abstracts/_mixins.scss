@@ -3,6 +3,8 @@
 // Depends on tokens + abstracts/variables being imported first (main.scss order).
 // -----------------------------------------------------------------------------
 
+@use 'sass:list';
+
 // --- Accessibility ---
 
 // WCAG 2.4.11-compliant focus ring. Apply on :focus-visible of every
@@ -60,8 +62,22 @@
   cursor: pointer;
 }
 
+// The timing is applied PER PROPERTY, which is the whole reason this loops
+// rather than interpolating the list straight into the shorthand.
+// `transition: $props $duration $easing` with a list reads as
+// `background-color, color, border-color 0.2s ease-in-out` — three separate
+// transitions where only the LAST carries the duration and the rest default
+// to 0s. Every multi-property call site was silently snapping on all but its
+// final property (measured: transition-duration "0s, 0s, 0.2s"), which is
+// exactly the kind of thing that looks fine until you watch it closely.
 @mixin transition($props: all, $duration: 0.2s, $easing: ease-in-out) {
-  transition: $props $duration $easing;
+  $out: ();
+
+  @each $prop in $props {
+    $out: list.append($out, $prop $duration $easing, comma);
+  }
+
+  transition: $out;
 }
 
 // The dark-green tag pill — the small label riding a record or a photo
