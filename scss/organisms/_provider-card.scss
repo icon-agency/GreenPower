@@ -200,16 +200,22 @@
 
   // --- Action rail ---
 
-  // margin-left: auto keeps it pinned right while the row fits; when the card
-  // wraps (narrow widths) it drops to its own line, still trailing-aligned.
+  // margin-left: auto keeps the rail pinned right while the row fits; when
+  // the card wraps (narrow widths) it drops to its own line.
+  //
+  // Its CONTENTS centre on each other rather than ragging to the right edge:
+  // the three items are different widths and none of them is text you read
+  // along a margin — a pill, a number and a link, stacked as one block. Right
+  // alignment set the phone number's last digit against the card edge and
+  // left the button looking unrelated to it.
   &__aside {
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
     gap: var(--space-2xs);
-    align-items: flex-end;
+    align-items: center;
     margin-left: auto;
-    text-align: right;
+    text-align: center;
   }
 
   &__phone {

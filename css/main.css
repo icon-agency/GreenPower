@@ -4385,9 +4385,9 @@ a:focus-visible {
   flex-shrink: 0;
   flex-direction: column;
   gap: var(--space-2xs);
-  align-items: flex-end;
+  align-items: center;
   margin-left: auto;
-  text-align: right;
+  text-align: center;
 }
 .provider-card__phone {
   display: flex;
