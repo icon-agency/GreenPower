@@ -14,3 +14,32 @@
     margin-top: var(--space-3xl);
   }
 }
+
+// Article variant: the body column must land under the header band's COPY, so
+// this frame restates the BAND's, not the container mixin's — same --space-xs
+// inset (the mixin's --space-s-l would shear every column edge off the band's
+// by the gutter difference), same max width from the mixin, and a size
+// container so children can state widths in the same cqi the band's media
+// reserve uses. With identical content boxes, "34cqi + --space-l" down here
+// IS the band's copy edge up there, by construction rather than by tuning —
+// see .page-split--article.
+.page-body--article {
+  padding-inline: var(--space-xs);
+  container-type: inline-size;
+
+  // Two steps down from the section-scale top (--space-3xl, 138px here → 69px).
+  // The band above is a closed, rounded panel that already reads as a break, so
+  // a full section gap on top of it separated the article from its own header.
+  // The CLOSING padding keeps --space-3xl: below the body is the next section,
+  // which brings no such panel of its own.
+  padding-block-start: var(--space-xl);
+
+  // Tablet band: the split collapses to one column here, so the body no longer
+  // gets its left edge from a grid track — it has to come from this frame. The
+  // band's copy sits at its own --space-xs frame PLUS the inner's --space-l, so
+  // matching that sum puts the article directly under the header text. Above
+  // md the two-column track takes over and this reverts to the tight frame.
+  @include respond-between('sm', 'md') {
+    padding-inline: calc(var(--space-xs) + var(--space-l));
+  }
+}

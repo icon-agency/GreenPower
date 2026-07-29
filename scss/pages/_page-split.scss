@@ -83,6 +83,92 @@
   }
 }
 
+// --- Article variant: columns under the header band's halves ---
+//
+// On the news article the split does not choose its own ratio at all: the
+// rail sits UNDER the band's media column and the body starts at the band's
+// copy edge, so the page reads as two continuous vertical registers. The
+// first track is the band's media reserve verbatim — the same
+// "40cqi/34cqi + --space-l" formula _page-header.scss publishes — resolved
+// against an identical content box (.page-body--article restates the band's
+// frame and is the size container here). Gap 0, deliberately: the body's left
+// edge must BE the reserve, so the separation is the rail's own end padding
+// instead — which also means the rail's content width lands exactly on the
+// band's media width (reserve − --space-l = the media column). The base
+// 50/50 lg rule loses to these declarations on specificity, so the ratio
+// holds at every width; below sm the variant is inert and the split stacks
+// as normal.
+.page-split--article {
+  // Tablet band: the article leads, the action sits beside it. The rail's
+  // tag/title/dates are a repeat of the header band a few hundred pixels
+  // above, so holding a whole track for them squeezed the article into the
+  // narrower half — the repeat goes (see _article-meta.scss, which keeps only
+  // the Copy link) and the body takes the lead track. The band above keeps its
+  // default handedness in this range for the same reason, so the header copy
+  // and the body share one left edge.
+  //
+  // Both children are placed on ROW 1: source order puts the rail first, but
+  // here it is a single button that belongs beside the article's opening, not
+  // a bar above it pushing every paragraph down. The body's own --measure cap
+  // leaves the right of the track open, which is exactly where the button
+  // goes — it costs no vertical space at all.
+  @include respond-between('sm', 'md') {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0 var(--space-m);
+  }
+
+  @include respond-between('sm', 'md') {
+    .page-split__intro {
+      grid-row: 1;
+      grid-column: 2;
+    }
+
+    .page-split__body {
+      grid-row: 1;
+      grid-column: 1;
+    }
+  }
+
+  // Two columns return from md, and only then does the rail sit under the
+  // band's media column.
+  @include respond-to('md') {
+    grid-template-columns: calc(34cqi + var(--space-l)) minmax(0, 1fr);
+    gap: 0;
+  }
+
+  // The rail's copy starts on the page's STANDARD text gutter (--space-s-l,
+  // where the masthead logo and every container-width block sit), not on the
+  // band's tighter --space-xs frame. The frame is right for the band, whose
+  // left edge is a full-bleed image panel; it is wrong for a column of text,
+  // which should share the gutter the rest of the page's text uses.
+  //
+  // Stated as the DIFFERENCE between the two, because this block sits inside
+  // .page-body--article, which deliberately carries the band's frame so the
+  // body column can land on the band's copy edge. So: undo the tight frame,
+  // apply the text gutter. Both are tokens, so the pair tracks the scale and
+  // neither can drift into a hard-coded offset.
+  //
+  // Padding on the rail, NOT a change to the track: the track has to stay the
+  // band's media reserve or the body column stops aligning with the header
+  // copy (measured at 624.08 on both).
+  .page-split__intro {
+    // Tablet band: static, no gutters, no bottom margin — the button is a
+    // grid item on the article's own row (see above), not a bar above it.
+    // Sticky is dropped because there is no long column beside it to stick
+    // against; it would just detach and float over the prose.
+    @include respond-between('sm', 'md') {
+      position: static;
+      padding: 0;
+      margin-bottom: 0;
+    }
+
+    @include respond-to('md') {
+      padding-right: var(--space-l);
+      padding-left: calc(var(--space-s-l) - var(--space-xs));
+    }
+  }
+}
+
 // The rail: H2 + description. Sticky only where the columns exist.
 .page-split__intro {
   // Stacked (below sm): a normal block above the content

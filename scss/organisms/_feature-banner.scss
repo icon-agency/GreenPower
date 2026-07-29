@@ -76,8 +76,12 @@
     //   banner text = --space-xs + --space-m
     // resolves identically at every width with no breakpoint of its own. Aim
     // this at the overlay's token if it ever moves; a hard value would drift.
-    // Double inset along the bottom so the last link clears the section edge.
-    padding: var(--space-xs) var(--space-m) var(--space-m);
+    //
+    // Even on all four sides. Written long-hand rather than collapsed to a
+    // single value because these are three independent decisions that happen to
+    // agree: the inline pair is the alignment above, and the block pair is the
+    // copy's own breathing room. Change one without disturbing the others.
+    padding: var(--space-m) var(--space-m) var(--space-m);
   }
 
   // Same size as .card__icon. The source artwork is dark green — render it

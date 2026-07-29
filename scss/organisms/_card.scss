@@ -42,6 +42,69 @@
     color: $color-ui-text;
   }
 
+  // Heading row with trailing actions — "Next up" beside the scroller's
+  // arrows and an "All news" link. The heading keeps its own class (and
+  // styles); this wrapper only sets the two sides apart. The grid below brings
+  // its own margin-top, so the row costs nothing where it is absent.
+  &__head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  // The trailing cluster: prev/next arrows (when the row scrolls) + the
+  // section's own action. Grouped so the arrows sit with the button rather
+  // than being pushed to the far edge by the head's space-between.
+  &__actions {
+    display: flex;
+    gap: var(--space-2xs);
+    align-items: center;
+  }
+
+  // Scroller arrows. Hidden in the markup and revealed by the script only when
+  // the row actually overflows — a control that scrolls nothing is worse than
+  // no control, and at md+ the grid is a plain 3-up with nothing to scroll.
+  // Never the ONLY way to reach a card: touch swipes, the row is a focusable
+  // scroll region for the keyboard, and every card is a link in the tab order.
+  &__arrow {
+    @include button-reset;
+    display: grid;
+    place-items: center;
+    width: 2.75rem; // 44px — WCAG 2.5.5 target size
+    height: 2.75rem;
+    color: $color-brand-dark-green;
+    background-color: $color-tint-taupe;
+    border-radius: $radius-pill;
+    @include transition((background-color, color, opacity));
+
+    svg {
+      width: $arrow-icon-width;
+      height: $arrow-icon-height;
+    }
+
+    &:hover {
+      color: $color-brand-blue;
+      background-color: $color-brand-taupe;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    // At an end: dimmed and inert, but still in the DOM and still announced
+    // as disabled, so the control's position never shifts mid-interaction.
+    &[disabled] {
+      cursor: default;
+      opacity: 0.35;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
   // COUNT-ADAPTIVE: the number of cards decides the layout — there is no
   // column modifier for an editor (or template) to get out of step with the
   // content. The base ladder is the 3-up family (1 col → 2 from sm → 3 from
@@ -139,20 +202,26 @@
   // margins below) always tracks it — variants retune padding via this one var.
   --card-padding: var(--space-m);
 
+  // The surface PAIR, as one decision. Hover and the focus lift below both
+  // read --card-surface-hover, so a variant retunes the state by swapping two
+  // values here and the two cues can never drift apart (the news listing
+  // inverts the pair — see .card-section--listing). Both are real tokens, not
+  // ad-hoc mixes, so the states stay the system's tinted surfaces.
+  --card-surface: #{$color-brand-taupe};
+  --card-surface-hover: #{$color-tint-taupe};
+
   display: flex;
   flex-direction: column;
   gap: var(--space-xs); // tight rhythm between icon, title, body and links
   padding: var(--card-padding);
-  background-color: $color-brand-taupe;
+  background-color: var(--card-surface);
   border-radius: $radius-lg;
   @include transition(background-color);
 
-  // Hover: lift the surface to the Taupe 60% tint as an affordance — the
-  // image zoom lives on .card__media img below. A real token rather than the
-  // ad-hoc mix() this used to carry, so the lifted state is the same value
-  // used for tinted surfaces elsewhere in the system.
+  // Hover: shift the surface as an affordance — the image zoom lives on
+  // .card__media img below.
   &:hover {
-    background-color: $color-tint-taupe;
+    background-color: var(--card-surface-hover);
   }
 
   // Optional image — 3:2 crop matching the 900×600 sources
@@ -237,6 +306,15 @@
     font-size: $font-size-lg;
     font-weight: $font-weight-demibold;
     color: $color-brand-dark-green; // leading comes from the base heading rule
+    // `balance`, overriding the site-wide `pretty`. Measured on a real card
+    // title: pretty left lines of 357 / 444 / 53px in a 450px box — a one-word
+    // last line at 12% of the column. pretty only rescues a short LAST line
+    // within a small lookback, and with line 2 already at 99% of the box there
+    // was nothing for it to pull down. balance evens every line instead, which
+    // is what short display text wants (sanctioned for it in
+    // docs/content-rhythm.md, as on .bento-grid__desc). Card titles are 1–3
+    // lines, well inside the ~6-line cap browsers put on balance.
+    text-wrap: balance;
   }
 
   // Dark green (≥5.8:1 on the taupe card — passes AA); a step up from the links
@@ -415,8 +493,10 @@
 // A single card, at every width above stacking. Plain selectors, no :has() —
 // the span (grid-column: 1/-1) makes it fill the row whatever template the
 // grid resolved to, so count-1 behaves even in browsers without :has().
+// :not(--scroll) on both rules: a swipe row (below) is one card per column by
+// definition — a horizontal card mid-scroller would break the snap rhythm.
 @include respond-to('sm') {
-  .card-section__grid > .card:first-child:last-child {
+  .card-section:not(.card-section--scroll) .card-section__grid > .card:first-child:last-child {
     @include card-horizontal;
   }
 }
@@ -428,7 +508,349 @@
 // applying the mixin twice. Counts 2 and 4 sit 2-up in this band with even
 // rows, so nothing spans; at md+ the grids go 3- or 4-up and this ends.
 @include respond-between('sm', 'md') {
-  .card-section__grid > .card:last-child:nth-child(odd):not(:first-child) {
+  .card-section:not(.card-section--scroll) .card-section__grid > .card:last-child:nth-child(odd):not(:first-child) {
     @include card-horizontal;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Swipe scroller — one row that scrolls sideways where columns cannot fit
+//
+// Below md the base grid trades columns for card-by-card swiping ("Next up"
+// on the article): every card keeps a readable width and the next one peeks
+// past the edge — the visible slice is the affordance, the same honesty
+// argument as the logo band's clipped logos. From md the modifier is INERT
+// and the grid is exactly the count-adaptive grid it always was, so this
+// changes nothing where three columns fit.
+//
+// Keyboard: the shared scroll-region script (see the template tail) promotes
+// this box to a focusable, labelled region only while it actually overflows —
+// same treatment as tables, code blocks and the logo band (WCAG 2.1.1).
+// Touch and mouse get native scrolling with snap; no arrows to maintain.
+// -----------------------------------------------------------------------------
+.card-section--scroll .card-section__grid {
+  // BLEED out of the section's gutters, then put them back as the scroller's
+  // own padding. Without this the gutter masks the scroll: the row's box ends
+  // at the gutter, so a card is clipped an inch inside the page edge and the
+  // row reads as though it stops there. Bleeding the BOX while keeping the
+  // PADDING means the first card still lines up under the heading, but the
+  // next one runs under the page edge where a partly-visible card says "there
+  // is more" — the affordance the design asks for.
+  //
+  // scroll-padding matches, so snapping lands cards on the heading's edge
+  // rather than flush against the viewport, and so keyboard scrolling into a
+  // card never parks it half under the edge.
+  margin-inline: calc(-1 * var(--space-s-l));
+  padding-inline: var(--space-s-l);
+  scroll-padding-inline: var(--space-s-l);
+
+  display: grid;
+  grid-auto-flow: column;
+  // A strong majority of the scrollport, capped at a real card's width: on a
+  // phone the next card shows as a slice; in the sm band cards hold the size
+  // they'd have in a grid rather than ballooning to 82% of a wide box.
+  grid-auto-columns: min(82%, 24rem);
+  grid-template-columns: none; // the base 2-up template would fight auto-flow
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  // A swipe past either end stays in the row instead of chaining to the
+  // page's back/forward gesture (the logo scroller's rule).
+  overscroll-behavior-inline: contain;
+
+  > .card {
+    scroll-snap-align: start;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // Opt the cards out of the per-card scroll entrance IN THIS BAND ONLY.
+  // The shared system gates each element on its OWN intersection, and a card
+  // parked off to the right of a horizontal scroller does not intersect the
+  // viewport — so it sits at opacity 0 and the reader swipes to a blank slot,
+  // only fading in once it has already arrived. (Measured: the third card and
+  // its image both stayed at opacity 0 while the first two entered normally.)
+  // The row enters as one unit here, so the cards paint immediately and the
+  // section's own entrance carries the motion. Matches the utility's
+  // specificity (.js-animations [data-animate]) with a class more, so it wins.
+  .js-animations &[data-animate-stagger] > .card[data-animate] {
+    opacity: 1;
+    transform: none;
+  }
+
+  // The card's IMAGE primes separately (_card.scss's own entrance zoom, keyed
+  // on the card's .is-visible), so opting the card out is not enough — the
+  // image would still sit at opacity 0 / scale 1.425 in an unvisited slot.
+  // Resting values, inside the same motion query the zoom lives in, so
+  // reduced motion still gets a plain unscaled photo.
+  @media (prefers-reduced-motion: no-preference) {
+    .js-animations &[data-animate-stagger] > .card[data-animate] .card__media img {
+      scale: 1.14;
+      opacity: 1;
+    }
+  }
+
+  @include respond-to('md') {
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow-x: visible;
+    scroll-snap-type: none;
+    // The bleed goes with the scrolling — a plain 3-up sits in the gutters
+    // like every other section grid.
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// News pieces — optional card elements for listing pages (news landing)
+//
+// A news card IS a card: same tile, media bleed, hover lift and grid — these
+// are extra OPTIONAL elements on the same anatomy, exactly as __icon and
+// __links are optional. A separate news-card organism would have duplicated
+// the whole tile to change three children.
+//   __tag        — content-type pill on the image ("News", "Announcement")
+//   __eyebrow    — small lead-in line above the title ("Featured")
+//   __title-link — stretched link: the whole card is one target (the bento
+//                  stat-link mechanism), so a listing is 12 tab stops, not 36
+//   __meta       — bottom row pinned to the card's foot: date left, arrow
+//                  right, ruled above — the card__link row's anatomy, but a
+//                  passive part of the one card-wide link rather than a second
+//                  link inside it
+//   --featured   — the lead story: spans the row and goes horizontal from sm
+//                  via the same card-horizontal mixin the count-1 card uses
+//
+// Drupal mapping: this is a VIEW (news listing), not a paragraph — one node
+//   teaser view mode renders the card; the view supplies the grid classes.
+//   __tag     ← the node's content type (or a field_news_type taxonomy term)
+//   __meta    ← the node's created/publish date
+//   --featured← the view's first result on page one (sticky-at-top flag), so
+//               it needs no separate "featured" checkbox to fall out of sync.
+// -----------------------------------------------------------------------------
+
+.card {
+  // Containing block for the stretched __title-link overlay. Inert for every
+  // existing card: nothing else in the tile positions against the card box
+  // (the media's img anchors to __media, which is already relative).
+  position: relative;
+
+  // Content-type pill over the image's top-left corner. Inside __media so the
+  // media's own rounded clip and half-padding bleed place it; Dark Green on
+  // white imagery matches the corner-badge family. Decorative duplication is
+  // avoided at the source: the type is announced by the visually-hidden suffix
+  // inside __title-link, so THIS pill is aria-hidden in the markup.
+  &__tag {
+    position: absolute;
+    top: var(--space-2xs);
+    left: var(--space-2xs);
+    z-index: 1; // above the abspos img and its hover/entrance transforms
+    padding: var(--space-3xs) var(--space-xs);
+    // xs (step--2), a rung below the date row's sm: the tag is a decorative
+    // label (aria-hidden — the type is announced in the title link), so it
+    // should sit under the card's real text, not compete with it. AA is not
+    // in play for it, and white on Dark Green is 7.3:1 regardless.
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: $color-white;
+    background-color: $color-brand-dark-green;
+    border-radius: $radius-pill;
+  }
+
+  // "Featured" lead-in above the title. Dark Green, NOT Primary Green:
+  // measured on the real card, Primary Green is 2.75:1 on the resting taupe
+  // and 3.01:1 on the hover lift — under even the 3:1 large-text bar, so no
+  // size or weight can rescue it (an earlier note here claimed 3.35:1; that
+  // was against white, not this surface). Dark Green is the established text
+  // colour on taupe (≥5.8:1, see __body); the kicker reads through its size
+  // and weight instead of a hue of its own.
+  &__eyebrow {
+    font-size: $font-size-base;
+    font-weight: $font-weight-demibold;
+    color: $color-brand-dark-green;
+  }
+
+  // The whole-card link, stretched from the title (the bento stat-link
+  // mechanism): the anchor's text stays the title — what screen readers and
+  // search engines get — while the ::after covers the card. The focus ring
+  // draws around the visible title text, not the whole tile.
+  &__title-link {
+    color: inherit;
+    text-decoration: none;
+
+    &::after {
+      position: absolute;
+      inset: 0;
+      content: '';
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  // Date row at the card's foot. margin-top: auto pins it to the bottom so
+  // every date rule in a row sits level regardless of how many lines each
+  // card's title and body ran — the same job flex-end does for the bento
+  // arrows. The rule is ABOVE (the row closes the card), where the link list's
+  // rules sit below each link.
+  &__meta {
+    @include flex-row(var(--space-s), center, space-between);
+    position: relative; // hosts the divider highlight below
+    // Above the rule the gap is the card's flex gap (--space-xs) whenever the
+    // copy fills the card; below it, match that exactly so the rule sits even
+    // between the body and the date. --space-2xs here left the date visibly
+    // closer to the rule than the body was (11.3px against 15.5px) on any card
+    // whose text ran long enough to use up the auto-margin slack. The BOTTOM
+    // stays tighter: the card's own --card-padding already carries the space
+    // from the date to the card edge, so a matching value there would read as
+    // a gap, not a rhythm.
+    padding-block: var(--space-xs) var(--space-2xs);
+    margin-top: auto;
+    // xs, matching the __tag: the two are the same kind of thing — small
+    // metadata orbiting the card's real text — and sm let the date compete
+    // with the body copy. Dark Green on the tint surfaces stays far past AA
+    // at this size (contrast is a colour ratio; size only picks the 4.5 bar).
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    border-top: 1px solid $color-ui-border;
+
+    // The shared divider-highlight accent (see __link above), on the TOP edge
+    // to match this row's rule. Driven from the card, not the row — the
+    // stretched link makes the whole tile the hover target.
+    &::after {
+      position: absolute;
+      inset: -1px 0 auto;
+      height: 1px;
+      content: '';
+      background-color: $color-brand-green;
+      transform: scaleX(0);
+      transform-origin: center;
+      @include transition(transform, 0.3s, ease-out);
+    }
+  }
+
+  &__meta-arrow {
+    flex-shrink: 0;
+    width: $arrow-icon-width;
+    height: $arrow-icon-height;
+    @include transition(transform);
+  }
+}
+
+// Hover/focus cues for the card-wide link, gated on the link existing — a
+// plain card with a meta row must not light up as if it were interactive.
+// :hover rides the tile (the stretched link covers it); focus is matched with
+// :has() because the meta row is a sibling of the link's parent and CSS cannot
+// walk back up from the link. Focus also re-uses the hover surface lift so
+// keyboard users get the full affordance, not just the ring.
+.card:has(.card__title-link):hover .card__meta-arrow,
+.card:has(.card__title-link:focus-visible) .card__meta-arrow {
+  transform: translateX(var(--space-3xs));
+}
+
+.card:has(.card__title-link):hover .card__meta::after,
+.card:has(.card__title-link:focus-visible) .card__meta::after {
+  transform: scaleX(1);
+}
+
+.card:has(.card__title-link:focus-visible) {
+  background-color: var(--card-surface-hover);
+}
+
+// The featured (lead) story: spans the row and lays out horizontally from sm —
+// the same treatment, via the same mixin, as the single-count card, so the
+// lead story and a lone card can never drift apart. Below sm it stacks like
+// every other card.
+.card--featured {
+  // The lead story carries the type one rung up — it is the page's dominant
+  // item, and at half a full row it has the width for it where a 3-up column
+  // does not.
+  .card__title {
+    font-size: $font-size-xl; // step-2, over the standard card's step-1
+  }
+
+  // Full step-0 at every width. The base card drops to a shallower clamp from
+  // md specifically because the 3-up columns are narrow the whole way (see
+  // __body) — this card's content column is half a full row, so that tuning
+  // does not apply and undoing it IS the size increase here.
+  .card__body {
+    @include respond-to('md') {
+      font-size: $font-size-base;
+    }
+  }
+
+  @include respond-to('sm') {
+    @include card-horizontal;
+    // Presence floor for the lead story: without it the card is only as tall
+    // as its few lines of copy, and the lead reads as a stretched ordinary
+    // card rather than a hero row. `ch` (the card's own body font) so the
+    // floor rides the fluid type scale instead of needing breakpoint retunes;
+    // the stretched media column absorbs the extra height, the copy stays its
+    // natural size with the meta pinned to the foot. Content taller than the
+    // floor still grows the card — it is a minimum, not a crop.
+    min-height: 40ch;
+  }
+}
+
+// Top padding matched to the section's own SIDE gutter, for a card section
+// that follows something already providing closure — the header band on the
+// news landing, the article body's own section-scale bottom on an article.
+// Without it the section restates a full --space-3xl break directly on top of
+// one that has just happened, and the pair reads as double spacing. The
+// CLOSING padding keeps the full 3xl: what follows brings no such closure.
+//
+// One modifier rather than the declaration repeated per section, so the two
+// places that want this cannot drift to different values.
+.card-section--tight-top {
+  padding-block-start: var(--space-s-l);
+}
+
+// Listing sections (news landing): the section heading is visually hidden —
+// the page H1 above already titles the listing — which leaves the grid first
+// in the VISUAL flow, where the under-heading margin reads as a slab of dead
+// space over the first row. (Pair with --tight-top; they are separate
+// decisions and a listing is not the only thing that wants a tight top.)
+.card-section--listing .card-section__grid {
+  margin-top: 0;
+}
+
+// The news TEASER variant — a modifier, not a section scope, so the same card
+// renders identically in the landing grid, a "Next up" row on an article, or
+// anywhere else a news teaser appears (Drupal: the teaser template adds the
+// class; context cannot drift it).
+.card--news {
+  // Inverted surface pair: rest on the Taupe 60% tint and DEEPEN to full
+  // Taupe on hover, where a content card rests on full Taupe and lightens. A
+  // listing is a field of many cards, and the lighter resting surface keeps
+  // that field calm; deepening then reads as the stronger cue on the one card
+  // under the pointer. Both remain the system's own tokens, so Dark Green
+  // copy stays past AA on either (5.8:1 and 6.4:1 measured).
+  --card-surface: #{$color-tint-taupe};
+  --card-surface-hover: #{$color-brand-taupe};
+
+  // The VERTICAL teaser's rhythm is bottom-heavy relative to a content card:
+  // the headline wants air after the photo, and the card should close snugly
+  // under the date rule rather than trail a slab of surface. So the media adds
+  // a step to the card's flex gap above the headline, and the card's own END
+  // padding drops to --space-s.
+  //
+  // :not(--featured) on BOTH, and it is load-bearing rather than defensive.
+  // The horizontal layout's media is a full-height column bleeding equally on
+  // top, left and bottom (card-horizontal), and each of these broke that
+  // symmetry in turn — measured on the featured card: the margin-bottom
+  // matches the mixin's specificity, so it won on source order and turned the
+  // −17.25px bleed into +11.5px (bottom inset 34.5 vs 17.25 elsewhere); and
+  // the shorter end padding then left the bleed showing only 5.75. Both are
+  // VERTICAL-card ideas — "under the image" and "under the date rule" are
+  // positions the horizontal card does not have.
+  &:not(.card--featured) {
+    padding-block-end: var(--space-s);
+
+    .card__media {
+      margin-bottom: var(--space-2xs); // + the flex gap = the fuller step
+    }
   }
 }

@@ -1,0 +1,87 @@
+// -----------------------------------------------------------------------------
+// News filter — content-type toggle pills inside the page-header band
+//
+// A row of multi-select toggles ("All", "Announcements", "News", …) that sits
+// in the dark green page-header, under the H1. Buttons with aria-pressed, NOT
+// links: they filter the listing in place rather than navigate.
+//
+// "All" is the NAME for the empty selection rather than a fourth type — it is
+// pressed exactly when no type is. There is no visible "Filter" label: the
+// pills read as filters on sight, and All states the unfiltered case out loud,
+// which the label never did. The list keeps an aria-label so the group is
+// still named for assistive tech.
+//
+// Composition, not extension: this block is PLACED inside .page-header__inner
+// by the template (after the title), flowing below the copy exactly as the
+// intro does. It styles nothing of the header's and the header knows nothing
+// of it.
+//
+// Drupal mapping: a views exposed filter (field_news_type checkboxes) on the
+//   news listing view, AJAX-enabled — the pills are the styled exposed form,
+//   and filtering is the view's own request, not client script. The inline
+//   demo script in the template stands in for that round-trip and is marked
+//   as reference chrome.
+// -----------------------------------------------------------------------------
+
+.news-filter {
+  margin-top: var(--space-l);
+
+  &__list {
+    // Escape the host band's media reserve: the copy above keeps clear of the
+    // media column, but a pill is its own solid-filled surface (see __pill),
+    // so it may run over the imageless angle shape — chrome over decoration,
+    // not text over a colour seam. The page-header publishes the reserve as
+    // --media-reserve in cqi (which resolves identically for its padding and
+    // this margin — see _page-header.scss); cancel all but one --space-l of
+    // it. Where the property is unset (below sm, or the filter placed
+    // somewhere else entirely) the fallback zeroes the margin.
+    position: relative;
+    z-index: 1; // the abspos media shape follows in the DOM; paint over it
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    padding: 0;
+    margin: 0 calc(var(--space-l) - var(--media-reserve, var(--space-l))) 0 0;
+    list-style: none;
+  }
+
+  // The toggle pill. Resting: white-outlined DARK GREEN on the dark band (the
+  // border is the non-text cue — 0.55 white ≈ 4.4:1 on Dark Green, past the
+  // 3:1 non-text floor). Pressed: solid white with dark green text, so state
+  // is carried by the fill flip, not colour alone (WCAG 1.4.1).
+  //
+  // The fill is SOLID band colour, never transparent: the row may run over
+  // the imageless header shape (Primary Green — see the __list margin), where
+  // a see-through pill would put white text on 2.97:1 and fail AA. A solid
+  // pill carries its own AA surface across whatever it crosses — which is
+  // also why the hover is a pre-mixed solid rather than a translucent white
+  // wash that would show the shape seam through the pill.
+  &__pill {
+    @include button-reset;
+    padding: var(--space-3xs) var(--space-s);
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-white;
+    background-color: $color-brand-dark-green;
+    border: 1px solid rgba($color-white, 0.55);
+    border-radius: $radius-pill;
+    @include transition((background-color, color, border-color));
+
+    &:hover {
+      // The solid equivalent of the previous 12% white wash over the band.
+      // sass:color mix() — no token exists for a lifted Dark Green.
+      background-color: mix($color-white, $color-brand-dark-green, 12%);
+      border-color: $color-white;
+    }
+
+    &:focus-visible {
+      @include focus-ring($color-white);
+    }
+
+    &[aria-pressed='true'] {
+      color: $color-brand-dark-green;
+      background-color: $color-white;
+      border-color: $color-white;
+    }
+  }
+}

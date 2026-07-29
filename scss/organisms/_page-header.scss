@@ -30,6 +30,10 @@
   // Tight frame (not the container gutter) so the band runs close to the
   // viewport edges — the same snug inset as the bento grid / feature banner.
   padding-inline: var(--space-xs);
+  // Size container so the media reserve below can be stated in cqi — see the
+  // note on --media-reserve. Inline-size containment is safe here: the
+  // header's width comes from max-width/auto, never from its contents.
+  container-type: inline-size;
 
   &__inner {
     // The brand angle at panel scale (hero-family constants). cut = how deep
@@ -55,8 +59,20 @@
     // Side-by-side from tablet up: clear the media column plus breathing
     // room. The column is a touch wider on tablet (40%), settling to a third
     // (34%, per the design's column guides) from md.
+    //
+    // The reserve is stated ONCE and published as --media-reserve so a child
+    // can cancel it exactly (the news filter runs its pills over the shape).
+    // cqi rather than %, deliberately: this padding's percentages resolve
+    // against the band's containing block, while a child's margin percentages
+    // resolve against the band's CONTENT box — "the same 40%" is two
+    // different lengths. cqi resolves against the .page-header container's
+    // inline size in both places, so the reserve and its cancellation are the
+    // same number by construction (and 40cqi ≡ the old 40% here: the media's
+    // own width percentage resolves against that same box).
     @include respond-to('sm') {
-      padding: var(--space-l) calc(40% + var(--space-l)) var(--space-l)
+      --media-reserve: calc(40cqi + var(--space-l));
+
+      padding: var(--space-l) var(--media-reserve) var(--space-l)
         var(--space-l);
       // Was 24rem — authored when the crumbs ran two lines and the intro sat
       // a space-l below the title. Both have since tightened, so the old
@@ -65,7 +81,9 @@
     }
 
     @include respond-to('md') {
-      padding-right: calc(34% + var(--space-l));
+      --media-reserve: calc(34cqi + var(--space-l));
+
+      padding-right: var(--media-reserve);
       min-height: 19rem; // desktop: a shallower band — the copy sets the pace
     }
   }
@@ -142,19 +160,25 @@
       }
     }
 
+    // The current page never appears in the trail, at ANY width: it repeats
+    // the H1 sitting directly below it, so it spends a line of the band
+    // saying what the next line already says — and on a long title (a news
+    // article headline) it wraps the trail onto a second row to do it. The
+    // trail is for the path back, which is what the ancestors are.
+    //
+    // This was already the behaviour in two of the three bands — phones show
+    // only the parent back-link, and sm–md dropped it because the 40% media
+    // column squeezed the copy — each with its own reason. Same outcome from
+    // one rule now, rather than a width-dependent trail. Hiding the last
+    // crumb takes its leading separator with it (the separator is on
+    // `& + &`), so the trail never ends on a dangling chevron.
+    //
+    // display: none, not visually-hidden, and NOT removed from the markup:
+    // this styles Drupal's own breadcrumb block output (see the header note),
+    // so the crumb stays in the DOM for anything reading the trail as data
+    // and simply is not rendered.
     &[aria-current] {
-      color: rgba($color-white, 0.85);
-
-      // Tablet band: the current page drops out of the trail — it repeats the
-      // H1 directly below, and in the narrow sm–md copy column (the image
-      // takes 40%) it wraps the trail onto a second line. Ancestors only
-      // here; the full trail returns from md where there is room. Phones
-      // never showed it (only the parent back-link renders below sm), and
-      // hiding the last crumb takes its leading separator with it, so the
-      // trail never ends on a dangling chevron.
-      @include respond-between('sm', 'md') {
-        display: none;
-      }
+      display: none;
     }
   }
 
@@ -237,6 +261,51 @@
 
     @include respond-to('sm') {
       display: block;
+    }
+  }
+
+  // --- Mirrored variant: media LEFT, copy right (news article) ---
+  //
+  // The same band with its two halves swapped — the article's image anchors
+  // to the band's left and the breadcrumb/title/summary read beside it. Three
+  // small overrides, no new geometry: the media anchors to the other edge,
+  // the inner padding reserves the other side, and the angle overlay keeps
+  // the scaleX(-1) mirror the PHONE state already uses — which is precisely
+  // "the cut on the media's top-right, facing the copy", the mirrored twin of
+  // the sm+ default. The --side curve needs nothing: it is authored on the
+  // pre-flip left vertical edge, so the mirror lands it on the right edge
+  // with the wedge, still registered.
+  //
+  // From md, NOT sm. In the tablet band the article drops to a single content
+  // column (the sticky rail's content is a repeat of this band — see
+  // .page-split--article), and with no rail beneath it there is nothing for a
+  // left-hand image to line up with; the copy would sit right while the body
+  // below it sat left. So that band keeps the DEFAULT handedness — media
+  // right, copy left — and the mirror waits until the two-column layout
+  // returns.
+  //
+  // Below sm the variant is inert either way: the stacked layout is already
+  // copy over media, and the base phone rules (in-flow media, mirrored angle)
+  // apply untouched.
+  //
+  // Drupal: a template suggestion on the news article's node header sets the
+  // modifier; same fields, same block, opposite handedness.
+  &--media-left &__inner {
+    @include respond-to('md') {
+      padding: var(--space-l) var(--space-l) var(--space-l)
+        var(--media-reserve);
+    }
+  }
+
+  &--media-left &__media {
+    @include respond-to('md') {
+      inset: 0 auto 0 0;
+    }
+  }
+
+  &--media-left &__angle {
+    @include respond-to('md') {
+      transform: scaleX(-1);
     }
   }
 

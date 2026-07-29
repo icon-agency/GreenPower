@@ -1,0 +1,82 @@
+// -----------------------------------------------------------------------------
+// Pagination — numbered pager under a listing grid
+//
+// Centred row: previous arrow, page numbers, an ellipsis where the range is
+// elided, next arrow. Every target is a ≥44px square (WCAG 2.5.5 comfortably
+// past the 2.5.8 24px floor) even though the glyphs are small.
+//
+// Semantics: a <nav aria-label="Pagination"> holding a list of links — pages
+// are LOCATIONS, so they are links with hrefs, not buttons (new-tab and
+// copy-link behaviours come free). The current page is aria-current="page";
+// each link's accessible name is spelt out ("Page 3") via visually-hidden
+// text because a bare "3" is meaningless out of context in a links list.
+//
+// Drupal mapping: the view's own pager (views_mini_pager or full), themed to
+//   these classes — style Drupal's pager.html.twig, don't re-template it. The
+//   ellipsis and range come from the pager plugin's quantity setting.
+// -----------------------------------------------------------------------------
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-xl);
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs);
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  // One page target. display: grid centres the glyph in the fixed hit box
+  // without the baseline fuss of flex + line-height.
+  &__link {
+    display: grid;
+    place-items: center;
+    min-width: 2.75rem; // 44px at the default root
+    min-height: 2.75rem;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    text-decoration: none;
+    border-radius: $radius-md;
+    @include transition((background-color, color));
+
+    &:hover {
+      background-color: $color-brand-taupe;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    // The current page. Primary Green fill, white numeral (4.5:1 — AA for
+    // text). It keeps its href (a link to where you are is harmless and lets
+    // the pager render one template for all pages); aria-current carries the
+    // state for assistive tech, the fill carries it visually.
+    &[aria-current='page'] {
+      color: $color-white;
+      background-color: $color-brand-green;
+    }
+  }
+
+  // Elided range marker — presentational, skipped by the accessible name of
+  // nothing: it is a plain box, not a link, and aria-hidden in the markup
+  // (the pages either side already tell the story).
+  &__ellipsis {
+    display: grid;
+    place-items: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    color: $color-ui-text;
+  }
+
+  &__arrow {
+    flex-shrink: 0;
+    width: $arrow-icon-width;
+    height: $arrow-icon-height;
+  }
+}
