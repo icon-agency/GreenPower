@@ -1,0 +1,411 @@
+// -----------------------------------------------------------------------------
+// Tool filter — search + select filters composed into the page-header band
+//
+// The directory tools' filter form (accredited generators now; a provider
+// finder would take the same block): a search field with an in-field submit,
+// labelled selects and an Apply button, sitting in the dark green page-header
+// under the H1. The news-filter's composition pattern with form controls in
+// place of toggle pills — placed inside .page-header__inner by the template,
+// styling nothing of the header's. The header reacts only by dropping its
+// min-height floor (:has(), _page-header.scss).
+//
+// Every control is a SOLID surface (white fills), so the row may run over the
+// imageless header's angle shape the way the news pills do — chrome over
+// decoration, not text over a colour seam.
+//
+// Drupal mapping: the view's exposed filter form (Search API fulltext +
+//   field_state and field_generator_type selects), AJAX-enabled — these are
+//   the styled widgets of views-exposed-form.html.twig. The selected-filter
+//   chips and the result count are the VIEW HEADER, so they belong to the
+//   directory (.generator-directory__toolbar), not to this form.
+// -----------------------------------------------------------------------------
+
+// Down-chevron for the styled selects. As with _main-nav.scss's $arrow-icon,
+// 'black' is only the mask's alpha source — the visible colour comes from the
+// pseudo's background-color token.
+$chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1.5 1.5 6 6l4.5-4.5' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+.tool-filter {
+  // Escape the band's media reserve exactly as the news pills do — the header
+  // publishes it in cqi, so this margin resolves to the same length as the
+  // padding it cancels. The fallback zeroes the escape where the reserve is
+  // unset (below sm, or the form placed somewhere else entirely).
+  position: relative;
+  z-index: 1; // the abspos media shape follows in the DOM; paint over it
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  margin-top: var(--space-l);
+  margin-right: calc(var(--space-l) - var(--media-reserve, var(--space-l)));
+
+  // em context matches the input so the icon and padding scale together;
+  // floored at 1rem so iOS Safari doesn't zoom on focus (the nav search's
+  // rule).
+  &__search {
+    position: relative;
+    max-width: 44rem;
+    font-size: max(#{$font-size-sm}, 1rem);
+  }
+
+  &__search-input {
+    width: 100%;
+    height: 3em; // the .btn / nav-circle control height
+    padding: 0 calc(var(--space-s) + 1.3em + var(--space-2xs)) 0 var(--space-s);
+    font-size: 1em;
+    color: $color-ui-text;
+    background-color: $color-white;
+    border: 1px solid $color-ui-border-strong; // WCAG 1.4.11 boundary contrast
+    border-radius: $radius-pill;
+
+    &:focus-visible {
+      @include focus-ring($color-white);
+    }
+
+    &::placeholder {
+      color: $color-brand-dark-green; // 7.4:1 — placeholder counts as text (AA)
+      opacity: 1;
+    }
+  }
+
+  // In-field magnifier at the right-hand end, per the tool's reference layout
+  // (the nav search sits its glyph left — same anatomy, mirrored).
+  &__search-submit {
+    @include button-reset;
+    position: absolute;
+    top: 50%;
+    right: var(--space-s);
+    display: inline-flex;
+    color: $color-brand-dark-green;
+    transform: translateY(-50%);
+    @include transition(color);
+
+    svg {
+      width: 1.3em;
+      height: 1.3em;
+    }
+
+    &:hover {
+      color: $color-brand-green;
+    }
+
+    &:focus-visible {
+      @include focus-ring($color-white);
+    }
+  }
+
+  &__fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    align-items: flex-end; // the Apply pill sits on the selects' control row
+  }
+
+  &__field {
+    display: flex;
+    flex: 1 1 14rem;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    max-width: 21rem;
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-white;
+  }
+
+  // A checks group is sized by its pills, not the select column's flex share.
+  &__field--auto {
+    flex: 0 0 auto;
+    max-width: none;
+  }
+
+  // A real <fieldset> so the group is named for free — reset the UA chrome.
+  &__fieldset {
+    padding: 0;
+    margin: 0;
+    border: 0;
+
+    legend {
+      // The legend IS this group's visible label; float clears the UA's
+      // special legend layout so it stacks like the sibling labels do.
+      float: left;
+      width: 100%;
+      padding: 0;
+      margin-bottom: var(--space-2xs);
+    }
+  }
+
+  // --- Inline checkbox pills: a SMALL option set exposed directly ---
+  //
+  // Two-option groups (Household/Business, Electricity/Gas) don't earn a
+  // popover — the pills fit the row, and exposing them saves a click per
+  // filter. Same honest markup as the popover group: real checkboxes in a
+  // real fieldset; the pill is the label, and the box inside it is
+  // visually hidden with its state carried by the pill's fill (the
+  // ds-segment recipe, checkboxes instead of radios).
+  //
+  // :has() drives the checked/focus paint, as the design system's segments
+  // already do; where it is unsupported the UA's own focus outline on the
+  // (hidden) input still fires, and submission is unaffected.
+  // The group wears ONE surrounding pill and the options sit inside it, so a
+  // two-option choice reads as a single control with a selected part rather
+  // than as two loose pills that happen to be adjacent — and the label above
+  // clearly belongs to the whole thing. The design system's segmented control
+  // (.ds-segments) with checkboxes instead of radios and a track around it.
+  //
+  // The container carries the white surface and the boundary; the options are
+  // transparent until chosen. It also owns the em context, so the 3em
+  // control-row height (search, popover trigger, Apply) is measured here and
+  // the options fill what is left inside the padding.
+  &__checks {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs);
+    align-items: center;
+    min-height: 3em;
+    padding: var(--space-3xs);
+    font-size: max(#{$font-size-sm}, 1rem); // the iOS-zoom floor, as siblings
+    background-color: $color-white;
+    border: 1px solid $color-ui-border-strong; // WCAG 1.4.11 boundary contrast
+    border-radius: $radius-pill;
+  }
+
+  &__check {
+    // Containing block for the visually-hidden input (LESSONS.md).
+    position: relative;
+    display: inline-flex;
+    gap: var(--space-2xs);
+    align-items: center;
+    // The container's 3em less its padding AND its 1px border either side.
+    // min-height is border-box, so it only sets a floor — the option's own
+    // height still adds to the padding and border above it, and leaving the
+    // border out of this sum pushed the group to 50px against the sibling
+    // controls' 48.
+    height: calc(3em - 2 * var(--space-3xs) - 2px);
+    padding: 0 var(--space-s) 0 var(--space-xs);
+    color: $color-ui-text;
+    cursor: pointer;
+    // Transparent on the container's white; the boundary belongs to the
+    // group, not to each option.
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: $radius-pill;
+    @include transition((background-color, color, border-color));
+
+    input {
+      @include visually-hidden;
+    }
+
+    // The option's icon — a file-referenced SVG (dark green artwork), so the
+    // checked state recolours it with the shared knockout filter, not
+    // currentColor.
+    img {
+      flex-shrink: 0;
+      width: 1.4em;
+      height: 1.4em;
+      object-fit: contain;
+      @include transition(filter);
+    }
+
+    &:hover {
+      background-color: $color-tint-taupe;
+    }
+
+    // Checked: LIGHT GREEN fill with Dark Green text — the brand pairing the
+    // bento stat tiles and the footer's Buy pill already use (5.0:1, AA).
+    //
+    // NOT Dark Green, which is what this was: that is the BAND'S OWN COLOUR,
+    // so a selected pill dissolved into the header and the only thing left on
+    // screen was its white label floating free — the selected state read as
+    // the deleted one. Nor Primary Green, the other obvious fill: white on it
+    // is 3.46:1 and this label is normal-weight text, so it would fail AA
+    // (the same trap the pagination's current page fell into).
+    //
+    // The Dark Green BORDER is load-bearing now that the option sits on the
+    // group's white track: light green against white is only 1.46:1, well
+    // under the 3:1 WCAG 1.4.11 asks of a state indicator, so the fill alone
+    // could not carry the selection. The border reads at 7.3:1 on white and
+    // does.
+    //
+    // The icon keeps its own dark-green artwork here — the knockout filter
+    // the old dark fill needed would now erase it.
+    &:has(input:checked) {
+      color: $color-brand-dark-green;
+      background-color: $color-brand-light-green;
+      border-color: $color-brand-dark-green;
+    }
+
+    &:has(input:focus-visible) {
+      @include focus-ring($color-white);
+    }
+  }
+
+  // --- Multi-select: a POPOVER checkbox group under a pill trigger ---
+  //
+  // NOT a <select multiple>. That control needs ctrl/cmd-click to take a
+  // second value (undiscoverable, and impossible on a touch keyboard), cannot
+  // be styled to match this row, and renders as a scrolling listbox rather
+  // than the pill the design asks for. Checkboxes in a <fieldset> are the
+  // honest markup for "choose any number of these", and each one is its own
+  // comfortable target.
+  //
+  // The panel FLOATS via the Popover API — the second design, and the reason
+  // is worth keeping. The band (.page-header__inner) is overflow: hidden (it
+  // clips the media and the angle wedge to the radius), so ANY absolutely
+  // positioned panel inside it is cut off at the band's bottom edge. The
+  // first build dodged that by putting the open panel IN FLOW, which grew the
+  // band and shoved the type field and Apply around the page — reported
+  // broken, and it was. [popover] renders in the TOP LAYER: it escapes every
+  // ancestor clip and stacking context, and the BROWSER brings light-dismiss
+  // (outside click) and Escape handling with it. The script's only job is
+  // placing the panel under its trigger.
+  //
+  // Progressive layering: popovertarget is HTML, so with no JS the panel
+  // still opens — the UA centres it as a small overlay (no coordinates are
+  // ever set from CSS; the skin here deliberately leaves position alone).
+  // The top layer is rendering, not DOM, so the checkboxes stay inside the
+  // <form> and a plain GET still submits state=vic&state=nsw. Where popover
+  // itself is unsupported, the @supports block at the end of the file lays
+  // the group out permanently open in flow — the nav's no-js posture.
+  &__multi-toggle {
+    @include button-reset;
+    display: flex;
+    gap: var(--space-2xs);
+    align-items: center;
+    justify-content: space-between;
+    // Containing block for the visually-hidden field name inside. Without it
+    // that span resolves against the ROOT and escapes every clip above it,
+    // adding its own depth to the document (LESSONS.md).
+    position: relative;
+    width: 100%;
+    height: 3em;
+    padding: 0 var(--space-s);
+    font-size: max(#{$font-size-sm}, 1rem); // the search input's iOS-zoom floor
+    color: $color-ui-text;
+    text-align: left;
+    background-color: $color-white;
+    border: 1px solid $color-ui-border-strong; // WCAG 1.4.11 boundary contrast
+    border-radius: $radius-pill;
+
+    &:focus-visible {
+      @include focus-ring($color-white);
+    }
+
+    // The chevron, matching the search glyph's weight. A masked pseudo rather
+    // than an inline SVG so the button's own text stays its accessible name.
+    &::after {
+      flex-shrink: 0;
+      width: 0.8em;
+      height: 0.55em;
+      content: '';
+      background-color: $color-brand-dark-green;
+      -webkit-mask-image: $chevron-icon;
+      mask-image: $chevron-icon;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      mask-position: center;
+      -webkit-mask-size: contain;
+      mask-size: contain;
+      @include transition(transform);
+    }
+
+    // The script mirrors the popover's state onto the invoker (browsers also
+    // imply it for popovertarget buttons — this keys the visual either way).
+    &[aria-expanded='true']::after {
+      transform: rotate(180deg);
+    }
+  }
+
+  // The checkbox group. A real <fieldset> with a visually-hidden <legend>:
+  // the legend names the group for a screen reader moving through the
+  // checkboxes, and the visible label above the trigger is its sighted twin.
+  //
+  // SKIN ONLY — no position, no margin: the UA's popover styles centre it
+  // when no script has run, and the script positions it under the trigger
+  // with inline styles when one has. Setting either here would break the
+  // no-JS centring.
+  &__multi-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2xs);
+    max-width: min(92vw, 26rem);
+    padding: var(--space-s);
+    overflow: auto; // taller than the viewport (landscape phones): scroll, don't clip
+    background-color: $color-white;
+    border: 1px solid $color-ui-border;
+    border-radius: $radius-md;
+    // Elevation for a floating layer. The colour is the hairline token — a
+    // soft brand-blue wash — not a new value; shadows have no tokens yet
+    // (tokens/_shadows.scss pending) and this is the one floating panel.
+    box-shadow: 0 8px 24px $color-ui-border;
+
+    // Two columns once there is width for them — eight states and territories
+    // is four rows rather than eight.
+    @include respond-to('sm') {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-2xs) var(--space-s);
+    }
+  }
+
+  // A closed popover is hidden by the UA's `[popover]:not(:popover-open)
+  // { display: none }` — but that is a UA-sheet rule, and the skin's
+  // display: grid above is an AUTHOR rule, which wins the cascade over UA
+  // styles regardless of specificity. Without this restatement the "closed"
+  // panel rendered permanently, in flow, inside the band — the same trap as
+  // an author display un-hiding [hidden] (LESSONS.md).
+  //
+  // In engines without popover, :popover-open is an unknown pseudo-class and
+  // this rule is DROPPED whole — which is precisely the fallback wanted
+  // there: the panel stays visible in flow (see the @supports block below).
+  &__multi-panel:not(:popover-open) {
+    display: none;
+  }
+
+  &__option {
+    // Containing block for the spelt-out name each option now carries in a
+    // visually-hidden span. That span is position: absolute with no offsets,
+    // so without a positioned ancestor it resolves against the ROOT, escapes
+    // every clip above it and adds its own depth to the document (LESSONS.md
+    // — this is the rule that inflated the design system to 21,000px).
+    position: relative;
+    display: flex;
+    gap: var(--space-2xs);
+    align-items: center;
+    font-size: $font-size-sm;
+    color: $color-ui-text;
+    cursor: pointer;
+
+    input {
+      flex-shrink: 0;
+      width: 1.1em;
+      height: 1.1em;
+      accent-color: $color-brand-dark-green; // the .ds-control convention
+    }
+
+    &:hover {
+      color: $color-brand-dark-green;
+    }
+
+    // The ring belongs on the row, not the 1.1em box — :has() so the label
+    // can wear its own checkbox's focus. Unsupported :has() simply leaves the
+    // browser's own outline on the input, which is still a visible state.
+    &:has(input:focus-visible) {
+      @include focus-ring;
+    }
+  }
+}
+
+// Popover unsupported (pre-2023 engines): the [popover] attribute is unknown,
+// so the panel would render permanently visible IN FLOW — which is exactly the
+// posture to embrace, not fight: lay the group out as an always-open block
+// (the no-js nav menu's stance) rather than leaving a floating skin stranded
+// mid-band. @supports selector() itself is 2019-era, so old engines do reach
+// this block.
+@supports not selector([popover]:popover-open) {
+  .tool-filter__multi-panel {
+    margin-top: var(--space-2xs);
+    box-shadow: none;
+  }
+}

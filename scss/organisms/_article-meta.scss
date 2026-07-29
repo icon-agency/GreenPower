@@ -18,6 +18,11 @@
 // -----------------------------------------------------------------------------
 
 .article-meta {
+  // Lets the __summary group interpolate between block-size 0 and auto on
+  // reveal (see --reveal below). It inherits, so scoping it to the block
+  // covers the group without touching :root — the accordion's idiom.
+  interpolate-size: allow-keywords;
+
   display: flex;
   flex-direction: column;
   gap: var(--space-s);
@@ -37,23 +42,13 @@
     }
   }
 
-  // Same recipe as .card__tag, restated rather than borrowed: that one is
-  // pinned absolute over a card photo, this one sits in the rail's flow —
-  // reaching into the card for it would import the positioning with it
-  // (organisms compose, they don't borrow internals). Promote a shared pill
-  // mixin only if a third site appears (docs/mixins.md).
   &__tag {
-    padding: var(--space-3xs) var(--space-xs);
-    // sm, matching __dates — in the header band the two sit side by side in
-    // one row, and the tag a step smaller than the dates beside it read as an
-    // afterthought rather than a label. Note this is a rung ABOVE .card__tag
-    // (xs): that one is a small marker floating over a photo in a grid of many
-    // cards, this one is a page-level label with room to be read.
-    font-size: $font-size-sm;
-    font-weight: $font-weight-medium;
-    color: $color-white;
-    background-color: $color-brand-dark-green;
-    border-radius: $radius-pill;
+    // The shared dark-green tag pill, at sm to match __dates — in the header
+    // band the two sit side by side in one row, and a tag a step smaller than
+    // the dates beside it read as an afterthought rather than a label. (A
+    // rung ABOVE .card__tag's xs: that one floats over a photo in a grid of
+    // many cards; this is a page-level label with room to be read.)
+    @include tag-pill($font-size-sm);
   }
 
   // ~20 characters of the title's OWN size. This is what makes the rail read
@@ -100,126 +95,85 @@
     }
   }
 
-  // --- Reveal variant: the rail waits for the band to leave ---
+  // --- Reveal variant: the REPEAT waits, the action never does ---
   //
   // While the header band is on screen it already states the type and dates,
   // so the rail's repeat is noise; once the band scrolls away the rail takes
   // over as the persistent summary. A script observes the band and toggles
-  // .is-revealed here.
+  // .is-revealed on the rail.
+  //
+  // What waits is the __summary group ONLY. The Copy link is its sibling, not
+  // its child, so it is on screen from load at every width: an action is not a
+  // repeat, and hiding the article's only share control until the reader has
+  // scrolled past the top of the article is exactly backwards. It also means
+  // the rail is never an empty column — there is always something in it.
+  //
+  // Opening the summary therefore has to MOVE the button rather than uncover
+  // it, which is why this animates `block-size` 0 -> auto (with the group's
+  // own fade) instead of the old whole-block visibility swap: the button
+  // travels down on the same curve as the group that pushes it. Keyword
+  // interpolation comes from `interpolate-size` on the block above — the
+  // accordion's idiom (_accordion.scss). Where it is unsupported the height
+  // still switches, just without the tween, and the reveal is otherwise
+  // unchanged.
   //
   // PROGRESSIVE ENHANCEMENT: the hidden state is scoped under .js-reveal,
   // which the script adds to <html> only once its observer is live — so with
-  // JS off, broken, still parsing, or without IntersectionObserver, the rail
-  // simply stays visible. Nothing can get stranded invisible. Same contract as
-  // .js-animations in utilities/_scroll-animations.scss.
-  //
-  // visibility, NOT display: the block keeps its space, so the rail's height
-  // and the sticky column are unchanged and the content fades in exactly where
-  // it already sat — no reflow at the moment of reveal. It also takes the
-  // block out of the tab order while hidden, which is the correct pairing:
-  // the Copy link inside must not be focusable while it is invisible.
+  // JS off, broken, still parsing, or without IntersectionObserver, the
+  // summary simply stays open. Nothing can get stranded invisible. Same
+  // contract as .js-animations in utilities/_scroll-animations.scss.
   //
   // The MOTION is the site's scroll-entrance, borrowed by property rather than
-  // by class: same --animate-duration / --animate-easing / --animate-distance
-  // that utilities/_scroll-animations.scss uses, so the rail arrives exactly
-  // like every other entering element. It cannot use [data-animate] itself —
-  // that system is one-shot (it unobserves on entry), and this has to play in
-  // BOTH directions, fading back out when the band returns on scroll up.
+  // by class: the same --animate-duration / --animate-easing that
+  // utilities/_scroll-animations.scss uses, so the rail arrives like every
+  // other entering element. It cannot use [data-animate] itself — that system
+  // is one-shot (it unobserves on entry), and this has to play in BOTH
+  // directions, closing again when the band returns on scroll up.
   //
-  // `visibility` in the transition list is load-bearing: it is a discrete
-  // property that browsers special-case so the visible endpoint holds for the
-  // whole duration — the block stays painted while it fades out, instead of
-  // vanishing on the first frame.
-  &--reveal {
-    transition:
-      opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out),
-      transform var(--animate-duration, 600ms) var(--animate-easing, ease-out),
-      visibility var(--animate-duration, 600ms) var(--animate-easing, ease-out);
-  }
-
-  .js-reveal &--reveal {
-    visibility: hidden;
-    opacity: 0;
-    transform: translateY(var(--animate-distance));
-  }
-
-  .js-reveal &--reveal.is-revealed {
-    visibility: visible;
-    opacity: 1;
-    transform: none;
-  }
-
-  // Reduced motion: no rise and no fade, just on/off. Mirrors the same guard
-  // in the scroll-animation utility — the state still changes, only the
-  // movement goes away.
-  @media (prefers-reduced-motion: reduce) {
-    &--reveal {
-      transition: none;
-    }
-
-    .js-reveal &--reveal {
-      transform: none;
-    }
-  }
-
-  // --- Below md: the repeat goes, the ACTION stays ---
-  //
-  // Under md there is no sidebar — the article is one column and this block is
-  // a short row, not a rail. The tag, title and dates are a verbatim repeat of
-  // the header band a screen above, and with no column of its own to justify
-  // it that repeat is just the same three facts twice. Worse, the reveal holds
-  // them at visibility: hidden, which RESERVES their full height — a blank
-  // slab between the band and the article on a phone. The Copy link is the one
-  // thing the band does not carry, so it is the one thing that stays.
-  //
-  // Mobile-first: hidden by DEFAULT and restored at md, rather than a
-  // max-width query. The restored values are what these compute to in the
-  // sidebar (measured: block / block / flex — __dates carries its own
-  // display: flex, so `revert` would wrongly hand it back to the UA's block).
-  //
-  // Scoped through --reveal, which only the RAIL carries: a bare &__tag would
-  // match the header band's copy too (both are .article-meta) and hide the
-  // very thing this defers to.
-  &--reveal &__tag,
-  &--reveal &__title {
-    display: none;
-
-    @include respond-to('md') {
-      display: block;
-    }
-  }
-
-  &--reveal &__dates {
+  // Nothing inside the summary is focusable (a span, a p, a list of times), so
+  // clipping it needs no tab-order guard; the one focusable thing in the rail
+  // is the button, which is deliberately never clipped.
+  &__summary {
+    // Below md the repeat goes entirely — there is no sidebar, so the block is
+    // a short row rather than a rail, and the tag/title/dates are the same
+    // three facts the band states a screen above. Mobile-first: gone by
+    // default, restored at md where the column earns it.
     display: none;
 
     @include respond-to('md') {
       display: flex;
+      flex-direction: column;
+      gap: var(--space-s);
+      align-items: flex-start;
     }
   }
 
-  // Below md the Copy link is shown UNCONDITIONALLY — the reveal is about the
-  // rail shadowing the band, and an action is not a repeat. Hiding it until
-  // the band scrolled away would take the article's only share control off
-  // screen exactly while the reader is at the top of the article. From md the
-  // reveal resumes, because there the block IS the repeat.
-  .js-reveal &--reveal,
-  .js-reveal &--reveal.is-revealed {
-    visibility: visible;
-    opacity: 1;
-    transform: none;
+  &--reveal &__summary {
+    transition:
+      block-size var(--animate-duration, 600ms) var(--animate-easing, ease-out),
+      opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out);
   }
 
-  @include respond-to('md') {
-    .js-reveal &--reveal {
-      visibility: hidden;
+  .js-reveal &--reveal &__summary {
+    @include respond-to('md') {
+      block-size: 0;
+      overflow: hidden;
       opacity: 0;
-      transform: translateY(var(--animate-distance));
     }
+  }
 
-    .js-reveal &--reveal.is-revealed {
-      visibility: visible;
+  .js-reveal &--reveal.is-revealed &__summary {
+    @include respond-to('md') {
+      block-size: auto;
       opacity: 1;
-      transform: none;
+    }
+  }
+
+  // Reduced motion: the state still changes, only the movement goes away.
+  // Mirrors the same guard in the scroll-animation utility.
+  @media (prefers-reduced-motion: reduce) {
+    &--reveal &__summary {
+      transition: none;
     }
   }
 

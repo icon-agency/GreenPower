@@ -1,0 +1,59 @@
+// -----------------------------------------------------------------------------
+// Provider directory — the buy tool's filtered listing
+//
+// The generators directory's toolbar-over-results shape WITHOUT the map: one
+// full-width column of provider cards, because the record here is dense
+// (offers, pills, an action rail) and half a page could not hold it. Chips
+// are the shared .filter-chips organism; the empty state is the shared
+// recipe; the count doubles as the live region.
+//
+// Drupal mapping: a VIEW page over accredited_provider nodes — exposed
+//   filters render as .tool-filter in the header band (buyer + type
+//   checkboxes, state multi-select, fulltext); the cards are the view rows
+//   (provider-card teasers); the pager is the view's own; chips + count are
+//   the view header.
+// -----------------------------------------------------------------------------
+
+.provider-directory {
+  @include container;
+  // Top padding is the --tight-top step — the band above already provides
+  // closure — and the section keeps a full break beneath it.
+  padding-block: var(--space-s-l) var(--space-3xl);
+
+  &__toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    margin-bottom: var(--space-m);
+  }
+
+  &__count {
+    font-size: $font-size-sm;
+    color: $color-ui-text;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs); // the card-stack rhythm
+  }
+
+  // The shared empty-state recipe (abstracts/_mixins.scss) — a filter can
+  // match nothing and must say so (LESSONS.md).
+  &__empty {
+    @include empty-state;
+  }
+
+  &__empty-title {
+    @include empty-state-title;
+  }
+
+  &__empty-text {
+    @include empty-state-text;
+  }
+
+  // An empty result set has no pages — the news listing's rule.
+  &.is-empty .pagination {
+    display: none;
+  }
+}

@@ -1,0 +1,2142 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GreenPower electricity generators &mdash; GreenPower Renewable Energy</title>
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+  <link rel="preconnect" href="https://use.typekit.net" crossorigin>
+  <link rel="stylesheet" href="https://use.typekit.net/nxc8sxb.css">
+  <!-- Leaflet CSS before main.css so the theme's scoped overrides win by
+       source order. Pinned CDN build — self-host on the Drupal port. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+  <!-- markercluster's STRUCTURAL stylesheet only (spiderfy + zoom
+       animations). Its default theme is deliberately not loaded — the
+       count bubble is ours, styled from tokens in _generator-directory.scss. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="main-nav" aria-label="Main">
+      <div class="main-nav__backdrop" aria-hidden="true"></div>
+      <div class="main-nav__inner">
+
+        <a class="main-nav__logo" href="../index.html">
+          <img src="../assets/GreenPower-logo.svg" alt="GreenPower Renewable Energy — home" width="250" height="68">
+        </a>
+
+        <button class="main-nav__search main-nav__search-toggle" data-search-toggle aria-expanded="false" aria-controls="nav-searchbar">
+          <svg class="main-nav__search-glyph main-nav__search-glyph--open" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="9" cy="9" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="main-nav__search-glyph main-nav__search-glyph--close" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M2 2l10 10M12 2 2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span class="visually-hidden">Search</span>
+        </button>
+
+        <button class="main-nav__toggle" aria-expanded="false" aria-controls="main-nav-menu">
+          <span class="main-nav__toggle-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Menu</span>
+        </button>
+
+        <div class="main-nav__flip">
+        <div class="main-nav__flip-stage">
+        <div class="main-nav__menu" id="main-nav-menu">
+          <ul class="main-nav__list">
+
+            <li class="main-nav__item">
+              <button class="main-nav__link" aria-expanded="false" aria-controls="panel-what-is">
+                What is GreenPower?
+                <svg class="main-nav__chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="main-nav__panel" id="panel-what-is">
+                <div class="main-nav__panel-inner">
+                  <div class="main-nav__panel-intro">
+                    <p class="main-nav__panel-title">What is GreenPower?</p>
+                    <a class="btn btn--primary" href="#">Explore this section</a>
+                  </div>
+                  <div class="main-nav__group">
+                    <p class="main-nav__group-title">About us</p>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">
+                          About the program
+                        </a>
+                      </li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Our impact</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Our strategy</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Audits and reporting</a></li>
+                    </ul>
+                  </div>
+                  <div class="main-nav__group">
+                    <p class="main-nav__group-title">How GreenPower works</p>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">
+                          How it works
+                        </a>
+                      </li>
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">
+                          How GreenPower is different
+                        </a>
+                      </li>
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">
+                          Impact stories
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="main-nav__group">
+                    <p class="main-nav__group-title">Stay in touch</p>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">
+                          News and events
+                        </a>
+                      </li>
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">
+                          Contact us
+                        </a>
+                      </li>
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">
+                          Subscribe
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="main-nav__item">
+              <button class="main-nav__link" aria-expanded="false" aria-controls="panel-products">
+                Products &amp; solutions
+                <svg class="main-nav__chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="main-nav__panel" id="panel-products">
+                <div class="main-nav__panel-inner">
+                  <div class="main-nav__panel-intro">
+                    <p class="main-nav__panel-title">Products &amp; solutions</p>
+                    <a class="btn btn--primary" href="#">Explore this section</a>
+                  </div>
+                  <div class="main-nav__group">
+                    <p class="main-nav__group-title">Renewable electricity</p>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">
+                          About renewable electricity
+                        </a>
+                      </li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">GreenPower accredited electricity</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">How certificates work</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">GreenPower Corporate direct</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">GreenPower Decoupled</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">PPAs and large agreements</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Government purchasing</a></li>
+                    </ul>
+                    <div class="main-nav__group-cta">
+                      <a class="btn btn--outline" href="#">
+                        Accredited electricity generators
+                        <svg class="main-nav__panel-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="main-nav__group">
+                    <p class="main-nav__group-title">Renewable Gas</p>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">
+                          About renewable gas
+                        </a>
+                      </li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">GreenPower accredited gas</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">How RGGO gas certification works</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link main-nav__panel-link--sub" href="#">Certificate registry</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Producer types and locations</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">GreenPower Decoupled</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">PPAs and large agreements</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Government purchasing</a></li>
+                    </ul>
+                    <div class="main-nav__group-cta">
+                      <a class="btn btn--outline" href="#">
+                        Accredited gas producers
+                        <svg class="main-nav__panel-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="main-nav__group">
+                    <p class="main-nav__group-title">Emerging renewables</p>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">
+                          Emerging renewable fuels and products
+                        </a>
+                      </li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">About emerging renewable fuels</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#"><span>Biogenic CO<sub>2</sub></span></a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Low carbon liquid fuels</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="main-nav__item">
+              <button class="main-nav__link" aria-expanded="false" aria-controls="panel-households">
+                For households
+                <svg class="main-nav__chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="main-nav__panel" id="panel-households">
+                <div class="main-nav__panel-inner">
+                  <div class="main-nav__panel-intro">
+                    <p class="main-nav__panel-title">For households</p>
+                    <a class="btn btn--primary" href="#">Explore this section</a>
+                  </div>
+                  <div class="main-nav__group">
+                    <p class="main-nav__group-title">Cost and value</p>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">What you can achieve at home</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="main-nav__group">
+                    <p class="main-nav__group-title">Make the switch</p>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">How to make the switch</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="main-nav__group">
+                    <p class="main-nav__group-title">Find GreenPower</p>
+                    <div class="main-nav__group-cta">
+                      <a class="btn btn--outline" href="#">
+                        Buy GreenPower
+                        <svg class="main-nav__panel-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="main-nav__item">
+              <button class="main-nav__link" aria-expanded="false" aria-controls="panel-businesses">
+                For businesses
+                <svg class="main-nav__chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="main-nav__panel" id="panel-businesses">
+                <div class="main-nav__panel-inner">
+                  <div class="main-nav__panel-intro">
+                    <p class="main-nav__panel-title">For businesses</p>
+                    <a class="btn btn--primary" href="#">Explore this section</a>
+                  </div>
+                  <div class="main-nav__group">
+                    <p class="main-nav__group-title">Small to medium businesses</p>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">For small to medium businesses</a>
+                      </li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Benefits for SMEs</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Switching and setup</a></li>
+                    </ul>
+                  </div>
+                  <div class="main-nav__group">
+                    <p class="main-nav__group-title">Large energy users</p>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">For large energy users</a>
+                      </li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Benefits for large energy users</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Compliance and reporting</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link main-nav__panel-link--sub" href="#">Certificate registry</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Purchasing options</a></li>
+                    </ul>
+                  </div>
+                  <div class="main-nav__group">
+                    <p class="main-nav__group-title">More</p>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">Marketing and brand guides</a>
+                      </li>
+                    </ul>
+                    <div class="main-nav__group-cta">
+                      <a class="btn btn--outline" href="#">
+                        Buy GreenPower
+                        <svg class="main-nav__panel-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li class="main-nav__item">
+              <button class="main-nav__link" aria-expanded="false" aria-controls="panel-accreditation">
+                Industry accreditation
+                <svg class="main-nav__chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="main-nav__panel" id="panel-accreditation">
+                <div class="main-nav__panel-inner">
+                  <div class="main-nav__panel-intro">
+                    <p class="main-nav__panel-title">Industry accreditation</p>
+                    <a class="btn btn--primary" href="#">Explore this section</a>
+                  </div>
+                  <div class="main-nav__group">
+                    <p class="main-nav__group-title">Accreditation electricity</p>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">For retail electricity providers</a>
+                      </li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Benefits of becoming a GreenPower Provider</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Eligibility and accreditation</a></li>
+                    </ul>
+                    <div class="main-nav__group-cta">
+                      <a class="btn btn--outline" href="#">
+                        Accredited electricity providers
+                        <svg class="main-nav__panel-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </a>
+                    </div>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">For electricity generators</a>
+                      </li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Benefits of becoming a GreenPower Generator</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Eligibility and accreditation</a></li>
+                    </ul>
+                    <div class="main-nav__group-cta">
+                      <a class="btn btn--outline" href="#">
+                        Accredited electricity generators
+                        <svg class="main-nav__panel-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="main-nav__group">
+                    <p class="main-nav__group-title">Accreditation gas</p>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">For gas traders</a>
+                      </li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Benefits of becoming a GreenPower Trader</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Eligibility and accreditation</a></li>
+                    </ul>
+                    <div class="main-nav__group-cta">
+                      <a class="btn btn--outline" href="#">
+                        Accredited gas traders
+                        <svg class="main-nav__panel-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </a>
+                    </div>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">For gas producers</a>
+                      </li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Benefits of becoming a GreenPower producer</a></li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Eligibility and accreditation</a></li>
+                    </ul>
+                    <div class="main-nav__group-cta">
+                      <a class="btn btn--outline" href="#">
+                        Accredited gas producers
+                        <svg class="main-nav__panel-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="main-nav__group">
+                    <p class="main-nav__group-title">Partners</p>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">GreenPower partner guides and resources</a>
+                      </li>
+                    </ul>
+                    <ul class="main-nav__group-list">
+                      <li class="main-nav__group-item main-nav__group-item--featured">
+                        <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">Program Rules and legislation</a>
+                      </li>
+                      <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Consultations</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+
+        <div class="main-nav__searchbar" id="nav-searchbar">
+          <form class="main-nav__search-form" role="search" action="#">
+            <label class="visually-hidden" for="nav-search-input">Search</label>
+            <input id="nav-search-input" class="main-nav__search-input" type="search" name="q" placeholder="Search GreenPower">
+            <button class="main-nav__search-submit" type="submit">
+              <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="9" cy="9" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span class="visually-hidden">Search</span>
+            </button>
+          </form>
+        </div>
+        </div>
+        </div>
+
+        <div class="main-nav__actions">
+          <a class="btn btn--primary" href="#">Buy GreenPower</a>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <!-- Tool: accredited electricity generators. In Drupal this page is a
+         VIEW over accredited_generator nodes, not a paragraph stack: the
+         header band is the page-level pattern (imageless variant) with the
+         view's exposed filters composed into it (.tool-filter), the cards are
+         node teasers (generator-card view mode), chips + count are the view
+         header, the map is a view attachment over the same result set, and
+         the pager is the view's own. -->
+    <header class="page-header">
+      <div class="page-header__inner" data-animate-stagger>
+        <nav aria-label="Breadcrumb" data-animate>
+          <ol class="page-header__crumbs">
+            <li class="page-header__crumb"><a href="../index.html">Home</a></li>
+            <li class="page-header__crumb"><a href="#">Industry accreditation</a></li>
+            <li class="page-header__crumb" aria-current="page">Accredited generators</li>
+          </ol>
+        </nav>
+        <h1 class="page-header__title" data-animate>GreenPower electricity generators</h1>
+        <p class="page-header__intro" data-animate>Explore renewable electricity generators accredited under the GreenPower program, or read about <a href="#">industry accreditation for generators</a>.</p>
+        <!-- Views exposed filters (fulltext + field_state + field_generator_type),
+             AJAX-enabled in Drupal. Solid-filled controls: the row may run over
+             the imageless angle shape (see _tool-filter.scss). -->
+        <form class="tool-filter" data-animate data-gen-filter action="#" aria-label="Filter generators">
+          <div class="tool-filter__search">
+            <label class="visually-hidden" for="gen-search">Search by name or project</label>
+            <input id="gen-search" class="tool-filter__search-input" type="search" name="q" placeholder="Search by name or project (e.g. Bodangora Wind Farm)">
+            <button class="tool-filter__search-submit" type="submit">
+              <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="9" cy="9" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span class="visually-hidden">Search</span>
+            </button>
+          </div>
+          <!-- Multi-select filters: a native <details> disclosure over a real
+               checkbox <fieldset>, NOT <select multiple> (see
+               _tool-filter.scss). No JS for the toggle; with no JS at all the
+               group still opens and still submits state=vic&state=nsw.
+               Drupal: the exposed filter's "checkboxes" widget renders exactly
+               this shape — the <details> wrapper is the theme's. -->
+          <div class="tool-filter__fields">
+            <div class="tool-filter__field">
+              <p class="tool-filter__label" id="gen-state-label">State or territory</p>
+              <!-- The panel is a [popover]: it renders in the TOP LAYER, so
+                   the band's overflow clip cannot cut it off and it cannot
+                   push the layout around; the browser owns light-dismiss and
+                   Escape. popovertarget is HTML — no JS needed to open it —
+                   and the top layer is rendering only, so the checkboxes
+                   stay in the form for a plain GET. See _tool-filter.scss. -->
+              <div class="tool-filter__multi" data-gen-multi="state">
+                <button class="tool-filter__multi-toggle" type="button" popovertarget="gen-state-panel" aria-expanded="false">
+                  <!-- Names the trigger without JS: its accessible name is
+                       "State or territory: All states and territories", and
+                       the script only swaps the second span as boxes tick. -->
+                  <span class="visually-hidden">State or territory: </span>
+                  <span data-gen-multi-label>All states and territories</span>
+                </button>
+                <fieldset class="tool-filter__multi-panel" id="gen-state-panel" popover>
+                  <legend class="visually-hidden">State or territory</legend>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="act"><span data-option-label>ACT</span> <span class="visually-hidden">Australian Capital Territory</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="nsw"><span data-option-label>NSW</span> <span class="visually-hidden">New South Wales</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="nt"><span data-option-label>NT</span> <span class="visually-hidden">Northern Territory</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="qld"><span data-option-label>QLD</span> <span class="visually-hidden">Queensland</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="sa"><span data-option-label>SA</span> <span class="visually-hidden">South Australia</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="tas"><span data-option-label>TAS</span> <span class="visually-hidden">Tasmania</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="vic"><span data-option-label>VIC</span> <span class="visually-hidden">Victoria</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="wa"><span data-option-label>WA</span> <span class="visually-hidden">Western Australia</span></label>
+                </fieldset>
+              </div>
+            </div>
+            <div class="tool-filter__field">
+              <p class="tool-filter__label" id="gen-type-label">Renewable generator type</p>
+              <div class="tool-filter__multi" data-gen-multi="type">
+                <button class="tool-filter__multi-toggle" type="button" popovertarget="gen-type-panel" aria-expanded="false">
+                  <span class="visually-hidden">Renewable generator type: </span>
+                  <span data-gen-multi-label>All energy sources</span>
+                </button>
+                <fieldset class="tool-filter__multi-panel" id="gen-type-panel" popover>
+                  <legend class="visually-hidden">Renewable generator type</legend>
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="bioenergy"><span data-option-label>Bioenergy</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="hydro"><span data-option-label>Hydro</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="solar"><span data-option-label>Solar</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="wind"><span data-option-label>Wind</span></label>
+                </fieldset>
+              </div>
+            </div>
+            <button class="btn btn--white" type="submit">Apply</button>
+          </div>
+        </form>
+        <!-- Imageless header variant: the green block + brand angle stand in
+             where field_header_image is empty (see _page-header.scss). -->
+        <div class="page-header__media page-header__media--empty" data-animate>
+          <span class="page-header__angle" aria-hidden="true">
+            <svg class="page-header__angle-curve page-header__angle-curve--top" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L299.02 0Z" fill="currentColor"/></svg>
+            <svg class="page-header__angle-curve page-header__angle-curve--side" viewBox="0 0 210.3 299.02" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 299.02C0.001 209.1 13.03 197.18 60.79 149.51L210.3 0L0 0Z" fill="currentColor"/></svg>
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <section class="generator-directory" data-generator-directory aria-labelledby="gen-list-title">
+      <h2 class="visually-hidden" id="gen-list-title">Accredited generators</h2>
+
+      <div class="generator-directory__toolbar" data-animate>
+        <!-- The view header's selected-filters summary — filled by the script
+             (server-rendered in Drupal); each chip removes its filter. -->
+        <ul class="filter-chips" data-gen-chips aria-label="Active filters" hidden></ul>
+        <div class="generator-directory__status">
+          <p class="generator-directory__count" aria-live="polite" data-gen-count>Showing 13 accredited generators</p>
+          <!-- List/map view toggle — only rendered useful below the lg split,
+               where the two columns cannot share the width. List is the
+               default and the no-JS state; the map needs JS regardless. -->
+          <div class="generator-directory__toggle" role="group" aria-label="Results view">
+            <button class="generator-directory__toggle-btn" type="button" aria-pressed="true" data-gen-view="list">List</button>
+            <button class="generator-directory__toggle-btn" type="button" aria-pressed="false" data-gen-view="map">Map</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="generator-directory__layout">
+        <div class="generator-directory__results">
+          <div class="generator-directory__list" data-animate-stagger>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-32.3603" data-lng="148.9498" data-state="nsw" data-type="wind">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Bodangora Wind Farm</h3>
+                  <p class="generator-card__company">Bodangora Wind Farm Pty Limited</p>
+                  <p class="generator-card__place">Wellington, New South Wales</p>
+                </div>
+                <img class="generator-card__media" src="../assets/images/wind.png" alt="" width="1500" height="1500" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Wind</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>113.19 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>WD00NS16</dd></div>
+              </dl>
+              <p class="generator-card__desc">Bodangora Wind Farm was developed, constructed and continues to be operated by Iberdrola Australia. A Power Purchase Agreement for electricity and Large-scale Generation Certificates (LGCs) for 60% of Bodangora Wind Farm&rsquo;s electricity generation is in place with EnergyAustralia until 31 December 2030.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Bodangora Wind Farm</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Bodangora Wind Farm</span></button>
+              </div>
+            </article>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-29.7726" data-lng="151.5540" data-state="nsw" data-type="wind">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">White Rock Wind Farm</h3>
+                  <p class="generator-card__company">White Rock Wind Farm Pty Ltd</p>
+                  <p class="generator-card__place">Glen Innes, New South Wales</p>
+                </div>
+                <img class="generator-card__media" src="../assets/images/wind.png" alt="" width="1500" height="1500" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Wind</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>175 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>WD11NS02</dd></div>
+              </dl>
+              <p class="generator-card__desc">White Rock Wind Farm&rsquo;s 70 turbines supply renewable electricity to the national grid, with Large-scale Generation Certificates surrendered against accredited GreenPower sales.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; White Rock Wind Farm</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; White Rock Wind Farm</span></button>
+              </div>
+            </article>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-37.2094" data-lng="142.9861" data-state="vic" data-type="wind">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Ararat Wind Farm</h3>
+                  <p class="generator-card__company">Ararat Wind Farm Pty Ltd</p>
+                  <p class="generator-card__place">Ararat, Victoria</p>
+                </div>
+                <img class="generator-card__media" src="../assets/images/wind.png" alt="" width="1500" height="1500" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Wind</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>240 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>WD05VC02</dd></div>
+              </dl>
+              <p class="generator-card__desc">One of Australia&rsquo;s largest wind farms, generating enough renewable electricity to power around 120,000 Victorian homes each year.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Ararat Wind Farm</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Ararat Wind Farm</span></button>
+              </div>
+            </article>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-36.0217" data-lng="145.4419" data-state="vic" data-type="solar">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Numurkah Solar Farm</h3>
+                  <p class="generator-card__company">Neoen Australia Pty Ltd</p>
+                  <p class="generator-card__place">Numurkah, Victoria</p>
+                </div>
+                <img class="generator-card__media" src="../assets/video/Glenrowan.png" alt="" width="1920" height="1080" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Solar</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>112 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>SL08VC11</dd></div>
+              </dl>
+              <p class="generator-card__desc">A 500-hectare solar farm in the Goulburn Valley supplying renewable electricity under long-term agreements, including Melbourne&rsquo;s tram network.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Numurkah Solar Farm</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Numurkah Solar Farm</span></button>
+              </div>
+            </article>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-35.7180" data-lng="143.8460" data-state="vic" data-type="solar">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Gannawarra Solar Farm</h3>
+                  <p class="generator-card__company">Gannawarra Energy Pty Ltd</p>
+                  <p class="generator-card__place">Kerang, Victoria</p>
+                </div>
+                <img class="generator-card__media" src="../assets/video/Glenrowan.png" alt="" width="1920" height="1080" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Solar</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>60 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>SL03VC07</dd></div>
+              </dl>
+              <p class="generator-card__desc">Co-located with one of Australia&rsquo;s first grid-scale batteries, storing solar generation for the evening peak.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Gannawarra Solar Farm</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Gannawarra Solar Farm</span></button>
+              </div>
+            </article>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-19.4062" data-lng="146.7481" data-state="qld" data-type="solar">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Ross River Solar Farm</h3>
+                  <p class="generator-card__company">Palisade Investment Partners</p>
+                  <p class="generator-card__place">Ross River, Queensland</p>
+                </div>
+                <img class="generator-card__media" src="../assets/video/Glenrowan.png" alt="" width="1920" height="1080" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Solar</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>148 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>SL02QL04</dd></div>
+              </dl>
+              <p class="generator-card__desc">More than 400,000 single-axis tracking panels on a former mango farm outside Townsville, generating through North Queensland&rsquo;s long solar days.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Ross River Solar Farm</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Ross River Solar Farm</span></button>
+              </div>
+            </article>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-36.1052" data-lng="147.0322" data-state="nsw" data-type="hydro">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Hume Hydro Power Station</h3>
+                  <p class="generator-card__company">Meridian Energy Australia</p>
+                  <p class="generator-card__place">Albury, New South Wales</p>
+                </div>
+                <img class="generator-card__media" src="../assets/video/green-energy.png" alt="" width="1920" height="1080" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Hydro</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>58 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>HY01NS03</dd></div>
+              </dl>
+              <p class="generator-card__desc">Generating renewable electricity from irrigation releases on the Murray since 1957 &mdash; one of the program&rsquo;s longest-serving accredited stations.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Hume Hydro Power Station</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Hume Hydro Power Station</span></button>
+              </div>
+            </article>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-31.2333" data-lng="117.7167" data-state="wa" data-type="wind">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Collgar Wind Farm</h3>
+                  <p class="generator-card__company">Collgar Renewables Pty Ltd</p>
+                  <p class="generator-card__place">Merredin, Western Australia</p>
+                </div>
+                <img class="generator-card__media" src="../assets/images/wind.png" alt="" width="1500" height="1500" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Wind</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>206 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>WD02WA01</dd></div>
+              </dl>
+              <p class="generator-card__desc">Western Australia&rsquo;s largest single wind farm, feeding the South West Interconnected System from the Wheatbelt.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Collgar Wind Farm</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Collgar Wind Farm</span></button>
+              </div>
+            </article>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-32.4833" data-lng="137.7667" data-state="sa" data-type="solar">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Bungala Solar Farm</h3>
+                  <p class="generator-card__company">Bungala Solar One Pty Ltd</p>
+                  <p class="generator-card__place">Port Augusta, South Australia</p>
+                </div>
+                <img class="generator-card__media" src="../assets/video/Glenrowan.png" alt="" width="1920" height="1080" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Solar</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>220 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>SL06SA02</dd></div>
+              </dl>
+              <p class="generator-card__desc">Built on the arid plains north of Spencer Gulf, Bungala tracks the sun across more than 800,000 panels.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Bungala Solar Farm</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Bungala Solar Farm</span></button>
+              </div>
+            </article>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-40.8333" data-lng="148.0833" data-state="tas" data-type="wind">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Musselroe Wind Farm</h3>
+                  <p class="generator-card__company">Woolnorth Renewables</p>
+                  <p class="generator-card__place">Cape Portland, Tasmania</p>
+                </div>
+                <img class="generator-card__media" src="../assets/images/wind.png" alt="" width="1500" height="1500" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Wind</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>168 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>WD04TS01</dd></div>
+              </dl>
+              <p class="generator-card__desc">Fifty-six turbines on Tasmania&rsquo;s north-east tip, exposed to some of the most consistent wind resource in the country.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Musselroe Wind Farm</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Musselroe Wind Farm</span></button>
+              </div>
+            </article>
+
+            <!-- The next three sit within ~40km of Ararat, alongside the
+                 Ararat entry above: four in one wind region, which is what a
+                 real directory looks like and what the map's cluster bubble
+                 is there to handle. -->
+            <article class="generator-card" data-animate data-gen-item data-lat="-37.0669" data-lng="143.0219" data-state="vic" data-type="wind">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Crowlands Wind Farm</h3>
+                  <p class="generator-card__company">Pacific Blue Renewables</p>
+                  <p class="generator-card__place">Crowlands, Victoria</p>
+                </div>
+                <img class="generator-card__media" src="../assets/images/wind.png" alt="" width="1500" height="1500" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Wind</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>80 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>WD07VC04</dd></div>
+              </dl>
+              <p class="generator-card__desc">Thirty-nine turbines north of Ararat, underwritten by a long-term agreement with the City of Melbourne&rsquo;s renewable energy purchasing group.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Crowlands Wind Farm</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Crowlands Wind Farm</span></button>
+              </div>
+            </article>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-37.0361" data-lng="142.8264" data-state="vic" data-type="wind">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Bulgana Green Power Hub</h3>
+                  <p class="generator-card__company">Neoen Australia Pty Ltd</p>
+                  <p class="generator-card__place">Bulgana, Victoria</p>
+                </div>
+                <img class="generator-card__media" src="../assets/images/wind.png" alt="" width="1500" height="1500" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Wind</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>204 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>WD09VC06</dd></div>
+              </dl>
+              <p class="generator-card__desc">Wind generation paired with a 20 MW battery, supplying a nearby glasshouse alongside the grid.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Bulgana Green Power Hub</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Bulgana Green Power Hub</span></button>
+              </div>
+            </article>
+
+            <article class="generator-card" data-animate data-gen-item data-lat="-37.3639" data-lng="143.2547" data-state="vic" data-type="solar">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h3 class="generator-card__title">Ararat Solar Farm</h3>
+                  <p class="generator-card__company">Ararat Solar Pty Ltd</p>
+                  <p class="generator-card__place">Ararat, Victoria</p>
+                </div>
+                <img class="generator-card__media" src="../assets/video/Glenrowan.png" alt="" width="1920" height="1080" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>Solar</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>80 MW</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>SL11VC03</dd></div>
+              </dl>
+              <p class="generator-card__desc">Sharing the Ararat terminal station with the wind farms around it, so one grid connection carries both resources.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Ararat Solar Farm</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button" data-gen-map-focus>
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; Ararat Solar Farm</span></button>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- Empty state: a filter can match nothing and must say so
+               (LESSONS.md). Drupal: the view's "No results behavior" area;
+               the view's own pager hides itself on an empty set. -->
+          <div class="generator-directory__empty" data-gen-empty hidden>
+            <p class="generator-directory__empty-title">No generators match those filters</p>
+            <p class="generator-directory__empty-text">Try removing a filter, or clear them all to see every accredited generator.</p>
+          </div>
+
+          <!-- The view's pager (mini pager themed to these classes) -->
+          <nav class="pagination" aria-label="Pagination" data-animate>
+            <ul class="pagination__list">
+              <li><a class="pagination__link" href="#" aria-label="Previous page">
+                <svg class="pagination__arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M13 5H2M6 1 2 5l4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+              <li><a class="pagination__link" href="#" aria-label="Page 1" aria-current="page">1</a></li>
+              <li><a class="pagination__link" href="#" aria-label="Page 2">2</a></li>
+              <li><a class="pagination__link" href="#" aria-label="Page 3">3</a></li>
+              <li><span class="pagination__ellipsis" aria-hidden="true">&hellip;</span></li>
+              <li><a class="pagination__link" href="#" aria-label="Page 12">12</a></li>
+              <li><a class="pagination__link" href="#" aria-label="Next page">
+                <svg class="pagination__arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <!-- The map: an ENHANCEMENT of the listing, built from the cards'
+             own data. Leaflet mounts into __map; the fallback note stands
+             until it does (no JS, blocked CDN), so the pane never shows an
+             unexplained empty panel. -->
+        <aside class="generator-directory__map-pane" aria-label="Map of accredited generators">
+          <div class="generator-directory__map" data-gen-map></div>
+          <p class="generator-directory__map-fallback">The map could not load. Every accredited generator is listed on this page.</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__band">
+      <section class="footer-subscribe" data-animate aria-labelledby="footer-subscribe-title">
+        <div class="footer-subscribe__panel">
+          <span class="footer-subscribe__icon"><img src="../assets/icons/greenpower.svg" alt="" width="52" height="52" loading="lazy"></span>
+          <h2 class="footer-subscribe__title" id="footer-subscribe-title">Stay in the know for the latest news, updates, and events.</h2>
+          <a class="btn btn--primary" href="#">Subscribe</a>
+        </div>
+        <div class="footer-subscribe__media">
+          <img src="../assets/mother-daughter.png" alt="" width="4096" height="2731" loading="lazy">
+          <span class="footer-subscribe__angle" aria-hidden="true">
+            <svg class="footer-subscribe__angle-curve footer-subscribe__angle-curve--top" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L299.02 0Z" fill="currentColor"/></svg>
+            <svg class="footer-subscribe__angle-curve footer-subscribe__angle-curve--side" viewBox="0 0 210.3 299.02" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 299.02C0.001 209.1 13.03 197.18 60.79 149.51L210.3 0L0 0Z" fill="currentColor"/></svg>
+          </span>
+        </div>
+      </section>
+    </div>
+
+    <div class="site-footer__content" data-animate-stagger>
+      <div class="site-footer__top" data-animate>
+        <a class="site-footer__logo" href="../index.html">
+          <img src="../assets/GreenPower-logo.svg" alt="GreenPower Renewable Energy — home" width="250" height="68">
+        </a>
+        <a class="site-footer__back-to-top" href="#top">Back to top
+          <svg width="10" height="14" viewBox="0 0 10 14" aria-hidden="true" focusable="false"><path d="M5 13V2M1 6l4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="site-footer__body" data-animate>
+        <div class="site-footer__brand">
+          <p class="site-footer__acknowledgement">We pay our respects to the Traditional Owners of the lands where we work as well as across the lands we travel through. We also acknowledge Elders past, present and emerging.</p>
+          <a class="btn btn--white" href="#">Buy GreenPower</a>
+        </div>
+        <nav class="site-footer__nav" aria-label="Footer">
+          <div class="site-footer__group">
+            <p class="site-footer__group-title">GreenPower</p>
+            <ul class="site-footer__group-list">
+              <li><a class="site-footer__link" href="#">What is GreenPower?</a></li>
+              <li><a class="site-footer__link" href="#">Products and solutions</a></li>
+              <li><a class="site-footer__link" href="#">Find a Provider</a></li>
+            </ul>
+          </div>
+          <div class="site-footer__group">
+            <p class="site-footer__group-title">For you</p>
+            <ul class="site-footer__group-list">
+              <li><a class="site-footer__link" href="#">For households</a></li>
+              <li><a class="site-footer__link" href="#">For businesses</a></li>
+              <li><a class="site-footer__link" href="#">For industry and accreditation</a></li>
+            </ul>
+          </div>
+          <div class="site-footer__group">
+            <p class="site-footer__group-title">Support</p>
+            <ul class="site-footer__group-list">
+              <li><a class="site-footer__link" href="#">Contact us</a></li>
+              <li><a class="site-footer__link" href="#">News and events</a></li>
+            </ul>
+          </div>
+          <a class="site-footer__social" href="#">
+            <svg viewBox="0 0 448 512" aria-hidden="true" focusable="false" fill="currentColor"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+            <span class="visually-hidden">GreenPower on LinkedIn</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- No data-animate: this is the LAST element on the page, and the shared
+           observer's -8% bottom rootMargin means anything sitting inside the
+           final viewport's bottom 8% can never intersect — it would stay hidden
+           for good (and only on taller viewports, so it passes casual testing). -->
+      <div class="site-footer__legal">
+        <p class="site-footer__copyright">© 2026 Copyright</p>
+        <ul class="site-footer__legal-links">
+          <li><a class="site-footer__link" href="#">Privacy</a></li>
+          <li><a class="site-footer__link" href="#">Disclaimer</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Main navigation: hamburger, dropdown disclosure, morphing backdrop
+    (function () {
+      var nav = document.querySelector('.main-nav');
+      if (!nav) return;
+
+      var header = document.querySelector('.site-header');
+      var toggle = nav.querySelector('.main-nav__toggle');
+      var dropdownButtons = nav.querySelectorAll('.main-nav__link[aria-controls]');
+      var desktop = window.matchMedia('(min-width: 1380px)');
+
+      // Size the taupe backdrop: bar-only when closed, bar + panel when open
+      function updateBackdrop() {
+        var openPanel = nav.querySelector('.main-nav__item.is-open > .main-nav__panel');
+        nav.classList.toggle('has-open-panel', !!openPanel);
+        if (openPanel && desktop.matches) {
+          header.style.setProperty('--backdrop-height', (header.offsetHeight + openPanel.offsetHeight) + 'px');
+        } else {
+          header.style.removeProperty('--backdrop-height');
+        }
+      }
+
+      // Mobile accordion: animate the panel's height to its measured target,
+      // then release to auto so fluid scaling keeps working
+      function setPanelHeight(item, open) {
+        if (desktop.matches) return;
+        var panel = item.querySelector('.main-nav__panel');
+        if (!panel) return;
+        if (open) {
+          panel.style.height = panel.scrollHeight + 'px';
+          setTimeout(function () {
+            if (item.classList.contains('is-open')) panel.style.height = 'auto';
+          }, 320);
+        } else {
+          panel.style.height = panel.scrollHeight + 'px';
+          void panel.offsetHeight;
+          panel.style.height = '';
+        }
+      }
+
+      function closeItem(item, animate) {
+        var btn = item.querySelector('.main-nav__link[aria-controls]');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+        item.classList.remove('is-open');
+        setPanelHeight(item, false);
+        if (animate && desktop.matches) {
+          // Keep the panel painted while it fades out (cross-fade)
+          item.classList.add('is-leaving');
+          setTimeout(function () { item.classList.remove('is-leaving'); }, 180);
+        }
+      }
+
+      function closeAll(except, animate) {
+        dropdownButtons.forEach(function (btn) {
+          var item = btn.closest('.main-nav__item');
+          if (item === except || !item.classList.contains('is-open')) return;
+          closeItem(item, animate);
+        });
+      }
+
+      // --- Search flip ---
+      var searchToggle = nav.querySelector('[data-search-toggle]');
+      var searchToggleLabel = searchToggle ? searchToggle.querySelector('.visually-hidden') : null;
+      var searchInput = nav.querySelector('.main-nav__search-input');
+      var flip = nav.querySelector('.main-nav__flip');
+      var flipStage = nav.querySelector('.main-nav__flip-stage');
+
+      // Cube depth = half the stage height, so the two faces meet at the
+      // rotation axis like a real prism
+      function setFlipDepth() {
+        if (flip && flipStage && desktop.matches) {
+          flip.style.setProperty('--flip-depth', (flipStage.offsetHeight / 2) + 'px');
+        }
+      }
+
+      function openSearch() {
+        closeAll(null, false);
+        updateBackdrop();
+        setFlipDepth();
+        // Mount the 3D transforms without transitioning (net identity —
+        // nothing moves), commit via forced reflow, then rotate
+        if (flipStage) {
+          flipStage.style.transition = 'none';
+          nav.classList.add('is-flipping');
+          void flipStage.offsetHeight;
+          flipStage.style.transition = '';
+        }
+        nav.classList.add('search-open');
+        searchToggle.setAttribute('aria-expanded', 'true');
+        if (searchToggleLabel) searchToggleLabel.textContent = 'Close search';
+        // focus once the face has rotated most of the way in
+        setTimeout(function () { if (searchInput) searchInput.focus(); }, 350);
+      }
+
+      function closeSearch(refocus) {
+        if (!nav.classList.contains('search-open')) return;
+        nav.classList.remove('search-open');
+        // Unmount the 3D transforms only after the return rotation lands —
+        // the mega panels must not live inside a transformed ancestor at rest
+        setTimeout(function () {
+          if (!nav.classList.contains('search-open')) nav.classList.remove('is-flipping');
+        }, 600);
+        searchToggle.setAttribute('aria-expanded', 'false');
+        if (searchToggleLabel) searchToggleLabel.textContent = 'Search';
+        if (refocus) searchToggle.focus();
+      }
+
+      if (searchToggle) {
+        searchToggle.addEventListener('click', function () {
+          if (nav.classList.contains('search-open')) closeSearch(true);
+          else openSearch();
+        });
+      }
+
+      setFlipDepth();
+
+      if (toggle) {
+        // Animate the whole flip region (nav items + search field) so the
+        // expanding clip reveals everything top-to-bottom, search last
+        function setMenuHeight(open) {
+          if (desktop.matches || !flip) return;
+          if (open) {
+            flip.style.height = flip.scrollHeight + 'px';
+            setTimeout(function () {
+              if (nav.classList.contains('is-open')) flip.style.height = 'auto';
+            }, 320);
+          } else {
+            flip.style.height = flip.scrollHeight + 'px';
+            void flip.offsetHeight;
+            flip.style.height = '';
+          }
+        }
+
+        var closeTimer = null;
+        toggle.addEventListener('click', function () {
+          var willOpen = !nav.classList.contains('is-open');
+          // A single deterministic close timer: cleared on every toggle so
+          // rapid open/close can't leave stale timers cross-firing.
+          clearTimeout(closeTimer);
+          if (willOpen) {
+            // Reserve the bar's height while the nav is a fixed overlay so
+            // the page content behind it doesn't jump up
+            header.style.minHeight = header.offsetHeight + 'px';
+            nav.classList.remove('is-closing');
+            nav.classList.add('is-open');
+            setMenuHeight(true);
+            document.documentElement.classList.add('nav-scroll-locked');
+          } else {
+            // Keep the sheet mounted (.is-closing) while the menu collapses
+            nav.classList.add('is-closing');
+            nav.classList.remove('is-open');
+            setMenuHeight(false);
+            closeTimer = setTimeout(function () {
+              if (nav.classList.contains('is-open')) return; // reopened mid-close
+              nav.classList.remove('is-closing');
+              document.documentElement.classList.remove('nav-scroll-locked');
+              header.style.minHeight = '';
+              // Re-sync scroll-derived header state on close (see home.html)
+              window.dispatchEvent(new Event('scroll'));
+            }, 340);
+          }
+          toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+          var lbl = toggle.querySelector('.visually-hidden');
+          if (lbl) lbl.textContent = willOpen ? 'Close menu' : 'Menu';
+        });
+
+        // Crossing into desktop closes the overlay and releases the lock
+        var closeMobileMenu = function (e) {
+          if (e.matches && (nav.classList.contains('is-open') || nav.classList.contains('is-closing'))) {
+            nav.classList.remove('is-open');
+            nav.classList.remove('is-closing');
+            toggle.setAttribute('aria-expanded', 'false');
+            var lbl = toggle.querySelector('.visually-hidden');
+            if (lbl) lbl.textContent = 'Menu';
+            document.documentElement.classList.remove('nav-scroll-locked');
+            header.style.minHeight = '';
+            // clear mobile inline heights
+            if (flip) flip.style.height = '';
+            nav.querySelectorAll('.main-nav__panel').forEach(function (p) { p.style.height = ''; });
+          }
+        };
+        if (desktop.addEventListener) desktop.addEventListener('change', closeMobileMenu);
+      }
+
+      dropdownButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          closeSearch(false);
+          var item = btn.closest('.main-nav__item');
+          if (item.classList.contains('is-open')) {
+            closeItem(item, true);
+          } else {
+            closeAll(item, true);
+            item.classList.add('is-open');
+            btn.setAttribute('aria-expanded', 'true');
+            setPanelHeight(item, true);
+          }
+          updateBackdrop();
+        });
+      });
+
+      document.addEventListener('click', function (event) {
+        if (!nav.contains(event.target)) {
+          closeAll(null, true);
+          closeSearch(false);
+          updateBackdrop();
+        }
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Escape') return;
+        if (nav.classList.contains('search-open')) {
+          closeSearch(true);
+          return;
+        }
+        var openItem = nav.querySelector('.main-nav__item.is-open');
+        if (openItem) {
+          var btn = openItem.querySelector('.main-nav__link[aria-controls]');
+          closeAll(null, true);
+          updateBackdrop();
+          if (btn && openItem.contains(document.activeElement)) btn.focus();
+        }
+      });
+
+      // Keep the backdrop height and cube depth in sync with fluid scaling
+      window.addEventListener('resize', function () {
+        updateBackdrop();
+        setFlipDepth();
+      });
+    })();
+  </script>
+
+  <script>
+    // Auto-hiding header: scrolling up reveals the nav (fixed, slides in on
+    // the dropdown timing); scrolling down slides it away. In the top zone
+    // the header returns to its natural position (the overlay header goes
+    // back to transparent-over-video). rAF-throttled per LESSONS.md. The
+    // mobile menu sheet scroll-locks the page, so it never fights this.
+    // Drupal note: fold into the shared nav behavior on port (once()).
+    (function () {
+      var header = document.querySelector('.site-header');
+      if (!header) return;
+
+      var lastY = window.scrollY;
+      var ticking = false;
+      var hideTimer = null;
+      var lastHH = 0;
+      var DELTA = 8; // ignore sub-8px jitter when deciding direction
+      // Only the transparent hero header morphs in the top zone; a standard
+      // (non-overlay) header stays in flow, so it keeps the natural top drop.
+      var isOverlay = header.classList.contains('site-header--overlay');
+
+      function pin() {
+        clearTimeout(hideTimer);
+        if (!header.classList.contains('is-pinned')) {
+          // Commit the off-screen start (-100%) with the transition SUPPRESSED
+          // — adding .is-pinned's transform + transition together would
+          // otherwise animate 0 -> -100%, which the reveal then cancels out,
+          // making the bar "just appear". Prime, reflow, un-prime, then slide.
+          header.classList.add('is-priming', 'is-pinned');
+          void header.offsetHeight;
+          header.classList.remove('is-priming');
+        }
+        header.classList.add('is-shown');
+      }
+
+      function unpin() {
+        if (!header.classList.contains('is-pinned')) return;
+        header.classList.remove('is-shown');
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(function () {
+          header.classList.remove('is-pinned');
+        }, 300); // transition time + buffer
+      }
+
+      function update() {
+        ticking = false;
+        var y = window.scrollY;
+        var hh = header.offsetHeight;
+        if (hh !== lastHH) {
+          // Published for sticky elements that step below the fixed bar
+          // (e.g. the page-split rail) — cheaper than a second measurer.
+          document.documentElement.style.setProperty('--header-height', hh + 'px');
+          lastHH = hh;
+        }
+        if (y <= 1) {
+          // At the very top the fixed bar and the natural header coincide, so
+          // drop every state class with no visible jump (the overlay is already
+          // transparent from .is-hero-top, so it simply rests in place).
+          clearTimeout(hideTimer);
+          header.classList.remove('is-pinned', 'is-shown', 'is-hero-top', 'is-priming');
+        } else if (y <= hh) {
+          if (isOverlay) {
+            // Hero top zone: fixed + revealed + hero look, set DIRECTLY (not
+            // via pin()) so the bar never re-runs the reveal slide here — it's
+            // continuously visible and only morphs colour in place. Adding
+            // is-pinned + is-shown together resolves to translateY(0), so
+            // coming from rest there's no slide; coming from a hidden docked
+            // bar, is-shown alone still slides it down.
+            clearTimeout(hideTimer);
+            header.classList.add('is-pinned', 'is-shown', 'is-hero-top');
+          } else {
+            // Standard header stays in flow — keep the natural top drop.
+            clearTimeout(hideTimer);
+            header.classList.remove('is-pinned', 'is-shown');
+          }
+        } else {
+          header.classList.remove('is-hero-top');
+          if (Math.abs(y - lastY) >= DELTA) {
+            if (y < lastY) pin();
+            else unpin();
+          }
+        }
+        lastY = y;
+      }
+
+      window.addEventListener('scroll', function () {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      });
+    })();
+  </script>
+
+  <!-- Image parallax — the shared drift (see templates/home.html): each photo
+       frame's images ease a few px against the scroll. Selector lists every
+       parallax frame so future sections on this template opt in for free.
+       rAF-throttled; reduced motion clears the translate. Drupal: one shared
+       once()-guarded behavior. -->
+  <script>
+    (function () {
+      var frames = Array.prototype.slice.call(
+        document.querySelectorAll(
+          '.card__media, .feature-banner__stage, .bento-grid__tile--media, .caption-image__stage, .page-header__media, .footer-subscribe__media'
+        )
+      );
+      if (!frames.length) return;
+
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var RANGE = 0.06; // shared drift; covered by the ~7%/side CSS overscan
+      var ticking = false;
+
+      function setShift(frame, value) {
+        var imgs = frame.querySelectorAll('img');
+        for (var k = 0; k < imgs.length; k++) imgs[k].style.translate = value;
+      }
+
+      function update() {
+        ticking = false;
+        var vh = window.innerHeight;
+        for (var i = 0; i < frames.length; i++) {
+          var rect = frames[i].getBoundingClientRect();
+          if (rect.bottom < 0 || rect.top > vh) continue;
+          var centre = rect.top + rect.height / 2;
+          var progress = (centre - vh / 2) / ((vh + rect.height) / 2);
+          if (progress < -1) progress = -1;
+          else if (progress > 1) progress = 1;
+          var shift = (-progress * rect.height * RANGE).toFixed(1);
+          setShift(frames[i], '0 ' + shift + 'px');
+        }
+      }
+
+      function requestUpdate() {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      }
+
+      function apply() {
+        if (reduced.matches) {
+          window.removeEventListener('scroll', requestUpdate);
+          window.removeEventListener('resize', requestUpdate);
+          for (var i = 0; i < frames.length; i++) setShift(frames[i], '');
+        } else {
+          window.addEventListener('scroll', requestUpdate, { passive: true });
+          window.addEventListener('resize', requestUpdate);
+          update();
+        }
+      }
+
+      apply();
+      if (reduced.addEventListener) reduced.addEventListener('change', apply);
+    })();
+  </script>
+
+  <!-- Feature banner: hovering/focusing a link crossfades the media to that
+       link's image and swaps the location pin. Same script as home.html and the
+       design system — Drupal: one once()-guarded behavior shared across pages. -->
+  <script>
+    (function () {
+      var banners = [].slice.call(document.querySelectorAll('[data-feature-banner]'));
+      banners.forEach(function (banner) {
+        var links = [].slice.call(banner.querySelectorAll('[data-feature-image]'));
+        var images = [].slice.call(banner.querySelectorAll('[data-feature-key]'));
+        var locationText = banner.querySelector('[data-feature-location-text]');
+        var locationEl = banner.querySelector('.feature-banner__location');
+        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (!links.length || !images.length) return;
+
+        var current = null;
+        images.forEach(function (img) {
+          if (img.classList.contains('is-active')) current = img.getAttribute('data-feature-key');
+        });
+
+        // Swap the location label and animate the badge from its current width
+        // to the new one. Auto widths can't transition, so measure both ends and
+        // hand CSS two explicit px values; reset to auto once it settles so the
+        // badge stays responsive. Reduced motion just swaps the text.
+        function setLocation(text) {
+          if (!locationText) return;
+          if (!locationEl || reduceMotion.matches) { locationText.textContent = text; return; }
+          var startW = locationEl.getBoundingClientRect().width;
+          locationEl.style.width = 'auto';
+          locationText.textContent = text;
+          var endW = locationEl.getBoundingClientRect().width;
+          locationEl.style.width = startW + 'px';
+          locationEl.getBoundingClientRect(); // force reflow so the next set animates
+          locationEl.style.width = endW + 'px';
+          var done = function (e) {
+            if (e.propertyName !== 'width') return;
+            locationEl.style.width = '';
+            locationEl.removeEventListener('transitionend', done);
+          };
+          locationEl.addEventListener('transitionend', done);
+        }
+
+        function activate(key) {
+          if (key === current) return;
+          var found = false, loc = '';
+          images.forEach(function (img) {
+            var match = img.getAttribute('data-feature-key') === key;
+            if (match) { found = true; loc = img.getAttribute('data-feature-location') || ''; }
+            img.classList.toggle('is-active', match);
+          });
+          if (found) { current = key; setLocation(loc); }
+        }
+
+        // Auto-cycle on the hero's cadence; hover/focus takes over and pauses,
+        // leaving the links resumes. Reduced motion opts out entirely.
+        var keys = images.map(function (img) { return img.getAttribute('data-feature-key'); });
+        var HOLD_MS = 5250;
+        var FADE_MS = 500;
+        var autoTimer = null;
+
+        function stopAuto() { clearTimeout(autoTimer); autoTimer = null; }
+        function scheduleAuto() {
+          stopAuto();
+          if (reduceMotion.matches || keys.length < 2) return;
+          autoTimer = setTimeout(function () {
+            activate(keys[(keys.indexOf(current) + 1) % keys.length]);
+            scheduleAuto();
+          }, HOLD_MS + FADE_MS);
+        }
+
+        links.forEach(function (link) {
+          var key = link.getAttribute('data-feature-image');
+          link.addEventListener('mouseenter', function () { activate(key); });
+          link.addEventListener('focus', function () { activate(key); });
+        });
+
+        var linksList = banner.querySelector('.feature-banner__links');
+        if (linksList) {
+          linksList.addEventListener('mouseenter', stopAuto);
+          linksList.addEventListener('mouseleave', scheduleAuto);
+        }
+        banner.addEventListener('focusin', stopAuto);
+        banner.addEventListener('focusout', scheduleAuto);
+
+        scheduleAuto();
+      });
+    })();
+  </script>
+
+  <!-- Scroll-entrance animations: the shared [data-animate] system (see
+       docs/animation.md rule 1 and scss/utilities/_scroll-animations.scss).
+       ONE IntersectionObserver for the whole page. Progressive enhancement —
+       .js-animations is added to <html> only AFTER the observer is wired, so a
+       disabled/broken script (or a missing IntersectionObserver) leaves every
+       element fully visible. CSS owns the motion; this only toggles a class and
+       writes stagger delays. Drupal: move into a once()-guarded behavior on
+       port (and share across templates once other pages use it).
+       Tweakables: STAGGER_MS + the rootMargin/threshold below; distance,
+       duration and easing live in the CSS custom properties. -->
+  <script>
+    (function () {
+      var STAGGER_MS = 80;                    // gap between staggered siblings
+      var ROOT_MARGIN = '0px 0px -8% 0px';    // fire ~8% before fully in view
+      var THRESHOLD = 0.01;                   // any sliver counts
+
+      var els = [].slice.call(document.querySelectorAll('[data-animate]'));
+      if (!els.length) return;
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      // Fall back to "everything visible": reduced motion or no observer means
+      // we never add .js-animations, so the hidden state never applies.
+      if (reduce.matches || !('IntersectionObserver' in window)) return;
+
+      // Stagger: write --animate-delay (index x step) on each DIRECT
+      // [data-animate] child of a [data-animate-stagger] group — but never
+      // clobber a delay the author set inline.
+      [].slice.call(document.querySelectorAll('[data-animate-stagger]')).forEach(function (group) {
+        var i = 0;
+        [].slice.call(group.children).forEach(function (child) {
+          if (!child.hasAttribute('data-animate')) return;
+          if (!child.style.getPropertyValue('--animate-delay')) {
+            child.style.setProperty('--animate-delay', (i * STAGGER_MS) + 'ms');
+          }
+          i += 1;
+        });
+      });
+
+      var io = new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible'); // CSS runs the transition
+          obs.unobserve(entry.target);              // one-shot — never replays
+        });
+      }, { rootMargin: ROOT_MARGIN, threshold: THRESHOLD });
+
+      els.forEach(function (el) { io.observe(el); });
+
+      // Only now — observer live, every element observed — prime the hidden
+      // state. If anything above threw, this never runs and the page stays
+      // fully visible.
+      document.documentElement.classList.add('js-animations');
+    })();
+  </script>
+
+  <!-- Client logo marquee. A PROGRESSIVE ENHANCEMENT: the band is a plain
+       horizontal scroller in the markup, and this only mounts the continuous
+       scroll when JS runs and motion is welcome. Without either it stays
+       manually scrollable, so nothing is ever unreachable.
+       Seamless loop: clone the list, hide the copy from assistive tech (it is
+       the same twenty logos — nobody should hear them twice), and translate the
+       track exactly -50%, which lands the copy where the original started.
+       Speed is constant rather than duration being fixed: the duration is
+       derived from the measured list width, so adding logos in Drupal makes the
+       band longer, not faster.
+       Drupal: a once()-guarded behavior. -->
+  <script>
+    (function () {
+      var scroller = document.querySelector('.client-logos__scroller');
+      if (!scroller) return;
+      var track = scroller.querySelector('.client-logos__track');
+      var list = track && track.querySelector('.client-logos__list');
+      if (!track || !list) return;
+
+      var SPEED = 40; // px per second — the band's travel, not its cycle time
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      // WCAG 2.2.2: the control that stops the motion. Hidden until the marquee
+      // actually mounts — with no JS or under reduced motion nothing moves, and
+      // a button that paused nothing would be worse than no button at all.
+      var playback = document.querySelector('[data-logos-playback]');
+      var pauseIcon = playback && playback.querySelector('[data-logos-pause]');
+      var playIcon = playback && playback.querySelector('[data-logos-play]');
+      var label = playback && playback.querySelector('[data-logos-label]');
+
+      function setPaused(paused) {
+        scroller.classList.toggle('is-paused', paused);
+        if (!playback) return;
+        // toggleAttribute, not .hidden — SVG elements lack the hidden IDL
+        // property (the hero's playback control carries the same note).
+        pauseIcon.toggleAttribute('hidden', paused);
+        playIcon.toggleAttribute('hidden', !paused);
+        label.textContent = paused ? 'Play' : 'Pause';
+      }
+
+      function setDuration() {
+        var w = list.getBoundingClientRect().width;
+        if (w > 0) scroller.style.setProperty('--marquee-duration', (w / SPEED).toFixed(2) + 's');
+      }
+
+      function mount() {
+        if (reduce.matches || scroller.classList.contains('is-marquee')) return;
+        var copy = list.cloneNode(true);
+        copy.setAttribute('aria-hidden', 'true');
+        // Nothing inside is focusable, but be explicit: a cloned tab stop would
+        // be a duplicate the user cannot see the point of.
+        copy.querySelectorAll('[tabindex]').forEach(function (el) { el.setAttribute('tabindex', '-1'); });
+        track.appendChild(copy);
+        scroller.classList.add('is-marquee');
+        setDuration();
+        if (playback) {
+          playback.hidden = false;
+          setPaused(false);
+        }
+      }
+
+      function unmount() {
+        if (!scroller.classList.contains('is-marquee')) return;
+        var copy = track.querySelector('.client-logos__list[aria-hidden="true"]');
+        if (copy) copy.remove();
+        scroller.classList.remove('is-marquee');
+        scroller.classList.remove('is-paused');
+        scroller.style.removeProperty('--marquee-duration');
+        if (playback) playback.hidden = true;
+      }
+
+      if (playback) {
+        playback.addEventListener('click', function () {
+          setPaused(!scroller.classList.contains('is-paused'));
+        });
+      }
+
+      function apply() { reduce.matches ? unmount() : mount(); }
+
+      apply();
+      // Images settle after load and the gap is fluid, so re-measure rather than
+      // trusting the first reading.
+      window.addEventListener('load', setDuration);
+      window.addEventListener('resize', setDuration);
+      if (reduce.addEventListener) reduce.addEventListener('change', apply);
+    })();
+  </script>
+
+  <!-- Scroll regions: a table scrolls inside its figure.table wrapper, a code
+       block inside its own pre (CSS, pages/_content.scss), and the client logo
+       band inside its scroller. A scroll box that holds nothing focusable
+       cannot be scrolled from the keyboard (WCAG 2.1.1), so promote ONLY the
+       boxes that actually overflow to a focusable, labelled region — one that
+       fits adds no tab stop and no landmark. Re-checked on resize and once
+       webfonts settle, because the column and the type scale are both fluid.
+       Drupal: one once()-guarded behavior, labels through t(). -->
+  <script>
+    (function () {
+      var wrappers = [].slice.call(document.querySelectorAll(
+        '.page-content__section figure.table, .page-content__section pre, .client-logos__scroller'
+      ));
+      if (!wrappers.length) return;
+
+      function labelFor(el) {
+        if (el.matches('pre')) return 'Scrollable code block';
+        if (el.matches('.client-logos__scroller')) return 'Client logos, scrollable';
+        return 'Scrollable table';
+      }
+
+      function sync() {
+        wrappers.forEach(function (el) {
+          // Only a box the user can actually scroll earns a tab stop. A clipped
+          // box (overflow: hidden — e.g. the logo band once its marquee mounts)
+          // still reports scrollWidth > clientWidth, but no key press will move
+          // it, so promoting it would add a tab stop that does nothing.
+          var ox = getComputedStyle(el).overflowX;
+          var scrollable = (ox === 'auto' || ox === 'scroll');
+          // +1 absorbs sub-pixel rounding: a fluid column routinely resolves to
+          // a fractional width, where scrollWidth reads a pixel over
+          // clientWidth with nothing actually clipped.
+          if (scrollable && el.scrollWidth > el.clientWidth + 1) {
+            el.setAttribute('tabindex', '0');
+            el.setAttribute('role', 'region');
+            el.setAttribute('aria-label', labelFor(el));
+          } else if (el !== document.activeElement) {
+            // Never strip the attributes off the element currently holding
+            // focus — that would drop the user's focus to <body> mid-resize.
+            el.removeAttribute('tabindex');
+            el.removeAttribute('role');
+            el.removeAttribute('aria-label');
+          }
+        });
+      }
+
+      sync();
+      window.addEventListener('resize', sync);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+    })();
+  </script>
+
+  <!-- Leaflet powers the generator map (OpenStreetMap tiles). Pinned CDN
+       build in the static prototype — in Drupal self-host BOTH files as a
+       theme library (GovCMS commonly blocks third-party CDNs), and give
+       production its own tile arrangement: tile.openstreetmap.org's usage
+       policy covers development-scale traffic, not a government site's. The
+       attribution control is a licence requirement — never remove it. -->
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script>
+    // Generator directory: the map, the list/map view toggle, and the
+    // reference-chrome filters.
+    //
+    // MAP — markers and popups are built FROM THE CARDS (data-lat/lng plus
+    // each card's own text), so the listing is the single source of truth and
+    // the map can never disagree with it. divIcon pins are styled in CSS —
+    // no image assets. The map initialises LAZILY: immediately where the
+    // two-column layout shows it, otherwise on the first switch to map view,
+    // because Leaflet cannot measure itself inside display:none. A
+    // ResizeObserver re-measures through the pane's height ease (auto-hide
+    // header) and the view toggle.
+    //
+    // TOGGLE — below the lg split the list and map cannot share the width, so
+    // two aria-pressed buttons swap them. List is the default and the no-JS
+    // state. 1200 mirrors respond-to('lg'), the way the nav script hard-codes
+    // its own breakpoint.
+    //
+    // FILTERS — REFERENCE CHROME standing in for the view's AJAX round-trip
+    // (exposed fulltext + state + type; chips are the view header's
+    // selected-filters summary). Do not port: in Drupal the view re-renders
+    // and this block is its themed output. style.display, not [hidden] — the
+    // card's own display outranks the UA rule (the news filter's lesson).
+    //
+    // Drupal: once()-guarded behaviors; t() every label.
+    (function () {
+      var root = document.querySelector('[data-generator-directory]');
+      if (!root) return;
+
+      var mapEl = root.querySelector('[data-gen-map]');
+      var cards = [].slice.call(root.querySelectorAll('[data-gen-item]'));
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var wide = window.matchMedia('(min-width: 1200px)'); // respond-to('lg')
+      var map = null;
+      var cluster = null; // the markercluster group every marker lives in
+      var entries = []; // { card, marker } pairs, built once at init
+
+      // The pin: the same teardrop the cards' "View on map" button carries.
+      // Inline SVG in a divIcon so currentColor reaches it and the colour
+      // stays a token in the stylesheet.
+      var PIN_SVG = '<svg viewBox="0 0 24 32" aria-hidden="true" focusable="false">' +
+        '<path d="M12 0C5.373 0 0 5.373 0 12c0 8.5 12 20 12 20s12-11.5 12-20c0-6.627-5.373-12-12-12z" fill="currentColor"/>' +
+        '<circle cx="12" cy="12" r="4.5" fill="#fff"/></svg>';
+
+      function hidden(card) {
+        return card.style.display === 'none';
+      }
+
+      // --- Map ---
+
+      // The popup is a miniature of the card: the same photo, the same record.
+      // Composed with DOM nodes, not an HTML string — the copy comes from
+      // editorial fields, and textContent cannot be talked into being markup
+      // the way innerHTML can.
+      function popupFor(card) {
+        function text(sel) {
+          var el = card.querySelector(sel);
+          return el ? el.textContent.trim() : '';
+        }
+        function p(cls, str) {
+          var el = document.createElement('p');
+          el.className = cls;
+          el.textContent = str;
+          return el;
+        }
+
+        var root = document.createElement('div');
+        root.className = 'generator-popup';
+
+        // The card's own thumbnail — decorative here too, so alt stays empty:
+        // the name directly under it carries the meaning.
+        var thumb = card.querySelector('.generator-card__media');
+        if (thumb) {
+          var img = document.createElement('img');
+          img.className = 'generator-popup__media';
+          img.src = thumb.getAttribute('src');
+          img.alt = '';
+          root.appendChild(img);
+        }
+
+        var body = document.createElement('div');
+        body.className = 'generator-popup__body';
+        body.appendChild(p('generator-popup__title', text('.generator-card__title')));
+        body.appendChild(p('generator-popup__line', text('.generator-card__company')));
+        body.appendChild(p('generator-popup__line', text('.generator-card__place')));
+
+        var meta = document.createElement('div');
+        meta.className = 'generator-popup__meta';
+        [].slice.call(card.querySelectorAll('.generator-card__meta-row')).forEach(function (row) {
+          var line = document.createElement('p');
+          line.className = 'generator-popup__meta-row';
+          var label = document.createElement('strong');
+          label.textContent = row.querySelector('dt').textContent + ':';
+          line.appendChild(label);
+          line.appendChild(document.createTextNode(' ' + row.querySelector('dd').textContent));
+          meta.appendChild(line);
+        });
+        body.appendChild(meta);
+
+        var site = card.querySelector('[data-gen-website]');
+        if (site) {
+          var wrap = document.createElement('p');
+          wrap.className = 'generator-popup__link';
+          var a = document.createElement('a');
+          a.href = site.getAttribute('href');
+          a.textContent = 'Visit website';
+          wrap.appendChild(a);
+          body.appendChild(wrap);
+        }
+
+        root.appendChild(body);
+        return root;
+      }
+
+      function initMap() {
+        if (map || !mapEl) return;
+        if (!window.L) return; // CDN blocked: the fallback note stays up
+
+        map = L.map(mapEl, {
+          // Leaflet's pan/zoom easing is motion — honour the preference
+          zoomAnimation: !reduced.matches,
+          fadeAnimation: !reduced.matches,
+          markerZoomAnimation: !reduced.matches
+        });
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          // REQUIRED by OpenStreetMap's licence — never remove
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Pins that would overlap are grouped into one counted bubble —
+        // without it a wind region reads as a single blob and the pins
+        // underneath are unreachable. The plugin's default theme is not
+        // loaded: iconCreateFunction builds our own bubble (styled in
+        // _generator-directory.scss), so the map keeps the system's palette.
+        cluster = L.markerClusterGroup({
+          showCoverageOnHover: false, // the hull polygon is library-blue chrome
+          maxClusterRadius: 44,
+          animate: !reduced.matches, // spiderfy/zoom easing is motion
+          iconCreateFunction: function (c) {
+            var n = c.getChildCount();
+            return L.divIcon({
+              className: 'generator-directory__cluster',
+              // The count IS the accessible name — markercluster makes the
+              // bubble a focusable button.
+              html: '<span>' + n + '</span>',
+              iconSize: [40, 40]
+            });
+          }
+        });
+        map.addLayer(cluster);
+
+        entries = cards.map(function (card) {
+          var marker = L.marker(
+            [parseFloat(card.getAttribute('data-lat')), parseFloat(card.getAttribute('data-lng'))],
+            {
+              icon: L.divIcon({
+                className: 'generator-directory__pin',
+                html: PIN_SVG,
+                iconSize: [24, 32],
+                iconAnchor: [12, 32], // the TIP sits on the coordinate
+                popupAnchor: [0, -30] // …so the popup opens above the head
+              }),
+              // Markers are keyboard-focusable; the title names each one
+              title: (card.querySelector('.generator-card__title') || { textContent: 'Generator' }).textContent.trim()
+            }
+          ).bindPopup(popupFor(card), {
+            // A fixed width so the photo's height is deterministic — the
+            // close button is stepped past it in CSS (--popup-media-h).
+            minWidth: 252,
+            maxWidth: 252
+          });
+          cluster.addLayer(marker);
+          return { card: card, marker: marker };
+        });
+
+        syncMarkers(); // respect any filter applied before the map mounted
+        root.classList.add('has-map'); // hides the fallback note
+
+        // The pane's height eases when the auto-hide bar steps in, and the
+        // container resizes on the view toggle — Leaflet must re-measure or
+        // it leaves unrendered tile bands.
+        if ('ResizeObserver' in window) {
+          new ResizeObserver(function () {
+            if (map) map.invalidateSize();
+          }).observe(mapEl);
+        }
+      }
+
+      function fitVisible(animate) {
+        if (!map) return;
+        var pts = [];
+        entries.forEach(function (e) {
+          if (!hidden(e.card)) pts.push(e.marker.getLatLng());
+        });
+        if (!pts.length) return;
+        map.fitBounds(L.latLngBounds(pts).pad(0.15), { animate: !!animate && !reduced.matches });
+      }
+
+      // Markers follow the filtered list — one source of truth. They join and
+      // leave the CLUSTER group, not the map, so the counts re-form around
+      // whatever the filter left behind.
+      function syncMarkers() {
+        if (!map || !cluster) return;
+        entries.forEach(function (e) {
+          if (hidden(e.card)) {
+            cluster.removeLayer(e.marker);
+          } else if (!cluster.hasLayer(e.marker)) {
+            cluster.addLayer(e.marker);
+          }
+        });
+        fitVisible(false);
+      }
+
+      // --- List / map view toggle (below the lg split) ---
+
+      var toggleButtons = [].slice.call(root.querySelectorAll('[data-gen-view]'));
+
+      function setView(view) {
+        root.classList.toggle('is-map-view', view === 'map');
+        toggleButtons.forEach(function (b) {
+          b.setAttribute('aria-pressed', b.getAttribute('data-gen-view') === view ? 'true' : 'false');
+        });
+        if (view === 'map') {
+          initMap(); // first switch is the first time the pane has a size
+          if (map) map.invalidateSize();
+        }
+      }
+
+      toggleButtons.forEach(function (b) {
+        b.addEventListener('click', function () {
+          setView(b.getAttribute('data-gen-view'));
+        });
+      });
+
+      // The split shows the map without asking — prepare it as soon as (and
+      // whenever) the layout is wide enough. Crossing back down returns to
+      // the default list view rather than trapping a stale map-only state.
+      function applyWidth() {
+        if (wide.matches) {
+          setView('list');
+          initMap();
+          if (map) map.invalidateSize();
+        }
+      }
+      applyWidth();
+      if (wide.addEventListener) wide.addEventListener('change', applyWidth);
+
+      // --- "View on map" on each card ---
+
+      cards.forEach(function (card) {
+        var btn = card.querySelector('[data-gen-map-focus]');
+        if (!btn) return;
+        btn.addEventListener('click', function () {
+          if (!wide.matches) setView('map'); // the map must be on screen first
+          initMap();
+          if (!map) return; // no Leaflet — the button did all it could
+          var entry = null;
+          entries.forEach(function (e) { if (e.card === card) entry = e; });
+          if (!entry) return;
+          map.invalidateSize();
+          map.setView(entry.marker.getLatLng(), 11, { animate: !reduced.matches });
+          // The pin may be inside a cluster bubble at this zoom, and a marker
+          // that is not on the map cannot open a popup — zoomToShowLayer
+          // breaks the cluster open first, then hands back.
+          if (cluster && !map.hasLayer(entry.marker)) {
+            cluster.zoomToShowLayer(entry.marker, function () { entry.marker.openPopup(); });
+          } else {
+            entry.marker.openPopup();
+          }
+          // Put the keyboard where the action landed — the map container is
+          // focusable. preventScroll: at lg the map is already alongside.
+          mapEl.focus({ preventScroll: true });
+        });
+      });
+
+      // --- Filters: REFERENCE CHROME (see the header comment) ---
+
+      var form = document.querySelector('[data-gen-filter]');
+      var chipsEl = root.querySelector('[data-gen-chips]');
+      var countEl = root.querySelector('[data-gen-count]');
+      var emptyEl = root.querySelector('[data-gen-empty]');
+      if (!form || !chipsEl || !countEl || !emptyEl) return;
+
+      var search = form.querySelector('#gen-search');
+      var groups = [].slice.call(form.querySelectorAll('[data-gen-multi]')).map(function (el) {
+        return {
+          key: el.getAttribute('data-gen-multi'),
+          el: el,
+          trigger: el.querySelector('.tool-filter__multi-toggle'),
+          panel: el.querySelector('[popover]'),
+          label: el.querySelector('[data-gen-multi-label]'),
+          // The label to fall back to when nothing is ticked ("All states and
+          // territories") — read from the markup rather than restated here,
+          // so the copy lives in one place and stays translatable.
+          allLabel: el.querySelector('[data-gen-multi-label]').textContent,
+          boxes: [].slice.call(el.querySelectorAll('input[type="checkbox"]'))
+        };
+      });
+
+      function checked(group) {
+        return group.boxes.filter(function (b) { return b.checked; });
+      }
+
+      // The option's VISIBLE text — the abbreviation for states ("VIC"), the
+      // plain word for energy types. One lookup drives the panel, the trigger
+      // and the chips, so the three can never disagree about what a value is
+      // called.
+      function boxLabel(box) {
+        return box.parentNode.querySelector('[data-option-label]').textContent;
+      }
+
+      // The spelt-out name, which rides beside the abbreviation in a
+      // visually-hidden span. Used to enrich accessible names; falls back to
+      // the visible text where a value needs no expansion (the types).
+      function boxFullLabel(box) {
+        var hidden = box.parentNode.querySelector('.visually-hidden');
+        return hidden ? hidden.textContent : boxLabel(box);
+      }
+
+      // The trigger reports its own state: the option's name while one is
+      // ticked, a count past that (listing four state names would outgrow the
+      // pill), the authored "All …" when none are.
+      function syncTriggers() {
+        groups.forEach(function (group) {
+          var on = checked(group);
+          group.label.textContent = !on.length ? group.allLabel
+            : on.length === 1 ? boxLabel(on[0])
+            : on.length + ' selected';
+        });
+      }
+
+      // Place an OPEN panel under its trigger. Popovers sit in the top layer
+      // with fixed positioning, so the coordinates are viewport ones — and
+      // they are inline styles precisely so that with no script the UA's own
+      // centring (the no-JS shape) still applies. Called from the panel's
+      // toggle event, when it has layout to measure; the left edge clamps so
+      // the panel never leaves the viewport.
+      function place(group) {
+        var rect = group.trigger.getBoundingClientRect();
+        group.panel.style.margin = '0';
+        group.panel.style.minWidth = rect.width + 'px';
+        group.panel.style.top = (rect.bottom + 6) + 'px';
+        group.panel.style.left =
+          Math.max(8, Math.min(rect.left, window.innerWidth - group.panel.offsetWidth - 8)) + 'px';
+      }
+
+      function openGroups() {
+        return groups.filter(function (g) { return g.panel.matches(':popover-open'); });
+      }
+
+      // Close every open panel (Apply commits the choice; the browser already
+      // closes on outside click and Escape — that is the popover contract).
+      function closeGroups() {
+        openGroups().forEach(function (g) { g.panel.hidePopover(); });
+      }
+
+      groups.forEach(function (group) {
+        // One listener does the JS-side work: position on open, and mirror
+        // the state onto the invoker (browsers imply aria-expanded for
+        // popovertarget buttons; setting it keeps the chevron honest in all).
+        group.panel.addEventListener('toggle', function (event) {
+          var open = event.newState === 'open';
+          group.trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+          if (open) place(group);
+        });
+        group.boxes.forEach(function (box) {
+          box.addEventListener('change', syncTriggers);
+        });
+      });
+
+      // The trigger scrolls with the band while the open panel is FIXED in
+      // the top layer — re-pin it on scroll/resize or the two drift apart.
+      // rAF-throttled per LESSONS.md; does nothing while no panel is open.
+      var placing = false;
+      function replace() {
+        placing = false;
+        openGroups().forEach(place);
+      }
+      function requestPlace() {
+        if (!placing) {
+          requestAnimationFrame(replace);
+          placing = true;
+        }
+      }
+      window.addEventListener('scroll', requestPlace, { passive: true });
+      window.addEventListener('resize', requestPlace);
+
+      // `label` is what shows (abbreviated); `spoken` is the accessible name,
+      // which must CONTAIN that visible text (WCAG 2.5.3, Label in Name — a
+      // speech-input user saying "VIC" has to match) and then expands it, so
+      // the chip announces "Remove filter: VIC, Victoria". Text goes in via
+      // textContent, not innerHTML: these strings are editorial in Drupal.
+      function chip(label, spoken, onRemove) {
+        var li = document.createElement('li');
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'filter-chips__chip';
+        var text = document.createElement('span');
+        text.textContent = label;
+        b.appendChild(text);
+        b.insertAdjacentHTML('beforeend',
+          '<svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>');
+        b.setAttribute('aria-label', 'Remove filter: ' + spoken);
+        b.addEventListener('click', onRemove);
+        li.appendChild(b);
+        return li;
+      }
+
+      function apply() {
+        var q = (search.value || '').trim().toLowerCase();
+        // One array of ticked values per group, in the DOM order of the
+        // checkboxes — so the chips read in the same order as the panel.
+        var picked = groups.map(function (group) {
+          return { group: group, boxes: checked(group) };
+        });
+        var shown = 0;
+
+        cards.forEach(function (card) {
+          var haystack = (card.querySelector('.generator-card__title').textContent + ' ' +
+            card.querySelector('.generator-card__company').textContent).toLowerCase();
+          // A group with nothing ticked does not constrain — the news
+          // filter's "no selection means all" rule, per group.
+          var match = picked.every(function (p) {
+            if (!p.boxes.length) return true;
+            return p.boxes.some(function (b) {
+              return card.getAttribute('data-' + p.group.key) === b.value;
+            });
+          }) && (!q || haystack.indexOf(q) !== -1);
+          card.style.display = match ? '' : 'none';
+          if (match) shown += 1;
+        });
+
+        // Chips mirror the applied state — ONE PER SELECTED VALUE, so
+        // "Victoria + New South Wales + Solar" is three removable chips, and
+        // each one unticks its own box.
+        chipsEl.textContent = '';
+        var any = !!q;
+        picked.forEach(function (p) {
+          p.boxes.forEach(function (box) {
+            any = true;
+            chipsEl.appendChild(chip(boxLabel(box), boxLabel(box) + ', ' + boxFullLabel(box), function () {
+              box.checked = false;
+              syncTriggers();
+              apply();
+            }));
+          });
+        });
+        if (q) {
+          var q0 = '“' + search.value.trim() + '”';
+          chipsEl.appendChild(chip(q0, 'search ' + q0, function () {
+            search.value = '';
+            apply();
+          }));
+        }
+        if (any) {
+          var li = document.createElement('li');
+          var clear = document.createElement('button');
+          clear.type = 'button';
+          clear.className = 'filter-chips__clear';
+          clear.textContent = 'Clear all';
+          clear.addEventListener('click', function () {
+            search.value = '';
+            groups.forEach(function (group) {
+              group.boxes.forEach(function (box) { box.checked = false; });
+            });
+            syncTriggers();
+            apply();
+          });
+          li.appendChild(clear);
+          chipsEl.appendChild(li);
+        }
+        chipsEl.hidden = !any;
+
+        // The visible count doubles as the live status — one region, no
+        // duplicate announcement.
+        countEl.textContent = 'Showing ' + shown + ' accredited generator' + (shown === 1 ? '' : 's');
+        emptyEl.hidden = shown > 0;
+        root.classList.toggle('is-empty', shown === 0); // hides the pager (CSS)
+        syncMarkers();
+      }
+
+      // Ticking a box filters IMMEDIATELY — a checkbox is a committed choice,
+      // and a chip that only appeared after a second click on Apply read as a
+      // control that had ignored you. Free text is the exception: it commits
+      // on Enter or Apply, because filtering (and drawing a chip) per
+      // keystroke would flicker through every prefix of the word.
+      groups.forEach(function (group) {
+        group.boxes.forEach(function (box) {
+          box.addEventListener('change', apply);
+        });
+      });
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault(); // the view's AJAX round-trip in Drupal
+        closeGroups();
+        apply();
+      });
+
+      // Run once on load: the count then always reports the DOM rather than a
+      // number typed into the markup, so adding a card cannot leave the
+      // heading stale. (The authored value is the no-JS fallback.)
+      syncTriggers();
+      apply();
+    })();
+  </script>
+</body>
+</html>

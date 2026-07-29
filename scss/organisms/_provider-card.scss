@@ -1,0 +1,279 @@
+// -----------------------------------------------------------------------------
+// Provider card — one accredited retailer or trader in the buy directory
+//
+// A wide record row: logo, name and one OFFER SECTION per energy type the
+// organisation sells (an electricity retailer, a gas trader, or — Origin —
+// both), beside an action rail (Visit website, phone, "what to ask"). Each
+// offer states who it serves, where, and which products carry GreenPower —
+// as small metadata pills, because these are FACTS about the record, not
+// controls: real buttons and links here are exactly three (website, phone,
+// the explainer), and dressing the facts as chips would bury them.
+//
+// The GAS offer sits on a white inset panel (the download-in-accordion lift):
+// certificates work differently from retail products, and when a card carries
+// both offers the two must read as two propositions, not one run of pills.
+// It keeps the panel when it stands alone so gas reads the same everywhere.
+//
+// Drupal mapping: a node TEASER view mode of accredited_provider, the rows of
+//   the buy view (see _provider-directory.scss):
+//   title, field_logo (media image), field_website (link), field_phone
+//   (telephone), field_ask_link (link — the "what to ask" explainer page),
+//   field_offers (repeatable paragraph provider_offer: field_offer_type
+//   (electricity|gas taxonomy), field_buyers (household/business taxonomy,
+//   multiple), field_states (taxonomy, multiple, or the "all" flag),
+//   field_products (text, multiple — GreenPower 25/50/100 or the certificate
+//   kinds)). The card's data-* filter attributes are the union of its offers,
+//   written by preprocess.
+// -----------------------------------------------------------------------------
+
+.provider-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-m);
+  align-items: flex-start;
+  padding: var(--space-m);
+  background-color: $color-tint-taupe; // the listing surface
+  border-radius: $radius-lg;
+
+  // The organisation's mark. A logo is third-party brand art — full colour on
+  // WHITE, never on a tint (the client-logos rule), hence the white plate.
+  // The demo renders the plate empty with a mono placeholder; Drupal puts the
+  // media image inside and the placeholder text never ships.
+  &__logo {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 5.5rem;
+    height: 5.5rem;
+    overflow: hidden;
+    font-family: $font-family-mono;
+    font-size: $font-size-xs;
+    color: $color-ui-text;
+    background-color: $color-white;
+    border: 1px solid $color-ui-border;
+    border-radius: $radius-md;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: var(--space-2xs);
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex: 1 1 24rem;
+    flex-direction: column;
+    gap: var(--space-s);
+    align-items: flex-start;
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: $font-size-lg; // the card-title step
+    font-weight: $font-weight-demibold;
+    color: $color-brand-dark-green;
+  }
+
+  // One energy type's proposition, on its own inset panel. BOTH offers wear
+  // the same panel: a provider that sells electricity and gas is making two
+  // parallel offers, and giving one a panel and the other none read as a
+  // sub-section of the first rather than its equal. The badge is what
+  // distinguishes them.
+  &__offer {
+    // The pills sit on the panel, so they take the card's tint to stay
+    // legible against it — the inverse of the card's own surface pair.
+    --pill-surface: #{$color-tint-taupe};
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    align-items: flex-start;
+    align-self: stretch;
+    padding: var(--space-s);
+    background-color: $color-white;
+    border-radius: $radius-md;
+  }
+
+  // The shared tag pill with the energy-type glyph — the generator badge's
+  // exact overrides (tight gap, tucked leading edge) for the same
+  // glyph-optics reasons.
+  // sm, a rung above the mixin's default xs — this badge NAMES the offer it
+  // heads, where .card__tag is a small marker floating over a photo. Same
+  // reasoning that puts .article-meta__tag on sm, and it lifts the glyph with
+  // it since the icon is sized in em.
+  &__offer-badge {
+    @include tag-pill($font-size-sm);
+    gap: var(--space-3xs);
+    padding-left: var(--space-2xs);
+    margin-bottom: var(--space-3xs);
+
+    img {
+      flex-shrink: 0;
+      // A touch larger than the 1.15em the inline-with-text marks use: this
+      // one leads a heading rather than sitting mid-sentence, so it carries
+      // the extra weight without crowding the label.
+      width: 1.3em;
+      height: 1.3em;
+      object-fit: contain;
+      filter: brightness(0) invert(100%); // dark-green artwork on the dark pill
+    }
+  }
+
+  // Label/value rows as a real <dl> (the generator card's meta pattern);
+  // values are pill LISTS.
+  //
+  // "Available for" and "Available in" pair off into two columns, the first
+  // sized to its own content (it is always the same two short pills) and the
+  // second taking the rest — the products row then spans both. Stacked below
+  // sm, where two columns of pills would each be too narrow to hold one.
+  &__rows {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-s);
+    align-self: stretch;
+    margin: 0;
+
+    @include respond-to('sm') {
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: var(--space-s) var(--space-l);
+    }
+  }
+
+  // Label ABOVE its pills, not inline beside them: the values are a wrapping
+  // list, and an inline label left the second line hanging under it with
+  // nothing to align to.
+  &__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    align-items: flex-start;
+    font-size: $font-size-sm;
+
+    dt {
+      font-weight: $font-weight-medium;
+      color: $color-brand-dark-green;
+
+      // The explainer beside a label ("What are these?") — the base link
+      // styling (green + underline) is right; just keep its weight quiet so
+      // the label leads.
+      a {
+        margin-left: var(--space-3xs);
+        font-weight: $font-weight-regular;
+
+        &:hover {
+          color: $color-brand-blue;
+        }
+      }
+    }
+
+    dd {
+      margin: 0;
+    }
+  }
+
+  // The products/certificates row runs the full width beneath the pair — it
+  // carries the most pills and its label is the longest.
+  &__row--wide {
+    @include respond-to('sm') {
+      grid-column: 1 / -1;
+    }
+  }
+
+  // The facts-as-pills. NOT buttons — no hover, no cursor, no border: state
+  // and product names are metadata, and anything pill-shaped that reacts
+  // would read as another filter row.
+  &__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  &__pill {
+    // Containing block for the spelt-out state names the abbreviation pills
+    // carry in visually-hidden spans (LESSONS.md containment rule).
+    position: relative;
+    padding: var(--space-3xs) var(--space-xs);
+    // sm, level with the row LABEL above each pill list rather than a step
+    // under it: the pill holds the actual answer ("GreenPower 100%"), and at
+    // xs the data read as smaller than the question.
+    //
+    // That puts every pill in this card on one type step — badge, label and
+    // fact all sm/500 — so the SURFACE is what ranks them: the offer badge is
+    // white on filled Dark Green, these are Dark Green on the card's tint,
+    // and the labels carry no fill at all. Worth knowing before reaching for
+    // a size change here: there is no size headroom left, so a future
+    // distinction has to come from weight or colour.
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    background-color: var(--pill-surface);
+    border-radius: $radius-pill;
+  }
+
+  // --- Action rail ---
+
+  // margin-left: auto keeps the rail pinned right while the row fits; when
+  // the card wraps (narrow widths) it drops to its own line.
+  //
+  // Its CONTENTS centre on each other rather than ragging to the right edge:
+  // the three items are different widths and none of them is text you read
+  // along a margin — a pill, a number and a link, stacked as one block. Right
+  // alignment set the phone number's last digit against the card edge and
+  // left the button looking unrelated to it.
+  &__aside {
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    align-items: center;
+    margin-left: auto;
+    text-align: center;
+  }
+
+  &__phone {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--space-2xs);
+    font-size: $font-size-sm;
+    color: $color-ui-text;
+  }
+
+  // The number is the thing to read across the room — a step up and demibold.
+  // A link (tel:) but not underlined: the phone label above names it, and an
+  // underline at this size read as a second CTA fighting the button.
+  &__phone-num {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-demibold;
+    color: $color-brand-dark-green;
+    text-decoration: none;
+    @include transition(color);
+
+    &:hover {
+      color: $color-brand-blue;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  &__ask {
+    font-size: $font-size-sm;
+    color: $color-brand-dark-green;
+    text-underline-offset: 0.15em;
+    @include transition(color);
+
+    &:hover {
+      color: $color-brand-blue;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+}

@@ -53,13 +53,22 @@
       @include focus-ring;
     }
 
-    // The current page. Primary Green fill, white numeral (4.5:1 — AA for
-    // text). It keeps its href (a link to where you are is harmless and lets
-    // the pager render one template for all pages); aria-current carries the
+    // The current page. DARK Green fill, white numeral — 7.34:1.
+    //
+    // This was Primary Green, annotated "4.5:1 — AA for text". That number
+    // was wrong: white on #009F4D measures 3.46:1, and a pager numeral is
+    // small text (step--1, weight 500), so the 4.5:1 bar applies and it
+    // failed. No size or weight could rescue it — 3.46 is under even the 3:1
+    // large-text bar. Dark Green is the fill the system already uses wherever
+    // white text sits on green (the tag pills, .btn--primary, the map pins),
+    // so this is the pairing rather than a new one.
+    //
+    // It keeps its href (a link to where you are is harmless and lets the
+    // pager render one template for all pages); aria-current carries the
     // state for assistive tech, the fill carries it visually.
     &[aria-current='page'] {
       color: $color-white;
-      background-color: $color-brand-green;
+      background-color: $color-brand-dark-green;
     }
   }
 

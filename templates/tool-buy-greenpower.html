@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>News and events &mdash; GreenPower Renewable Energy</title>
+  <title>Where to purchase GreenPower &mdash; GreenPower Renewable Energy</title>
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
   <link rel="preconnect" href="https://use.typekit.net" crossorigin>
   <link rel="stylesheet" href="https://use.typekit.net/nxc8sxb.css">
@@ -382,35 +382,72 @@
   </header>
 
   <main id="main-content">
-    <!-- News landing. In Drupal this page is a VIEW (news listing), not a
-         paragraph stack: the header band is the page-level pattern (imageless
-         variant), the filter pills are the view's exposed field_news_type
-         filter, the cards are node teasers, and the pager is the view's own.
-         The first result on page one renders as the featured lead. -->
+    <!-- Tool: where to purchase GreenPower. In Drupal this page is a VIEW
+         over accredited_provider nodes: the header band is the page-level
+         pattern (imageless variant) with the view's exposed filters composed
+         into it (.tool-filter), the cards are node teasers (provider-card),
+         chips + count are the view header, and the pager is the view's own. -->
     <header class="page-header">
       <div class="page-header__inner" data-animate-stagger>
         <nav aria-label="Breadcrumb" data-animate>
           <ol class="page-header__crumbs">
             <li class="page-header__crumb"><a href="../index.html">Home</a></li>
-            <li class="page-header__crumb"><a href="#">What is GreenPower</a></li>
-            <li class="page-header__crumb" aria-current="page">News and events</li>
+            <li class="page-header__crumb"><a href="#">Products &amp; solutions</a></li>
+            <li class="page-header__crumb" aria-current="page">Where to purchase GreenPower</li>
           </ol>
         </nav>
-        <h1 class="page-header__title" data-animate>News and events</h1>
-        <!-- Views exposed filter (field_news_type), AJAX-enabled in Drupal.
-             Buttons, not links: they filter in place; none pressed = show all. -->
-        <div class="news-filter" data-animate data-news-filter>
-          <!-- No visible "Filter" label: the pills read as filters on sight and
-               "All" now says what the unfiltered state is. The group keeps a
-               name for assistive tech via aria-label instead. -->
-          <ul class="news-filter__list" aria-label="Filter news by type">
-            <li><button class="news-filter__pill" type="button" aria-pressed="true" data-news-filter-all>All</button></li>
-            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="announcement">Announcements</button></li>
-            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="news">News</button></li>
-            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="sponsored-event">Sponsored events</button></li>
-          </ul>
-          <p class="visually-hidden" aria-live="polite" data-news-filter-status></p>
-        </div>
+        <h1 class="page-header__title" data-animate>Where to purchase GreenPower</h1>
+        <p class="page-header__intro" data-animate>Purchase GreenPower through accredited electricity providers and gas traders.</p>
+        <!-- Views exposed filters, AJAX-enabled in Drupal. Two small groups
+             expose their checkboxes as pills; the eight-value location group
+             takes the popover (see _tool-filter.scss for both patterns). -->
+        <form class="tool-filter" data-animate data-buy-filter action="#" aria-label="Filter providers and traders">
+          <div class="tool-filter__search">
+            <label class="visually-hidden" for="buy-search">Search by provider or trader name</label>
+            <input id="buy-search" class="tool-filter__search-input" type="search" name="q" placeholder="Search by provider or trader name (e.g. AGL, Origin, Synergy)">
+            <button class="tool-filter__search-submit" type="submit">
+              <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="9" cy="9" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span class="visually-hidden">Search</span>
+            </button>
+          </div>
+          <div class="tool-filter__fields">
+            <fieldset class="tool-filter__field tool-filter__field--auto tool-filter__fieldset">
+              <legend class="tool-filter__label">Who are you buying for?</legend>
+              <div class="tool-filter__checks" data-buy-group="buyer">
+                <label class="tool-filter__check"><input type="checkbox" name="buyer" value="household"><img src="../assets/icons/home.svg" alt="" width="55" height="55"><span data-option-label>Household</span></label>
+                <label class="tool-filter__check"><input type="checkbox" name="buyer" value="business"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55"><span data-option-label>Business</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="tool-filter__field tool-filter__field--auto tool-filter__fieldset">
+              <legend class="tool-filter__label">GreenPower type</legend>
+              <div class="tool-filter__checks" data-buy-group="ptype">
+                <label class="tool-filter__check"><input type="checkbox" name="type" value="electricity"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55"><span data-option-label>Electricity</span></label>
+                <label class="tool-filter__check"><input type="checkbox" name="type" value="gas"><img src="../assets/icons/gas.svg" alt="" width="55" height="55"><span data-option-label>Gas</span></label>
+              </div>
+            </fieldset>
+            <div class="tool-filter__field">
+              <p class="tool-filter__label" id="buy-state-label">Connection location</p>
+              <div class="tool-filter__multi" data-buy-group="state">
+                <button class="tool-filter__multi-toggle" type="button" popovertarget="buy-state-panel" aria-expanded="false">
+                  <span class="visually-hidden">Connection location: </span>
+                  <span data-buy-multi-label>All states and territories</span>
+                </button>
+                <fieldset class="tool-filter__multi-panel" id="buy-state-panel" popover>
+                  <legend class="visually-hidden">Connection location</legend>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="act"><span data-option-label>ACT</span> <span class="visually-hidden">Australian Capital Territory</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="nsw"><span data-option-label>NSW</span> <span class="visually-hidden">New South Wales</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="nt"><span data-option-label>NT</span> <span class="visually-hidden">Northern Territory</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="qld"><span data-option-label>QLD</span> <span class="visually-hidden">Queensland</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="sa"><span data-option-label>SA</span> <span class="visually-hidden">South Australia</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="tas"><span data-option-label>TAS</span> <span class="visually-hidden">Tasmania</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="vic"><span data-option-label>VIC</span> <span class="visually-hidden">Victoria</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="wa"><span data-option-label>WA</span> <span class="visually-hidden">Western Australia</span></label>
+                </fieldset>
+              </div>
+            </div>
+            <button class="btn btn--white" type="submit">Apply</button>
+          </div>
+        </form>
         <!-- Imageless header variant: the green block + brand angle stand in
              where field_header_image is empty (see _page-header.scss). -->
         <div class="page-header__media page-header__media--empty" data-animate>
@@ -422,193 +459,340 @@
       </div>
     </header>
 
-    <section class="card-section card-section--listing card-section--tight-top" aria-labelledby="news-list-title">
-      <h2 class="visually-hidden" id="news-list-title">News articles</h2>
-      <div class="card-section__grid" data-animate-stagger>
+    <section class="provider-directory" data-provider-directory aria-labelledby="buy-list-title">
+      <h2 class="visually-hidden" id="buy-list-title">Accredited providers and traders</h2>
 
-        <!-- The featured lead: the view's first result on page one. Same card,
-             plus the eyebrow and the --featured span (horizontal from sm). -->
-        <article class="card card--news card--featured" data-animate data-news-type="announcement">
-          <div class="card__media">
-            <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Announcement</span>
-          </div>
-          <div class="card__content">
-            <p class="card__eyebrow">Featured</p>
-            <h3 class="card__title"><a class="card__title-link" href="news-article.html">GreenPower Program Rules Version 11.3 &ndash; What&rsquo;s changed and why<span class="visually-hidden"> &mdash; Announcement</span></a></h3>
-            <p class="card__body">GreenPower has published Version 11.3 of the National GreenPower Accreditation Program Rules.</p>
-            <p class="card__meta"><time datetime="2026-04-15">15 Apr 2026</time>
-              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-          </div>
-        </article>
+      <div class="provider-directory__toolbar" data-animate>
+        <!-- The view header's selected-filters summary (shared organism) -->
+        <ul class="filter-chips" data-buy-chips aria-label="Active filters" hidden></ul>
+        <p class="provider-directory__count" aria-live="polite" data-buy-count>Showing 10 accredited electricity providers and gas traders</p>
+      </div>
 
-        <article class="card card--news" data-animate data-news-type="news">
-          <div class="card__media">
-            <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
-            <span class="card__tag" aria-hidden="true">News</span>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="news-article.html">GreenPower Program Rules Version 11.3 &ndash; What&rsquo;s changed and why<span class="visually-hidden"> &mdash; News</span></a></h3>
-            <p class="card__body">GreenPower has published Version 11.3 of the National GreenPower Accreditation Program Rules.</p>
-            <p class="card__meta"><time datetime="2026-04-15">15 Apr 2026</time>
-              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-          </div>
-        </article>
+      <div class="provider-directory__list" data-animate-stagger>
+          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity gas" data-states="all">
+            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+            <div class="provider-card__content">
+              <h3 class="provider-card__name">Origin Energy</h3>
+            <div class="provider-card__offer">
+              <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
+              <dl class="provider-card__rows">
+                <div class="provider-card__row">
+                  <dt>Available for</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                </div>
+                <div class="provider-card__row">
+                  <dt>Available in</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">All states and territories</li></ul></dd>
+                </div>
+                <div class="provider-card__row provider-card__row--wide">
+                  <dt>Products from this provider <a href="#">What are these?</a></dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
+                </div>
+              </dl>
+            </div>
+            <div class="provider-card__offer">
+              <p class="provider-card__offer-badge"><img src="../assets/icons/gas.svg" alt="" width="55" height="55" loading="lazy">Gas trader</p>
+              <dl class="provider-card__rows">
+                <div class="provider-card__row">
+                  <dt>Available for</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                </div>
+                <div class="provider-card__row">
+                  <dt>Available in</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">ACT<span class="visually-hidden"> Australian Capital Territory</span></li><li class="provider-card__pill">VIC<span class="visually-hidden"> Victoria</span></li><li class="provider-card__pill">NSW<span class="visually-hidden"> New South Wales</span></li></ul></dd>
+                </div>
+                <div class="provider-card__row provider-card__row--wide">
+                  <dt>GreenPower RGGO certificates <a href="#">What are these?</a></dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Coupled certificates</li><li class="provider-card__pill">Decoupled certificates</li></ul></dd>
+                </div>
+              </dl>
+            </div>
+            </div>
+            <div class="provider-card__aside">
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Origin Energy</span></a>
+              <p class="provider-card__phone"><span>Phone</span>
+                <a class="provider-card__phone-num" href="tel:132461">13 24 61</a></p>
+              <a class="provider-card__ask" href="#">What to ask your provider?</a>
+            </div>
+          </article>
 
-        <article class="card card--news" data-animate data-news-type="announcement">
-          <div class="card__media">
-            <img src="../assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Announcement</span>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="news-article.html">LCLF and Biogenic CO2 Certification announcement<span class="visually-hidden"> &mdash; Announcement</span></a></h3>
-            <p class="card__body">GreenPower is developing two new certification schemes to accelerate the transition to cleaner fuels in Australia.</p>
-            <p class="card__meta"><time datetime="2025-08-12">12 Aug 2025</time>
-              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-          </div>
-        </article>
+          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-states="all">
+            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+            <div class="provider-card__content">
+              <h3 class="provider-card__name">AGL</h3>
+            <div class="provider-card__offer">
+              <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
+              <dl class="provider-card__rows">
+                <div class="provider-card__row">
+                  <dt>Available for</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                </div>
+                <div class="provider-card__row">
+                  <dt>Available in</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">All states and territories</li></ul></dd>
+                </div>
+                <div class="provider-card__row provider-card__row--wide">
+                  <dt>Products from this provider <a href="#">What are these?</a></dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
+                </div>
+              </dl>
+            </div>
+            </div>
+            <div class="provider-card__aside">
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; AGL</span></a>
+              <p class="provider-card__phone"><span>Phone</span>
+                <a class="provider-card__phone-num" href="tel:131245">13 12 45</a></p>
+              <a class="provider-card__ask" href="#">What to ask your provider?</a>
+            </div>
+          </article>
 
-        <article class="card card--news" data-animate data-news-type="news">
-          <div class="card__media">
-            <img src="../assets/images/gas.png" alt="Aerial view of a biogas facility among green fields" width="1500" height="1500" loading="lazy">
-            <span class="card__tag" aria-hidden="true">News</span>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="news-article.html">Renewable Gas Certification Rules &ndash; version 3.0<span class="visually-hidden"> &mdash; News</span></a></h3>
-            <p class="card__body">The updated rules set out how renewable gas is certified and audited under the GreenPower program.</p>
-            <p class="card__meta"><time datetime="2026-04-15">15 Apr 2026</time>
-              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-          </div>
-        </article>
+          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-states="act nsw">
+            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+            <div class="provider-card__content">
+              <h3 class="provider-card__name">ActewAGL</h3>
+            <div class="provider-card__offer">
+              <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
+              <dl class="provider-card__rows">
+                <div class="provider-card__row">
+                  <dt>Available for</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                </div>
+                <div class="provider-card__row">
+                  <dt>Available in</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">ACT<span class="visually-hidden"> Australian Capital Territory</span></li><li class="provider-card__pill">NSW<span class="visually-hidden"> New South Wales</span></li></ul></dd>
+                </div>
+                <div class="provider-card__row provider-card__row--wide">
+                  <dt>Products from this provider <a href="#">What are these?</a></dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
+                </div>
+              </dl>
+            </div>
+            </div>
+            <div class="provider-card__aside">
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; ActewAGL</span></a>
+              <p class="provider-card__phone"><span>Phone</span>
+                <a class="provider-card__phone-num" href="tel:131493">13 14 93</a></p>
+              <a class="provider-card__ask" href="#">What to ask your provider?</a>
+            </div>
+          </article>
 
-        <article class="card card--news" data-animate data-news-type="news">
-          <div class="card__media">
-            <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
-            <span class="card__tag" aria-hidden="true">News</span>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="news-article.html">GreenPower Program Rules Version 11.3 &ndash; What&rsquo;s changed and why<span class="visually-hidden"> &mdash; News</span></a></h3>
-            <p class="card__body">GreenPower has published Version 11.3 of the National GreenPower Accreditation Program Rules.</p>
-            <p class="card__meta"><time datetime="2026-04-15">15 Apr 2026</time>
-              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-          </div>
-        </article>
+          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-states="all">
+            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+            <div class="provider-card__content">
+              <h3 class="provider-card__name">EnergyAustralia</h3>
+            <div class="provider-card__offer">
+              <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
+              <dl class="provider-card__rows">
+                <div class="provider-card__row">
+                  <dt>Available for</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                </div>
+                <div class="provider-card__row">
+                  <dt>Available in</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">All states and territories</li></ul></dd>
+                </div>
+                <div class="provider-card__row provider-card__row--wide">
+                  <dt>Products from this provider <a href="#">What are these?</a></dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
+                </div>
+              </dl>
+            </div>
+            </div>
+            <div class="provider-card__aside">
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; EnergyAustralia</span></a>
+              <p class="provider-card__phone"><span>Phone</span>
+                <a class="provider-card__phone-num" href="tel:133466">13 34 66</a></p>
+              <a class="provider-card__ask" href="#">What to ask your provider?</a>
+            </div>
+          </article>
 
-        <article class="card card--news" data-animate data-news-type="announcement">
-          <div class="card__media">
-            <img src="../assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Announcement</span>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="news-article.html">LCLF and Biogenic CO2 Certification announcement<span class="visually-hidden"> &mdash; Announcement</span></a></h3>
-            <p class="card__body">GreenPower is developing two new certification schemes to accelerate the transition to cleaner fuels in Australia.</p>
-            <p class="card__meta"><time datetime="2025-08-12">12 Aug 2025</time>
-              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-          </div>
-        </article>
+          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-states="vic nsw sa tas">
+            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+            <div class="provider-card__content">
+              <h3 class="provider-card__name">Momentum Energy</h3>
+            <div class="provider-card__offer">
+              <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
+              <dl class="provider-card__rows">
+                <div class="provider-card__row">
+                  <dt>Available for</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                </div>
+                <div class="provider-card__row">
+                  <dt>Available in</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">VIC<span class="visually-hidden"> Victoria</span></li><li class="provider-card__pill">NSW<span class="visually-hidden"> New South Wales</span></li><li class="provider-card__pill">SA<span class="visually-hidden"> South Australia</span></li><li class="provider-card__pill">TAS<span class="visually-hidden"> Tasmania</span></li></ul></dd>
+                </div>
+                <div class="provider-card__row provider-card__row--wide">
+                  <dt>Products from this provider <a href="#">What are these?</a></dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
+                </div>
+              </dl>
+            </div>
+            </div>
+            <div class="provider-card__aside">
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Momentum Energy</span></a>
+              <p class="provider-card__phone"><span>Phone</span>
+                <a class="provider-card__phone-num" href="tel:1300662778">1300 662 778</a></p>
+              <a class="provider-card__ask" href="#">What to ask your provider?</a>
+            </div>
+          </article>
 
-        <article class="card card--news" data-animate data-news-type="news">
-          <div class="card__media">
-            <img src="../assets/images/gas.png" alt="Aerial view of a biogas facility among green fields" width="1500" height="1500" loading="lazy">
-            <span class="card__tag" aria-hidden="true">News</span>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="news-article.html">Renewable Gas Certification Rules &ndash; version 3.0<span class="visually-hidden"> &mdash; News</span></a></h3>
-            <p class="card__body">The updated rules set out how renewable gas is certified and audited under the GreenPower program.</p>
-            <p class="card__meta"><time datetime="2026-04-15">15 Apr 2026</time>
-              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-          </div>
-        </article>
+          <article class="provider-card" data-animate data-buy-item data-buyer="business" data-ptype="electricity" data-states="all">
+            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+            <div class="provider-card__content">
+              <h3 class="provider-card__name">Next Business Energy</h3>
+            <div class="provider-card__offer">
+              <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
+              <dl class="provider-card__rows">
+                <div class="provider-card__row">
+                  <dt>Available for</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Business</li></ul></dd>
+                </div>
+                <div class="provider-card__row">
+                  <dt>Available in</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">All states and territories</li></ul></dd>
+                </div>
+                <div class="provider-card__row provider-card__row--wide">
+                  <dt>Products from this provider <a href="#">What are these?</a></dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
+                </div>
+              </dl>
+            </div>
+            </div>
+            <div class="provider-card__aside">
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Next Business Energy</span></a>
+              <p class="provider-card__phone"><span>Phone</span>
+                <a class="provider-card__phone-num" href="tel:1300466398">1300 466 398</a></p>
+              <a class="provider-card__ask" href="#">What to ask your provider?</a>
+            </div>
+          </article>
 
-        <article class="card card--news" data-animate data-news-type="news">
-          <div class="card__media">
-            <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
-            <span class="card__tag" aria-hidden="true">News</span>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="news-article.html">GreenPower Program Rules Version 11.3 &ndash; What&rsquo;s changed and why<span class="visually-hidden"> &mdash; News</span></a></h3>
-            <p class="card__body">GreenPower has published Version 11.3 of the National GreenPower Accreditation Program Rules.</p>
-            <p class="card__meta"><time datetime="2026-04-15">15 Apr 2026</time>
-              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-          </div>
-        </article>
+          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-states="wa">
+            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+            <div class="provider-card__content">
+              <h3 class="provider-card__name">Synergy</h3>
+            <div class="provider-card__offer">
+              <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
+              <dl class="provider-card__rows">
+                <div class="provider-card__row">
+                  <dt>Available for</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                </div>
+                <div class="provider-card__row">
+                  <dt>Available in</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">WA<span class="visually-hidden"> Western Australia</span></li></ul></dd>
+                </div>
+                <div class="provider-card__row provider-card__row--wide">
+                  <dt>Products from this provider <a href="#">What are these?</a></dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
+                </div>
+              </dl>
+            </div>
+            </div>
+            <div class="provider-card__aside">
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Synergy</span></a>
+              <p class="provider-card__phone"><span>Phone</span>
+                <a class="provider-card__phone-num" href="tel:131353">13 13 53</a></p>
+              <a class="provider-card__ask" href="#">What to ask your provider?</a>
+            </div>
+          </article>
 
-        <article class="card card--news" data-animate data-news-type="announcement">
-          <div class="card__media">
-            <img src="../assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Announcement</span>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="news-article.html">LCLF and Biogenic CO2 Certification announcement<span class="visually-hidden"> &mdash; Announcement</span></a></h3>
-            <p class="card__body">GreenPower is developing two new certification schemes to accelerate the transition to cleaner fuels in Australia.</p>
-            <p class="card__meta"><time datetime="2025-08-12">12 Aug 2025</time>
-              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-          </div>
-        </article>
+          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-states="vic qld">
+            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+            <div class="provider-card__content">
+              <h3 class="provider-card__name">WINconnect</h3>
+            <div class="provider-card__offer">
+              <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
+              <dl class="provider-card__rows">
+                <div class="provider-card__row">
+                  <dt>Available for</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                </div>
+                <div class="provider-card__row">
+                  <dt>Available in</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">VIC<span class="visually-hidden"> Victoria</span></li><li class="provider-card__pill">QLD<span class="visually-hidden"> Queensland</span></li></ul></dd>
+                </div>
+                <div class="provider-card__row provider-card__row--wide">
+                  <dt>Products from this provider <a href="#">What are these?</a></dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
+                </div>
+              </dl>
+            </div>
+            </div>
+            <div class="provider-card__aside">
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; WINconnect</span></a>
+              <p class="provider-card__phone"><span>Phone</span>
+                <a class="provider-card__phone-num" href="tel:1300791970">1300 791 970</a></p>
+              <a class="provider-card__ask" href="#">What to ask your provider?</a>
+            </div>
+          </article>
 
-        <article class="card card--news" data-animate data-news-type="news">
-          <div class="card__media">
-            <img src="../assets/images/gas.png" alt="Aerial view of a biogas facility among green fields" width="1500" height="1500" loading="lazy">
-            <span class="card__tag" aria-hidden="true">News</span>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="news-article.html">Renewable Gas Certification Rules &ndash; version 3.0<span class="visually-hidden"> &mdash; News</span></a></h3>
-            <p class="card__body">The updated rules set out how renewable gas is certified and audited under the GreenPower program.</p>
-            <p class="card__meta"><time datetime="2026-04-15">15 Apr 2026</time>
-              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-          </div>
-        </article>
+          <article class="provider-card" data-animate data-buy-item data-buyer="business" data-ptype="gas" data-states="act nsw">
+            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+            <div class="provider-card__content">
+              <h3 class="provider-card__name">Jemena Gas Networks</h3>
+            <div class="provider-card__offer">
+              <p class="provider-card__offer-badge"><img src="../assets/icons/gas.svg" alt="" width="55" height="55" loading="lazy">Gas trader</p>
+              <dl class="provider-card__rows">
+                <div class="provider-card__row">
+                  <dt>Available for</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Business</li></ul></dd>
+                </div>
+                <div class="provider-card__row">
+                  <dt>Available in</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">ACT<span class="visually-hidden"> Australian Capital Territory</span></li><li class="provider-card__pill">NSW<span class="visually-hidden"> New South Wales</span></li></ul></dd>
+                </div>
+                <div class="provider-card__row provider-card__row--wide">
+                  <dt>GreenPower RGGO certificates <a href="#">What are these?</a></dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Coupled certificates</li><li class="provider-card__pill">Decoupled certificates</li></ul></dd>
+                </div>
+              </dl>
+            </div>
+            </div>
+            <div class="provider-card__aside">
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Jemena Gas Networks</span></a>
+              <p class="provider-card__phone"><span>Phone</span>
+                <a class="provider-card__phone-num" href="tel:1300137078">1300 137 078</a></p>
+              <a class="provider-card__ask" href="#">What to ask your trader?</a>
+            </div>
+          </article>
 
-        <article class="card card--news" data-animate data-news-type="news">
-          <div class="card__media">
-            <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
-            <span class="card__tag" aria-hidden="true">News</span>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="news-article.html">GreenPower Program Rules Version 11.3 &ndash; What&rsquo;s changed and why<span class="visually-hidden"> &mdash; News</span></a></h3>
-            <p class="card__body">GreenPower has published Version 11.3 of the National GreenPower Accreditation Program Rules.</p>
-            <p class="card__meta"><time datetime="2026-04-15">15 Apr 2026</time>
-              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-          </div>
-        </article>
-
-        <article class="card card--news" data-animate data-news-type="announcement">
-          <div class="card__media">
-            <img src="../assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Announcement</span>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="news-article.html">LCLF and Biogenic CO2 Certification announcement<span class="visually-hidden"> &mdash; Announcement</span></a></h3>
-            <p class="card__body">GreenPower is developing two new certification schemes to accelerate the transition to cleaner fuels in Australia.</p>
-            <p class="card__meta"><time datetime="2025-08-12">12 Aug 2025</time>
-              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-          </div>
-        </article>
-
-        <article class="card card--news" data-animate data-news-type="news">
-          <div class="card__media">
-            <img src="../assets/images/gas.png" alt="Aerial view of a biogas facility among green fields" width="1500" height="1500" loading="lazy">
-            <span class="card__tag" aria-hidden="true">News</span>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="news-article.html">Renewable Gas Certification Rules &ndash; version 3.0<span class="visually-hidden"> &mdash; News</span></a></h3>
-            <p class="card__body">The updated rules set out how renewable gas is certified and audited under the GreenPower program.</p>
-            <p class="card__meta"><time datetime="2026-04-15">15 Apr 2026</time>
-              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-          </div>
-        </article>
+          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="gas" data-states="vic sa">
+            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+            <div class="provider-card__content">
+              <h3 class="provider-card__name">AGIG Renewable Gas</h3>
+            <div class="provider-card__offer">
+              <p class="provider-card__offer-badge"><img src="../assets/icons/gas.svg" alt="" width="55" height="55" loading="lazy">Gas trader</p>
+              <dl class="provider-card__rows">
+                <div class="provider-card__row">
+                  <dt>Available for</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                </div>
+                <div class="provider-card__row">
+                  <dt>Available in</dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">VIC<span class="visually-hidden"> Victoria</span></li><li class="provider-card__pill">SA<span class="visually-hidden"> South Australia</span></li></ul></dd>
+                </div>
+                <div class="provider-card__row provider-card__row--wide">
+                  <dt>GreenPower RGGO certificates <a href="#">What are these?</a></dt>
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Coupled certificates</li><li class="provider-card__pill">Decoupled certificates</li></ul></dd>
+                </div>
+              </dl>
+            </div>
+            </div>
+            <div class="provider-card__aside">
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; AGIG Renewable Gas</span></a>
+              <p class="provider-card__phone"><span>Phone</span>
+                <a class="provider-card__phone-num" href="tel:1800427532">1800 427 532</a></p>
+              <a class="provider-card__ask" href="#">What to ask your trader?</a>
+            </div>
+          </article>
 
       </div>
 
-      <!-- Empty state. A filtered listing can come back with nothing, and it
-           has to SAY so — the grid collapses to zero height, so without this
-           the page shows a blank gap with the pager still under it. Hidden
-           until the filter empties the grid.
-           Drupal: the view's "No results behavior" text area, not this markup;
-           the view's own pager already hides itself on an empty result set. -->
-      <div class="card-section__empty" data-news-empty hidden>
-        <p class="card-section__empty-title">No articles match those filters</p>
-        <p class="card-section__empty-text">Try removing a filter, or choose <strong>All</strong> to see everything.</p>
+      <!-- Empty state: a filter can match nothing and must say so
+           (LESSONS.md). Drupal: the view's "No results behavior" area. -->
+      <div class="provider-directory__empty" data-buy-empty hidden>
+        <p class="provider-directory__empty-title">No providers or traders match those filters</p>
+        <p class="provider-directory__empty-text">Try removing a filter, or clear them all to see everyone accredited under the program.</p>
       </div>
 
       <!-- The view's pager (mini pager themed to these classes) -->
@@ -616,89 +800,16 @@
         <ul class="pagination__list">
           <li><a class="pagination__link" href="#" aria-label="Previous page">
             <svg class="pagination__arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M13 5H2M6 1 2 5l4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-          <li><a class="pagination__link" href="#" aria-label="Page 1">1</a></li>
-          <li><a class="pagination__link" href="#" aria-label="Page 2" aria-current="page">2</a></li>
+          <li><a class="pagination__link" href="#" aria-label="Page 1" aria-current="page">1</a></li>
+          <li><a class="pagination__link" href="#" aria-label="Page 2">2</a></li>
           <li><a class="pagination__link" href="#" aria-label="Page 3">3</a></li>
           <li><span class="pagination__ellipsis" aria-hidden="true">&hellip;</span></li>
-          <li><a class="pagination__link" href="#" aria-label="Page 8">8</a></li>
+          <li><a class="pagination__link" href="#" aria-label="Page 13">13</a></li>
           <li><a class="pagination__link" href="#" aria-label="Next page">
             <svg class="pagination__arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
         </ul>
       </nav>
     </section>
-
-    <!-- REFERENCE CHROME — stands in for the view's AJAX filter round-trip.
-         In Drupal the exposed form submits and the view re-renders; this demo
-         only toggles the static teasers so the pills can be tried. Do not
-         port it. -->
-    <script>
-      (function () {
-        var root = document.querySelector('[data-news-filter]');
-        if (!root) return;
-        var allPill = root.querySelector('[data-news-filter-all]');
-        var pills = [].slice.call(root.querySelectorAll('[data-news-filter-type]'));
-        var cards = [].slice.call(document.querySelectorAll('[data-news-type]'));
-        var status = root.querySelector('[data-news-filter-status]');
-        var section = document.querySelector('.card-section--listing');
-        var empty = document.querySelector('[data-news-empty]');
-        if (!pills.length || !cards.length) return;
-
-        function pressed(el) { return el.getAttribute('aria-pressed') === 'true'; }
-        function press(el, on) { el.setAttribute('aria-pressed', on ? 'true' : 'false'); }
-
-        // "All" is the NAME for the empty selection, not a fourth type: it is
-        // pressed exactly when no type is, so the two can never disagree and
-        // there is no separate state to keep in sync. That also means "all
-        // types selected" collapses back to All rather than looking filtered.
-        // style.display, not the hidden attribute: the card's own
-        // `display: flex` outranks the UA's [hidden] rule (author styles beat
-        // UA styles), so `hidden` would silently do nothing here.
-        function apply() {
-          var active = pills.filter(pressed)
-            .map(function (p) { return p.getAttribute('data-news-filter-type'); });
-          if (active.length === pills.length) { pills.forEach(function (p) { press(p, false); }); active = []; }
-          if (allPill) press(allPill, !active.length);
-
-          var shown = 0;
-          cards.forEach(function (card) {
-            var match = !active.length || active.indexOf(card.getAttribute('data-news-type')) !== -1;
-            card.style.display = match ? '' : 'none';
-            if (match) shown += 1;
-          });
-          // The empty state is for SIGHTED users — the live region below
-          // already announces the count, so this block carries no role and
-          // deliberately does not restate that string. The pager goes with it:
-          // an empty result set has no pages, and one left sitting there reads
-          // as broken rather than as "no results".
-          if (empty) empty.hidden = shown > 0;
-          if (section) section.classList.toggle('is-empty', shown === 0);
-          if (status) {
-            status.textContent = active.length
-              ? shown + ' of ' + cards.length + ' articles shown'
-              : 'Showing all ' + cards.length + ' articles';
-          }
-        }
-
-        pills.forEach(function (pill) {
-          pill.addEventListener('click', function () {
-            press(pill, !pressed(pill));
-            apply();
-          });
-        });
-
-        // All only ever turns filtering OFF. Un-pressing it would mean "show
-        // nothing", which is not a state worth having, so a click while it is
-        // already pressed is a no-op rather than a toggle.
-        if (allPill) {
-          allPill.addEventListener('click', function () {
-            pills.forEach(function (p) { press(p, false); });
-            apply();
-          });
-        }
-
-        apply(); // honour the markup's authored default (All pressed)
-      })();
-    </script>
   </main>
 
   <footer class="site-footer">
@@ -1446,6 +1557,215 @@
       sync();
       window.addEventListener('resize', sync);
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+    })();
+  </script>
+
+  <!-- REFERENCE CHROME — stands in for the view's AJAX filter round-trip.
+       In Drupal the exposed form submits and the view re-renders; this only
+       toggles the static cards so the filters can be tried. Do not port.
+       The popover/checkbox mechanics themselves (positioning, trigger label,
+       chips) ARE the pattern — see the generators tool, which carries the
+       same code with a map attached. -->
+  <script>
+    (function () {
+      var root = document.querySelector('[data-provider-directory]');
+      var form = document.querySelector('[data-buy-filter]');
+      if (!root || !form) return;
+
+      var cards = [].slice.call(root.querySelectorAll('[data-buy-item]'));
+      var chipsEl = root.querySelector('[data-buy-chips]');
+      var countEl = root.querySelector('[data-buy-count]');
+      var emptyEl = root.querySelector('[data-buy-empty]');
+      var search = form.querySelector('#buy-search');
+      if (!cards.length || !chipsEl || !countEl || !emptyEl) return;
+
+      // Each group filters ONE data attribute on the card, and a card's
+      // attribute holds every value it offers (space separated) — so
+      // "Household" keeps a provider that serves households and businesses
+      // both. The state group additionally honours the "all" flag: a national
+      // provider matches whatever location is chosen.
+      var groups = [].slice.call(form.querySelectorAll('[data-buy-group]')).map(function (el) {
+        var label = el.querySelector('[data-buy-multi-label]');
+        return {
+          key: el.getAttribute('data-buy-group'),
+          attr: 'data-' + (el.getAttribute('data-buy-group') === 'state' ? 'states' : el.getAttribute('data-buy-group')),
+          el: el,
+          // Only the popover group has a trigger to keep in sync; the pill
+          // groups show their own state in the pills themselves.
+          trigger: el.querySelector('.tool-filter__multi-toggle'),
+          panel: el.querySelector('[popover]'),
+          label: label,
+          allLabel: label ? label.textContent : '',
+          boxes: [].slice.call(el.querySelectorAll('input[type="checkbox"]'))
+        };
+      });
+
+      function checked(group) {
+        return group.boxes.filter(function (b) { return b.checked; });
+      }
+
+      function boxLabel(box) {
+        return box.parentNode.querySelector('[data-option-label]').textContent;
+      }
+
+      function boxFullLabel(box) {
+        var hidden = box.parentNode.querySelector('.visually-hidden');
+        return hidden ? hidden.textContent.trim() : boxLabel(box);
+      }
+
+      // The popover trigger reports its own state: the option's name while one
+      // is ticked, a count past that, the authored "All …" when none are.
+      function syncTriggers() {
+        groups.forEach(function (group) {
+          if (!group.label) return;
+          var on = checked(group);
+          group.label.textContent = !on.length ? group.allLabel
+            : on.length === 1 ? boxLabel(on[0])
+            : on.length + ' selected';
+        });
+      }
+
+      // --- Popover placement (see the generators tool for the full note):
+      // the panel renders in the top layer, escaping the band's overflow clip,
+      // so the browser owns light-dismiss and Escape and the script only pins
+      // it under its trigger.
+      function place(group) {
+        var rect = group.trigger.getBoundingClientRect();
+        group.panel.style.margin = '0';
+        group.panel.style.minWidth = rect.width + 'px';
+        group.panel.style.top = (rect.bottom + 6) + 'px';
+        group.panel.style.left =
+          Math.max(8, Math.min(rect.left, window.innerWidth - group.panel.offsetWidth - 8)) + 'px';
+      }
+
+      function openPanels() {
+        return groups.filter(function (g) { return g.panel && g.panel.matches(':popover-open'); });
+      }
+
+      groups.forEach(function (group) {
+        if (group.panel) {
+          group.panel.addEventListener('toggle', function (event) {
+            var open = event.newState === 'open';
+            group.trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+            if (open) place(group);
+          });
+        }
+        group.boxes.forEach(function (box) {
+          // Ticking filters IMMEDIATELY: a checkbox is a committed choice, and
+          // a chip that waited for Apply read as a control that had ignored
+          // you. Free text still commits on Enter or Apply — a chip per
+          // keystroke would flicker through every prefix of the word.
+          box.addEventListener('change', function () { syncTriggers(); apply(); });
+        });
+      });
+
+      // The trigger scrolls with the band while an open panel is FIXED in the
+      // top layer — re-pin on scroll/resize or they drift apart. rAF-throttled
+      // per LESSONS.md; does nothing while no panel is open.
+      var placing = false;
+      function replace() { placing = false; openPanels().forEach(place); }
+      function requestPlace() {
+        if (!placing) { requestAnimationFrame(replace); placing = true; }
+      }
+      window.addEventListener('scroll', requestPlace, { passive: true });
+      window.addEventListener('resize', requestPlace);
+
+      // `label` is what shows (the abbreviation for states); `spoken` is the
+      // accessible name, which must CONTAIN that visible text (WCAG 2.5.3,
+      // Label in Name) and then expands it. textContent, not innerHTML: these
+      // strings are editorial in Drupal.
+      function chip(label, spoken, onRemove) {
+        var li = document.createElement('li');
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'filter-chips__chip';
+        var text = document.createElement('span');
+        text.textContent = label;
+        b.appendChild(text);
+        b.insertAdjacentHTML('beforeend',
+          '<svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>');
+        b.setAttribute('aria-label', 'Remove filter: ' + spoken);
+        b.addEventListener('click', onRemove);
+        li.appendChild(b);
+        return li;
+      }
+
+      function apply() {
+        var q = (search.value || '').trim().toLowerCase();
+        var picked = groups.map(function (group) {
+          return { group: group, boxes: checked(group) };
+        });
+        var shown = 0;
+
+        cards.forEach(function (card) {
+          var match = picked.every(function (p) {
+            if (!p.boxes.length) return true; // nothing ticked does not constrain
+            var have = (card.getAttribute(p.group.attr) || '').split(' ');
+            // A national provider ("all") satisfies any location.
+            if (p.group.key === 'state' && have.indexOf('all') !== -1) return true;
+            return p.boxes.some(function (b) { return have.indexOf(b.value) !== -1; });
+          }) && (!q || card.querySelector('.provider-card__name').textContent.toLowerCase().indexOf(q) !== -1);
+          // style.display, not [hidden] — the card's own display outranks the
+          // UA's [hidden] rule (LESSONS.md).
+          card.style.display = match ? '' : 'none';
+          if (match) shown += 1;
+        });
+
+        chipsEl.textContent = '';
+        var any = !!q;
+        picked.forEach(function (p) {
+          p.boxes.forEach(function (box) {
+            any = true;
+            chipsEl.appendChild(chip(boxLabel(box), boxLabel(box) + ', ' + boxFullLabel(box), function () {
+              box.checked = false;
+              syncTriggers();
+              apply();
+            }));
+          });
+        });
+        if (q) {
+          var q0 = '“' + search.value.trim() + '”';
+          chipsEl.appendChild(chip(q0, 'search ' + q0, function () { search.value = ''; apply(); }));
+        }
+        if (any) {
+          var li = document.createElement('li');
+          var clear = document.createElement('button');
+          clear.type = 'button';
+          clear.className = 'filter-chips__clear';
+          clear.textContent = 'Clear all';
+          clear.addEventListener('click', function () {
+            search.value = '';
+            groups.forEach(function (g) { g.boxes.forEach(function (b) { b.checked = false; }); });
+            syncTriggers();
+            apply();
+          });
+          li.appendChild(clear);
+          chipsEl.appendChild(li);
+        }
+        chipsEl.hidden = !any;
+
+        // The visible count doubles as the live status — one region, no
+        // duplicate announcement.
+        // Singular takes a different NOUN PHRASE, not just a dropped "s":
+        // "1 accredited electricity provider and gas trader" reads as one
+        // organisation that is somehow both.
+        countEl.textContent = shown === 1
+          ? 'Showing 1 accredited provider or trader'
+          : 'Showing ' + shown + ' accredited electricity providers and gas traders';
+        emptyEl.hidden = shown > 0;
+        root.classList.toggle('is-empty', shown === 0); // hides the pager (CSS)
+      }
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault(); // the view's AJAX round-trip in Drupal
+        openPanels().forEach(function (g) { g.panel.hidePopover(); });
+        apply();
+      });
+
+      // Run once on load so the count reports the DOM rather than a number
+      // typed into the markup (the authored value is the no-JS fallback).
+      syncTriggers();
+      apply();
     })();
   </script>
 </body>

@@ -3,6 +3,8 @@
 // Depends on tokens + abstracts/variables being imported first (main.scss order).
 // -----------------------------------------------------------------------------
 
+@use 'sass:list';
+
 // --- Accessibility ---
 
 // WCAG 2.4.11-compliant focus ring. Apply on :focus-visible of every
@@ -60,6 +62,65 @@
   cursor: pointer;
 }
 
+// The timing is applied PER PROPERTY, which is the whole reason this loops
+// rather than interpolating the list straight into the shorthand.
+// `transition: $props $duration $easing` with a list reads as
+// `background-color, color, border-color 0.2s ease-in-out` — three separate
+// transitions where only the LAST carries the duration and the rest default
+// to 0s. Every multi-property call site was silently snapping on all but its
+// final property (measured: transition-duration "0s, 0s, 0.2s"), which is
+// exactly the kind of thing that looks fine until you watch it closely.
 @mixin transition($props: all, $duration: 0.2s, $easing: ease-in-out) {
-  transition: $props $duration $easing;
+  $out: ();
+
+  @each $prop in $props {
+    $out: list.append($out, $prop $duration $easing, comma);
+  }
+
+  transition: $out;
+}
+
+// The dark-green tag pill — the small label riding a record or a photo
+// (.card__tag, .article-meta__tag, the tool badges). Promoted at its fourth
+// site per the 3+ rule in docs/mixins.md. The caller adds its own positioning
+// and any icon sizing; $font-size is the one knob the sites genuinely vary.
+@mixin tag-pill($font-size: $font-size-xs) {
+  display: inline-flex;
+  gap: var(--space-2xs);
+  align-items: center;
+  padding: var(--space-3xs) var(--space-xs);
+  font-size: $font-size;
+  font-weight: $font-weight-medium;
+  color: $color-white;
+  background-color: $color-brand-dark-green;
+  border-radius: $radius-pill;
+}
+
+// The listing empty state — a filter can match nothing and must say so
+// (LESSONS.md). Three mixins because it is three elements; promoted at the
+// third site (card sections, the generators tool, the buy tool). The [hidden]
+// guard is part of the deal: the box's own display would otherwise un-hide
+// the UA's [hidden] (LESSONS.md).
+@mixin empty-state {
+  padding: var(--space-xl) var(--space-m);
+  margin-top: var(--space-m);
+  text-align: center;
+  background-color: $color-tint-taupe;
+  border-radius: $radius-lg;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+@mixin empty-state-title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-demibold;
+  color: $color-brand-dark-green;
+}
+
+@mixin empty-state-text {
+  max-width: 44ch;
+  margin: var(--space-2xs) auto 0;
+  color: $color-ui-text;
 }

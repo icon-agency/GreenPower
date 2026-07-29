@@ -88,6 +88,28 @@
     }
   }
 
+  // A band carrying a filter row sets its own height. The min-height floors
+  // above exist to give a band with nothing but a title and a summary some
+  // presence; a filter adds a whole extra row below the copy, which is that
+  // presence already — so the floor stops being a floor and starts being
+  // padding nobody asked for. Measured on the news landing: the floor was
+  // binding at 304px, leaving 83px of dead green under the pills against the
+  // 37px inset beside them, and the band read as bottom-heavy.
+  //
+  // Dropping it makes the declared padding what you actually see — bottom
+  // inset == left inset, by construction rather than by picking a smaller
+  // number that would drift the moment the type scale moved.
+  //
+  // :has() rather than a modifier, so PLACING the exposed filter in the band
+  // is the whole change and Drupal has no extra class to remember. Where
+  // :has() is unsupported the floor simply stays, which is the current look —
+  // the same graceful-degradation stance as the card grid's quantity queries.
+  &__inner:has(.news-filter, .tool-filter) {
+    @include respond-to('sm') {
+      min-height: auto;
+    }
+  }
+
   // --- Breadcrumb ---
 
   &__crumbs {
@@ -195,6 +217,23 @@
     max-width: 52ch;
     margin-top: var(--space-s);
     font-size: $font-size-base; // --step-0
+
+    // Inline cross-links in the band intro (the generators tool's "industry
+    // accreditation" link): white with the underline carrying the link on the
+    // dark ground — colour alone would vanish here — and the footer's on-dark
+    // Light Green hover pairing.
+    a {
+      color: $color-white;
+      text-underline-offset: 0.15em;
+
+      &:hover {
+        color: $color-brand-light-green;
+      }
+
+      &:focus-visible {
+        @include focus-ring($color-white);
+      }
+    }
   }
 
   // --- Media: right column with the angle-cut corner (md and up) ---

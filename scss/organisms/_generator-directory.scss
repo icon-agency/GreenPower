@@ -1,0 +1,473 @@
+// -----------------------------------------------------------------------------
+// Generator directory — filtered listing beside a full-height map
+//
+// The layout for the accredited-generators tool: a toolbar (active-filter
+// chips, result count, and — where the two columns cannot fit — a list/map
+// view toggle), then the split: the card list scrolls with the page while the
+// map pane STICKS full-height beside it, snug to the section's right edge
+// with the brand radius and the --space-xs frame on top, bottom and right
+// (the bento/feature-banner tight inset).
+//
+// THE MAP IS AN ENHANCEMENT OF THE LIST, never the other way round: markers
+// and popups are built from the cards' own content (one source of truth), the
+// below-lg toggle DEFAULTS TO LIST, and no-JS or a blocked CDN gets the full
+// listing with the pane hidden. Leaflet renders into __map; tiles are
+// OpenStreetMap — the attribution control is a licence requirement and must
+// never be removed.
+//
+// Drupal mapping: a VIEW page over accredited_generator nodes —
+//   exposed filters render as .tool-filter in the header band; the cards are
+//   the view rows (generator-card teasers); chips + count are the view
+//   header (facets summary); the pager is the view's own; the map is a view
+//   attachment over the same result set. Leaflet: self-host as a theme
+//   library (GovCMS commonly blocks third-party CDNs), and production needs
+//   its own tile arrangement — tile.openstreetmap.org's usage policy covers
+//   development-scale traffic, not a government site's.
+// -----------------------------------------------------------------------------
+
+.generator-directory {
+  // ONE token for the outer gutters AND the gap between the columns, so the
+  // three run at a single width and the split reads as evenly spaced rather
+  // than as two panels that happen to sit near each other. Declared here and
+  // referenced by __layout's gap, so they cannot drift apart.
+  //
+  // A tight step rather than the page's standard --space-s-l gutter: this
+  // section is two large surfaces side by side, not a reading column, and the
+  // wide gutter spent width the map and the cards both wanted. (It was also
+  // asymmetric at first — the tight frame with the list restoring the text
+  // gutter on its own — which put ~40px left against ~15px right and read as
+  // the map hanging off the edge rather than as a pair.)
+  --directory-gutter: var(--space-s);
+  // The popup photo's height. Declared HERE, not on the popup body: the
+  // close button Leaflet positions is a sibling of the popup wrapper, so it
+  // could never inherit the value from inside it.
+  --popup-media-h: 9.5rem;
+
+  max-width: $container-max-width;
+  margin-inline: auto;
+  padding-inline: var(--directory-gutter);
+  // Top padding is the --tight-top step — the band above already provides
+  // closure — and the section keeps a full break beneath it.
+  padding-block: var(--space-s-l) var(--space-3xl);
+
+  &__toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    margin-bottom: var(--space-m);
+  }
+
+  &__status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__count {
+    font-size: $font-size-sm;
+    color: $color-ui-text;
+  }
+
+  // Active-filter chips: the shared .filter-chips organism (promoted there
+  // at its second site — the buy tool wanted the identical row).
+
+  // --- List / map view toggle — exists only below the split ---
+
+  // aria-pressed buttons, the news-filter pill pattern on a light ground.
+  // JS-only chrome: without a script there is no map to toggle to, so no-js
+  // hides it (end of file) and the list simply is the page.
+  &__toggle {
+    display: inline-flex;
+    gap: var(--space-2xs);
+
+    @include respond-to('lg') {
+      display: none; // both columns fit — nothing to toggle
+    }
+  }
+
+  &__toggle-btn {
+    @include button-reset;
+    padding: var(--space-3xs) var(--space-s);
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    background-color: $color-white;
+    border: 1px solid $color-ui-border-strong;
+    border-radius: $radius-pill;
+    @include transition((background-color, color, border-color));
+
+    &:hover {
+      background-color: $color-tint-taupe;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    &[aria-pressed='true'] {
+      color: $color-white;
+      background-color: $color-brand-dark-green;
+      border-color: $color-brand-dark-green;
+    }
+  }
+
+  // --- The split ---
+
+  &__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    // The same token as the gutters either side — see --directory-gutter.
+    gap: var(--directory-gutter);
+    align-items: start; // load-bearing for the sticky map (page-split's rule)
+
+    // Equal halves from lg: the list and the map are peers here — neither is
+    // the subordinate of the other — and the card column reads comfortably at
+    // half a capped page. minmax(0,…) per LESSONS.md.
+    @include respond-to('lg') {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  &__results {
+    min-width: 0;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs); // the card-stack rhythm
+  }
+
+  // --- Empty state: a filter can match nothing and must say so (LESSONS.md).
+  // The shared recipe (abstracts/_mixins.scss), promoted at its third site. ---
+
+  &__empty {
+    @include empty-state;
+  }
+
+  &__empty-title {
+    @include empty-state-title;
+  }
+
+  &__empty-text {
+    @include empty-state-text;
+  }
+
+  // An empty result set has no pages — the news listing's rule.
+  &.is-empty .pagination {
+    display: none;
+  }
+
+  // --- Map pane ---
+
+  // isolation is load-bearing: Leaflet stacks its internal panes at z-index
+  // 200–700 INSIDE the container, and without a local stacking context those
+  // values join the page's and float over the site header (z 100). The lg
+  // sticky would isolate implicitly; this covers the below-lg static pane too.
+  &__map-pane {
+    position: relative;
+    display: none;
+    isolation: isolate;
+  }
+
+  // Below the split, the toggle swaps the two columns. List is the default —
+  // no class, no JS, no map — and .is-map-view is JS-applied only.
+  &.is-map-view &__results {
+    display: none;
+  }
+
+  &.is-map-view &__map-pane {
+    display: block;
+    height: calc(100dvh - 2 * var(--space-xs));
+  }
+
+  // From lg both columns always show and the toggle is gone; the map pane
+  // STICKS full-height while the list scrolls past. Top/bottom insets match
+  // the section's --space-xs frame, so the map floats one tight step inside
+  // the viewport with the brand radius — the "full height, padded, rounded"
+  // treatment. The selector lists must include the .is-map-view variants:
+  // the class may still be set when the viewport crosses up, and its
+  // display:none on __results would otherwise outrank these (three classes
+  // against two).
+  @include respond-to('lg') {
+    &__results,
+    &.is-map-view &__results {
+      display: block;
+    }
+
+    &__map-pane,
+    &.is-map-view &__map-pane {
+      position: sticky;
+      top: var(--space-xs);
+      display: block;
+      height: calc(100dvh - 2 * var(--space-xs));
+      // Eases the step below the auto-hide bar (rule after this block), on
+      // the bar's own reveal timing.
+      transition: top 0.25s ease-out, height 0.25s ease-out;
+    }
+  }
+
+  &__map {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; // clips the tiles to the radius
+    background-color: $color-brand-blue; // paints before tiles — media convention
+    border-radius: $radius-lg;
+  }
+
+  // Shown until the script confirms Leaflet mounted (.has-map): one static
+  // message covers no-JS-at-lg, a blocked CDN, and a script failure alike.
+  &__map-fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: var(--space-m);
+    margin: 0;
+    font-size: $font-size-sm;
+    color: $color-white;
+    text-align: center;
+  }
+
+  &.has-map &__map-fallback {
+    display: none;
+  }
+
+  // The map pin. A Leaflet divIcon holding an inline SVG teardrop — the same
+  // shape as the card's "View on map" glyph, so the control and the thing it
+  // points at wear one mark. INLINE (not a file through <img>) precisely so
+  // `currentColor` reaches it and the colour stays a token here rather than a
+  // filter chain; the marker's own anchor puts the tip on the coordinate.
+  // Dark Green, not Primary: the pin sits on pale tiles where Primary Green
+  // is thin, and the white knock-out inside carries the contrast either way.
+  &__pin {
+    color: $color-brand-dark-green;
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      // Lifts the pin off busy tiles without a second shape to maintain.
+      filter: drop-shadow(0 1px 1px rgba($color-black, 0.35));
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+      // The ring is drawn around the icon BOX, which is taller than the
+      // teardrop; a small offset keeps it off the point.
+      outline-offset: 1px;
+    }
+  }
+
+  // --- Cluster ---
+  //
+  // Leaflet.markercluster groups pins that would otherwise pile up — a real
+  // directory has dozens of generators in one wind region. The plugin's own
+  // theme is NOT loaded (only its structural stylesheet, for the spiderfy and
+  // zoom animations): the count bubble is built by iconCreateFunction and
+  // styled entirely here, so it wears the system's colour and type instead of
+  // the library's default blue-green splat.
+  //
+  // Dark Green with a white ring — the pin's palette, one step louder because
+  // a cluster stands for several. The count is the accessible name too
+  // (markercluster makes the bubble a focusable button).
+  &__cluster {
+    display: grid;
+    place-items: center;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-demibold;
+    color: $color-white;
+    background-color: $color-brand-dark-green;
+    border: 2px solid $color-white;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba($color-black, 0.35);
+    @include transition(background-color);
+
+    &:hover {
+      background-color: $color-brand-green;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+      outline-offset: 2px;
+    }
+  }
+
+  // --- Leaflet chrome, tuned to the system (the library ships its own font
+  // stack and square corners). Scoped to the directory so nothing leaks. ---
+
+  .leaflet-container {
+    font-family: $font-family-base;
+    font-size: $font-size-sm;
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  // The popup's photo runs edge to edge, so the wrapper has to CLIP to its own
+  // radius and Leaflet's content margin has to go — the body below re-adds the
+  // inset as padding, which the image then sits outside of.
+  .leaflet-popup-content-wrapper {
+    // Leaflet's own `padding: 1px` drew a white hairline all the way round
+    // the full-bleed photo — a frame nobody asked for, and obvious against a
+    // dark image. The popup's inset comes from __body instead.
+    padding: 0;
+    overflow: hidden;
+    border-radius: $radius-md;
+  }
+
+  .leaflet-popup-content {
+    margin: 0;
+    font-size: $font-size-sm;
+    line-height: $line-height-base;
+  }
+
+  // Leaflet parks its close button at the wrapper's top-right, which with a
+  // full-bleed photo would drop it onto the image. Step it down past the
+  // media so it lands on the title's line, per the design. The height is a
+  // custom property (declared on the directory, since the button is a SIBLING
+  // of the wrapper and could not inherit it from the popup body) and the
+  // popup is a fixed width, so the media's height is deterministic rather
+  // than something this has to guess.
+  // Leaflet's own rule is `.leaflet-container a.leaflet-popup-close-button`
+  // — (0,2,1) — so a plain two-class override loses on the element component
+  // and the button stayed pinned at top: 0 over the photo. Matched shape,
+  // one class deeper.
+  .leaflet-container a.leaflet-popup-close-button {
+    // Past the media, then down by the body's own inset so the glyph lands on
+    // the TITLE'S line rather than floating above it (measured: centres within
+    // 2px of the title's).
+    top: calc(var(--popup-media-h) + var(--space-xs));
+    right: var(--space-2xs);
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    font-size: 1.25rem;
+    line-height: 2rem;
+    color: $color-ui-text;
+
+    &:hover {
+      color: $color-brand-dark-green;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Marker popup — a miniature of the card it stands for
+//
+// Photo across the top, then the same record the card carries: name, operator,
+// place, the three facts, and the website link. Built by the directory script
+// FROM the card, so the two can never disagree.
+//
+// Its own block rather than directory elements: it renders inside Leaflet's
+// own popup DOM, and its pieces belong to the popup, not to the page layout.
+// -----------------------------------------------------------------------------
+.generator-popup {
+  &__media {
+    display: block;
+    width: 100%;
+    height: var(--popup-media-h);
+    object-fit: cover;
+  }
+
+  &__body {
+    padding: var(--space-s);
+  }
+
+  // EVERY text row below is a <p>, and Leaflet ships
+  // `.leaflet-popup-content p { margin: 18px 0 }` at (0,1,1). So each rule
+  // carries the ELEMENT as well as its class — `p.generator-popup__line`
+  // nested here resolves to (0,2,1) and takes the margin back.
+  //
+  // A blanket `.leaflet-popup-content p { margin: 0 }` used to do that job,
+  // and it was the wrong tool: at (0,2,1) it also outranked these very rules
+  // (plain classes, (0,1,0)), so the popup's own rhythm was being zeroed by
+  // its own reset — the address lines lost their step and the website link
+  // lost the space above it. Qualify each rule instead of resetting broadly.
+  p#{&}__title {
+    // Clears the close button, which sits on this line at the popup's right:
+    // its 2rem box plus the --space-2xs it is inset by.
+    padding-right: 2.75rem;
+    margin: 0;
+    font-size: $font-size-base;
+    font-weight: $font-weight-demibold;
+    line-height: $line-height-tight;
+    color: $color-brand-dark-green;
+  }
+
+  p#{&}__line {
+    margin: var(--space-3xs) 0 0;
+    color: $color-ui-text;
+  }
+
+  // The facts sit as their own tight cluster, a step clear of the address
+  // lines above so the two read as separate groups rather than one list.
+  // A <div>, so Leaflet's paragraph rule never reached it.
+  &__meta {
+    margin-top: var(--space-2xs);
+  }
+
+  p#{&}__meta-row {
+    margin: 0;
+    color: $color-ui-text;
+
+    strong {
+      font-weight: $font-weight-medium;
+      color: $color-brand-dark-green;
+    }
+  }
+
+  // A full step clear of the facts above: the link is the popup's one action,
+  // and at the paragraph rhythm it read as a fourth line of the record.
+  p#{&}__link {
+    margin: var(--space-m) 0 0;
+
+    a {
+      font-weight: $font-weight-medium;
+      color: $color-brand-dark-green;
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+
+      &:hover {
+        color: $color-brand-blue;
+      }
+
+      &:focus-visible {
+        @include focus-ring;
+      }
+    }
+  }
+}
+
+// The stuck map steps below the auto-hide bar exactly as the page-split rail
+// does — same published --header-height, same timing. Height gives back what
+// the top takes, so the bottom inset holds; a ResizeObserver in the template
+// script has Leaflet re-measure through the ease.
+.site-header.is-pinned.is-shown ~ main .generator-directory__map-pane {
+  @include respond-to('lg') {
+    top: calc(var(--header-height, 4.5rem) + var(--space-xs));
+    height: calc(100dvh - var(--header-height, 4.5rem) - 2 * var(--space-xs));
+  }
+}
+
+// No JS: no map and nothing to toggle — the listing IS the page, single
+// column at every width. These follow the lg rules in source order, and
+// .is-map-view can never be present without the script.
+.no-js .generator-directory__map-pane {
+  display: none;
+}
+
+.no-js .generator-directory__toggle {
+  display: none;
+}
+
+.no-js .generator-directory__layout {
+  grid-template-columns: minmax(0, 1fr);
+}
