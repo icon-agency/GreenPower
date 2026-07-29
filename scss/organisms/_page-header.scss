@@ -104,7 +104,7 @@
   // is the whole change and Drupal has no extra class to remember. Where
   // :has() is unsupported the floor simply stays, which is the current look —
   // the same graceful-degradation stance as the card grid's quantity queries.
-  &__inner:has(.news-filter) {
+  &__inner:has(.news-filter, .tool-filter) {
     @include respond-to('sm') {
       min-height: auto;
     }
@@ -217,6 +217,23 @@
     max-width: 52ch;
     margin-top: var(--space-s);
     font-size: $font-size-base; // --step-0
+
+    // Inline cross-links in the band intro (the generators tool's "industry
+    // accreditation" link): white with the underline carrying the link on the
+    // dark ground — colour alone would vanish here — and the footer's on-dark
+    // Light Green hover pairing.
+    a {
+      color: $color-white;
+      text-underline-offset: 0.15em;
+
+      &:hover {
+        color: $color-brand-light-green;
+      }
+
+      &:focus-visible {
+        @include focus-ring($color-white);
+      }
+    }
   }
 
   // --- Media: right column with the angle-cut corner (md and up) ---

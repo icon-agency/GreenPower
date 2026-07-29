@@ -1,0 +1,162 @@
+// -----------------------------------------------------------------------------
+// Tool filter — search + select filters composed into the page-header band
+//
+// The directory tools' filter form (accredited generators now; a provider
+// finder would take the same block): a search field with an in-field submit,
+// labelled selects and an Apply button, sitting in the dark green page-header
+// under the H1. The news-filter's composition pattern with form controls in
+// place of toggle pills — placed inside .page-header__inner by the template,
+// styling nothing of the header's. The header reacts only by dropping its
+// min-height floor (:has(), _page-header.scss).
+//
+// Every control is a SOLID surface (white fills), so the row may run over the
+// imageless header's angle shape the way the news pills do — chrome over
+// decoration, not text over a colour seam.
+//
+// Drupal mapping: the view's exposed filter form (Search API fulltext +
+//   field_state and field_generator_type selects), AJAX-enabled — these are
+//   the styled widgets of views-exposed-form.html.twig. The selected-filter
+//   chips and the result count are the VIEW HEADER, so they belong to the
+//   directory (.generator-directory__toolbar), not to this form.
+// -----------------------------------------------------------------------------
+
+// Down-chevron for the styled selects. As with _main-nav.scss's $arrow-icon,
+// 'black' is only the mask's alpha source — the visible colour comes from the
+// pseudo's background-color token.
+$chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1.5 1.5 6 6l4.5-4.5' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+.tool-filter {
+  // Escape the band's media reserve exactly as the news pills do — the header
+  // publishes it in cqi, so this margin resolves to the same length as the
+  // padding it cancels. The fallback zeroes the escape where the reserve is
+  // unset (below sm, or the form placed somewhere else entirely).
+  position: relative;
+  z-index: 1; // the abspos media shape follows in the DOM; paint over it
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  margin-top: var(--space-l);
+  margin-right: calc(var(--space-l) - var(--media-reserve, var(--space-l)));
+
+  // em context matches the input so the icon and padding scale together;
+  // floored at 1rem so iOS Safari doesn't zoom on focus (the nav search's
+  // rule).
+  &__search {
+    position: relative;
+    max-width: 44rem;
+    font-size: max(#{$font-size-sm}, 1rem);
+  }
+
+  &__search-input {
+    width: 100%;
+    height: 3em; // the .btn / nav-circle control height
+    padding: 0 calc(var(--space-s) + 1.3em + var(--space-2xs)) 0 var(--space-s);
+    font-size: 1em;
+    color: $color-ui-text;
+    background-color: $color-white;
+    border: 1px solid $color-ui-border-strong; // WCAG 1.4.11 boundary contrast
+    border-radius: $radius-pill;
+
+    &:focus-visible {
+      @include focus-ring($color-white);
+    }
+
+    &::placeholder {
+      color: $color-brand-dark-green; // 7.4:1 — placeholder counts as text (AA)
+      opacity: 1;
+    }
+  }
+
+  // In-field magnifier at the right-hand end, per the tool's reference layout
+  // (the nav search sits its glyph left — same anatomy, mirrored).
+  &__search-submit {
+    @include button-reset;
+    position: absolute;
+    top: 50%;
+    right: var(--space-s);
+    display: inline-flex;
+    color: $color-brand-dark-green;
+    transform: translateY(-50%);
+    @include transition(color);
+
+    svg {
+      width: 1.3em;
+      height: 1.3em;
+    }
+
+    &:hover {
+      color: $color-brand-green;
+    }
+
+    &:focus-visible {
+      @include focus-ring($color-white);
+    }
+  }
+
+  &__fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    align-items: flex-end; // the Apply pill sits on the selects' control row
+  }
+
+  &__field {
+    display: flex;
+    flex: 1 1 14rem;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    max-width: 21rem;
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-white;
+  }
+
+  // The wrap exists to carry the chevron: appearance: none strips the UA's
+  // arrow, and a select cannot paint a pseudo-element of its own.
+  &__select-wrap {
+    position: relative;
+    display: block;
+
+    &::after {
+      position: absolute;
+      top: 50%;
+      right: var(--space-s);
+      width: 0.8em;
+      height: 0.55em;
+      pointer-events: none; // clicks fall through to the select
+      content: '';
+      background-color: $color-brand-dark-green;
+      -webkit-mask-image: $chevron-icon;
+      mask-image: $chevron-icon;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      mask-position: center;
+      -webkit-mask-size: contain;
+      mask-size: contain;
+      transform: translateY(-50%);
+    }
+  }
+
+  &__select {
+    width: 100%;
+    height: 3em;
+    padding: 0 calc(var(--space-s) + 0.8em + var(--space-2xs)) 0 var(--space-s);
+    // Floored at 1rem like the search input — selects trigger the same iOS
+    // focus zoom below 16px.
+    font-size: max(#{$font-size-sm}, 1rem);
+    color: $color-ui-text;
+    appearance: none; // the wrap's ::after carries the chevron
+    cursor: pointer;
+    background-color: $color-white;
+    border: 1px solid $color-ui-border-strong;
+    border-radius: $radius-pill;
+
+    &:focus-visible {
+      @include focus-ring($color-white);
+    }
+  }
+}

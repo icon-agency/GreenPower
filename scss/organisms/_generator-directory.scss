@@ -1,0 +1,403 @@
+// -----------------------------------------------------------------------------
+// Generator directory — filtered listing beside a full-height map
+//
+// The layout for the accredited-generators tool: a toolbar (active-filter
+// chips, result count, and — where the two columns cannot fit — a list/map
+// view toggle), then the split: the card list scrolls with the page while the
+// map pane STICKS full-height beside it, snug to the section's right edge
+// with the brand radius and the --space-xs frame on top, bottom and right
+// (the bento/feature-banner tight inset).
+//
+// THE MAP IS AN ENHANCEMENT OF THE LIST, never the other way round: markers
+// and popups are built from the cards' own content (one source of truth), the
+// below-lg toggle DEFAULTS TO LIST, and no-JS or a blocked CDN gets the full
+// listing with the pane hidden. Leaflet renders into __map; tiles are
+// OpenStreetMap — the attribution control is a licence requirement and must
+// never be removed.
+//
+// Drupal mapping: a VIEW page over accredited_generator nodes —
+//   exposed filters render as .tool-filter in the header band; the cards are
+//   the view rows (generator-card teasers); chips + count are the view
+//   header (facets summary); the pager is the view's own; the map is a view
+//   attachment over the same result set. Leaflet: self-host as a theme
+//   library (GovCMS commonly blocks third-party CDNs), and production needs
+//   its own tile arrangement — tile.openstreetmap.org's usage policy covers
+//   development-scale traffic, not a government site's.
+// -----------------------------------------------------------------------------
+
+.generator-directory {
+  max-width: $container-max-width;
+  // The band's tight frame so the map runs snug to the page edge; the list
+  // column restores the standard text gutter itself (below). Top padding is
+  // the --tight-top step: the band above already provides closure.
+  padding: var(--space-s-l) var(--space-xs) var(--space-3xl);
+  margin-inline: auto;
+
+  // The list column's text sits on the page's STANDARD gutter (--space-s-l),
+  // stated as the difference from the section's tight frame — the
+  // .page-body--article pattern.
+  &__toolbar,
+  &__results {
+    padding-inline-start: calc(var(--space-s-l) - var(--space-xs));
+  }
+
+  &__toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    margin-bottom: var(--space-m);
+  }
+
+  &__status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__count {
+    font-size: $font-size-sm;
+    color: $color-ui-text;
+  }
+
+  // --- Active-filter chips: the view header's selected-filters summary ---
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    // display: flex outranks the UA's [hidden] rule (author styles beat UA
+    // styles — the news filter demo's lesson), so guard it explicitly.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // Each chip is a button that REMOVES its filter — the × says so, and the
+  // accessible name spells it out ("Remove filter: Victoria").
+  &__chip {
+    @include button-reset;
+    display: inline-flex;
+    gap: var(--space-2xs);
+    align-items: center;
+    padding: var(--space-3xs) var(--space-s);
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    background-color: $color-tint-taupe;
+    border-radius: $radius-pill;
+    @include transition((background-color, color));
+
+    svg {
+      flex-shrink: 0;
+      width: 0.65em;
+      height: 0.65em;
+    }
+
+    &:hover {
+      color: $color-brand-blue;
+      background-color: $color-brand-taupe;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  &__clear {
+    @include button-reset;
+    padding: var(--space-3xs) var(--space-2xs);
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+    @include transition(color);
+
+    &:hover {
+      color: $color-brand-blue;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  // --- List / map view toggle — exists only below the split ---
+
+  // aria-pressed buttons, the news-filter pill pattern on a light ground.
+  // JS-only chrome: without a script there is no map to toggle to, so no-js
+  // hides it (end of file) and the list simply is the page.
+  &__toggle {
+    display: inline-flex;
+    gap: var(--space-2xs);
+
+    @include respond-to('lg') {
+      display: none; // both columns fit — nothing to toggle
+    }
+  }
+
+  &__toggle-btn {
+    @include button-reset;
+    padding: var(--space-3xs) var(--space-s);
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    background-color: $color-white;
+    border: 1px solid $color-ui-border-strong;
+    border-radius: $radius-pill;
+    @include transition((background-color, color, border-color));
+
+    &:hover {
+      background-color: $color-tint-taupe;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    &[aria-pressed='true'] {
+      color: $color-white;
+      background-color: $color-brand-dark-green;
+      border-color: $color-brand-dark-green;
+    }
+  }
+
+  // --- The split ---
+
+  &__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-m);
+    align-items: start; // load-bearing for the sticky map (page-split's rule)
+
+    // Side by side once both earn their width: the list holds a readable
+    // card, the map a useful viewport. minmax(0,…) per LESSONS.md.
+    @include respond-to('lg') {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    }
+  }
+
+  &__results {
+    min-width: 0;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs); // the card-stack rhythm
+  }
+
+  // --- Empty state: a filter can match nothing and must say so (LESSONS.md).
+  // Second restatement of .card-section__empty — promote a shared block when
+  // a third site appears (docs/mixins.md's rule). ---
+
+  &__empty {
+    padding: var(--space-xl) var(--space-m);
+    margin-top: var(--space-m);
+    text-align: center;
+    background-color: $color-tint-taupe;
+    border-radius: $radius-lg;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__empty-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-demibold;
+    color: $color-brand-dark-green;
+  }
+
+  &__empty-text {
+    max-width: 44ch;
+    margin: var(--space-2xs) auto 0;
+    color: $color-ui-text;
+  }
+
+  // An empty result set has no pages — the news listing's rule.
+  &.is-empty .pagination {
+    display: none;
+  }
+
+  // --- Map pane ---
+
+  // isolation is load-bearing: Leaflet stacks its internal panes at z-index
+  // 200–700 INSIDE the container, and without a local stacking context those
+  // values join the page's and float over the site header (z 100). The lg
+  // sticky would isolate implicitly; this covers the below-lg static pane too.
+  &__map-pane {
+    position: relative;
+    display: none;
+    isolation: isolate;
+  }
+
+  // Below the split, the toggle swaps the two columns. List is the default —
+  // no class, no JS, no map — and .is-map-view is JS-applied only.
+  &.is-map-view &__results {
+    display: none;
+  }
+
+  &.is-map-view &__map-pane {
+    display: block;
+    height: calc(100dvh - 2 * var(--space-xs));
+  }
+
+  // From lg both columns always show and the toggle is gone; the map pane
+  // STICKS full-height while the list scrolls past. Top/bottom insets match
+  // the section's --space-xs frame, so the map floats one tight step inside
+  // the viewport with the brand radius — the "full height, padded, rounded"
+  // treatment. The selector lists must include the .is-map-view variants:
+  // the class may still be set when the viewport crosses up, and its
+  // display:none on __results would otherwise outrank these (three classes
+  // against two).
+  @include respond-to('lg') {
+    &__results,
+    &.is-map-view &__results {
+      display: block;
+    }
+
+    &__map-pane,
+    &.is-map-view &__map-pane {
+      position: sticky;
+      top: var(--space-xs);
+      display: block;
+      height: calc(100dvh - 2 * var(--space-xs));
+      // Eases the step below the auto-hide bar (rule after this block), on
+      // the bar's own reveal timing.
+      transition: top 0.25s ease-out, height 0.25s ease-out;
+    }
+  }
+
+  &__map {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; // clips the tiles to the radius
+    background-color: $color-brand-blue; // paints before tiles — media convention
+    border-radius: $radius-lg;
+  }
+
+  // Shown until the script confirms Leaflet mounted (.has-map): one static
+  // message covers no-JS-at-lg, a blocked CDN, and a script failure alike.
+  &__map-fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: var(--space-m);
+    margin: 0;
+    font-size: $font-size-sm;
+    color: $color-white;
+    text-align: center;
+  }
+
+  &.has-map &__map-fallback {
+    display: none;
+  }
+
+  // The marker dot: a Leaflet divIcon carrying ONLY this class, so the pin is
+  // pure CSS — no image assets to host, a token colour, and the white ring
+  // keeps it readable on any tile. Primary Green: the map's one brand moment,
+  // as on the pagination's current page.
+  &__pin {
+    background-color: $color-brand-green;
+    border: 2px solid $color-white;
+    border-radius: 50%;
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  // --- Leaflet chrome, tuned to the system (the library ships its own font
+  // stack and square corners). Scoped to the directory so nothing leaks. ---
+
+  .leaflet-container {
+    font-family: $font-family-base;
+    font-size: $font-size-sm;
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  .leaflet-popup-content-wrapper {
+    border-radius: $radius-md;
+  }
+
+  .leaflet-popup-content {
+    margin: var(--space-s);
+    font-size: $font-size-sm;
+    line-height: $line-height-base;
+  }
+}
+
+// The marker popup's content — built by the directory script from the card it
+// mirrors. Its own block, not directory elements: it renders inside Leaflet's
+// popup DOM, and its pieces belong to the popup, not the page layout.
+.generator-popup__title {
+  font-size: $font-size-base;
+  font-weight: $font-weight-demibold;
+  color: $color-brand-dark-green;
+}
+
+.generator-popup__line,
+.generator-popup__meta {
+  margin-top: var(--space-3xs);
+  color: $color-ui-text;
+}
+
+.generator-popup__meta strong {
+  font-weight: $font-weight-medium;
+  color: $color-brand-dark-green;
+}
+
+.generator-popup__link {
+  margin-top: var(--space-2xs);
+
+  a {
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+
+    &:hover {
+      color: $color-brand-blue;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+}
+
+// The stuck map steps below the auto-hide bar exactly as the page-split rail
+// does — same published --header-height, same timing. Height gives back what
+// the top takes, so the bottom inset holds; a ResizeObserver in the template
+// script has Leaflet re-measure through the ease.
+.site-header.is-pinned.is-shown ~ main .generator-directory__map-pane {
+  @include respond-to('lg') {
+    top: calc(var(--header-height, 4.5rem) + var(--space-xs));
+    height: calc(100dvh - var(--header-height, 4.5rem) - 2 * var(--space-xs));
+  }
+}
+
+// No JS: no map and nothing to toggle — the listing IS the page, single
+// column at every width. These follow the lg rules in source order, and
+// .is-map-view can never be present without the script.
+.no-js .generator-directory__map-pane {
+  display: none;
+}
+
+.no-js .generator-directory__toggle {
+  display: none;
+}
+
+.no-js .generator-directory__layout {
+  grid-template-columns: minmax(0, 1fr);
+}

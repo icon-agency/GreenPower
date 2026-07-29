@@ -1,0 +1,219 @@
+// -----------------------------------------------------------------------------
+// Generator card — one accredited generator in the directory listing
+//
+// The card family's conventions (tinted tile, brand radius, gap-spaced
+// children) carrying a directory RECORD rather than editorial teaser copy:
+// accreditation badge, name, operator and place beside a small photo, a meta
+// list (type / capacity / CER code), a description, and two actions — Visit
+// website (a link: navigation) and View on map (a button: an action — it pans
+// the map; docs/frontend-rules.md element choice).
+//
+// Its own block rather than more .card pieces: the news additions were
+// optional elements on the SAME teaser anatomy, but this record layout (head
+// row with a side thumbnail, dl meta, action row) shares none of the card's
+// structure — only its surface conventions, which are tokens anyway.
+//
+// Drupal mapping: a node TEASER view mode of accredited_generator, rendered
+//   as the rows of the generators view (see _generator-directory.scss):
+//   title, field_company (text), field_place (text), field_state (taxonomy),
+//   field_generator_type (taxonomy), field_capacity (decimal, MW),
+//   field_cer_code (text), field_description (text long), field_website
+//   (link), field_image (media), field_location (geofield — the template
+//   writes it to data-lat/data-lng for the map markers; a missing value drops
+//   the marker, never the row).
+//   The Accredited badge is structural — everything in this directory is
+//   accredited — so it is template markup, not a field.
+// -----------------------------------------------------------------------------
+
+.generator-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding: var(--space-m);
+  background-color: $color-tint-taupe; // the listing surface (news-teaser rest)
+  border-radius: $radius-lg;
+
+  &__head {
+    display: flex;
+    gap: var(--space-m);
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  &__intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    align-items: flex-start;
+    min-width: 0; // long names wrap rather than pushing the thumbnail out
+  }
+
+  // Accreditation mark — the dark-green pill family. THIRD restatement of the
+  // recipe (.card__tag, .article-meta__tag), which is the docs/mixins.md
+  // promotion threshold: a shared tag-pill mixin is now due. Deferred to its
+  // own pass rather than folded in here, so this diff stays the tool — the
+  // three sites differ only in font step and positioning context.
+  &__badge {
+    display: inline-flex;
+    gap: var(--space-2xs);
+    align-items: center;
+    padding: var(--space-3xs) var(--space-xs);
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: $color-white;
+    background-color: $color-brand-dark-green;
+    border-radius: $radius-pill;
+
+    svg {
+      flex-shrink: 0;
+      width: 0.8em;
+      height: 0.8em;
+    }
+  }
+
+  &__title {
+    font-size: $font-size-lg; // the card-title step
+    font-weight: $font-weight-demibold;
+    color: $color-brand-dark-green;
+    text-wrap: balance; // short display text — the card-title rationale
+  }
+
+  &__company,
+  &__place {
+    font-size: $font-size-sm;
+    color: $color-ui-text;
+  }
+
+  // Small identifying photo, top-right. Decorative (alt="") and dropped below
+  // sm exactly as the download cover is: in a phone-width column it taxes the
+  // name's line length and carries no information the text doesn't.
+  &__media {
+    display: none;
+
+    @include respond-to('sm') {
+      display: block;
+      flex-shrink: 0;
+      width: 6.5rem;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: $radius-md;
+    }
+  }
+
+  // The record's facts. A real <dl>: these are label/value pairs, and the
+  // pairing is what screen readers announce.
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    margin: 0;
+    font-size: $font-size-sm;
+  }
+
+  &__meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-2xs);
+
+    dt {
+      font-weight: $font-weight-medium;
+      color: $color-brand-dark-green;
+
+      // Punctuation as decoration, not content: nothing for a screen reader
+      // to announce between the pair.
+      &::after {
+        content: ':';
+      }
+    }
+
+    dd {
+      margin: 0;
+      color: $color-ui-text;
+      overflow-wrap: anywhere; // CER codes are unbroken tokens
+    }
+  }
+
+  &__desc {
+    max-width: 60ch;
+    font-size: $font-size-sm;
+    color: $color-ui-text;
+  }
+
+  // Action row closing the card, ruled above — the news teaser's meta-row
+  // anatomy with two controls in it.
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-s);
+    align-items: center;
+    justify-content: space-between;
+    padding-block-start: var(--space-xs);
+    margin-top: auto;
+    border-top: 1px solid $color-ui-border;
+  }
+
+  // Visit website — external navigation, so it carries the leaves-this-page
+  // glyph (the repo-link / ds-nav pattern) and its up-and-right hover nudge.
+  &__link {
+    display: inline-flex;
+    gap: var(--space-2xs);
+    align-items: center;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    text-decoration: none;
+    @include transition(color);
+
+    svg {
+      flex-shrink: 0;
+      width: 0.75em;
+      height: 0.75em;
+      opacity: 0.6;
+      @include transition(transform, 0.2s, ease-out);
+    }
+
+    &:hover {
+      color: $color-brand-blue; // the card-link convention (green text fails AA)
+
+      svg {
+        transform: translate(var(--space-3xs), calc(-1 * var(--space-3xs)));
+      }
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  // View on map — an action on this page, not navigation, so a button.
+  &__map-link {
+    @include button-reset;
+    display: inline-flex;
+    gap: var(--space-2xs);
+    align-items: center;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    @include transition(color);
+
+    svg {
+      flex-shrink: 0;
+      width: 0.9em;
+      height: 0.9em;
+    }
+
+    &:hover {
+      color: $color-brand-blue;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    // No JS, no map — and a control that does nothing is worse than none
+    // (the client-logos pause button's rule).
+    .no-js & {
+      display: none;
+    }
+  }
+}
