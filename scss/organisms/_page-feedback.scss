@@ -1,0 +1,53 @@
+// -----------------------------------------------------------------------------
+// Page feedback — "Was this page useful?  Yes / No"
+//
+// A single closing question above the footer. Deliberately the smallest thing
+// that can work: a question and two buttons, centred, on the page background.
+//
+// The buttons are <button>, not links — they submit a judgement, they do not
+// navigate. They reuse the .btn atom rather than growing styles of their own.
+//
+// Drupal mapping:
+//   Not a paragraph — site furniture, placed in the theme's content region or
+//   as a block, so an editor cannot forget it on one page and add it twice on
+//   another. Wire to whichever feedback module is in use; the markup is the
+//   presentational half only. Real implementations POST and replace this block
+//   with a thank-you message, so keep the wrapper as the swap target.
+//
+// Accessibility: the question is the group's accessible name via
+// aria-labelledby on a role="group", so a screen reader reaching either button
+// hears what it is answering. Without that, "Yes" and "No" are two unlabelled
+// controls. On answer, move focus to the acknowledgement (or use a live
+// region) — a button that vanishes silently strands the keyboard.
+// -----------------------------------------------------------------------------
+
+.page-feedback {
+  @include container;
+  padding-block: var(--space-xl);
+
+  &__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-s);
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__question {
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    color: $color-ui-text;
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--space-2xs);
+  }
+
+  // The answers are short — "Yes" / "No" — so the atom's fluid inline padding
+  // leaves two near-circular pills. A min-width sets them to a matched, easily
+  // hit target instead (well past the 44px WCAG 2.5.5 floor at every step).
+  &__answer {
+    min-width: 5rem;
+  }
+}

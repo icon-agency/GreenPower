@@ -26,7 +26,18 @@
 
 .card-section {
   @include container;
-  padding-block: var(--space-3xl);
+
+  // Asymmetric by design. The TOP is half the old --space-3xl break, which is
+  // --space-xl exactly — the space scale's 3× and 6× multipliers share both
+  // endpoints (3rem→3.75rem against 6rem→7.5rem), so this is the real token
+  // rather than a calc() that would drift off the scale. The BOTTOM matches
+  // the container mixin's own --space-s-l gutter, so the section's frame is
+  // even on three sides and the grid closes snugly under the last card row.
+  //
+  // Consecutive sections therefore meet on --space-s-l + --space-xl rather
+  // than a doubled 3xl, which is what made three stacked sections (the
+  // Products & solutions landing) read as drifting apart.
+  padding-block: var(--space-xl) var(--space-s-l);
 
   // Dark green (not the default blue heading) per the design; DemiBold face
   &__heading {
@@ -164,6 +175,7 @@
       }
     }
   }
+
 }
 
 // -----------------------------------------------------------------------------
@@ -337,6 +349,30 @@
   &__links {
     padding: 0;
     list-style: none;
+  }
+
+  // Optional closing action — a button at the foot of the card, under the
+  // links (the nav panel's group CTA: "Accredited electricity generators").
+  //
+  // A wrapper, not the button itself. __content is `display: contents`, so a
+  // bare .btn would become a direct flex child of the card and STRETCH to the
+  // full column — the card's cross-axis default. .pathway solves the same
+  // problem with `align-items: flex-start` on the block, but the card cannot:
+  // its media, title, body and links all want the full width. Boxing just this
+  // one child keeps the button at its natural width and leaves everything
+  // else alone.
+  //
+  // margin-top: auto pins it to the card's foot, so a row of cards with
+  // different numbers of links still lands its buttons on one line — measured
+  // at 47px and 29px off the base before this, which reads as a mistake rather
+  // than a rhythm. The card's own flex `gap` is unaffected by an auto margin,
+  // so the minimum space above the button is still the standard step.
+  //
+  // Drupal: an optional link field on the card paragraph (field_card_cta),
+  // rendered only when set — the card costs nothing where it is absent.
+  &__cta {
+    display: flex;
+    margin-top: auto;
   }
 
   // Dark green (passes AA on the taupe card); arrow pinned right
@@ -798,14 +834,40 @@
 // Top padding matched to the section's own SIDE gutter, for a card section
 // that follows something already providing closure — the header band on the
 // news landing, the article body's own section-scale bottom on an article.
-// Without it the section restates a full --space-3xl break directly on top of
-// one that has just happened, and the pair reads as double spacing. The
-// CLOSING padding keeps the full 3xl: what follows brings no such closure.
+// Without it the section restates a --space-xl break directly on top of one
+// that has just happened, and the pair reads as double spacing. Still a real
+// modifier after the base top dropped to --space-xl: this takes it the rest
+// of the way down to the gutter, making the frame even on all four sides.
 //
 // One modifier rather than the declaration repeated per section, so the two
 // places that want this cannot drift to different values.
 .card-section--tight-top {
   padding-block-start: var(--space-s-l);
+}
+
+// Centred heading + intro, for a page whose sections are announced rather than
+// read into — a landing page where each section is a signpost, not a chapter
+// of a continuous argument.
+//
+// Not the default, and not a new idea either: .pathway-section is centred
+// already, and a page mixing a centred pathway section with left-aligned card
+// sections reads as a mistake. This is the modifier that lets a page pick one
+// and hold it. The measure and the auto margins are the pathway section's, so
+// the two land on the same width.
+//
+// Drupal: a list_string on card_grid (field_grid_alignment), computed into
+// modifier_class in preprocess — never a per-page override.
+.card-section--centred {
+  .card-section__heading {
+    text-align: center;
+    text-wrap: balance; // short display copy — sanctioned in content-rhythm.md
+  }
+
+  .card-section__intro {
+    max-width: 62ch;
+    margin-inline: auto;
+    text-align: center;
+  }
 }
 
 // Listing sections (news landing): the section heading is visually hidden —

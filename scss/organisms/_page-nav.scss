@@ -1,0 +1,76 @@
+// -----------------------------------------------------------------------------
+// Page nav — the "On this page:" jump row
+//
+// A short row of anchor links to the page's own sections, sitting directly
+// under the header band. Reads as a table of contents for a long landing page.
+//
+// NOT .news-filter, which it resembles. Those are <button>s that re-run a view
+// (the styled exposed form of a Drupal view) and carry aria-pressed state;
+// these are plain in-page links that move the viewport and carry none. Sharing
+// the markup would mean a control that lies about what it does — so this
+// borrows the pill TREATMENT and nothing else. The two also sit on different
+// surfaces: the filter runs over the dark header band and needs a solid fill to
+// keep its own AA contrast, while this sits on the page background.
+//
+// Drupal mapping:
+//   Not a paragraph. Either a menu block, or preprocess collecting the ids of
+//   the node's section paragraphs into a list of {id, title} — the latter keeps
+//   the row in step with the content automatically, which a hand-built menu
+//   cannot. Chip text is the section's own heading, so no extra field.
+//
+// Accessibility: a real <nav> with an accessible name, and every target needs
+// an id and should be focusable-on-jump (the sections here are <section
+// aria-labelledby>, which browsers move focus into correctly).
+// -----------------------------------------------------------------------------
+
+.page-nav {
+  @include container;
+  padding-block: var(--space-m);
+
+  &__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-s);
+    align-items: center;
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    color: $color-ui-text;
+  }
+
+  // padding + list-style come from the reset's ul[class] rule, which is
+  // specificity (0,1,1) and would outrank anything set here anyway — see
+  // LESSONS.md. Spacing that needs to win goes on margin.
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    margin: 0;
+  }
+
+  // Tinted chip rather than the outline pill: the row is navigation furniture,
+  // not a call to action, and a line of outlined pills reads as four competing
+  // buttons. The taupe tint sits it with the page's surfaces (cards, section
+  // arrows) and keeps Dark Green past AA (≥5.8:1, as on .card__body).
+  &__link {
+    display: inline-block;
+    padding: var(--space-3xs) var(--space-s);
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    text-decoration: none;
+    background-color: $color-tint-taupe;
+    border-radius: $radius-pill;
+    @include transition((background-color, color));
+
+    &:hover {
+      color: $color-brand-blue;
+      background-color: $color-brand-taupe;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+}
