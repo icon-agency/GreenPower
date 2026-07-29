@@ -17,10 +17,12 @@
 //   Fields: field_heading (text), field_tiles (repeatable paragraph, exactly
 //     two bundles: bento_media_tile — field_image (media), field_title (text),
 //     field_link (link); bento_stat_tile — field_icon (media svg),
-//     field_figure (text), field_text (text) — figure + text render grouped
-//     inside ONE .bento-grid__stat wrapper (a single flex child): the tile's
-//     space-between layout pins the icon top and the pair bottom as a unit,
-//     so do not flatten the wrapper in Twig.
+//     field_figure (text), field_text (text), field_link (link, OPTIONAL —
+//     when set the figure renders as the stretched .bento-grid__stat-link and
+//     the corner arrow appears; when empty the tile is plain text). Figure +
+//     text render grouped inside ONE .bento-grid__stat wrapper (a single flex
+//     child): the tile's space-between layout pins the icon top and the pair
+//     bottom as a unit, so do not flatten the wrapper in Twig.
 //   Preprocess: chunk the tiles into three .bento-grid__col wrappers in
 //     delivered order (pairs: 1+2, 3+4, 5+6) — authors control the mosaic by
 //     ordering tiles; a media/stat pair per column keeps heights aligned.
@@ -213,6 +215,7 @@
   }
 
   &__title {
+    position: relative; // hosts the hover rule below
     padding-bottom: var(--space-2xs);
     overflow-wrap: break-word; // an unbreakable word wraps, not clips mid-glyph
     hyphens: auto;
@@ -221,6 +224,24 @@
     line-height: $line-height-tight;
     color: $color-white;
     border-bottom: 1px solid rgba($color-white, 0.35); // the divider the link sits under
+
+    // Divider highlight — the shared line-hover mechanism (_card.scss,
+    // _main-nav.scss): a bar that SCALES in from the centre out to both edges
+    // and retracts back to the centre, rather than fading. An ::after, never
+    // box-shadow (LESSONS.md: shadow underlines seam at fractional x). Sits at
+    // bottom: -1px so it covers the resting rule — the divider itself appears
+    // to light up. Light Green because that is what the link below turns on
+    // hover, so the overlay brightens as one cue rather than two.
+    &::after {
+      position: absolute;
+      inset: auto 0 -1px;
+      height: 1px;
+      content: '';
+      background-color: $color-brand-light-green;
+      transform: scaleX(0);
+      transform-origin: center;
+      @include transition(transform, 0.3s, ease-out);
+    }
   }
 
   // Same anatomy as .feature-banner__link (white row, arrow pinned right)
@@ -264,6 +285,18 @@
     transform: translateX(var(--space-3xs));
   }
 
+  // Driven from the TILE, not the title: the link is stretched over the whole
+  // photo, so the rule has to answer to the same hover the zoom does — a cue
+  // that only fired over the words themselves would contradict the pointer.
+  // Kept at BLOCK level so every `&` here interpolates to .bento-grid; nested
+  // one level deeper inside the :has(), `#{&}` picks up the whole compound
+  // selector instead and silently compiles a malformed one (see the note by
+  // the stat tile's ::before).
+  &__tile--media:hover &__title::after,
+  &__tile--media:has(#{&}__link:focus-visible) &__title::after {
+    transform: scaleX(1);
+  }
+
   // --- Stat tile: icon top, figure + support line bottom, on Dark Green ---
 
   // Children are exactly two flex items: __icon and the __stat group (figure
@@ -285,39 +318,209 @@
   // Same size as .card__icon / .feature-banner__icon. Source SVGs are dark
   // green — rendered white on this dark panel (the shared filter trick).
   &__icon {
-    width: $icon-size;
+    position: relative; // hosts the hover rule below
+    // Deliberately NO width: the span takes the tile's content width (a column
+    // flex container stretches its items on the cross axis), which is what
+    // lets the rule below span the full tile instead of just the glyph. The
+    // img carries the icon's own size, so the artwork is unchanged.
     height: $icon-size;
 
     img {
       display: block;
-      width: 100%;
-      height: 100%;
+      width: $icon-size;
+      height: $icon-size;
       object-fit: contain;
-      filter: brightness(0) invert(100%);
+      // Written out in the SAME seven functions as the Light Green hover chain
+      // below, in the same order, purely so the two INTERPOLATE — CSS only
+      // transitions filter lists of matching shape, and the short
+      // `brightness(0) invert(100%)` form would snap. The extra five are
+      // identity values: this renders byte-identical white (verified 255,255,
+      // 255,255 against the short form).
+      filter: brightness(0) invert(100%) sepia(0%) saturate(100%) hue-rotate(0deg) brightness(100%) contrast(100%);
+      @include transition(filter);
+    }
+
+    // The photo tile's divider highlight, minus the resting rule: nothing at
+    // rest, drawn in from the centre on hover. Offset below the glyph rather
+    // than flush to it, so it reads as a rule UNDER the icon and not as an
+    // underline on it.
+    &::after {
+      position: absolute;
+      inset: auto 0 calc(-1 * var(--space-s));
+      height: 1px;
+      content: '';
+      background-color: $color-brand-light-green;
+      transform: scaleX(0);
+      transform-origin: center;
+      @include transition(transform, 0.3s, ease-out);
     }
   }
 
+  // The figure and the support copy below it share ONE size — the same
+  // $font-size-lg the overlay __title carries — so every headline in the grid,
+  // photo tile or stat tile, sits on one typographic step. The stat reads as a
+  // statement rather than as a number with a caption under it.
   &__figure {
     overflow-wrap: anywhere; // long tokens wrap; min-content stays low so the
-    font-size: $font-size-xl; // equal thirds never reflow (see __grid minmax)
+    font-size: $font-size-lg; // equal thirds never reflow (see __grid minmax)
     font-weight: $font-weight-demibold;
-    line-height: $line-height-tight;
+    // The desc's leading, not the tighter heading one, and no margin between
+    // the two (see __desc): matching font-size + line-height across adjacent
+    // blocks makes the figure→desc baseline step EXACTLY one line-height — the
+    // same step as between the desc's own wrapped lines. The stat then reads as
+    // one continuous paragraph rather than a heading with a caption under it.
+    // Any margin here, or a different leading, reintroduces the mismatch.
+    line-height: $line-height-heading;
     color: $color-white;
+    @include transition(color); // swaps to Light Green on hover — see below
   }
 
   // Light Green on Dark Green — the brand pairing (≈5.0:1, passes AA).
-  // base (not lg) so two lines of support copy fit the 16:9 box at real
-  // column widths — longer copy still grows the box rather than clipping.
+  // lg to match the figure above it (see the note there). The tile has no fixed
+  // height, so the larger copy grows the box rather than clipping — the 16:9
+  // ratio belongs to the photo tiles, not to these.
+  // A flex row so the arrow (when the tile is a link) rides in the SAME BOX as
+  // the support copy and lands on its last line, instead of being pinned to
+  // the tile's corner where it floated free of the text it belongs to.
+  // flex-end puts the arrow on the last line's bottom; the nudge on the arrow
+  // lifts it onto the line's optical centre.
   &__desc {
-    margin-top: var(--space-3xs);
+    display: flex;
+    gap: var(--space-s);
+    align-items: flex-end;
+    justify-content: space-between;
+    // No margin-top by design — the leading does the spacing. See __figure.
     overflow-wrap: anywhere;
     // Short display copy → `balance` evens the two lines (the site default is
     // `pretty`, which only rescues very short last-line orphans). Sanctioned
     // for short display text in docs/content-rhythm.md.
     text-wrap: balance;
-    font-size: $font-size-base;
+    font-size: $font-size-lg;
     line-height: $line-height-heading;
     color: $color-brand-light-green;
+    @include transition(color);
+  }
+
+  // --- Stat tile link: the whole tile is the target, arrow bottom-right ---
+  // The media tile's stretched-link mechanism: a ::after spanning the tile
+  // (the tile base is position: relative) makes the full card clickable. The
+  // FIGURE is the visible link text, so the tile's own words name the
+  // destination; a visually-hidden suffix adds the support line, announcing
+  // e.g. "Since 1997 — GreenPower renewable energy accreditation".
+  //
+  // The link stays STATIC on purpose, twice over: positioning it would shrink
+  // the stretched ::after to the figure's own box, and the visually-hidden
+  // suffix inside must anchor to the TILE (its positioned ancestor), which
+  // also satisfies the LESSONS.md containment rule for visually-hidden hosts.
+  //
+  // Drupal: field_link on bento_stat_tile, OPTIONAL — no link renders no
+  // anchor and no arrow, and the desc clearance below is gated on the link
+  // existing (:has()), so a plain stat tile is untouched.
+  &__stat-link {
+    color: inherit;
+    text-decoration: none;
+
+    &::after {
+      position: absolute;
+      inset: 0;
+      content: '';
+    }
+
+    // Ring draws around the visible link text (the figure) — the same shape
+    // the media tile's focus takes, white per the dark-panel convention.
+    &:focus-visible {
+      @include focus-ring($color-white);
+    }
+  }
+
+  // Sits in the desc's flex row, so it tracks the copy rather than the corner.
+  // Default colour matches the support line it sits on — the arrow reads as
+  // part of that line, not as separate chrome.
+  &__stat-arrow {
+    flex-shrink: 0;
+    width: $arrow-icon-width;
+    height: $arrow-icon-height;
+    // flex-end lands the arrow's bottom on the last line BOX's bottom, which
+    // sits below the glyphs by the half-leading plus the descender. Lifting it
+    // by half a line minus half the arrow centres it on the line's own middle.
+    margin-bottom: calc(0.5em * #{$line-height-heading} - #{$arrow-icon-height} / 2);
+    color: $color-brand-light-green;
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+  }
+
+  // --- Hover / focus: the tile's two colours SWAP, panel brightens ---
+  // What is white at rest (icon, figure) goes Light Green; what is Light Green
+  // at rest (support copy, arrow) goes white. The rule under the icon draws in
+  // on the green side, so the swap reads as one move rather than four.
+  // Driven from the TILE, because the stretched link makes the whole tile the
+  // target — hovering anywhere is hovering the link. Focus is matched with
+  // :has() since the desc is a SIBLING of the link's parent, and CSS cannot
+  // walk back up from the link on its own.
+  &__tile--stat:hover &__desc,
+  &__tile--stat:hover &__stat-arrow,
+  &__tile--stat:has(#{&}__stat-link:focus-visible) &__desc,
+  &__tile--stat:has(#{&}__stat-link:focus-visible) &__stat-arrow {
+    color: $color-white;
+  }
+
+  &__tile--stat:hover &__figure,
+  &__tile--stat:has(#{&}__stat-link:focus-visible) &__figure {
+    color: $color-brand-light-green;
+  }
+
+  // Light Green on the artwork itself. The icons are <img> files, so
+  // `currentColor` cannot reach them (see the Icons section of the design
+  // system) — the colour has to come from a filter chain. Solved numerically
+  // against the token rather than copied from a generator: this renders
+  // rgb(188,226,148) versus the token's rgb(188,225,148), one 255th out on a
+  // single channel. Re-solve if $color-brand-light-green ever moves.
+  &__tile--stat:hover &__icon img,
+  &__tile--stat:has(#{&}__stat-link:focus-visible) &__icon img {
+    filter: brightness(0) invert(90%) sepia(96%) saturate(288%) hue-rotate(28deg) brightness(100%) contrast(78%);
+  }
+
+  &__tile--stat:hover &__stat-arrow,
+  &__tile--stat:has(#{&}__stat-link:focus-visible) &__stat-arrow {
+    transform: translateX(var(--space-3xs));
+  }
+
+  // The panel lift: a low-alpha white wash rather than a second green, so the
+  // surface brightens without leaving Dark Green. On ::before so it paints
+  // UNDER the icon and copy — an overlay above them would veil the text and
+  // cost contrast. Only tiles that are actually links get the pseudo, so a
+  // plain stat tile has nothing to light up.
+  //
+  // These stay at BLOCK level rather than nested inside the :has() above: one
+  // level deeper, `#{&}` interpolates to the whole compound selector
+  // (.bento-grid__tile--stat:has(…)) instead of .bento-grid, and silently
+  // compiles a malformed selector. Keep interpolation where & is the block.
+  &__tile--stat:has(#{&}__stat-link)::before {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background-color: transparent;
+    border-radius: inherit;
+    @include transition(background-color);
+  }
+
+  // 0.04, not more: the wash lightens the panel the figure now sits on, and the
+  // figure went from white to Light Green with this hover. White was 7.34:1 and
+  // indifferent to the wash; Light Green starts at 5.01:1 and every point of
+  // wash spends some of it. 0.07 left 4.26:1 — fine as WCAG large text (the
+  // figure is 25px at desktop) but the fluid step falls to 19.2px at 375px, and
+  // at weight 500 that is NOT large text, so the 4.5:1 bar applies and it
+  // failed. 0.0465 is the break-even; 0.04 gives 4.57:1 at every width with the
+  // lift still clearly visible.
+  &__tile--stat:hover::before,
+  &__tile--stat:has(#{&}__stat-link:focus-visible)::before {
+    background-color: rgba($color-white, 0.04);
+  }
+
+  // Gated on the link like the wash above: a rule that appears only on hover
+  // IS an interactivity cue, so a stat tile with no link must not draw one.
+  &__tile--stat:has(#{&}__stat-link):hover &__icon::after,
+  &__tile--stat:has(#{&}__stat-link:focus-visible) &__icon::after {
+    transform: scaleX(1);
   }
 }
 

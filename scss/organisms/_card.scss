@@ -13,7 +13,11 @@
 //     field_links (link, multiple, optional). Render each present field; the
 //     BEM elements below map 1:1.
 //   Paragraph: card_grid — field_heading, field_intro (both optional),
-//     field_columns (2|3 → grid modifier), field_cards (paragraph ref, many).
+//     field_cards (paragraph ref, many). NO column field: the grid is
+//     COUNT-ADAPTIVE — the number of cards the editor adds IS the layout
+//     (1 → a horizontal card, 2 → two columns, 3 → three, 4 → four from lg,
+//     5+ → three-column flow). The content is the configuration, so there is
+//     no columns-vs-cards mismatch for an editor to get wrong. See __grid.
 //
 // Image note: source PNGs are ~1MB / 900×600. Ship responsive srcset + sizes
 // and re-encode (WebP/AVIF, <150KB) before production — single-res here is a
@@ -38,22 +42,38 @@
     color: $color-ui-text;
   }
 
+  // COUNT-ADAPTIVE: the number of cards decides the layout — there is no
+  // column modifier for an editor (or template) to get out of step with the
+  // content. The base ladder is the 3-up family (1 col → 2 from sm → 3 from
+  // md); exact counts override it via :has() quantity queries:
+  //   1 card  → the card itself goes horizontal (see the mixin below) and
+  //             spans the row — no container rule needed, so it works even
+  //             without :has().
+  //   2 cards → capped at 2 columns.
+  //   3 cards → the base ladder.
+  //   4 cards → 2×2 through the md band, 4-up from lg. lg is the tuning
+  //             dial: if real four-card content feels tight at 1200–1300,
+  //             move it to xl rather than special-casing a 2×2.
+  //   5+      → the base ladder flows them: 3+2, 3+3, and so on.
+  // Where :has() is unsupported the counts simply follow the base ladder —
+  // exactly the old default — and nothing breaks.
+  //
+  // Tracks are minmax(0, 1fr), never bare 1fr. Bare 1fr == minmax(auto, 1fr):
+  // the auto floor is each column's min-content, and on iPad WebKit an
+  // orientation flip fails to recompute the trailing horizontal-band card's
+  // min-content as it leaves the row layout — the stale floor inflated one
+  // track (707px in a 3-up) and overflowed the row. minmax(0, …) floors at 0
+  // so the tracks stay equal regardless of stale min-content (LESSONS.md).
+  // Base 3-up: 2 columns from sm, 3 from md — tuned to the iPad, which
+  // showed a wasteful single column in portrait and only two-up in
+  // landscape under the old md/lg pair. Portrait (768–834) now gets the
+  // 2-up band; landscape (1024+) the full 3-up.
   &__grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-xs);
     margin-top: var(--space-xl);
 
-    // Tracks are minmax(0, 1fr), never bare 1fr. Bare 1fr == minmax(auto, 1fr):
-    // the auto floor is each column's min-content, and on iPad WebKit an
-    // orientation flip fails to recompute the trailing horizontal-band card's
-    // min-content as it leaves the row layout — the stale floor inflated one
-    // track (707px in a 3-up) and overflowed the row. minmax(0, …) floors at 0
-    // so the tracks stay equal regardless of stale min-content (LESSONS.md).
-    // Default 3-up: 2 columns from sm, 3 from md — tuned to the iPad, which
-    // showed a wasteful single column in portrait and only two-up in
-    // landscape under the old md/lg pair. Portrait (768–834) now gets the
-    // 2-up band; landscape (1024+) the full 3-up.
     @include respond-to('sm') {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -62,18 +82,16 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    // Two-column variant — caps at 2 columns (pin at md, where the base
-    // rule would go to 3)
-    &--two {
+    // Exactly 2 — never more than two columns
+    &:has(> .card:nth-child(2):last-child) {
       @include respond-to('md') {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
-    // Four-column variant — 2 up from sm (inherited from the base rule,
-    // pinned at md against the base 3-up), 4 from lg. Excluded from the
-    // horizontal-card band below.
-    &--four {
+    // Exactly 4 — 2×2 through the md band (four across would be slivers
+    // there), 4-up once lg gives the room
+    &:has(> .card:nth-child(4):last-child) {
       @include respond-to('md') {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -267,7 +285,7 @@
     &::after {
       position: absolute;
       inset: auto 0 -1px;
-      height: 2px;
+      height: 1px;
       content: '';
       background-color: $color-brand-green;
       transform: scaleX(0);
@@ -344,65 +362,73 @@
 }
 
 // -----------------------------------------------------------------------------
-// Horizontal cards — the 640–959px band (iPad portrait lives here)
+// Horizontal cards — image left, content right, spanning the full row
 //
-// In this band the grid is 2-up. A card left stranded alone in the final row
-// — an odd total, so it lands at an odd nth-child position as the LAST child
-// — spans both columns and lays out image-left / content-right instead of
-// stretching to fill the row at the vertical card's height. Two cards side by
-// side, one full-width below: not three stacked rows. Outside the band the
-// base card is untouched: below sm it stacks single-column; at md the grid is
-// 3-up vertical. The `--two` and `--four` variants are left alone (an even
-// count never strands a card).
+// Two situations produce one:
+//   · a SINGLE card (count-adaptive: 1 card → this, at every width from sm) —
+//     a lone vertical card in a wide row reads as a stranded tile;
+//   · the trailing odd-one-out in the 2-up band (counts 3, 5, 7…), which would
+//     otherwise stretch to the vertical card's height alone in its row.
+// The treatment is one mixin so the two can never drift apart. It is local to
+// this file rather than abstracts/ because no other component composes it —
+// promote it only if one ever does (docs/mixins.md's 3+ uses rule).
 //
 // Drupal: the same selectors apply to the rendered paragraph list.
 // -----------------------------------------------------------------------------
-@include respond-between('sm', 'md') {
-  // 2-up (the base rule already sets this from sm — pin it explicitly so
-  // intent doesn't depend on cascade order)
-  .card-section__grid:not(.card-section__grid--two):not(.card-section__grid--four) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+@mixin card-horizontal {
+  grid-column: 1 / -1; // span the row whatever the current column count
+  flex-direction: row;
+  align-items: stretch; // image matches the content column's height
+
+  // In the 2-up band this aligns the halves to the grid columns: the gap is
+  // the grid gap + one card padding (the extra padding a second-column card
+  // would carry), and the media basis adds card-padding/2 back (undoing the
+  // left-bleed's pull) so the image's RIGHT edge lands exactly on the first
+  // column's right edge. A full-width single card keeps the same 50/50 split.
+  gap: calc(var(--space-xs) + var(--card-padding));
+
+  // Image column: fills the full height, bleeding to half the card padding on
+  // its three outer edges (as the vertical card bleeds on top/left/right).
+  > .card__media {
+    flex: 0 0 calc(50% - var(--space-xs) / 2 + var(--card-padding) / 2);
+    aspect-ratio: auto; // height comes from the stretched row, not 3:2
+    margin: calc(var(--card-padding) / -2) 0 calc(var(--card-padding) / -2)
+      calc(var(--card-padding) / -2);
   }
 
-  // The trailing odd-one-out only: :last-child:nth-child(odd) matches an
-  // odd-position final card, which only happens when the total count is odd.
-  // An even count leaves every card paired — nothing spans.
-  .card-section__grid:not(.card-section__grid--two):not(.card-section__grid--four)
-    > .card:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-    flex-direction: row;
-    align-items: stretch; // image matches the content column's height
+  // Content column: the wrapper becomes a real flex column here (it is
+  // display: contents everywhere else, so the vertical card is unaffected).
+  > .card__content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: var(--space-xs);
+    min-width: 0; // let long link labels wrap rather than force overflow
+  }
 
-    // Line the image up with the first grid column and the content with the
-    // second, so the horizontal card's icon/title/body sit on the same left
-    // edge as the 2-up cards above it. The gap = grid gap + one card padding
-    // (the extra padding a 2-up card in the second column would carry).
-    gap: calc(var(--space-xs) + var(--card-padding));
+  // The icon tops the content column — drop the vertical "space above" nudge.
+  .card__media + .card__content > .card__icon {
+    margin-top: 0;
+  }
+}
 
-    // Image column: fills the full height. The basis adds card-padding/2 back
-    // (undoing the left-bleed's pull) so the image's RIGHT edge lands exactly
-    // on the first column's right edge. Bleeds to half the card padding on its
-    // three outer edges (as the vertical card bleeds on top/left/right).
-    > .card__media {
-      flex: 0 0 calc(50% - var(--space-xs) / 2 + var(--card-padding) / 2);
-      aspect-ratio: auto; // height comes from the stretched row, not 3:2
-      margin: calc(var(--card-padding) / -2) 0 calc(var(--card-padding) / -2)
-        calc(var(--card-padding) / -2);
-    }
+// A single card, at every width above stacking. Plain selectors, no :has() —
+// the span (grid-column: 1/-1) makes it fill the row whatever template the
+// grid resolved to, so count-1 behaves even in browsers without :has().
+@include respond-to('sm') {
+  .card-section__grid > .card:first-child:last-child {
+    @include card-horizontal;
+  }
+}
 
-    // Content column: the wrapper becomes a real flex column here (it is
-    // display: contents everywhere else, so the vertical card is unaffected).
-    > .card__content {
-      display: flex;
-      flex: 1 1 auto;
-      flex-direction: column;
-      gap: var(--space-xs);
-      min-width: 0; // let long link labels wrap rather than force overflow
-    }
-
-    // The icon tops the content column — drop the vertical "space above" nudge.
-    .card__media + .card__content > .card__icon {
-      margin-top: 0;
-    }
+// The trailing odd-one-out in the 2-up band (iPad portrait lives here):
+// :last-child:nth-child(odd) matches an odd-position final card, which only
+// happens when the total is odd — an even count leaves every card paired.
+// :not(:first-child) leaves the single card to the rule above rather than
+// applying the mixin twice. Counts 2 and 4 sit 2-up in this band with even
+// rows, so nothing spans; at md+ the grids go 3- or 4-up and this ends.
+@include respond-between('sm', 'md') {
+  .card-section__grid > .card:last-child:nth-child(odd):not(:first-child) {
+    @include card-horizontal;
   }
 }

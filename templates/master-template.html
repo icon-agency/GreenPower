@@ -715,9 +715,11 @@
       </figcaption>
     </figure>
 
-    <!-- Every card section carries a heading and a description; the column
-         count is a grid modifier (default 3, --two, --four). -->
-    <p class="ds-part-label ds-part-label--section">card_grid &middot; .card-section__grid &mdash; 3 columns (default)</p>
+    <!-- Every card section carries a heading and a description. The grid is
+         COUNT-ADAPTIVE: the number of cards decides the columns (see
+         _card.scss) — these three sections differ only in how many cards
+         they hold. -->
+    <p class="ds-part-label ds-part-label--section">card_grid &middot; .card-section__grid &mdash; count-adaptive: 3 cards &rarr; 3 columns</p>
     <section class="card-section" data-animate-stagger>
       <h2 class="card-section__heading" data-animate>Section heading &mdash; field_heading</h2>
       <p class="card-section__intro" data-animate>Section description &mdash; field_intro. One or two lines introducing the cards below.</p>
@@ -761,11 +763,11 @@
       </div>
     </section>
 
-    <p class="ds-part-label ds-part-label--section">card_grid &middot; .card-section__grid--two &mdash; 2 columns</p>
+    <p class="ds-part-label ds-part-label--section">card_grid &middot; .card-section__grid &mdash; count-adaptive: 2 cards &rarr; 2 columns</p>
     <section class="card-section" data-animate-stagger>
       <h2 class="card-section__heading" data-animate>Section heading &mdash; field_heading</h2>
       <p class="card-section__intro" data-animate>Section description &mdash; field_intro. One or two lines introducing the cards below.</p>
-      <div class="card-section__grid card-section__grid--two" data-animate-stagger>
+      <div class="card-section__grid" data-animate-stagger>
         <article class="card" data-animate>
           <div class="card__media"><img src="../assets/images/family-eating.png" alt="A family preparing a meal together at home" width="900" height="600" loading="lazy"></div>
           <div class="card__content">
@@ -793,11 +795,11 @@
       </div>
     </section>
 
-    <p class="ds-part-label ds-part-label--section">card_grid &middot; .card-section__grid--four &mdash; 4 columns</p>
+    <p class="ds-part-label ds-part-label--section">card_grid &middot; .card-section__grid &mdash; count-adaptive: 4 cards &rarr; 2&times;2, then 4 from lg</p>
     <section class="card-section" data-animate-stagger>
       <h2 class="card-section__heading" data-animate>Section heading &mdash; field_heading</h2>
       <p class="card-section__intro" data-animate>Section description &mdash; field_intro. One or two lines introducing the cards below.</p>
-      <div class="card-section__grid card-section__grid--four" data-animate-stagger>
+      <div class="card-section__grid" data-animate-stagger>
         <article class="card" data-animate>
           <div class="card__media"><img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy"></div>
           <div class="card__content">

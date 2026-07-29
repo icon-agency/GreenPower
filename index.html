@@ -55,8 +55,8 @@
           <p class="ds-nav__group-title">Layout patterns</p>
           <ul class="ds-nav__list">
             <li><a class="ds-nav__link" href="#page-header">Page header</a></li>
-            <li><a class="ds-nav__link" href="#single-column">Single column</a></li>
-            <li><a class="ds-nav__link" href="#page-split">Split section</a></li>
+            <li><a class="ds-nav__link" href="#content-single-column">Content: Single column</a></li>
+            <li><a class="ds-nav__link" href="#content-split-sticky-left">Content: Split sticky left</a></li>
             <li><a class="ds-nav__link" href="#card-sections">Card sections</a></li>
           </ul>
         </div>
@@ -434,7 +434,7 @@
 
         <div class="ds-group">
           <p class="ds-group__title">The measure</p>
-          <p class="ds-group__note"><strong>Measure</strong> is the traditional typographic name for a column&rsquo;s line length. Bringhurst (<em>The Elements of Typographic Style</em>) gives 45&ndash;75 characters as satisfactory for a single-column page, with 66 as the classic ideal &mdash; about 9&ndash;12 English words; WCAG&nbsp;1.4.8 (AAA) caps line length at 80. It is set once as <code class="ds-code">--measure: 50ch</code> in <code class="ds-code">pages/_content.scss</code> and consumed by the single column and the split section&rsquo;s scrolling half.</p>
+          <p class="ds-group__note"><strong>Measure</strong> is the traditional typographic name for a column&rsquo;s line length. Bringhurst (<em>The Elements of Typographic Style</em>) gives 45&ndash;75 characters as satisfactory for a single-column page, with 66 as the classic ideal &mdash; about 9&ndash;12 English words; WCAG&nbsp;1.4.8 (AAA) caps line length at 80. It is set once as <code class="ds-code">--measure: 50ch</code> in <code class="ds-code">pages/_content.scss</code> and consumed by both content layouts &mdash; Content: Single column, and the scrolling half of Content: Split sticky left.</p>
           <p class="ds-group__note">Why 50 and not the textbook 66: <code class="ds-code">ch</code> is the advance width of the digit <code class="ds-code">0</code>, not the average glyph &mdash; and TT Commons Pro&rsquo;s digits are wide, so 1ch &asymp; 1.4 average characters. The obvious <code class="ds-code">66ch</code> would render about 87 characters a line, past both ceilings. <code class="ds-code">50ch</code> was tuned against real rendered lines: ~63 characters on a typical full line, 72 at the longest, all inside the 45&ndash;75 band. It stays in <code class="ds-code">ch</code> so the character count holds at every viewport &mdash; and it must be <strong>re-measured if the body face ever changes</strong>; the number does not transfer between typefaces.</p>
 
           <div class="ds-demo">
@@ -832,8 +832,9 @@
                   <article class="bento-grid__tile bento-grid__tile--stat" data-animate>
                     <span class="bento-grid__icon"><img src="assets/icons/greenpower.svg" alt="" width="52" height="52" loading="lazy"></span>
                     <div class="bento-grid__stat">
-                      <p class="bento-grid__figure">Since 1997</p>
-                      <p class="bento-grid__desc">GreenPower renewable energy accreditation</p>
+                      <p class="bento-grid__figure"><a class="bento-grid__stat-link" href="#">Since 1997<span class="visually-hidden"> &mdash; GreenPower renewable energy accreditation</span></a></p>
+                      <p class="bento-grid__desc">GreenPower renewable energy accreditation
+                        <svg class="bento-grid__stat-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
                     </div>
                   </article>
                 </div>
@@ -841,8 +842,9 @@
                   <article class="bento-grid__tile bento-grid__tile--stat" data-animate>
                     <span class="bento-grid__icon"><img src="assets/icons/tick-dollar-shield.svg" alt="" width="52" height="52" loading="lazy"></span>
                     <div class="bento-grid__stat">
-                      <p class="bento-grid__figure">360,000+</p>
-                      <p class="bento-grid__desc">Households and businesses that buy GreenPower</p>
+                      <p class="bento-grid__figure"><a class="bento-grid__stat-link" href="#">360,000+<span class="visually-hidden"> &mdash; Households and businesses that buy GreenPower</span></a></p>
+                      <p class="bento-grid__desc">Households and businesses that buy GreenPower
+                        <svg class="bento-grid__stat-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
                     </div>
                   </article>
                   <article class="bento-grid__tile bento-grid__tile--media" data-animate>
@@ -866,8 +868,9 @@
                   <article class="bento-grid__tile bento-grid__tile--stat" data-animate>
                     <span class="bento-grid__icon"><img src="assets/icons/tick-badge.svg" alt="" width="52" height="52" loading="lazy"></span>
                     <div class="bento-grid__stat">
-                      <p class="bento-grid__figure">100% GreenPower</p>
-                      <p class="bento-grid__desc">Renewable electricity available through retailers</p>
+                      <p class="bento-grid__figure"><a class="bento-grid__stat-link" href="#">100% GreenPower<span class="visually-hidden"> &mdash; Renewable electricity available through retailers</span></a></p>
+                      <p class="bento-grid__desc">Renewable electricity available through retailers
+                        <svg class="bento-grid__stat-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
                     </div>
                   </article>
                 </div>
@@ -1354,8 +1357,8 @@
         </div>
       </section>
 
-      <section class="ds-section" id="single-column" aria-labelledby="sc-title">
-        <h3 class="ds-section__title" id="sc-title">Single column</h3>
+      <section class="ds-section" id="content-single-column" aria-labelledby="sc-title">
+        <h3 class="ds-section__title" id="sc-title">Content: Single column</h3>
         <p class="ds-section__intro">The default reading layout: one centred column whose width is the reading measure &mdash; <code class="ds-code">--measure: 50ch</code>, tuned against real rendered lines to ~63 characters (Bringhurst's 45&ndash;75 band; see <code class="ds-code">pages/_content.scss</code> for why 50, not 66). Prose inside is styled by the one WYSIWYG wrapper, and the column takes the same blocks the split layout does &mdash; card stacks, quotes, accordions &mdash; as siblings between prose sections. In Drupal this is <code class="ds-code">field_layout: single</code> on the same <code class="ds-code">section</code> paragraph the split uses.</p>
 
         <div class="ds-demo">
@@ -1363,7 +1366,7 @@
             <p class="ds-part-label">CKEditor WYSIWYG &mdash; wysiwyg paragraph &middot; .page-content__section</p>
             <div class="page-content__section">
               <h3>Heading &mdash; h2 to h4, from the body field</h3>
-              <p>Body text &mdash; the CKEditor field. One wrapper styles everything an editor can emit, <a href="#single-column">links</a>, <strong>strong</strong>, <em>emphasis</em> and <code>code</code> included. The full inventory is in the CKEditor WYSIWYG section; this is one of each.</p>
+              <p>Body text &mdash; the CKEditor field. One wrapper styles everything an editor can emit, <a href="#content-single-column">links</a>, <strong>strong</strong>, <em>emphasis</em> and <code>code</code> included. The full inventory is in the CKEditor WYSIWYG section; this is one of each.</p>
               <ul>
                 <li>List item &mdash; editors control the content, never the markup</li>
                 <li>List item &mdash; ordered and nested lists come through the same way</li>
@@ -1403,7 +1406,7 @@
                   <h3 class="card__title">Card title &mdash; field_title</h3>
                   <p class="card__body">Card body &mdash; field_body, optional. Every part of a card is optional, so leaving one out never leaves a hole.</p>
                   <ul class="card__links">
-                    <li><a class="card__link" href="#single-column">Card link &mdash; field_links, repeatable <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                    <li><a class="card__link" href="#content-single-column">Card link &mdash; field_links, repeatable <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
                 </div>
               </article>
@@ -1454,9 +1457,9 @@
         </div>
       </section>
 
-      <section class="ds-section" id="page-split" aria-labelledby="split-title">
-        <h3 class="ds-section__title" id="split-title">Split section</h3>
-        <p class="ds-section__intro">The sticky two-column alternative to the single reading column: equal halves from <code class="ds-code">sm</code> where the left rail (H2 + description) <strong>sticks</strong> while the column beside it scrolls. The scrolling column is capped at the same reading measure as the single column — on wide screens both halves hold their content left with open space to the right, the rail by its own 24ch/36ch caps, the body by <code class="ds-code">--measure</code>. It takes exactly the same blocks as the single column — prose, card stacks, quotes, accordions — so in Drupal one <code class="ds-code">section</code> paragraph with <code class="ds-code">field_layout</code> (single | split_sticky) switches wrapper without re-entering content. Below <code class="ds-code">sm</code> it stacks, intro first, sticky off &mdash; identical to a single-column section. Scroll this pane to watch the rail hold.</p>
+      <section class="ds-section" id="content-split-sticky-left" aria-labelledby="split-title">
+        <h3 class="ds-section__title" id="split-title">Content: Split sticky left</h3>
+        <p class="ds-section__intro">The sticky two-column alternative to the single reading column: two columns from <code class="ds-code">sm</code> where the left rail (H2 + description) <strong>sticks</strong> while the column beside it scrolls. The reading measure outranks the symmetry, so the split is a third / two-thirds until <code class="ds-code">xl</code> and equal halves above it — two-thirds brings the body to <code class="ds-code">--measure</code> at around 940px instead of 1240px, and the rail never needed the surplus for a 24ch heading. On wide screens both halves hold their content left with open space to the right, the rail by its own 24ch/36ch caps, the body by <code class="ds-code">--measure</code>. It takes exactly the same blocks as the single column — prose, card stacks, quotes, accordions — so in Drupal one <code class="ds-code">section</code> paragraph with <code class="ds-code">field_layout</code> (single | split_sticky) switches wrapper without re-entering content. Below <code class="ds-code">sm</code> it stacks, intro first, sticky off &mdash; identical to a single-column section. Scroll this pane to watch the rail hold.</p>
 
         <div class="ds-demo">
           <div class="page-split">
@@ -1468,7 +1471,7 @@
               <p class="ds-part-label">CKEditor WYSIWYG &mdash; wysiwyg paragraph &middot; .page-content__section</p>
               <div class="page-content__section">
                 <h3>Heading &mdash; h2 to h4, from the body field</h3>
-                <p>Body text &mdash; the CKEditor field. One wrapper styles everything an editor can emit, <a href="#page-split">links</a>, <strong>strong</strong>, <em>emphasis</em> and <code>code</code> included. The full inventory is in the CKEditor WYSIWYG section; this is one of each.</p>
+                <p>Body text &mdash; the CKEditor field. One wrapper styles everything an editor can emit, <a href="#content-split-sticky-left">links</a>, <strong>strong</strong>, <em>emphasis</em> and <code>code</code> included. The full inventory is in the CKEditor WYSIWYG section; this is one of each.</p>
                 <ul>
                   <li>List item &mdash; editors control the content, never the markup</li>
                   <li>List item &mdash; ordered and nested lists come through the same way</li>
@@ -1508,7 +1511,7 @@
                     <h3 class="card__title">Card title &mdash; field_title</h3>
                     <p class="card__body">Card body &mdash; field_body, optional. Every part of a card is optional, so leaving one out never leaves a hole.</p>
                     <ul class="card__links">
-                      <li><a class="card__link" href="#page-split">Card link &mdash; field_links, repeatable <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                      <li><a class="card__link" href="#content-split-sticky-left">Card link &mdash; field_links, repeatable <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                     </ul>
                   </div>
                 </article>
@@ -1562,12 +1565,23 @@
 
       <section class="ds-section" id="card-sections" aria-labelledby="cardsec-title" data-card-sections>
         <h3 class="ds-section__title" id="cardsec-title">Card sections</h3>
-        <p class="ds-section__intro">A card section wraps an optional heading and intro over a responsive grid of cards. Set the column count with a grid modifier; every option collapses to a single column on small screens.</p>
+        <p class="ds-section__intro">A card section wraps a heading and description over a grid of cards &mdash; and the grid is <strong>count-adaptive</strong>: the number of cards the editor adds <em>is</em> the layout. One card lays out horizontally, image beside content. Two cards hold two columns; three is the standard 3-up; four runs 2&times;2 until <code class="ds-code">lg</code> gives four-across the room; five and more flow in threes (3+2, 3+3&hellip;). In Drupal there is <strong>no column field</strong> &mdash; the content is the configuration, so a columns-vs-cards mismatch cannot exist. Change the card count below and watch the same section reconfigure.</p>
 
         <form class="ds-controls ds-controls--inline" data-card-controls aria-label="Configure the cards below">
           <fieldset class="ds-controls__group">
+            <legend class="ds-controls__legend">Cards</legend>
+            <div class="ds-segments" role="radiogroup" aria-label="Number of cards">
+              <label class="ds-segment"><input type="radio" name="ds-section-count" value="1"><span>1</span></label>
+              <label class="ds-segment"><input type="radio" name="ds-section-count" value="2"><span>2</span></label>
+              <label class="ds-segment"><input type="radio" name="ds-section-count" value="3" checked><span>3</span></label>
+              <label class="ds-segment"><input type="radio" name="ds-section-count" value="4"><span>4</span></label>
+              <label class="ds-segment"><input type="radio" name="ds-section-count" value="5"><span>5</span></label>
+              <label class="ds-segment"><input type="radio" name="ds-section-count" value="6"><span>6</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="ds-controls__group">
             <legend class="ds-controls__legend">Parts</legend>
-            <label class="ds-control"><input type="checkbox" data-toggle="image"><span>Image</span></label>
+            <label class="ds-control"><input type="checkbox" data-toggle="image" checked><span>Image</span></label>
             <label class="ds-control"><input type="checkbox" data-toggle="icon" checked><span>Icon</span></label>
           </fieldset>
           <fieldset class="ds-controls__group">
@@ -1584,150 +1598,80 @@
         </form>
 
         <div class="ds-demo">
-          <p class="ds-demo__label">3 columns — default · .card-section__grid</p>
+          <p class="ds-demo__label">card_grid &middot; .card-section__grid &mdash; count-adaptive</p>
           <section class="card-section">
-            <h3 class="card-section__heading">Optional section heading</h3>
-            <p class="card-section__intro">Optional intro text describing the group of cards below.</p>
+            <h3 class="card-section__heading">Section heading &mdash; field_heading</h3>
+            <p class="card-section__intro">Section description &mdash; field_intro. One or two lines introducing the cards below.</p>
             <div class="card-section__grid">
               <article class="card">
-                <div class="card__media"><img src="assets/images/family-eating.png" alt="" width="900" height="600" loading="lazy"></div>
+                <div class="card__media"><img src="assets/images/family-eating.png" alt="A family preparing a meal together at home" width="900" height="600" loading="lazy"></div>
                 <div class="card__content">
-                  <span class="card__icon"><img src="assets/icons/home.svg" alt="" width="52" height="52"></span>
+                  <span class="card__icon"><img src="assets/icons/home.svg" alt="" width="52" height="52" loading="lazy"></span>
                   <h3 class="card__title">Card title &mdash; field_title</h3>
                   <p class="card__body">Card body &mdash; field_body, optional</p>
                   <ul class="card__links">
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                    <li><a class="card__link" href="#">Card link &mdash; field_links
+                      <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
                 </div>
               </article>
               <article class="card">
-                <div class="card__media"><img src="assets/images/business-man-office.png" alt="" width="900" height="600" loading="lazy"></div>
+                <div class="card__media"><img src="assets/images/business-man-office.png" alt="A man standing in a modern open-plan office" width="900" height="600" loading="lazy"></div>
                 <div class="card__content">
-                  <span class="card__icon"><img src="assets/icons/business-greenpower.svg" alt="" width="52" height="52"></span>
+                  <span class="card__icon"><img src="assets/icons/business-greenpower.svg" alt="" width="52" height="52" loading="lazy"></span>
                   <h3 class="card__title">Card title &mdash; field_title</h3>
                   <p class="card__body">Card body &mdash; field_body, optional</p>
                   <ul class="card__links">
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                    <li><a class="card__link" href="#">Card link &mdash; field_links
+                      <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
                 </div>
               </article>
               <article class="card">
-                <div class="card__media"><img src="assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy"></div>
+                <div class="card__media"><img src="assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy"></div>
                 <div class="card__content">
-                  <span class="card__icon"><img src="assets/icons/accreditation.svg" alt="" width="52" height="52"></span>
+                  <span class="card__icon"><img src="assets/icons/accreditation.svg" alt="" width="52" height="52" loading="lazy"></span>
                   <h3 class="card__title">Card title &mdash; field_title</h3>
                   <p class="card__body">Card body &mdash; field_body, optional</p>
                   <ul class="card__links">
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  </ul>
-                </div>
-              </article>
-            </div>
-          </section>
-        </div>
-
-        <div class="ds-demo">
-          <p class="ds-demo__label">2 columns — .card-section__grid--two</p>
-          <section class="card-section">
-            <div class="card-section__grid card-section__grid--two">
-              <article class="card">
-                <div class="card__media"><img src="assets/images/family-eating.png" alt="" width="900" height="600" loading="lazy"></div>
-                <div class="card__content">
-                  <span class="card__icon"><img src="assets/icons/electricity.svg" alt="" width="52" height="52"></span>
-                  <h3 class="card__title">Card title &mdash; field_title</h3>
-                  <p class="card__body">Card body &mdash; field_body, optional</p>
-                  <ul class="card__links">
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                    <li><a class="card__link" href="#">Card link &mdash; field_links
+                      <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
                 </div>
               </article>
               <article class="card">
-                <div class="card__media"><img src="assets/images/business-man-office.png" alt="" width="900" height="600" loading="lazy"></div>
+                <div class="card__media"><img src="assets/images/family-eating.png" alt="A family preparing a meal together at home" width="900" height="600" loading="lazy"></div>
                 <div class="card__content">
-                  <span class="card__icon"><img src="assets/icons/gas.svg" alt="" width="52" height="52"></span>
+                  <span class="card__icon"><img src="assets/icons/electricity.svg" alt="" width="52" height="52" loading="lazy"></span>
                   <h3 class="card__title">Card title &mdash; field_title</h3>
                   <p class="card__body">Card body &mdash; field_body, optional</p>
                   <ul class="card__links">
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  </ul>
-                </div>
-              </article>
-            </div>
-          </section>
-        </div>
-
-        <div class="ds-demo">
-          <p class="ds-demo__label">4 columns — .card-section__grid--four</p>
-          <section class="card-section">
-            <div class="card-section__grid card-section__grid--four">
-              <article class="card">
-                <div class="card__media"><img src="assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy"></div>
-                <div class="card__content">
-                  <span class="card__icon"><img src="assets/icons/greenpower.svg" alt="" width="52" height="52"></span>
-                  <h3 class="card__title">Card title &mdash; field_title</h3>
-                  <p class="card__body">Card body &mdash; field_body, optional</p>
-                  <ul class="card__links">
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                    <li><a class="card__link" href="#">Card link &mdash; field_links
+                      <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
                 </div>
               </article>
               <article class="card">
-                <div class="card__media"><img src="assets/images/family-eating.png" alt="" width="900" height="600" loading="lazy"></div>
+                <div class="card__media"><img src="assets/images/business-man-office.png" alt="A man standing in a modern open-plan office" width="900" height="600" loading="lazy"></div>
                 <div class="card__content">
-                  <span class="card__icon"><img src="assets/icons/home.svg" alt="" width="52" height="52"></span>
+                  <span class="card__icon"><img src="assets/icons/gas.svg" alt="" width="52" height="52" loading="lazy"></span>
                   <h3 class="card__title">Card title &mdash; field_title</h3>
                   <p class="card__body">Card body &mdash; field_body, optional</p>
                   <ul class="card__links">
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                    <li><a class="card__link" href="#">Card link &mdash; field_links
+                      <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
                 </div>
               </article>
               <article class="card">
-                <div class="card__media"><img src="assets/images/business-man-office.png" alt="" width="900" height="600" loading="lazy"></div>
+                <div class="card__media"><img src="assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy"></div>
                 <div class="card__content">
-                  <span class="card__icon"><img src="assets/icons/business-greenpower.svg" alt="" width="52" height="52"></span>
+                  <span class="card__icon"><img src="assets/icons/document.svg" alt="" width="52" height="52" loading="lazy"></span>
                   <h3 class="card__title">Card title &mdash; field_title</h3>
                   <p class="card__body">Card body &mdash; field_body, optional</p>
                   <ul class="card__links">
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  </ul>
-                </div>
-              </article>
-              <article class="card">
-                <div class="card__media"><img src="assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy"></div>
-                <div class="card__content">
-                  <span class="card__icon"><img src="assets/icons/accreditation.svg" alt="" width="52" height="52"></span>
-                  <h3 class="card__title">Card title &mdash; field_title</h3>
-                  <p class="card__body">Card body &mdash; field_body, optional</p>
-                  <ul class="card__links">
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                  <li><a class="card__link" href="#">Card link &mdash; field_links <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                    <li><a class="card__link" href="#">Card link &mdash; field_links
+                      <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
                 </div>
               </article>
@@ -1880,16 +1824,20 @@
   </script>
 
   <script>
-    // Card sections controls: one control set reconfigures EVERY card across the
-    // 3/2/4-column demos at once, by adding/removing each card's real child
-    // elements (same fidelity approach as the single-card demo). Defaults are
-    // read from the control markup: no image, icon on, one link.
+    // Card sections controls. The count control detaches/attaches REAL card
+    // elements (never display:none), so the grid's :has() quantity queries see
+    // exactly the DOM Drupal would render for that many cards — the layout
+    // being tested is the real mechanism, not a simulation of it. Image/icon/
+    // link toggles use the same fidelity approach on each card's children.
+    // Defaults are read from the control markup: 3 cards, image on, icon on,
+    // one link.
     (function () {
       var section = document.querySelector('[data-card-sections]');
       var controls = document.querySelector('[data-card-controls]');
       if (!section || !controls) return;
 
       var MAX_LINKS = 5;
+      var grid = section.querySelector('.card-section__grid');
       var cards = [].slice.call(section.querySelectorAll('.card')).map(function (card) {
         var content = card.querySelector('.card__content');
         var ul = content.querySelector('.card__links');
@@ -1929,6 +1877,15 @@
           toggle(c.ul, c.content, false, n > 0);
         });
       }
+      // In-order re-append keeps cards 0..n-1 in the grid; the rest detach.
+      // Config toggles keep working on detached cards — their child refs are
+      // held here, not queried from the DOM.
+      function setCount(n) {
+        cards.forEach(function (c, i) {
+          if (i < n) { grid.appendChild(c.card); }
+          else if (c.card.parentNode) { c.card.remove(); }
+        });
+      }
 
       var img = controls.querySelector('[data-toggle="image"]');
       var icon = controls.querySelector('[data-toggle="icon"]');
@@ -1937,12 +1894,17 @@
       controls.querySelectorAll('[name="ds-section-links"]').forEach(function (radio) {
         radio.addEventListener('change', function () { if (radio.checked) setLinks(parseInt(radio.value, 10)); });
       });
+      controls.querySelectorAll('[name="ds-section-count"]').forEach(function (radio) {
+        radio.addEventListener('change', function () { if (radio.checked) setCount(parseInt(radio.value, 10)); });
+      });
 
       // Apply the default configuration (from the control markup) on load
       setImage(img.checked);
       setIcon(icon.checked);
-      var checked = controls.querySelector('[name="ds-section-links"]:checked');
-      setLinks(checked ? parseInt(checked.value, 10) : 1);
+      var checkedLinks = controls.querySelector('[name="ds-section-links"]:checked');
+      setLinks(checkedLinks ? parseInt(checkedLinks.value, 10) : 1);
+      var checkedCount = controls.querySelector('[name="ds-section-count"]:checked');
+      setCount(checkedCount ? parseInt(checkedCount.value, 10) : 3);
     })();
   </script>
 
