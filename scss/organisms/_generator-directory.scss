@@ -123,7 +123,12 @@
     @include button-reset;
     padding: var(--space-3xs) var(--space-2xs);
     font-size: $font-size-sm;
-    font-weight: $font-weight-medium;
+    // A step lighter than the chips beside it (regular renders the Medium
+    // face; the chips keep demibold). Clear all is the secondary move — the
+    // chips are the filters themselves, this only sweeps them away — and at
+    // the same weight it competed with them for the same glance. The
+    // underline is what marks it as the control, not the weight.
+    font-weight: $font-weight-regular;
     color: $color-brand-dark-green;
     text-decoration: underline;
     text-underline-offset: 0.15em;

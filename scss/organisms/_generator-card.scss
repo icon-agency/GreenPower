@@ -95,6 +95,15 @@
   }
 
   &__title {
+    // Air above the name only. The intro column's gap is deliberately tight
+    // (--space-3xs) because it is really setting the rhythm for the operator
+    // and place lines BELOW the title, which belong together as one address
+    // block. The badge above is a different kind of thing — a label on the
+    // record rather than the start of it — so it wants a clear step, not that
+    // tight rhythm. Adding it here rather than loosening the gap keeps the
+    // address lines tucked under the name where they belong. Lands on roughly
+    // --space-xs once the column's own gap is counted in.
+    margin-top: var(--space-2xs);
     font-size: $font-size-lg; // the card-title step
     font-weight: $font-weight-demibold;
     color: $color-brand-dark-green;
