@@ -99,16 +99,23 @@
   // The shared tag pill with the energy-type glyph — the generator badge's
   // exact overrides (tight gap, tucked leading edge) for the same
   // glyph-optics reasons.
+  // sm, a rung above the mixin's default xs — this badge NAMES the offer it
+  // heads, where .card__tag is a small marker floating over a photo. Same
+  // reasoning that puts .article-meta__tag on sm, and it lifts the glyph with
+  // it since the icon is sized in em.
   &__offer-badge {
-    @include tag-pill;
+    @include tag-pill($font-size-sm);
     gap: var(--space-3xs);
     padding-left: var(--space-2xs);
     margin-bottom: var(--space-3xs);
 
     img {
       flex-shrink: 0;
-      width: 1.15em;
-      height: 1.15em;
+      // A touch larger than the 1.15em the inline-with-text marks use: this
+      // one leads a heading rather than sitting mid-sentence, so it carries
+      // the extra weight without crowding the label.
+      width: 1.3em;
+      height: 1.3em;
       object-fit: contain;
       filter: brightness(0) invert(100%); // dark-green artwork on the dark pill
     }

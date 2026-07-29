@@ -4308,7 +4308,7 @@ a:focus-visible {
   gap: var(--space-2xs);
   align-items: center;
   padding: var(--space-3xs) var(--space-xs);
-  font-size: var(--step--2);
+  font-size: var(--step--1);
   font-weight: 500;
   color: #ffffff;
   background-color: #006341;
@@ -4319,8 +4319,8 @@ a:focus-visible {
 }
 .provider-card__offer-badge img {
   flex-shrink: 0;
-  width: 1.15em;
-  height: 1.15em;
+  width: 1.3em;
+  height: 1.3em;
   object-fit: contain;
   filter: brightness(0) invert(100%);
 }
