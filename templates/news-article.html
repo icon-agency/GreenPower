@@ -444,19 +444,25 @@
                away. Visible by default; only the script's .js-reveal enables
                the hidden state. -->
           <div class="article-meta article-meta--reveal" data-reveal-after=".page-header">
-            <!-- aria-hidden: the header band above states both, first and
-                 labelled. These are the visible sticky repeat only. -->
-            <span class="article-meta__tag" aria-hidden="true">News</span>
-            <p class="article-meta__title">LCLF and Biogenic CO2 Certification announcement</p>
-            <ul class="article-meta__dates" aria-hidden="true">
-              <li class="article-meta__date">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                <span><time datetime="2025-03-19">19 Mar 2025</time> &ndash; <time datetime="2025-03-20">20 Mar 2025</time></span>
-              </li>
-              <li class="article-meta__date">
-                <span><time datetime="2025-08-12">12 Aug 2025</time></span>
-              </li>
-            </ul>
+            <!-- The REPEAT of the header band — and so the part that waits.
+                 Wrapped so the reveal has one box to open: the Copy link below
+                 is its sibling, not its child, which is what keeps the action
+                 on screen from load while only this group animates in.
+                 aria-hidden: the band above states all of it, first and
+                 labelled. This is the visible sticky repeat only. -->
+            <div class="article-meta__summary">
+              <span class="article-meta__tag" aria-hidden="true">News</span>
+              <p class="article-meta__title">LCLF and Biogenic CO2 Certification announcement</p>
+              <ul class="article-meta__dates" aria-hidden="true">
+                <li class="article-meta__date">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                  <span><time datetime="2025-03-19">19 Mar 2025</time> &ndash; <time datetime="2025-03-20">20 Mar 2025</time></span>
+                </li>
+                <li class="article-meta__date">
+                  <span><time datetime="2025-08-12">12 Aug 2025</time></span>
+                </li>
+              </ul>
+            </div>
             <button class="btn btn--outline" type="button" data-copy-link>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
               <span data-copy-label>Copy link</span>
