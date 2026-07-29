@@ -55,9 +55,17 @@
   // three sites differ only in font step and positioning context.
   &__badge {
     display: inline-flex;
-    gap: var(--space-2xs);
+    // Tight to the mark on both sides: a glyph carries its own whitespace
+    // inside its box, so the token gaps that suit two runs of text read as a
+    // hole either side of it.
+    gap: var(--space-3xs);
     align-items: center;
-    padding: var(--space-3xs) var(--space-xs);
+    // Asymmetric on purpose, and this is the optical correction rather than a
+    // stray value: the leading edge tucks in to --space-2xs because the mark's
+    // own padding is already standing in for part of the inset, while the
+    // trailing edge keeps --space-xs so the LABEL is not left hugging the
+    // pill. Even values here looked lopsided the other way.
+    padding: var(--space-3xs) var(--space-xs) var(--space-3xs) var(--space-2xs);
     font-size: $font-size-xs;
     font-weight: $font-weight-medium;
     color: $color-white;
