@@ -428,43 +428,48 @@
           <div class="tool-filter__fields">
             <div class="tool-filter__field">
               <p class="tool-filter__label" id="gen-state-label">State or territory</p>
-              <details class="tool-filter__multi" data-gen-multi="state">
-                <summary class="tool-filter__multi-toggle">
-                  <!-- Names the trigger without JS: the summary's accessible
-                       name is "State or territory: All states and
-                       territories", and the script only swaps the second
-                       span as boxes are ticked. -->
+              <!-- The panel is a [popover]: it renders in the TOP LAYER, so
+                   the band's overflow clip cannot cut it off and it cannot
+                   push the layout around; the browser owns light-dismiss and
+                   Escape. popovertarget is HTML — no JS needed to open it —
+                   and the top layer is rendering only, so the checkboxes
+                   stay in the form for a plain GET. See _tool-filter.scss. -->
+              <div class="tool-filter__multi" data-gen-multi="state">
+                <button class="tool-filter__multi-toggle" type="button" popovertarget="gen-state-panel" aria-expanded="false">
+                  <!-- Names the trigger without JS: its accessible name is
+                       "State or territory: All states and territories", and
+                       the script only swaps the second span as boxes tick. -->
                   <span class="visually-hidden">State or territory: </span>
                   <span data-gen-multi-label>All states and territories</span>
-                </summary>
-                <fieldset class="tool-filter__multi-panel">
+                </button>
+                <fieldset class="tool-filter__multi-panel" id="gen-state-panel" popover>
                   <legend class="visually-hidden">State or territory</legend>
-                  <label class="tool-filter__option"><input type="checkbox" name="state" value="act"><span>Australian Capital Territory</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="state" value="nsw"><span>New South Wales</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="state" value="nt"><span>Northern Territory</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="state" value="qld"><span>Queensland</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="state" value="sa"><span>South Australia</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="state" value="tas"><span>Tasmania</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="state" value="vic"><span>Victoria</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="state" value="wa"><span>Western Australia</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="act" data-chip-label="ACT"><span>Australian Capital Territory</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="nsw" data-chip-label="NSW"><span>New South Wales</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="nt" data-chip-label="NT"><span>Northern Territory</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="qld" data-chip-label="QLD"><span>Queensland</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="sa" data-chip-label="SA"><span>South Australia</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="tas" data-chip-label="TAS"><span>Tasmania</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="vic" data-chip-label="VIC"><span>Victoria</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="state" value="wa" data-chip-label="WA"><span>Western Australia</span></label>
                 </fieldset>
-              </details>
+              </div>
             </div>
             <div class="tool-filter__field">
               <p class="tool-filter__label" id="gen-type-label">Renewable generator type</p>
-              <details class="tool-filter__multi" data-gen-multi="type">
-                <summary class="tool-filter__multi-toggle">
+              <div class="tool-filter__multi" data-gen-multi="type">
+                <button class="tool-filter__multi-toggle" type="button" popovertarget="gen-type-panel" aria-expanded="false">
                   <span class="visually-hidden">Renewable generator type: </span>
                   <span data-gen-multi-label>All energy sources</span>
-                </summary>
-                <fieldset class="tool-filter__multi-panel">
+                </button>
+                <fieldset class="tool-filter__multi-panel" id="gen-type-panel" popover>
                   <legend class="visually-hidden">Renewable generator type</legend>
                   <label class="tool-filter__option"><input type="checkbox" name="type" value="bioenergy"><span>Bioenergy</span></label>
                   <label class="tool-filter__option"><input type="checkbox" name="type" value="hydro"><span>Hydro</span></label>
                   <label class="tool-filter__option"><input type="checkbox" name="type" value="solar"><span>Solar</span></label>
                   <label class="tool-filter__option"><input type="checkbox" name="type" value="wind"><span>Wind</span></label>
                 </fieldset>
-              </details>
+              </div>
             </div>
             <button class="btn btn--white" type="submit">Apply</button>
           </div>
@@ -1916,6 +1921,8 @@
         return {
           key: el.getAttribute('data-gen-multi'),
           el: el,
+          trigger: el.querySelector('.tool-filter__multi-toggle'),
+          panel: el.querySelector('[popover]'),
           label: el.querySelector('[data-gen-multi-label]'),
           // The label to fall back to when nothing is ticked ("All states and
           // territories") — read from the markup rather than restated here,
@@ -1933,6 +1940,15 @@
         return box.parentNode.querySelector('span').textContent;
       }
 
+      // Chips run SHORT — "VIC", not "Victoria" — because the row has to hold
+      // several at once and the full names wrapped it onto a second line.
+      // data-chip-label carries the abbreviation; anything without one (the
+      // energy types, already single words) falls back to its full label, so
+      // only the values that need shortening declare it.
+      function chipLabel(box) {
+        return box.getAttribute('data-chip-label') || boxLabel(box);
+      }
+
       // The trigger reports its own state: the option's name while one is
       // ticked, a count past that (listing four state names would outgrow the
       // pill), the authored "All …" when none are.
@@ -1945,40 +1961,78 @@
         });
       }
 
-      // Close every open group — the disclosure is native, so this is only
-      // the outside-click / Escape convenience on top of it.
-      function closeGroups() {
-        groups.forEach(function (group) { group.el.open = false; });
+      // Place an OPEN panel under its trigger. Popovers sit in the top layer
+      // with fixed positioning, so the coordinates are viewport ones — and
+      // they are inline styles precisely so that with no script the UA's own
+      // centring (the no-JS shape) still applies. Called from the panel's
+      // toggle event, when it has layout to measure; the left edge clamps so
+      // the panel never leaves the viewport.
+      function place(group) {
+        var rect = group.trigger.getBoundingClientRect();
+        group.panel.style.margin = '0';
+        group.panel.style.minWidth = rect.width + 'px';
+        group.panel.style.top = (rect.bottom + 6) + 'px';
+        group.panel.style.left =
+          Math.max(8, Math.min(rect.left, window.innerWidth - group.panel.offsetWidth - 8)) + 'px';
       }
 
-      document.addEventListener('click', function (event) {
-        if (!form.contains(event.target)) closeGroups();
-      });
+      function openGroups() {
+        return groups.filter(function (g) { return g.panel.matches(':popover-open'); });
+      }
 
-      document.addEventListener('keydown', function (event) {
-        if (event.key !== 'Escape') return;
-        var open = groups.filter(function (g) { return g.el.open; })[0];
-        if (!open) return;
-        closeGroups();
-        // Send focus back to the trigger the reader was in, the nav's Escape
-        // behaviour — but only if focus is currently inside that group.
-        if (open.el.contains(document.activeElement)) open.el.querySelector('summary').focus();
-      });
+      // Close every open panel (Apply commits the choice; the browser already
+      // closes on outside click and Escape — that is the popover contract).
+      function closeGroups() {
+        openGroups().forEach(function (g) { g.panel.hidePopover(); });
+      }
 
       groups.forEach(function (group) {
+        // One listener does the JS-side work: position on open, and mirror
+        // the state onto the invoker (browsers imply aria-expanded for
+        // popovertarget buttons; setting it keeps the chevron honest in all).
+        group.panel.addEventListener('toggle', function (event) {
+          var open = event.newState === 'open';
+          group.trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+          if (open) place(group);
+        });
         group.boxes.forEach(function (box) {
           box.addEventListener('change', syncTriggers);
         });
       });
 
-      function chip(label, onRemove) {
+      // The trigger scrolls with the band while the open panel is FIXED in
+      // the top layer — re-pin it on scroll/resize or the two drift apart.
+      // rAF-throttled per LESSONS.md; does nothing while no panel is open.
+      var placing = false;
+      function replace() {
+        placing = false;
+        openGroups().forEach(place);
+      }
+      function requestPlace() {
+        if (!placing) {
+          requestAnimationFrame(replace);
+          placing = true;
+        }
+      }
+      window.addEventListener('scroll', requestPlace, { passive: true });
+      window.addEventListener('resize', requestPlace);
+
+      // `label` is what shows (abbreviated); `spoken` is the accessible name,
+      // which stays the FULL wording — a screen reader announcing "Remove
+      // filter: VIC" would be reading out an abbreviation the panel never
+      // used. Text goes in via textContent, not innerHTML: these strings are
+      // editorial in Drupal.
+      function chip(label, spoken, onRemove) {
         var li = document.createElement('li');
         var b = document.createElement('button');
         b.type = 'button';
         b.className = 'generator-directory__chip';
-        b.innerHTML = '<span>' + label + '</span>' +
-          '<svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
-        b.setAttribute('aria-label', 'Remove filter: ' + label);
+        var text = document.createElement('span');
+        text.textContent = label;
+        b.appendChild(text);
+        b.insertAdjacentHTML('beforeend',
+          '<svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>');
+        b.setAttribute('aria-label', 'Remove filter: ' + spoken);
         b.addEventListener('click', onRemove);
         li.appendChild(b);
         return li;
@@ -2016,7 +2070,7 @@
         picked.forEach(function (p) {
           p.boxes.forEach(function (box) {
             any = true;
-            chipsEl.appendChild(chip(boxLabel(box), function () {
+            chipsEl.appendChild(chip(chipLabel(box), boxLabel(box), function () {
               box.checked = false;
               syncTriggers();
               apply();
@@ -2024,7 +2078,8 @@
           });
         });
         if (q) {
-          chipsEl.appendChild(chip('“' + search.value.trim() + '”', function () {
+          var q0 = '“' + search.value.trim() + '”';
+          chipsEl.appendChild(chip(q0, 'search ' + q0, function () {
             search.value = '';
             apply();
           }));

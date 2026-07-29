@@ -114,34 +114,35 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     color: $color-white;
   }
 
-  // --- Multi-select: a native disclosure over a checkbox group ---
+  // --- Multi-select: a POPOVER checkbox group under a pill trigger ---
   //
   // NOT a <select multiple>. That control needs ctrl/cmd-click to take a
   // second value (undiscoverable, and impossible on a touch keyboard), cannot
   // be styled to match this row, and renders as a scrolling listbox rather
   // than the pill the design asks for. Checkboxes in a <fieldset> are the
   // honest markup for "choose any number of these", and each one is its own
-  // 44px-ish target.
+  // comfortable target.
   //
-  // <details>/<summary> carries the open/close, so this ships NO JavaScript
-  // for the disclosure itself — the browser owns the toggle, the keyboard
-  // operation and the expanded/collapsed announcement (_accordion.scss: a
-  // disclosure that can be native should be native). The script only syncs
-  // the trigger's label and adds outside-click/Escape closing; without it the
-  // control still opens, still filters, and still submits state=vic&state=nsw
-  // as a plain GET.
+  // The panel FLOATS via the Popover API — the second design, and the reason
+  // is worth keeping. The band (.page-header__inner) is overflow: hidden (it
+  // clips the media and the angle wedge to the radius), so ANY absolutely
+  // positioned panel inside it is cut off at the band's bottom edge. The
+  // first build dodged that by putting the open panel IN FLOW, which grew the
+  // band and shoved the type field and Apply around the page — reported
+  // broken, and it was. [popover] renders in the TOP LAYER: it escapes every
+  // ancestor clip and stacking context, and the BROWSER brings light-dismiss
+  // (outside click) and Escape handling with it. The script's only job is
+  // placing the panel under its trigger.
   //
-  // The panel sits IN FLOW rather than floating over the page: .page-header
-  // __inner is position: relative with overflow: hidden (it clips the media
-  // and the angle wedge to the band's radius), so it is the containing block
-  // for any absolutely-positioned descendant AND would clip it. An in-flow
-  // panel simply grows the band — which the band now allows, since a filter
-  // row releases its min-height floor (_page-header.scss).
-  &__multi {
-    position: relative;
-  }
-
+  // Progressive layering: popovertarget is HTML, so with no JS the panel
+  // still opens — the UA centres it as a small overlay (no coordinates are
+  // ever set from CSS; the skin here deliberately leaves position alone).
+  // The top layer is rendering, not DOM, so the checkboxes stay inside the
+  // <form> and a plain GET still submits state=vic&state=nsw. Where popover
+  // itself is unsupported, the @supports block at the end of the file lays
+  // the group out permanently open in flow — the nav's no-js posture.
   &__multi-toggle {
+    @include button-reset;
     display: flex;
     gap: var(--space-2xs);
     align-items: center;
@@ -150,28 +151,22 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     // that span resolves against the ROOT and escapes every clip above it,
     // adding its own depth to the document (LESSONS.md).
     position: relative;
+    width: 100%;
     height: 3em;
     padding: 0 var(--space-s);
     font-size: max(#{$font-size-sm}, 1rem); // the search input's iOS-zoom floor
     color: $color-ui-text;
-    cursor: pointer;
+    text-align: left;
     background-color: $color-white;
     border: 1px solid $color-ui-border-strong; // WCAG 1.4.11 boundary contrast
     border-radius: $radius-pill;
-    // Drops the default disclosure triangle everywhere but WebKit…
-    list-style: none;
-
-    // …which needs its own reset.
-    &::-webkit-details-marker {
-      display: none;
-    }
 
     &:focus-visible {
       @include focus-ring($color-white);
     }
 
     // The chevron, matching the search glyph's weight. A masked pseudo rather
-    // than an inline SVG so the summary's own text stays its accessible name.
+    // than an inline SVG so the button's own text stays its accessible name.
     &::after {
       flex-shrink: 0;
       width: 0.8em;
@@ -188,24 +183,36 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
       mask-size: contain;
       @include transition(transform);
     }
-  }
 
-  &__multi[open] &__multi-toggle::after {
-    transform: rotate(180deg);
+    // The script mirrors the popover's state onto the invoker (browsers also
+    // imply it for popovertarget buttons — this keys the visual either way).
+    &[aria-expanded='true']::after {
+      transform: rotate(180deg);
+    }
   }
 
   // The checkbox group. A real <fieldset> with a visually-hidden <legend>:
-  // the legend is what names the group for a screen reader moving through the
+  // the legend names the group for a screen reader moving through the
   // checkboxes, and the visible label above the trigger is its sighted twin.
+  //
+  // SKIN ONLY — no position, no margin: the UA's popover styles centre it
+  // when no script has run, and the script positions it under the trigger
+  // with inline styles when one has. Setting either here would break the
+  // no-JS centring.
   &__multi-panel {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-2xs);
+    max-width: min(92vw, 26rem);
     padding: var(--space-s);
-    margin-top: var(--space-2xs);
-    border: 0;
+    overflow: auto; // taller than the viewport (landscape phones): scroll, don't clip
     background-color: $color-white;
+    border: 1px solid $color-ui-border;
     border-radius: $radius-md;
+    // Elevation for a floating layer. The colour is the hairline token — a
+    // soft brand-blue wash — not a new value; shadows have no tokens yet
+    // (tokens/_shadows.scss pending) and this is the one floating panel.
+    box-shadow: 0 8px 24px $color-ui-border;
 
     // Two columns once there is width for them — eight states and territories
     // is four rows rather than eight.
@@ -213,6 +220,20 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--space-2xs) var(--space-s);
     }
+  }
+
+  // A closed popover is hidden by the UA's `[popover]:not(:popover-open)
+  // { display: none }` — but that is a UA-sheet rule, and the skin's
+  // display: grid above is an AUTHOR rule, which wins the cascade over UA
+  // styles regardless of specificity. Without this restatement the "closed"
+  // panel rendered permanently, in flow, inside the band — the same trap as
+  // an author display un-hiding [hidden] (LESSONS.md).
+  //
+  // In engines without popover, :popover-open is an unknown pseudo-class and
+  // this rule is DROPPED whole — which is precisely the fallback wanted
+  // there: the panel stays visible in flow (see the @supports block below).
+  &__multi-panel:not(:popover-open) {
+    display: none;
   }
 
   &__option {
@@ -240,5 +261,18 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     &:has(input:focus-visible) {
       @include focus-ring;
     }
+  }
+}
+
+// Popover unsupported (pre-2023 engines): the [popover] attribute is unknown,
+// so the panel would render permanently visible IN FLOW — which is exactly the
+// posture to embrace, not fight: lay the group out as an always-open block
+// (the no-js nav menu's stance) rather than leaving a floating skin stranded
+// mid-band. @supports selector() itself is 2019-era, so old engines do reach
+// this block.
+@supports not selector([popover]:popover-open) {
+  .tool-filter__multi-panel {
+    margin-top: var(--space-2xs);
+    box-shadow: none;
   }
 }
