@@ -3753,7 +3753,7 @@ a:focus-visible {
 }
 .generator-card__link {
   display: inline-flex;
-  gap: var(--space-2xs);
+  gap: var(--space-3xs);
   align-items: center;
   font-size: var(--step--1);
   font-weight: 500;
@@ -3788,7 +3788,7 @@ a:focus-visible {
   border: 0;
   cursor: pointer;
   display: inline-flex;
-  gap: var(--space-2xs);
+  gap: var(--space-3xs);
   align-items: center;
   font-size: var(--step--1);
   font-weight: 500;

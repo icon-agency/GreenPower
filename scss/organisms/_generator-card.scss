@@ -196,9 +196,14 @@
 
   // Visit website — external navigation, so it carries the leaves-this-page
   // glyph (the repo-link / ds-nav pattern) and its up-and-right hover nudge.
+  //
+  // The glyph sits a --space-3xs from its label, matching the Accredited
+  // badge: an icon carries whitespace inside its own box, so the gap that
+  // suits two runs of TEXT leaves a hole beside one. Both actions in this row
+  // use the same step, whichever side their glyph is on.
   &__link {
     display: inline-flex;
-    gap: var(--space-2xs);
+    gap: var(--space-3xs);
     align-items: center;
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
@@ -228,10 +233,12 @@
   }
 
   // View on map — an action on this page, not navigation, so a button.
+  // Same icon-to-label step as its neighbour above (--space-3xs), with the
+  // pin leading rather than trailing.
   &__map-link {
     @include button-reset;
     display: inline-flex;
-    gap: var(--space-2xs);
+    gap: var(--space-3xs);
     align-items: center;
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
