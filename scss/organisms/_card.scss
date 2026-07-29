@@ -817,6 +817,54 @@
   margin-top: 0;
 }
 
+// -----------------------------------------------------------------------------
+// Empty state — the listing when a filter matches nothing
+//
+// A filtered listing CAN come back empty, and it must say so. Without this the
+// grid collapses to zero height and the page shows a blank gap between the
+// header band and the pager — with the pager still offering eight pages of
+// nothing, which reads as broken rather than as "no results".
+//
+// The live region already announces the count to assistive tech, so this block
+// is for SIGHTED users: it is not a live region itself and carries no role, and
+// it must not restate the status string or the two would double up for anyone
+// running both. It says what happened and what to do about it.
+//
+// Drupal: this is the view's "No results behavior" area (a global text area on
+// the news listing view) — not template markup to port. The empty text should
+// run through t(), and the pager already hides itself on an empty result set,
+// so the display: none below is only standing in for that server behaviour.
+// -----------------------------------------------------------------------------
+.card-section__empty {
+  padding: var(--space-xl) var(--space-m);
+  margin-top: var(--space-xl);
+  text-align: center;
+  background-color: $color-tint-taupe;
+  border-radius: $radius-lg;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.card-section__empty-title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-demibold;
+  color: $color-brand-dark-green;
+}
+
+.card-section__empty-text {
+  max-width: 44ch;
+  margin: var(--space-2xs) auto 0;
+  color: $color-ui-text;
+}
+
+// An empty result set has no pages. Hiding the pager is part of the same fix:
+// a pager over nothing invites clicks that change nothing.
+.card-section.is-empty .pagination {
+  display: none;
+}
+
 // The news TEASER variant — a modifier, not a section scope, so the same card
 // renders identically in the landing grid, a "Next up" row on an article, or
 // anywhere else a news teaser appears (Drupal: the teaser template adds the

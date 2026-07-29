@@ -1841,6 +1841,33 @@ a:focus-visible {
   margin-top: 0;
 }
 
+.card-section__empty {
+  padding: var(--space-xl) var(--space-m);
+  margin-top: var(--space-xl);
+  text-align: center;
+  background-color: #f3efe5;
+  border-radius: 16px;
+}
+.card-section__empty[hidden] {
+  display: none;
+}
+
+.card-section__empty-title {
+  font-size: var(--step-1);
+  font-weight: 500;
+  color: #006341;
+}
+
+.card-section__empty-text {
+  max-width: 44ch;
+  margin: var(--space-2xs) auto 0;
+  color: #00263e;
+}
+
+.card-section.is-empty .pagination {
+  display: none;
+}
+
 .card--news {
   --card-surface: #f3efe5;
   --card-surface-hover: #ebe5d3;

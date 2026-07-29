@@ -600,6 +600,17 @@
 
       </div>
 
+      <!-- Empty state. A filtered listing can come back with nothing, and it
+           has to SAY so — the grid collapses to zero height, so without this
+           the page shows a blank gap with the pager still under it. Hidden
+           until the filter empties the grid.
+           Drupal: the view's "No results behavior" text area, not this markup;
+           the view's own pager already hides itself on an empty result set. -->
+      <div class="card-section__empty" data-news-empty hidden>
+        <p class="card-section__empty-title">No articles match those filters</p>
+        <p class="card-section__empty-text">Try removing a filter, or choose <strong>All</strong> to see everything.</p>
+      </div>
+
       <!-- The view's pager (mini pager themed to these classes) -->
       <nav class="pagination" aria-label="Pagination" data-animate>
         <ul class="pagination__list">
@@ -628,6 +639,8 @@
         var pills = [].slice.call(root.querySelectorAll('[data-news-filter-type]'));
         var cards = [].slice.call(document.querySelectorAll('[data-news-type]'));
         var status = root.querySelector('[data-news-filter-status]');
+        var section = document.querySelector('.card-section--listing');
+        var empty = document.querySelector('[data-news-empty]');
         if (!pills.length || !cards.length) return;
 
         function pressed(el) { return el.getAttribute('aria-pressed') === 'true'; }
@@ -652,6 +665,13 @@
             card.style.display = match ? '' : 'none';
             if (match) shown += 1;
           });
+          // The empty state is for SIGHTED users — the live region below
+          // already announces the count, so this block carries no role and
+          // deliberately does not restate that string. The pager goes with it:
+          // an empty result set has no pages, and one left sitting there reads
+          // as broken rather than as "no results".
+          if (empty) empty.hidden = shown > 0;
+          if (section) section.classList.toggle('is-empty', shown === 0);
           if (status) {
             status.textContent = active.length
               ? shown + ' of ' + cards.length + ' articles shown'
