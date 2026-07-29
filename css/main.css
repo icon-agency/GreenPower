@@ -1651,7 +1651,7 @@ a:focus-visible {
   flex-direction: column;
   gap: var(--space-m);
   align-items: flex-start;
-  padding: var(--space-xs) 0 var(--space-m);
+  padding: var(--space-xs) var(--space-m) var(--space-m);
 }
 .feature-banner__icon {
   width: 2.5rem;

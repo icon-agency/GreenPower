@@ -65,16 +65,19 @@
     flex-direction: column;
     gap: var(--space-m);
     align-items: flex-start;
-    // Block-only inset. NO horizontal padding by design: __inner's own
-    // --space-xs is the whole left inset, which puts this copy on the same
-    // vertical line as the bento tiles in the section below (both sit one
-    // --space-xs off the full-bleed edge). A second --space-xs here used to
-    // stack on top of it and pushed the copy one step further in than every
-    // card edge on the page.
+    // --space-m inline, matching .bento-grid__overlay's own inline padding
+    // exactly. That is what puts this copy on the same vertical line as the
+    // media-tile titles below it ("Melbourne Airport"), not on the tile's OUTER
+    // edge: both blocks are text sitting on a coloured surface, and both are
+    // inset from their surface by --space-m. The two surfaces already start
+    // level, because .bento-grid__inner and .feature-banner__inner are the same
+    // max-width with the same --space-xs gutter, so
+    //   tile text  = --space-xs + --space-m
+    //   banner text = --space-xs + --space-m
+    // resolves identically at every width with no breakpoint of its own. Aim
+    // this at the overlay's token if it ever moves; a hard value would drift.
     // Double inset along the bottom so the last link clears the section edge.
-    // --space-m IS 2 × --space-xs on this scale (0.75 -> 1.5rem at the floor,
-    // 0.9375 -> 1.875rem at the cap), so this stays a token, not a calc().
-    padding: var(--space-xs) 0 var(--space-m);
+    padding: var(--space-xs) var(--space-m) var(--space-m);
   }
 
   // Same size as .card__icon. The source artwork is dark green — render it
