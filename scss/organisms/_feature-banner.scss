@@ -260,20 +260,20 @@
 
   // Content box: pin + location text over the shape layer below
   &__location {
-    // Scaled-down hero shape values: --fb-cut = where the diagonal crosses the
-    // top edge (from the shape's own right edge, pre-flip), --fb-curve = the
-    // artwork curve's vertical depth (hero uses 2.5–3rem; half scale here).
-    // Mobile starts with a smaller angle so the pin + location clear it on a
-    // single line in the narrow stage; the full-size angle returns from sm up.
-    // The curve bézier overhangs the badge's left edge by (3.4595·curve − cut);
-    // on mobile a long label makes the badge near-full-width, so keep curve ≤
-    // cut/3.4595 (≈0.578rem here) or that overhang is clipped by the stage edge
-    // as a stray green tab. 0.5rem stays inside with margin.
-    --badge-cut: 2rem;
+    // --badge-cut is NOT set here any more: the mixin derives it from the
+    // badge's own height, which is the only value whose 45° diagonal closes on
+    // the bottom-left corner. The hand-set 2rem / 3.5rem pair missed in both
+    // directions across the range (stub on mobile, clipped angle on desktop).
+    //
+    // --badge-curve is still a caller choice — it is the artwork curve's depth,
+    // i.e. how soft the angle reads, not where it lands. Mobile keeps a shallow
+    // curve so the pin + location clear it on one line in the narrow stage.
+    // The bézier overhangs the badge's left edge by (3.4595·curve − cut), and a
+    // long mobile label makes the badge near-full-width, so keep curve ≤
+    // cut/3.4595 or that overhang meets the stage edge as a stray green tab.
     --badge-curve: 0.5rem;
 
     @include respond-to('sm') {
-      --badge-cut: 3.5rem;
       --badge-curve: 1.25rem;
     }
 

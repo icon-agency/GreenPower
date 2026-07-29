@@ -7,10 +7,12 @@
 // overflow-clipped pieces (flat slab | artwork bézier curve | 45° wedge) plus a
 // solid backing that seals the flat right/bottom edge against subpixel seams.
 //
-// The caller sets two custom properties (responsively) to size the angle:
-//   --badge-cut   — where the diagonal crosses the top edge (from the shape's
-//                   own right edge, pre-flip)
+// The caller sets ONE custom property (responsively) to size the angle:
 //   --badge-curve — the artwork curve's vertical depth
+// --badge-cut (where the diagonal crosses the top edge, from the shape's own
+// right edge pre-flip) is derived by the mixin from the badge's height and must
+// not be overridden — see the note on it below for why picking it by hand
+// cannot work across a fluid scale.
 // Keep --badge-curve ≤ --badge-cut / 3.4595, or the curve overhangs the badge's
 // left edge and a stray tab is clipped by the media's rounded corner (see the
 // feature-banner LESSONS note). The constants 1.4594 / 4.9189 / 3.4595 are the
@@ -31,6 +33,28 @@
   // colour. Inherits to the shape span, so both pieces stay in step.
   --badge-fill: #{$color-brand-dark-green};
 
+  // --badge-cut is DERIVED, not chosen: the wedge is 45°, so its diagonal only
+  // lands exactly on the badge's bottom-left corner when the cut equals the
+  // badge's HEIGHT (equal run and drop). Anything else misses in one of two
+  // ways — cut < height leaves a vertical stub below where the diagonal
+  // finishes, cut > height clips the diagonal before it reaches the corner.
+  // Hand-picked rem values did both: at 375px a 2rem cut left an 11.5px stub,
+  // at 1285px a 3.5rem cut clipped 7.3px off. The height is fluid (both the
+  // padding and the line box ride clamps) so no fixed value can track it.
+  //
+  // This IS that height: the two block paddings plus one line box. They are
+  // variables rather than literals because a caller may tighten one — the
+  // caption image pulls its bottom in to sit down on the image edge — and the
+  // cut has to follow, or it goes back to missing the corner. Override
+  // --badge-pad-end AFTER the include, not before, or this default wins.
+  // `1lh` is exact where a ratio would not be — the inherited line-height is a
+  // computed px value whose ratio to the font size drifts across the scale.
+  // Single-line is load-bearing and already enforced by the callers'
+  // white-space: nowrap; a wrapped badge would make 1lh an undercount.
+  --badge-pad-start: var(--space-xs);
+  --badge-pad-end: var(--space-xs);
+  --badge-cut: calc(var(--badge-pad-start) + var(--badge-pad-end) + 1lh);
+
   position: absolute;
   right: 0;
   bottom: 0;
@@ -42,7 +66,7 @@
   // Left padding clears the diagonal + curve zone (post-flip the flat top starts
   // at cut + 1.4594 × curve from the left edge); a small gap keeps the icon close
   // to the angle rather than adrift in the green slab.
-  padding: var(--space-xs) var(--space-s) var(--space-xs)
+  padding: var(--badge-pad-start) var(--space-s) var(--badge-pad-end)
     calc(var(--badge-cut) + 1.4594 * var(--badge-curve) + var(--space-2xs));
 
   // Solid backing for the flat (right + bottom) region: the shape above is three

@@ -85,24 +85,34 @@
   // --- Caption badge: the shared hero-angle shape, bottom-right ---
 
   &__caption {
-    // Same responsive angle as the feature-banner location badge (curve kept
+    // Same responsive angle as the feature-banner location badge. --badge-cut
+    // comes from the mixin now (derived from the badge's height so the diagonal
+    // closes on the corner); only the curve's depth is set here, kept
     // ≤ cut / 3.4595 so it never overhangs the badge's left edge — see the
-    // angle-badge mixin note).
-    --badge-cut: 2rem;
+    // angle-badge mixin note.
     --badge-curve: 0.5rem;
 
     @include respond-to('sm') {
-      --badge-cut: 3.5rem;
       --badge-curve: 1.25rem;
     }
 
     @include angle-badge-box;
     --badge-fill: #{$color-white}; // white badge; icon + caption text dark green
 
-    // Height of the badge holding a SINGLE line — the padding pair plus one
-    // 1.3 line box. Used as the overlap below, so the resting badge sits
-    // exactly on the image's bottom edge.
-    --caption-row: calc(var(--space-xs) + var(--space-3xs) + 1.3em);
+    // Tighter than the mixin's symmetric --space-xs so the caption sits down ON
+    // the image's bottom edge rather than floating a step above it. Set as the
+    // mixin's VARIABLE rather than a padding-bottom override, so --badge-cut
+    // sees it — the cut is the badge's height, and a shorter badge needs a
+    // shorter cut or the 45° diagonal is clipped before the corner. Declared
+    // after the include so it beats the mixin's default.
+    --badge-pad-end: var(--space-3xs);
+
+    // Height of the badge holding a SINGLE line, used as the overlap below so
+    // the resting badge sits exactly on the image's bottom edge. That is the
+    // same quantity --badge-cut already computes, so take it from there rather
+    // than restating it — the old copy approximated the line box as 1.3em and
+    // could drift from the real one.
+    --caption-row: var(--badge-cut);
 
     // Overrides the mixin's absolute bottom-right anchor. The caption is a
     // SIBLING of the stage, in normal flow, pulled back up over the image by
@@ -119,10 +129,6 @@
     width: fit-content;
     margin-top: calc(-1 * var(--caption-row));
     margin-left: auto; // right-aligned, as the anchored version was
-
-    // Tighter than the mixin's symmetric --space-xs so the caption sits down ON
-    // the image's bottom edge rather than floating a step above it.
-    padding-bottom: var(--space-3xs);
 
     // Pull the icon and text in toward the angle. The mixin adds --space-2xs
     // beyond the diagonal's clearance point (cut + 1.4594 · curve), which is

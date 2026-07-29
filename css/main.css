@@ -1784,17 +1784,18 @@ a:focus-visible {
   }
 }
 .feature-banner__location {
-  --badge-cut: 2rem;
   --badge-curve: 0.5rem;
 }
 @media (min-width: 640px) {
   .feature-banner__location {
-    --badge-cut: 3.5rem;
     --badge-curve: 1.25rem;
   }
 }
 .feature-banner__location {
   --badge-fill: #006341;
+  --badge-pad-start: var(--space-xs);
+  --badge-pad-end: var(--space-xs);
+  --badge-cut: calc(var(--badge-pad-start) + var(--badge-pad-end) + 1lh);
   position: absolute;
   right: 0;
   bottom: 0;
@@ -1803,7 +1804,7 @@ a:focus-visible {
   gap: var(--space-2xs);
   align-items: center;
   margin: 0;
-  padding: var(--space-xs) var(--space-s) var(--space-xs) calc(var(--badge-cut) + 1.4594 * var(--badge-curve) + var(--space-2xs));
+  padding: var(--badge-pad-start) var(--space-s) var(--badge-pad-end) calc(var(--badge-cut) + 1.4594 * var(--badge-curve) + var(--space-2xs));
 }
 .feature-banner__location::before {
   position: absolute;
@@ -2181,17 +2182,18 @@ a:focus-visible {
   }
 }
 .caption-image__caption {
-  --badge-cut: 2rem;
   --badge-curve: 0.5rem;
 }
 @media (min-width: 640px) {
   .caption-image__caption {
-    --badge-cut: 3.5rem;
     --badge-curve: 1.25rem;
   }
 }
 .caption-image__caption {
   --badge-fill: #006341;
+  --badge-pad-start: var(--space-xs);
+  --badge-pad-end: var(--space-xs);
+  --badge-cut: calc(var(--badge-pad-start) + var(--badge-pad-end) + 1lh);
   position: absolute;
   right: 0;
   bottom: 0;
@@ -2200,7 +2202,7 @@ a:focus-visible {
   gap: var(--space-2xs);
   align-items: center;
   margin: 0;
-  padding: var(--space-xs) var(--space-s) var(--space-xs) calc(var(--badge-cut) + 1.4594 * var(--badge-curve) + var(--space-2xs));
+  padding: var(--badge-pad-start) var(--space-s) var(--badge-pad-end) calc(var(--badge-cut) + 1.4594 * var(--badge-curve) + var(--space-2xs));
 }
 .caption-image__caption::before {
   position: absolute;
@@ -2211,13 +2213,13 @@ a:focus-visible {
 }
 .caption-image__caption {
   --badge-fill: #ffffff;
-  --caption-row: calc(var(--space-xs) + var(--space-3xs) + 1.3em);
+  --badge-pad-end: var(--space-3xs);
+  --caption-row: var(--badge-cut);
   position: relative;
   inset: auto;
   width: fit-content;
   margin-top: calc(-1 * var(--caption-row));
   margin-left: auto;
-  padding-bottom: var(--space-3xs);
   padding-left: calc(var(--badge-cut) + 1.4594 * var(--badge-curve) - var(--space-2xs));
   max-width: 100%;
   font-size: var(--step--1);
