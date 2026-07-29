@@ -52,18 +52,6 @@
   text-wrap: balance; // short display copy — sanctioned in content-rhythm.md
 }
 
-// Optional line under the heading, saying what the band is showing. Same
-// gutter and centring as the heading for the same reason (the band brings
-// none of its own), and the same measure cap as .pathway-section__intro so
-// centred intro copy reads at one width wherever it appears.
-.client-logos__intro {
-  max-width: 62ch;
-  padding-inline: var(--space-s-l);
-  margin: var(--space-s) auto 0;
-  color: $color-ui-text;
-  text-align: center;
-}
-
 // The band is a HORIZONTAL SCROLLER — one row, scrolled rather than wrapped.
 //
 // A separate element from the list on purpose. The scripts promote an

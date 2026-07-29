@@ -95,7 +95,11 @@
   margin-bottom: var(--space-m);
 }
 
-.ds-sidebar__title {
+// The sidebar's own title, and the second one that splits the nav further down
+// (.ds-nav__section-title). One rule for both so they cannot drift apart —
+// "in the style of the one above it" is the whole point of the second.
+.ds-sidebar__title,
+.ds-nav__section-title {
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   color: $color-brand-dark-green;
@@ -271,7 +275,22 @@
 
 // --- Side navigation ---
 
-.ds-nav__group + .ds-nav__group {
+// A second title INSIDE the nav, splitting it in two: the PAGES above it
+// (templates, article templates, tools, page examples) and the PATTERN LIBRARY
+// below (foundations, components, layout patterns). Type comes from the shared
+// rule with .ds-sidebar__title further up this file.
+//
+// A bigger gap above than below, so the title reads as belonging to what
+// follows it rather than floating between the two halves.
+.ds-nav__section-title {
+  margin-top: var(--space-l);
+}
+
+// The group rhythm has to survive a non-group between two groups: an adjacent
+// sibling selector cannot see across the title, so the group after it would
+// otherwise sit flush.
+.ds-nav__group + .ds-nav__group,
+.ds-nav__section-title + .ds-nav__group {
   margin-top: var(--space-m);
 }
 

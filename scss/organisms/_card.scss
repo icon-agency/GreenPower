@@ -841,31 +841,6 @@
   padding-block-start: var(--space-s-l);
 }
 
-// Centred heading + intro, for a page whose sections are announced rather than
-// read into — a landing page where each section is a signpost, not a chapter
-// of a continuous argument.
-//
-// Not the default, and not a new idea either: .pathway-section is centred
-// already, and a page mixing a centred pathway section with left-aligned card
-// sections reads as a mistake. This is the modifier that lets a page pick one
-// and hold it. The measure and the auto margins are the pathway section's, so
-// the two land on the same width.
-//
-// Drupal: a list_string on card_grid (field_grid_alignment), computed into
-// modifier_class in preprocess — never a per-page override.
-.card-section--centred {
-  .card-section__heading {
-    text-align: center;
-    text-wrap: balance; // short display copy — sanctioned in content-rhythm.md
-  }
-
-  .card-section__intro {
-    max-width: 62ch;
-    margin-inline: auto;
-    text-align: center;
-  }
-}
-
 // Listing sections (news landing): the section heading is visually hidden —
 // the page H1 above already titles the listing — which leaves the grid first
 // in the VISUAL flow, where the under-heading margin reads as a slab of dead

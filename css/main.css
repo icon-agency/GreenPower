@@ -1844,16 +1844,6 @@ a:focus-visible {
   padding-block-start: var(--space-s-l);
 }
 
-.card-section--centred .card-section__heading {
-  text-align: center;
-  text-wrap: balance;
-}
-.card-section--centred .card-section__intro {
-  max-width: 62ch;
-  margin-inline: auto;
-  text-align: center;
-}
-
 .card-section--listing .card-section__grid {
   margin-top: 0;
 }
@@ -3066,14 +3056,6 @@ a:focus-visible {
   color: #006341;
   text-align: center;
   text-wrap: balance;
-}
-
-.client-logos__intro {
-  max-width: 62ch;
-  padding-inline: var(--space-s-l);
-  margin: var(--space-s) auto 0;
-  color: #00263e;
-  text-align: center;
 }
 
 .client-logos__scroller {
@@ -5219,7 +5201,8 @@ a:focus-visible {
   margin-bottom: var(--space-m);
 }
 
-.ds-sidebar__title {
+.ds-sidebar__title,
+.ds-nav__section-title {
   font-size: var(--step--1);
   font-weight: 500;
   color: #006341;
@@ -5376,7 +5359,12 @@ a:focus-visible {
   margin-top: var(--space-s);
 }
 
-.ds-nav__group + .ds-nav__group {
+.ds-nav__section-title {
+  margin-top: var(--space-l);
+}
+
+.ds-nav__group + .ds-nav__group,
+.ds-nav__section-title + .ds-nav__group {
   margin-top: var(--space-m);
 }
 
