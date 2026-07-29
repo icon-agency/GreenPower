@@ -76,22 +76,21 @@
     color: $color-brand-dark-green;
   }
 
-  // One energy type's proposition. Gap-spaced rows; the badge names the type.
+  // One energy type's proposition, on its own inset panel. BOTH offers wear
+  // the same panel: a provider that sells electricity and gas is making two
+  // parallel offers, and giving one a panel and the other none read as a
+  // sub-section of the first rather than its equal. The badge is what
+  // distinguishes them.
   &__offer {
-    // The pills' surface, flipped by the gas panel below — the --card-surface
-    // pattern: one custom property, two coordinated values.
-    --pill-surface: #{$color-white};
+    // The pills sit on the panel, so they take the card's tint to stay
+    // legible against it — the inverse of the card's own surface pair.
+    --pill-surface: #{$color-tint-taupe};
 
     display: flex;
     flex-direction: column;
-    gap: var(--space-2xs);
+    gap: var(--space-s);
     align-items: flex-start;
     align-self: stretch;
-  }
-
-  &__offer--gas {
-    --pill-surface: #{$color-tint-taupe};
-
     padding: var(--space-s);
     background-color: $color-white;
     border-radius: $radius-md;
@@ -117,19 +116,32 @@
 
   // Label/value rows as a real <dl> (the generator card's meta pattern);
   // values are pill LISTS.
+  //
+  // "Available for" and "Available in" pair off into two columns, the first
+  // sized to its own content (it is always the same two short pills) and the
+  // second taking the rest — the products row then spans both. Stacked below
+  // sm, where two columns of pills would each be too narrow to hold one.
   &__rows {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-s);
+    align-self: stretch;
+    margin: 0;
+
+    @include respond-to('sm') {
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: var(--space-s) var(--space-l);
+    }
+  }
+
+  // Label ABOVE its pills, not inline beside them: the values are a wrapping
+  // list, and an inline label left the second line hanging under it with
+  // nothing to align to.
+  &__row {
     display: flex;
     flex-direction: column;
     gap: var(--space-2xs);
-    align-self: stretch;
-    margin: 0;
-  }
-
-  &__row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3xs) var(--space-2xs);
-    align-items: center;
+    align-items: flex-start;
     font-size: $font-size-sm;
 
     dt {
@@ -151,6 +163,14 @@
 
     dd {
       margin: 0;
+    }
+  }
+
+  // The products/certificates row runs the full width beneath the pair — it
+  // carries the most pills and its label is the longest.
+  &__row--wide {
+    @include respond-to('sm') {
+      grid-column: 1 / -1;
     }
   }
 
