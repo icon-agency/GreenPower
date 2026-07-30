@@ -11,17 +11,24 @@
 // THE MEASURE
 // Bringhurst (The Elements of Typographic Style) gives 45–75 characters as a
 // satisfactory line for a single-column page, with 66 as the ideal — about 11
-// words of English at ~5 letters plus a space. Dyson & Haselgrove's eye-tracking
-// work puts effective reading around the middle of that band, and WCAG 1.4.8
-// (AAA) caps line length at 80 characters; 66 sits comfortably inside both.
+// words of English at ~5 letters plus a space. WCAG 1.4.8 (AAA) caps line
+// length at 80. This column is deliberately set to the WIDE END of Bringhurst's
+// band rather than the ideal: a government content site runs long explanatory
+// prose, and the wider line costs fewer returns per paragraph.
 //
 // Set in `ch`, which is the advance width of "0" — NOT the average glyph. In TT
-// Commons Pro the digits are wide, so 1ch measured ~1.4x the average character:
-// the obvious "66ch" renders about 87 characters, past Bringhurst's ceiling and
-// past WCAG's cap. The value below is therefore tuned against real rendered
-// lines rather than taken at face value. Measured at 50ch: 63 characters on a
-// typical full line, 72 at the longest — the whole range inside 45–75, with
-// headroom under 80 for longer words than this copy happens to contain.
+// Commons Pro the digits are wide, so 1ch measures ~1.4x the average character:
+// the obvious "75ch" would render well past 100, far outside both bounds. The
+// value below is therefore back-solved from real rendered lines rather than
+// taken at face value.
+//
+// Measured at 52ch by walking a Range over the rendered text of two different
+// pages: 65 typical / 72 longest on the steps page, 71 / 74 on the design
+// system's own prose. The spread is the COPY, not the column — average word
+// length differs — so read the worst case: 74, right on Bringhurst's 75 with
+// 6 characters of headroom under WCAG's 80. Re-measuring on a third page will
+// give a third number in that band; that is expected, not drift.
+// (50ch gave 67/70, the 66 ideal; 54ch gave 74/77, which spends the headroom.)
 //
 // It stays in `ch` (not rem/px) so the column tracks the fluid type scale and
 // the character count holds at every viewport. RE-MEASURE if the body face ever
@@ -32,7 +39,7 @@
 // stacked .page-split. A ch length in a custom property resolves at the point
 // of USE, so each consumer measures against its own (body) font.
 :root {
-  --measure: 50ch;
+  --measure: 52ch;
 }
 
 .page-content {
