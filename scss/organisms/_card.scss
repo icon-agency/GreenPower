@@ -550,6 +550,17 @@
     margin-top: auto;
   }
 
+  // The content column of a row-spanning card can run past 1000px, which puts
+  // body lines far beyond the reading measure. Cap the BODY at the same
+  // --measure token the prose column uses (pages/_content.scss — Bringhurst's
+  // band, back-solved for this face); ch resolves against the card's own body
+  // font at the point of use, so the cap is the same CHARACTER count as prose
+  // even though the card body is a step smaller. Body only: titles are short
+  // display lines, and the link row's divider spans the column by design.
+  > .card__content > .card__body {
+    max-width: var(--measure);
+  }
+
   // The icon tops the content column — drop the vertical "space above" nudge.
   .card__media + .card__content > .card__icon {
     margin-top: 0;
@@ -868,6 +879,35 @@
     // natural size with the meta pinned to the foot. Content taller than the
     // floor still grows the card — it is a minimum, not a crop.
     min-height: 40ch;
+  }
+}
+
+// The impact-story teaser (with --featured): the media column is a SQUARE at
+// ~30% of the card, not the lead story's 50/50 split. A story listing is a
+// register of equal entries — every row is "featured" — so the half-row image
+// that makes ONE lead dominant would make four of them shout; the reference
+// crops each to a square and gives the words the width instead.
+//
+// Same one-number device as the mixin's floor: basis and min-height share
+// 30cqi, so the column is square when the copy is short and grows taller when
+// the copy demands (a floor, not a crop — the row is still align-items:
+// stretch). cqi resolves against the card's own size container, declared in
+// the mixin. Wins over the mixin's flex/min-height on source order at equal
+// specificity — keep this after .card--featured.
+//
+// Drupal: the impact_story teaser view mode adds the class alongside
+// card--news card--featured; nothing else changes.
+.card--story {
+  @include respond-to('sm') {
+    > .card__media {
+      flex-basis: 30cqi;
+      min-height: 30cqi;
+    }
+
+    // The 40ch lead floor is taller than the square: with the media no longer
+    // filling half the row, that floor reads as empty surface below short
+    // copy. The square itself is this card's presence floor.
+    min-height: 0;
   }
 }
 
