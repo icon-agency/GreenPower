@@ -1108,6 +1108,9 @@ a:focus-visible {
   background-color: transparent;
   box-shadow: none;
 }
+.site-header.is-pinned:hover, .site-header.is-pinned:focus-within {
+  box-shadow: none;
+}
 
 .js .site-header--overlay.is-pinned:not(.is-hero-top)::before {
   opacity: 0;
@@ -3439,6 +3442,22 @@ a:focus-visible {
   background-color: #006341;
   border-radius: 100em;
 }
+.article-meta__product {
+  display: flex;
+  gap: var(--space-2xs);
+  align-items: center;
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: #006341;
+}
+.article-meta__product svg {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.article-meta--on-dark .article-meta__product {
+  color: #ffffff;
+}
 .article-meta__title {
   max-width: 20ch;
   font-size: var(--step-1);
@@ -5085,6 +5104,14 @@ a:focus-visible {
 }
 .page-content__section figure {
   margin-inline: 0;
+}
+.page-content__section figure.media iframe {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+  border: 0;
+  border-radius: 8px;
 }
 .page-content__section figcaption {
   margin-top: var(--space-2xs);

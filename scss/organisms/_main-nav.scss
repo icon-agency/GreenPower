@@ -1080,6 +1080,21 @@ $arrow-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' w
     background-color: transparent;
     box-shadow: none;
   }
+
+  // …and drop it while the bar is HOVERED or holding focus. The hairline seats
+  // the docked bar over page content, but hover fades the taupe backdrop in
+  // behind the bar: the line then reads as a rule UNDER a filled panel rather
+  // than the edge of one, which is what looked wrong. The backdrop is its own
+  // closed surface and needs no seat. Same 0.3s box-shadow transition as the
+  // rule above, so the line fades with the fill rather than snapping off.
+  //
+  // :focus-within as well as :hover — the backdrop fades in for keyboard focus
+  // too (see the __backdrop opacity rule), so the two must agree or tabbing
+  // into the bar would leave the line stranded on the taupe.
+  &:hover,
+  &:focus-within {
+    box-shadow: none;
+  }
 }
 
 // Scrim paints above the header's own background, so on the docked solid bar

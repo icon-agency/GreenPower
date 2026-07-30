@@ -288,6 +288,27 @@
     margin-inline: 0;
   }
 
+  // Embedded video — CKEditor 5's oEmbed output is figure.media wrapping the
+  // provider's iframe, and Drupal's Media oEmbed / video_embed_field emit the
+  // same shape, so styling it here means production markup needs nothing
+  // extra (docs/wysiwyg-output.md: every element the editor can emit has a
+  // style, and it lives in this wrapper).
+  //
+  // aspect-ratio rather than the old padding-bottom hack: no wrapper element,
+  // no absolute positioning, and the ratio holds at every width. 16/9 is
+  // YouTube's own frame — a provider needing another ratio sets it on the
+  // figure, which this inherits.
+  figure.media {
+    iframe {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      border: 0;
+      border-radius: $radius-md; // matches the prose img treatment above
+    }
+  }
+
   figcaption {
     margin-top: var(--space-2xs);
     font-size: $font-size-sm;

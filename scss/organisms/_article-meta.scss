@@ -51,6 +51,40 @@
     @include tag-pill($font-size-sm);
   }
 
+  // The product line — the GreenPower leaf beside the product the story
+  // demonstrates ("GreenPower Corporate Direct"). The impact article's stand-in
+  // for the news article's tag + dates: a story is filed under a product, not
+  // a date. Two placements: the header band (white, via --on-dark below) and
+  // the sticky rail repeat (dark green, here).
+  //
+  // The leaf is the greenpower.svg PATH inlined with fill: currentColor — the
+  // asset file hard-codes its fill, and this line needs two colours from one
+  // markup. A flex row because the reset makes img/svg display: block; the box
+  // puts the mark back on the line. 1.25rem — between the arrow (0.875) and
+  // the component icon (2.5), sized to the sm label beside it; fixed for the
+  // usual reason (one size wherever it appears), rem so it honours the root.
+  //
+  // Drupal: field_story_product on the impact_story type, rendered here and in
+  // the teaser card's eyebrow.
+  &__product {
+    display: flex;
+    gap: var(--space-2xs);
+    align-items: center;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+
+    svg {
+      flex-shrink: 0;
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  &--on-dark &__product {
+    color: $color-white;
+  }
+
   // ~20 characters of the title's OWN size. This is what makes the rail read
   // narrower than its track: the track has to stay the header band's media
   // reserve (that is what lands the body column on the band's copy edge — see
