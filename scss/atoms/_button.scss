@@ -48,6 +48,25 @@
   }
 }
 
+// Tinted pill — a LABELLED sibling of .card-section__arrow, for a button that
+// sits in the same cluster as those icon controls ("More" beside the scroller
+// arrows on the article's Next up row). An outline pill there read as a louder
+// thing than the round controls next to it; this makes the row one family.
+//
+// The colour pair is deliberately IDENTICAL to .card-section__arrow's
+// (_card.scss): tint-taupe resting, brand-taupe on hover, dark green going to
+// brand blue. Change one and change the other — the arrow's rule carries the
+// matching note. Both sides use tokens, so neither invents a value.
+.btn--tint {
+  color: $color-brand-dark-green;
+  background-color: $color-tint-taupe;
+
+  &:hover {
+    color: $color-brand-blue;
+    background-color: $color-brand-taupe;
+  }
+}
+
 // Outlined pill for secondary actions on tint surfaces (mega-menu group CTAs).
 // Uses an inset box-shadow rather than border so the ring doesn't change the
 // box size on hover (fills to solid dark green).

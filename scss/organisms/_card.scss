@@ -79,6 +79,10 @@
   // no control, and at md+ the grid is a plain 3-up with nothing to scroll.
   // Never the ONLY way to reach a card: touch swipes, the row is a focusable
   // scroll region for the keyboard, and every card is a link in the tab order.
+  //
+  // The colour pair below is shared with .btn--tint (atoms/_button.scss), the
+  // labelled button that sits in this same cluster — change one and change the
+  // other, so the row keeps reading as one family.
   &__arrow {
     @include button-reset;
     display: grid;
@@ -494,6 +498,11 @@
   flex-direction: row;
   align-items: stretch; // image matches the content column's height
 
+  // Size container so the media's floor below can be stated in cqi — the same
+  // device _page-header.scss uses, and safe for the same reason: the card's
+  // width comes from the grid track, never from its contents.
+  container-type: inline-size;
+
   // In the 2-up band this aligns the halves to the grid columns: the gap is
   // the grid gap + one card padding (the extra padding a second-column card
   // would carry), and the media basis adds card-padding/2 back (undoing the
@@ -503,9 +512,18 @@
 
   // Image column: fills the full height, bleeding to half the card padding on
   // its three outer edges (as the vertical card bleeds on top/left/right).
+  //
+  // The height comes from the stretched row, so a card with little copy in it
+  // squashed the image into a letterbox — measured 2.65:1 against the vertical
+  // card's 3:2. min-height puts a FLOOR under that ratio, and it is in cqi
+  // rather than a fixed length on purpose: the media is ~50cqi wide, so 28cqi
+  // holds ~16:9 at EVERY width, where a px/rem floor would be undone by the
+  // next wider viewport (the media grows, the floor does not). Only a floor —
+  // longer copy still drives the card taller and the image grows with it.
   > .card__media {
     flex: 0 0 calc(50% - var(--space-xs) / 2 + var(--card-padding) / 2);
     aspect-ratio: auto; // height comes from the stretched row, not 3:2
+    min-height: 28cqi;
     margin: calc(var(--card-padding) / -2) 0 calc(var(--card-padding) / -2)
       calc(var(--card-padding) / -2);
   }
@@ -518,6 +536,18 @@
     flex-direction: column;
     gap: var(--space-xs);
     min-width: 0; // let long link labels wrap rather than force overflow
+  }
+
+  // The media's floor above can make the card taller than its copy needs,
+  // which left the link row stranded mid-panel with dead surface under it.
+  // Anchor it to the foot instead, so the rule under the last link reads as the
+  // card's base. margin-top: auto is the same device __meta (the news date row)
+  // and __cta use — every rule that pins a card's last row looks alike.
+  //
+  // Scoped to the horizontal card: a vertical card's column is sized by its own
+  // content, so there is no stray space to take up and the links stay put.
+  > .card__content > .card__links {
+    margin-top: auto;
   }
 
   // The icon tops the content column — drop the vertical "space above" nudge.
@@ -534,6 +564,20 @@
 @include respond-to('sm') {
   .card-section:not(.card-section--scroll) .card-section__grid > .card:first-child:last-child {
     @include card-horizontal;
+  }
+
+  // …unless that single card has NO IMAGE. The horizontal treatment exists to
+  // give a lone card an image column to fill the row with; without one there is
+  // nothing to fill it, and a full-width band of two short lines reads as a
+  // mistake. Cap it at ONE COLUMN of the 2-up grid — half the row less half the
+  // gap — so a lone text card looks like a card rather than a stripe.
+  //
+  // :has() gated, and the fallback is the right way round: a browser without it
+  // simply leaves the card full width, which is exactly today's behaviour.
+  .card-section:not(.card-section--scroll)
+    .card-section__grid
+    > .card:first-child:last-child:not(:has(.card__media)) {
+    max-width: calc(50% - var(--space-xs) / 2);
   }
 }
 

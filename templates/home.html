@@ -680,6 +680,74 @@
         </div>
       </div>
     </section>
+
+    <section class="card-section card-section--scroll" aria-labelledby="latest-news-title">
+      <div class="card-section__head">
+        <h2 class="card-section__heading" id="latest-news-title">Latest news</h2>
+        <div class="card-section__actions">
+          <!-- Arrows are hidden until the script confirms the row overflows —
+               a control that scrolls nothing is worse than no control. They
+               are a convenience on top of touch swipe, the keyboard scroll
+               region, and the cards' own tab order; never the only way in. -->
+          <button class="card-section__arrow" type="button" data-scroll-prev hidden>
+            <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M13 5H2M6 1 2 5l4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="visually-hidden">Previous articles</span>
+          </button>
+          <button class="card-section__arrow" type="button" data-scroll-next hidden>
+            <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="visually-hidden">More articles</span>
+          </button>
+          <!-- "More" reads fine beside the heading, but a link's accessible
+               name has to stand alone in a screen reader's link list (WCAG
+               2.4.4) — the hidden word supplies the destination without
+               changing what is on screen. -->
+          <a class="btn btn--tint" href="news-landing.html">More<span class="visually-hidden"> news</span>
+            <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <div class="card-section__grid" data-animate-stagger>
+
+        <article class="card card--news" data-animate data-news-type="news">
+          <div class="card__media">
+            <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
+            <span class="card__tag" aria-hidden="true">News</span>
+          </div>
+          <div class="card__content">
+            <h3 class="card__title"><a class="card__title-link" href="#">GreenPower Program Rules Version 11.3 &ndash; What&rsquo;s changed and why<span class="visually-hidden"> &mdash; News</span></a></h3>
+            <p class="card__body">GreenPower has published Version 11.3 of the National GreenPower Accreditation Program Rules.</p>
+            <p class="card__meta"><time datetime="2026-04-15">15 Apr 2026</time>
+              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+          </div>
+        </article>
+
+        <article class="card card--news" data-animate data-news-type="announcement">
+          <div class="card__media">
+            <img src="../assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
+            <span class="card__tag" aria-hidden="true">Announcement</span>
+          </div>
+          <div class="card__content">
+            <h3 class="card__title"><a class="card__title-link" href="#">LCLF and Biogenic CO2 Certification announcement<span class="visually-hidden"> &mdash; Announcement</span></a></h3>
+            <p class="card__body">GreenPower is developing two new certification schemes to accelerate the transition to cleaner fuels in Australia.</p>
+            <p class="card__meta"><time datetime="2025-08-12">12 Aug 2025</time>
+              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+          </div>
+        </article>
+
+        <article class="card card--news" data-animate data-news-type="news">
+          <div class="card__media">
+            <img src="../assets/images/gas.png" alt="Aerial view of a biogas facility among green fields" width="1500" height="1500" loading="lazy">
+            <span class="card__tag" aria-hidden="true">News</span>
+          </div>
+          <div class="card__content">
+            <h3 class="card__title"><a class="card__title-link" href="#">Renewable Gas Certification Rules &ndash; version 3.0<span class="visually-hidden"> &mdash; News</span></a></h3>
+            <p class="card__body">The updated rules set out how renewable gas is certified and audited under the GreenPower program.</p>
+            <p class="card__meta"><time datetime="2026-04-15">15 Apr 2026</time>
+              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+          </div>
+        </article>
+
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
@@ -1822,13 +1890,15 @@
   <script>
     (function () {
       var wrappers = [].slice.call(document.querySelectorAll(
-        '.page-content__section figure.table, .page-content__section pre, .client-logos__scroller'
+
+        '.page-content__section figure.table, .page-content__section pre, .client-logos__scroller, .card-section--scroll .card-section__grid'
       ));
       if (!wrappers.length) return;
 
       function labelFor(el) {
         if (el.matches('pre')) return 'Scrollable code block';
         if (el.matches('.client-logos__scroller')) return 'Client logos, scrollable';
+        if (el.matches('.card-section__grid')) return 'Latest news, scrollable';
         return 'Scrollable table';
       }
 
@@ -1863,5 +1933,56 @@
     })();
   </script>
 
+
+    <!-- Scroller arrows. Revealed only while the row actually overflows, and
+         each is disabled at its end — so the pair never lies about what it can
+         do. Everything they offer is already available without them (swipe,
+         the focusable scroll region, the cards' own links), which is why they
+         can be JS-only. Drupal: one once()-guarded behavior. -->
+    <script>
+      (function () {
+        var section = document.querySelector('.card-section--scroll');
+        if (!section) return;
+        var row = section.querySelector('.card-section__grid');
+        var prev = section.querySelector('[data-scroll-prev]');
+        var next = section.querySelector('[data-scroll-next]');
+        if (!row || !prev || !next) return;
+
+        function scrollable() {
+          // Same test the shared scroll-region script uses: a clipped box
+          // (overflow-x other than auto/scroll) reports a wide scrollWidth but
+          // cannot be moved. +1 absorbs sub-pixel rounding on fluid columns.
+          var ox = getComputedStyle(row).overflowX;
+          return (ox === 'auto' || ox === 'scroll') && row.scrollWidth > row.clientWidth + 1;
+        }
+
+        function step() {
+          // One card plus the gap, read from the DOM rather than assumed, so
+          // the card-width formula can change without this going stale.
+          var card = row.querySelector('.card');
+          if (!card) return row.clientWidth;
+          return card.getBoundingClientRect().width + parseFloat(getComputedStyle(row).columnGap || 0);
+        }
+
+        function sync() {
+          var on = scrollable();
+          prev.hidden = !on;
+          next.hidden = !on;
+          if (!on) return;
+          var max = row.scrollWidth - row.clientWidth;
+          // 1px tolerance: fractional widths mean scrollLeft rarely lands on
+          // exactly 0 or exactly max.
+          prev.disabled = row.scrollLeft <= 1;
+          next.disabled = row.scrollLeft >= max - 1;
+        }
+
+        prev.addEventListener('click', function () { row.scrollBy({ left: -step(), behavior: 'smooth' }); });
+        next.addEventListener('click', function () { row.scrollBy({ left: step(), behavior: 'smooth' }); });
+        row.addEventListener('scroll', sync, { passive: true });
+        window.addEventListener('resize', sync);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+        sync();
+      })();
+    </script>
 </body>
 </html>
