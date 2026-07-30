@@ -275,20 +275,54 @@
 
 // --- Side navigation ---
 
-// A second title INSIDE the nav, splitting it in two: the PAGES above it
+// A collapsible second half of the nav, splitting it in two: the PAGES above it
 // (templates, article templates, tools, page examples) and the PATTERN LIBRARY
-// below (foundations, components, layout patterns). Type comes from the shared
-// rule with .ds-sidebar__title further up this file.
+// inside it (foundations, components, layout patterns).
 //
-// A bigger gap above than below, so the title reads as belonging to what
-// follows it rather than floating between the two halves.
-.ds-nav__section-title {
+// A real <details>, so open/close costs no JavaScript — the same native
+// disclosure the accordion organism uses. The rule above it is the divider
+// between the two halves; a bigger gap above than below keeps the title
+// attached to what it discloses rather than floating between them.
+.ds-nav__section {
   margin-top: var(--space-l);
+  border-top: 1px solid $color-ui-border;
 }
 
-// The group rhythm has to survive a non-group between two groups: an adjacent
-// sibling selector cannot see across the title, so the group after it would
-// otherwise sit flush.
+// Type comes from the shared rule with .ds-sidebar__title further up this file.
+// The row itself is a flex line so the chevron parks at the far edge.
+.ds-nav__section-title {
+  @include flex-row(var(--space-2xs), center, space-between);
+  padding-block: var(--space-s);
+  cursor: pointer;
+  // Drops the default disclosure triangle everywhere but WebKit…
+  list-style: none;
+
+  // …which needs its own reset.
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// Chevron, em-sized so it tracks the title, rotating on open — the accordion's
+// mechanism, for the same reason: the arrow should say which way this goes.
+.ds-nav__section-icon {
+  flex-shrink: 0;
+  width: 0.8em;
+  height: 0.8em;
+  @include transition(transform);
+}
+
+.ds-nav__section[open] .ds-nav__section-icon {
+  transform: rotate(180deg);
+}
+
+// The group rhythm has to survive the disclosure: an adjacent sibling selector
+// cannot see across the summary, so the first group inside would sit flush
+// against the title row.
 .ds-nav__group + .ds-nav__group,
 .ds-nav__section-title + .ds-nav__group {
   margin-top: var(--space-m);

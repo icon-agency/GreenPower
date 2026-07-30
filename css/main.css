@@ -5359,8 +5359,38 @@ a:focus-visible {
   margin-top: var(--space-s);
 }
 
-.ds-nav__section-title {
+.ds-nav__section {
   margin-top: var(--space-l);
+  border-top: 1px solid rgba(0, 38, 62, 0.15);
+}
+
+.ds-nav__section-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2xs);
+  padding-block: var(--space-s);
+  cursor: pointer;
+  list-style: none;
+}
+.ds-nav__section-title::-webkit-details-marker {
+  display: none;
+}
+.ds-nav__section-title:focus-visible {
+  outline: 3px solid #009f4d;
+  outline-offset: 2px;
+}
+
+.ds-nav__section-icon {
+  flex-shrink: 0;
+  width: 0.8em;
+  height: 0.8em;
+  transition: transform 0.2s ease-in-out;
+}
+
+.ds-nav__section[open] .ds-nav__section-icon {
+  transform: rotate(180deg);
 }
 
 .ds-nav__group + .ds-nav__group,
