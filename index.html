@@ -103,6 +103,7 @@
             <li><a class="ds-nav__link" href="#feature-banner">Feature banner</a></li>
             <li><a class="ds-nav__link" href="#bento-grid">Bento grid</a></li>
             <li><a class="ds-nav__link" href="#full-width-image-caption">Full width image caption</a></li>
+            <li><a class="ds-nav__link" href="#video-embed">Video embed</a></li>
             <li><a class="ds-nav__link" href="#quote">Quote</a></li>
             <li><a class="ds-nav__link" href="#accordion">Accordion</a></li>
             <li><a class="ds-nav__link" href="#download">Download</a></li>
@@ -960,6 +961,39 @@
               <span>Image caption GreenPower image description</span>
             </figcaption>
           </figure>
+        </div>
+      </section>
+
+      <section class="ds-section" id="video-embed" aria-labelledby="ve-title">
+        <h3 class="ds-section__title" id="ve-title">Video embed</h3>
+        <p class="ds-section__intro">A provider video in the reading column: the provider&rsquo;s own <code class="ds-code">iframe</code> in a ratio box, plus an optional caption. Nothing else &mdash; the player chrome, poster frame and play button all belong to the provider, and reimplementing any of it would mean shipping a player we do not control. A <strong>component</strong>, not something an editor types, because a video has to be a real media reference to carry its title, provider and thumbnail (<code class="ds-code">docs/wysiwyg-output.md</code>: &ldquo;CKEditor is not a layout tool. Prefer option 1 for anything non-trivial&rdquo;) &mdash; the same relationship Quote has to a prose pull-quote. An editor who pastes a URL into the body field still gets a floor: see <code class="ds-code">figure.media</code> in the CKEditor WYSIWYG section.</p>
+
+        <div class="ds-group">
+          <p class="ds-group__title">The ratio is a custom property, not a modifier</p>
+          <p class="ds-group__note"><code class="ds-code">aspect-ratio</code> sits on the iframe itself &mdash; no wrapper, no <code class="ds-code">padding-bottom</code> hack, and it holds at every width without a breakpoint. It defaults to 16:9 because that is what every major provider serves; a video that genuinely is not 16:9 overrides <code class="ds-code">--video-ratio</code> on the figure rather than earning a modifier, so one property covers every shape.</p>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">The embed src will change at port</p>
+          <p class="ds-group__note">This prototype points straight at <code class="ds-code">youtube-nocookie.com</code>. Drupal core Media does <strong>not</strong> &mdash; it proxies through its own <code class="ds-code">/media/oembed?url=&hellip;</code> route so third-party frames are sandboxed off-domain, and GovCMS commonly blocks direct third-party embeds outright. Expect the <code class="ds-code">src</code> to change shape; the styling does not care, since it only targets the iframe. Keep the <code class="ds-code">title</code> attribute whatever happens &mdash; an untitled iframe is an unlabelled region (WCAG 4.1.2), and in Drupal it comes from the media entity&rsquo;s name.</p>
+        </div>
+
+        <div class="ds-demo">
+          <p class="ds-demo__label">video_embed &middot; .video-embed &mdash; shown at the reading measure, which is where it belongs</p>
+          <div class="page-content">
+            <figure class="video-embed">
+              <div class="video-embed__frame">
+                <iframe
+                  src="https://www.youtube-nocookie.com/embed/X44hbZbCYtw"
+                  title="How is GreenPower different to Carbon Offsets?"
+                  width="560" height="315" loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen></iframe>
+              </div>
+              <figcaption class="video-embed__caption">Caption &mdash; field_video_caption, optional</figcaption>
+            </figure>
+          </div>
         </div>
       </section>
 

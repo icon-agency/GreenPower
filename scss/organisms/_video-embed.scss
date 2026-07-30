@@ -1,0 +1,72 @@
+// -----------------------------------------------------------------------------
+// Video embed — a provider video (YouTube, Vimeo) in the reading column
+//
+// A <figure> holding the provider's <iframe> in a ratio box, plus an OPTIONAL
+// caption. Nothing else: the player chrome, the poster frame and the play
+// button all belong to the provider, and reimplementing any of it would mean
+// shipping a player we do not control.
+//
+// Distinct from an editor-pasted embed (figure.media, pages/_content.scss).
+// That one is a URL someone typed into CKEditor and the prose wrapper gives it
+// a floor so it cannot render unstyled; THIS is a component, because a video
+// has to be a real media reference to carry a title, a provider and a
+// thumbnail — none of which survive being typed into a body field
+// (docs/wysiwyg-output.md: "CKEditor is not a layout tool. Prefer option 1 for
+// anything non-trivial"). Same relationship .quote has to a prose pull-quote,
+// and the two are styled to read as one family: same radius as a prose image,
+// same caption treatment as a prose figcaption.
+//
+// Sits in the reading column: wrap it in .page-content, a SIBLING of
+// .page-content__section rather than inside it, so it aligns to the same
+// measure without inheriting prose styling. Works unchanged in
+// .page-split__body — that column is the same measure.
+//
+// Drupal mapping: Paragraph: video_embed
+//   Fields: field_video (media, remote_video type — the oEmbed URL lives on the
+//     media entity, not the paragraph), field_video_caption (text, OPTIONAL —
+//     omit .video-embed__caption when empty).
+//   Placement: a sibling paragraph between body-field paragraphs. If it must
+//     appear mid-body-field, embed this same paragraph with entity_embed rather
+//     than letting an editor paste a raw URL.
+//   Preprocess: nothing beyond the field lookups. The iframe comes from the
+//     media entity's own oEmbed render, so the title attribute is the media
+//     name — do not hand-write it.
+//   Known risks: this prototype points the iframe straight at
+//     youtube-nocookie.com. Drupal core Media does NOT do that — it proxies
+//     through its own /media/oembed?url=… route so third-party frames are
+//     sandboxed off-domain, and GovCMS commonly blocks direct third-party
+//     embeds outright. Expect the src to change shape at port; the styling
+//     here does not care, since it only ever targets the iframe.
+// -----------------------------------------------------------------------------
+
+.video-embed {
+  margin: 0; // <figure> carries a UA margin
+}
+
+// The ratio box. aspect-ratio on the iframe itself, not a padding-bottom hack
+// on a wrapper: no extra element, no absolute positioning, and the ratio holds
+// at every width without a breakpoint.
+//
+// 16/9 is the default because it is what every major provider serves. A video
+// that genuinely is not 16:9 overrides --video-ratio on the figure rather than
+// getting a modifier — one custom property beats a modifier per shape.
+.video-embed__frame {
+  --video-ratio: 16 / 9;
+
+  iframe {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: var(--video-ratio);
+    border: 0;
+    border-radius: $radius-md; // the prose image radius — one family
+  }
+}
+
+// Matches .page-content__section figcaption exactly, so a captioned video and
+// a captioned prose image read identically in the same column.
+.video-embed__caption {
+  margin-top: var(--space-2xs);
+  font-size: $font-size-sm;
+  color: $color-ui-text;
+}

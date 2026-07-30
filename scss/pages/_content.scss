@@ -288,18 +288,29 @@
     margin-inline: 0;
   }
 
-  // Embedded video — CKEditor 5's oEmbed output is figure.media wrapping the
-  // provider's iframe, and Drupal's Media oEmbed / video_embed_field emit the
-  // same shape, so styling it here means production markup needs nothing
-  // extra (docs/wysiwyg-output.md: every element the editor can emit has a
-  // style, and it lives in this wrapper).
+  // Editor-pasted video — a FLOOR, not the feature. The video-embed organism is
+  // how a video is meant to be placed (see _video-embed.scss and the design
+  // system): it carries a real media reference and an optional caption. But an
+  // editor can always paste a provider URL into the body field, so this makes
+  // sure the result is never an unstyled full-bleed frame in a reading column.
+  //
+  // figure.media is CKEditor 5's media-embed wrapper. NOTE its default data
+  // output is <figure class="media"><oembed url="…"></oembed></figure> — an
+  // <oembed> placeholder, NOT an iframe; the iframe only appears in the data
+  // with mediaEmbed.previewsInData. Drupal is different again: core Media
+  // renders its own iframe pointed at /media/oembed?url=… (proxied, so
+  // third-party frames are sandboxed off-domain) and video_embed_field wraps in
+  // a div with provider classes. So target BOTH children rather than assuming
+  // one shape, and expect to revisit this once the Drupal path is chosen.
   //
   // aspect-ratio rather than the old padding-bottom hack: no wrapper element,
-  // no absolute positioning, and the ratio holds at every width. 16/9 is
-  // YouTube's own frame — a provider needing another ratio sets it on the
-  // figure, which this inherits.
+  // no absolute positioning, and the ratio holds at every width.
   figure.media {
-    iframe {
+    // The oembed placeholder has no intrinsic box, so give it one: without this
+    // an unconverted <oembed> collapses to nothing and the editor sees their
+    // paste vanish.
+    iframe,
+    oembed {
       display: block;
       width: 100%;
       height: auto;

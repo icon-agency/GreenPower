@@ -470,16 +470,14 @@
               <li>Together, these generators add approximately 338 MW of accredited renewable capacity to the program.</li>
             </ul>
 
-            <!-- The wireframe draws a video player here. No video-embed
-                 component exists in the design system, so this is CKEditor 5's
-                 own oEmbed output: figure.media wrapping a 16:9 iframe. That
-                 figure is what Drupal's Media oEmbed / video_embed_field emits,
-                 so the prose wrapper styles it in production unchanged.
-                 The ratio comes from aspect-ratio on the iframe, not a padding
-                 hack — no wrapper needed, and it holds at every width.
-                 loading=lazy and a titled iframe: an untitled frame is an
-                 unlabelled region for a screen reader (WCAG 4.1.2). -->
-            <figure class="media">
+          </div>
+
+          <!-- Video as a COMPONENT, a sibling of the prose section — not markup
+               inside the body field. It carries a real media reference (see
+               _video-embed.scss); a URL pasted into CKEditor gets the
+               figure.media floor in pages/_content.scss instead. -->
+          <figure class="video-embed" data-animate>
+            <div class="video-embed__frame">
               <iframe
                 src="https://www.youtube-nocookie.com/embed/X44hbZbCYtw"
                 title="How is GreenPower different to Carbon Offsets?"
@@ -487,8 +485,8 @@
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allowfullscreen></iframe>
-            </figure>
-          </div>
+            </div>
+          </figure>
 
           <!-- Quote COMPONENT (field_quote paragraph) — portrait + real media
                reference, distinct from a prose pull-quote. -->

@@ -537,6 +537,23 @@
              it: it aligns to the same reading column (.page-content) without
              inheriting prose styling. In Drupal it is its own paragraph in the
              page's list, so the portrait stays a real media reference. -->
+        <!-- video_embed · .video-embed — in the single reading column
+             A COMPONENT, not body-field markup: a video needs a real media
+             reference for its title, provider and thumbnail. An editor pasting a
+             URL into CKEditor gets the figure.media floor in pages/_content.scss
+             instead. The caption is optional; omitted here. -->
+        <figure class="video-embed" data-animate>
+          <div class="video-embed__frame">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/X44hbZbCYtw"
+              title="How is GreenPower different to Carbon Offsets?"
+              width="560" height="315" loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen></iframe>
+          </div>
+        </figure>
+
         <figure class="quote" data-animate>
           <blockquote class="quote__text">
             <p>Quote text &mdash; field_quote_text. Sized a step above body copy, with the brand rule on the left.</p>
@@ -639,6 +656,23 @@
               </div>
             </article>
           </div>
+
+          <!-- video_embed · .video-embed — in the split column
+               A COMPONENT, not body-field markup: a video needs a real media
+               reference for its title, provider and thumbnail. An editor pasting a
+               URL into CKEditor gets the figure.media floor in pages/_content.scss
+               instead. The caption is optional; omitted here. -->
+          <figure class="video-embed" data-animate>
+            <div class="video-embed__frame">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/X44hbZbCYtw"
+                title="How is GreenPower different to Carbon Offsets?"
+                width="560" height="315" loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen></iframe>
+            </div>
+          </figure>
 
           <figure class="quote" data-animate>
             <blockquote class="quote__text">
