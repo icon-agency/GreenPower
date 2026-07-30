@@ -39,10 +39,16 @@
 // panels sit close to the section edges the way that band does, rather than
 // being inset by a full gutter. Same max-width, so both still align to the
 // page's outer box.
+// The CLOSING padding matches that same tight frame, so the section's box is
+// even on three sides and the panels close snugly under the last route rather
+// than trailing a section-scale slab. Only the TOP keeps --space-3xl: it is
+// the break from whatever precedes the section, which the bottom is not —
+// what follows brings its own opening space. (.card-section is the same
+// shape: full break above, gutter below.)
 .pathway-section {
   max-width: $container-max-width;
   margin-inline: auto;
-  padding: var(--space-3xl) var(--space-xs);
+  padding: var(--space-3xl) var(--space-xs) var(--space-xs);
 }
 
 // Matches .card-section__heading, centred — this is a section heading like any

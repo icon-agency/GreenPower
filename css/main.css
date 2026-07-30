@@ -3174,7 +3174,7 @@ a:focus-visible {
 .pathway-section {
   max-width: 1700px;
   margin-inline: auto;
-  padding: var(--space-3xl) var(--space-xs);
+  padding: var(--space-3xl) var(--space-xs) var(--space-xs);
 }
 
 .pathway-section__heading {

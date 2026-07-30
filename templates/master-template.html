@@ -403,7 +403,6 @@
       </div>
     </header>
 
-    <p class="ds-part-label ds-part-label--section">pathway_section &middot; .pathway-section</p>
     <section class="pathway-section" data-animate-stagger>
       <h2 class="pathway-section__heading" data-animate>Choose your accreditation pathway</h2>
       <p class="pathway-section__intro" data-animate>Select the pathway that best describes your organisation. Each pathway includes eligibility information, accreditation steps, responsibilities and relevant resources.</p>
@@ -476,11 +475,10 @@
            rendered body field verbatim: {{ content.body }} — everything inside
            is styled by .page-content__section alone (docs/wysiwyg-output.md).
            TEMPLATE, not a page: the content is the same self-describing block
-           palette the design system's layout demos show. The mono
-           .ds-part-label lines are reference chrome naming each block — strip
-           them at port. -->
+           palette the design system's layout demos show. Each block names
+           itself in its own copy; the design system page carries the
+           class-name labels. -->
       <div class="page-content">
-        <p class="ds-part-label">CKEditor WYSIWYG &mdash; wysiwyg paragraph &middot; .page-content__section</p>
         <div class="page-content__section" data-animate>
           <h2>Heading &mdash; h2 to h4, from the body field</h2>
           <p>Body text &mdash; the CKEditor field. One wrapper styles everything an editor can emit, <a href="#">links</a>, <strong>strong</strong>, <em>emphasis</em> and <code>code</code> included. The full inventory is in the design system&rsquo;s CKEditor WYSIWYG section; this is one of each.</p>
@@ -521,7 +519,6 @@
         <!-- Cards in the reading column. .card-stack, not .card-section__grid:
              the column is capped at the measure, so the section grid's
              viewport-driven 3-up would shrink these to slivers. -->
-        <p class="ds-part-label">card_grid &middot; .card-stack &mdash; one card per row in a column</p>
         <div class="card-stack" data-animate-stagger>
           <article class="card" data-animate>
             <div class="card__content">
@@ -540,7 +537,6 @@
              it: it aligns to the same reading column (.page-content) without
              inheriting prose styling. In Drupal it is its own paragraph in the
              page's list, so the portrait stays a real media reference. -->
-        <p class="ds-part-label">quote &middot; .quote</p>
         <figure class="quote" data-animate>
           <blockquote class="quote__text">
             <p>Quote text &mdash; field_quote_text. Sized a step above body copy, with the brand rule on the left.</p>
@@ -557,7 +553,6 @@
         <!-- Question level is CONTEXTUAL (a preprocess variable in Drupal): h3
              here, under this column's h2 prose heading; h4 in the split column,
              whose rail owns the h2 and whose prose leads with h3. -->
-        <p class="ds-part-label">accordion &middot; .accordion</p>
         <div class="accordion" data-animate>
           <details class="accordion__item">
             <summary class="accordion__trigger">
@@ -597,7 +592,6 @@
           <p class="page-split__lede">Section intro &mdash; field_intro. This rail sticks while the column beside it scrolls.</p>
         </div>
         <div class="page-split__body">
-          <p class="ds-part-label">CKEditor WYSIWYG &mdash; wysiwyg paragraph &middot; .page-content__section</p>
           <div class="page-content__section" data-animate>
             <h3>Heading &mdash; h2 to h4, from the body field</h3>
             <p>Body text &mdash; the CKEditor field. One wrapper styles everything an editor can emit, <a href="#">links</a>, <strong>strong</strong>, <em>emphasis</em> and <code>code</code> included. The full inventory is in the design system&rsquo;s CKEditor WYSIWYG section; this is one of each.</p>
@@ -632,7 +626,6 @@
             <blockquote>Pull-quote &mdash; typed by an editor in the body field, styled by the prose wrapper. Distinct from the quote COMPONENT below, which carries a portrait and a real media reference.<cite>Attribution &mdash; cite</cite></blockquote>
           </div>
 
-          <p class="ds-part-label">card_grid &middot; .card-stack &mdash; one card per row in a column</p>
           <div class="card-stack" data-animate-stagger>
             <article class="card" data-animate>
               <div class="card__content">
@@ -647,7 +640,6 @@
             </article>
           </div>
 
-          <p class="ds-part-label">quote &middot; .quote</p>
           <figure class="quote" data-animate>
             <blockquote class="quote__text">
               <p>Quote text &mdash; field_quote_text. Sized a step above body copy, with the brand rule on the left.</p>
@@ -661,7 +653,6 @@
             </figcaption>
           </figure>
 
-          <p class="ds-part-label">accordion &middot; .accordion</p>
           <div class="accordion" data-animate>
             <details class="accordion__item">
               <summary class="accordion__trigger">
@@ -695,10 +686,9 @@
     <!-- Full-width section components. OUTSIDE .page-body on purpose: that is
          the reading-column container, and each of these carries its own width
          (the banner is full-bleed; the caption image and card sections are
-         container-width). The mono .ds-part-label--section lines are reference
-         chrome naming each one — strip them at port. -->
+         container-width). Each supplies its own block spacing, so they stack
+         without anything between them. -->
 
-    <p class="ds-part-label ds-part-label--section">caption_image &middot; .caption-image</p>
     <figure class="caption-image" data-animate>
       <div class="caption-image__stage">
         <img class="caption-image__img" src="../assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
@@ -723,7 +713,6 @@
          configuration, so a columns-vs-cards mismatch cannot exist. Three
          near-identical sections used to sit here, one per column count, which
          read as three components rather than one. -->
-    <p class="ds-part-label ds-part-label--section">card_grid &middot; .card-section__grid &mdash; count-adaptive: add cards to field_cards, the columns follow (3 shown)</p>
     <section class="card-section" data-animate-stagger>
       <h2 class="card-section__heading" data-animate>Section heading &mdash; field_heading</h2>
       <p class="card-section__intro" data-animate>Section description &mdash; field_intro. One or two lines introducing the cards below.</p>
@@ -774,7 +763,6 @@
          demonstrate the crossfade, not because three is the layout.
          Location labels must fit ONE line at the mobile stage width: the angle
          badge's geometry assumes a single-line height (LESSONS.md). -->
-    <p class="ds-part-label ds-part-label--section">feature_banner &middot; .feature-banner &mdash; add links to field_banner_items, each with its own image (3 shown)</p>
     <section class="feature-banner" data-feature-banner data-animate-stagger>
       <div class="feature-banner__inner">
         <div class="feature-banner__content" data-animate-stagger>
@@ -808,7 +796,6 @@
         </div>
       </div>
     </section>
-    <p class="ds-part-label ds-part-label--section">client_logos &middot; .client-logos</p>
     <section class="client-logos">
       <div class="client-logos__inner">
         <h2 class="client-logos__heading">Businesses and events buying 100% GreenPower</h2>
