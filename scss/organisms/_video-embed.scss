@@ -21,10 +21,20 @@
 // measure without inheriting prose styling. Works unchanged in
 // .page-split__body — that column is the same measure.
 //
+// WHAT THE EDITOR SUPPLIES is one pasted watch URL — nothing else:
+//   https://www.youtube.com/watch?v=X44hbZbCYtw
+// The iframe below is OUTPUT, not input. Its embed-form src, the title and the
+// thumbnail all come from the provider's oEmbed response, resolved server-side.
+// Nobody hand-writes an iframe, and nobody types the /embed/ form of the URL.
+// The markup keeps the pasted URL on __frame as data-oembed-url, which is both
+// a record of the real input and exactly what CKEditor 5 and Drupal's filter
+// emit — so the static template shows the same pair production does.
+//
 // Drupal mapping: Paragraph: video_embed
-//   Fields: field_video (media, remote_video type — the oEmbed URL lives on the
-//     media entity, not the paragraph), field_video_caption (text, OPTIONAL —
-//     omit .video-embed__caption when empty).
+//   Fields: field_video (media reference, remote_video type — that media type's
+//     field_media_oembed_video is where the pasted watch URL lives), and
+//     field_video_caption (text, OPTIONAL — omit .video-embed__caption when
+//     empty). Core resolves the URL to the embed; there is nothing to preprocess.
 //   Placement: a sibling paragraph between body-field paragraphs. If it must
 //     appear mid-body-field, embed this same paragraph with entity_embed rather
 //     than letting an editor paste a raw URL.
