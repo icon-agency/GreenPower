@@ -12,12 +12,14 @@
 // .tool-filter: the rule that reveals it happens to be a filter combination
 // today, and could just as easily be a page or a segment tomorrow.
 //
-// It ACCOMPANIES the results rather than replacing them, and sits above them —
-// the wireframe's own reading. Worth knowing that this is the arguable half of
-// the design: a large energy business filtering business + electricity is told
-// here that a provider cannot help, and then shown eight providers. If the
-// client wants the prompts to REPLACE the list in these cases, that is a
-// change to the reveal rule and the directory's empty state, not to this file.
+// It ACCOMPANIES the results rather than replacing them, and sits above them.
+// CONFIRMED by the client, not assumed — the question was put and answered:
+// sit alongside. So a large energy business filtering business + electricity
+// is shown this prompt AND the eight providers, deliberately: the two cases
+// here are an event seeking a GreenPower PARTNERSHIP and a large energy user,
+// both of which are a different conversation from the retail plans below
+// rather than a correction to them. Neither reader is being told the list is
+// wrong for them; they are being offered a second door.
 //
 // Drupal mapping: not a paragraph on the node. Two blocks (or one block with
 // two items) placed in the view's header region, or a custom block with a

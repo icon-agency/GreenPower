@@ -584,12 +584,12 @@
           see: [['DS', 'index.html#contact-prompt']],
           ac: [
             'Business + Electricity shows the two prompt blocks above the results',
+            'The results list still shows &mdash; the prompts do NOT replace it (settled, D1)',
             'They hide when either filter changes',
-            'Content is editable, not hard-coded',
-            'Behaviour matches the decision recorded in D1'
+            'Content is editable, not hard-coded'
           ],
-          notes: 'Currently built to ACCOMPANY the results. If D1 says replace, this also changes the directory’s empty state.',
-          depends: 'C13, L1, Decision D1'
+          notes: 'Sitting alongside is confirmed, so the directory’s empty state is untouched by this ticket. Still needs the real MWh threshold from D2.',
+          depends: 'C13, L1'
         }
       ]
     },
@@ -659,15 +659,18 @@
     },
     {
       name: 'Decisions (not dev work)',
-      note: 'These belong to the client or PM. They block the tickets listed against them — keep them out of a sprint until answered.',
+      note: 'These belong to the client or PM. An open one blocks the tickets listed against it — keep those out of a sprint until it is answered. Answered ones stay here as the record of what was decided and why, rather than being deleted.',
       tickets: [
         {
-          ref: 'D1', summary: 'DECISION: do contact prompts replace the results, or sit alongside?',
-          why: 'A large energy business is currently told a provider cannot help, then shown eight providers.',
-          see: [['Template', 'templates/tool-buy-greenpower.html']],
-          ac: ['Answer recorded on this ticket', 'L4 updated if the answer is "replace"'],
-          notes: 'Built as ACCOMPANY (above the results) — the wireframe’s own reading.',
-          depends: 'Blocks L4'
+          ref: 'D1', summary: 'ANSWERED: contact prompts sit alongside the results',
+          why: 'Whether an event partner and a large energy user should be shown instead of the retail list, or as well as it.',
+          see: [['Template', 'templates/tool-buy-greenpower.html'], ['DS', 'index.html#contact-prompt']],
+          ac: [
+            'ANSWER: they SIT ALONGSIDE. They do not replace the list',
+            'No change needed — L4 is already built this way and is unblocked'
+          ],
+          notes: 'The two cases are an event seeking a GreenPower PARTNERSHIP and a large energy user. Both are a different conversation from the retail plans below rather than a correction to them, which is why showing both is right: the reader is offered a second door, not told the list is wrong for them.',
+          depends: ''
         },
         {
           ref: 'D2', summary: 'DECISION: MWh threshold for the large energy business prompt',
