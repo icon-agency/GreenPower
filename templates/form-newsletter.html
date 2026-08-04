@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Name of the consultation &mdash; GreenPower Renewable Energy</title>
+  <title>Join our newsletter &mdash; GreenPower Renewable Energy</title>
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
   <link rel="preconnect" href="https://use.typekit.net" crossorigin>
   <link rel="stylesheet" href="https://use.typekit.net/nxc8sxb.css">
@@ -382,42 +382,21 @@
   </header>
 
   <main id="main-content">
-    <!-- News article. In Drupal this is the news node's full view mode: the
-         header band carries the title + field_summary, the sticky rail is a
-         node--news--meta view mode of the SAME node (see _article-meta.scss),
-         the body is one CKEditor field flowing through the split pattern's
-         scrolling column, and "Next up" is a 3-item view of the latest news
-         excluding the current node. -->
-    <!-- Mirrored header variant: the article's field_image anchors LEFT and
-         the breadcrumb/title/summary sit beside it (page-header--media-left).
-         alt="" here — the rail below repeats this image WITH its description,
-         so the hero copy is decorative scene-setting, not the content. -->
-    <header class="page-header page-header--media-left">
+    <!-- The master header, image variant. The wireframe's band carries another
+         page's copy ("How GreenPower works") — real page copy used instead. -->
+    <header class="page-header">
       <div class="page-header__inner" data-animate-stagger>
         <nav aria-label="Breadcrumb" data-animate>
           <ol class="page-header__crumbs">
             <li class="page-header__crumb"><a href="../index.html">Home</a></li>
-            <li class="page-header__crumb"><a href="#">Industry accreditation</a></li>
-            <li class="page-header__crumb"><a href="#">Program Rules and legislation</a></li>
-            <li class="page-header__crumb"><a href="consultation-landing.html">Consultations</a></li>
-            <li class="page-header__crumb" aria-current="page">Name of the consultation</li>
+            <li class="page-header__crumb"><a href="#">News and events</a></li>
+            <li class="page-header__crumb" aria-current="page">Join our newsletter</li>
           </ol>
         </nav>
-        <h1 class="page-header__title" data-animate>Name of the consultation</h1>
-        <p class="page-header__intro" data-animate>We&rsquo;re excited to share that GreenPower is developing two new certification schemes to accelerate the transition to cleaner fuels in Australia.</p>
-        <!-- Type + dates, stated here AND in the sticky rail below. This copy
-             is the accessible one — it comes first in DOM order and carries
-             the labels; the rail's repeat is aria-hidden. -->
-        <div class="article-meta article-meta--on-dark" data-animate>
-          <span class="article-meta__tag">Open</span>
-          <ul class="article-meta__dates">
-            <li class="article-meta__date">
-              <span><span class="visually-hidden">Published </span><time datetime="2025-08-12">12 Aug 2025</time></span>
-            </li>
-          </ul>
-        </div>
+        <h1 class="page-header__title" data-animate>Join our newsletter</h1>
+        <p class="page-header__intro" data-animate>Get the latest GreenPower news, updates and events delivered to your inbox.</p>
         <div class="page-header__media" data-animate>
-          <img src="../assets/images/industry-people-shake-hands.png" alt="" width="900" height="600">
+          <img src="../assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy">
           <span class="page-header__angle" aria-hidden="true">
             <svg class="page-header__angle-curve page-header__angle-curve--top" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L299.02 0Z" fill="currentColor"/></svg>
             <svg class="page-header__angle-curve page-header__angle-curve--side" viewBox="0 0 210.3 299.02" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 299.02C0.001 209.1 13.03 197.18 60.79 149.51L210.3 0L0 0Z" fill="currentColor"/></svg>
@@ -426,304 +405,133 @@
       </div>
     </header>
 
-    <!-- --article variants: the frame matches the header band's, so the rail
-         sits under the band's image column and the body under its copy (see
-         _page.scss / _page-split.scss). No rail thumbnail — the header hero
-         already carries the article image. -->
-    <section class="page-body page-body--article">
-      <!-- The split pattern: the article-meta rail sticks while the body
-           scrolls. Same .page-split the section layout uses — the rail simply
-           holds a meta card instead of a heading + lede. -->
-      <div class="page-split page-split--article">
+    <section class="page-body">
+      <!-- The split pattern: contact details in the sticky rail, the form in
+           the scrolling column. -->
+      <div class="page-split">
         <div class="page-split__intro" data-animate>
-          <!-- --reveal: stays hidden while the header band is on screen (it
-               states all of this already) and fades in once the band scrolls
-               away. Visible by default; only the script's .js-reveal enables
-               the hidden state. -->
-          <div class="article-meta article-meta--reveal" data-reveal-after=".page-header">
-            <!-- The REPEAT of the header band — and so the part that waits.
-                 Wrapped so the reveal has one box to open: the Copy link below
-                 is its sibling, not its child, which is what keeps the action
-                 on screen from load while only this group animates in.
-                 aria-hidden: the band above states all of it, first and
-                 labelled. This is the visible sticky repeat only. -->
-            <div class="article-meta__summary">
-              <span class="article-meta__tag" aria-hidden="true">Open</span>
-              <p class="article-meta__title">Name of the consultation</p>
-              <ul class="article-meta__dates" aria-hidden="true">
-                <li class="article-meta__date">
-                  <span><time datetime="2025-08-12">12 Aug 2025</time></span>
-                </li>
-              </ul>
+          <h2 class="page-split__heading">Stay in the know</h2>
+          <p class="page-split__lede">News, programme updates and event invitations, a few times a year. We do not share your details.</p>
+          <div class="contact-info">
+            <div class="contact-info__item">
+              <span class="contact-info__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+              </span>
+              <div>
+                <p class="contact-info__label">Questions about the newsletter</p>
+                <p class="contact-info__value"><a href="mailto:greenpower.admin@planning.nsw.gov.au">greenpower.admin@planning.nsw.gov.au</a></p>
+              </div>
             </div>
-            <button class="btn btn--outline" type="button" data-copy-link>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-              <span data-copy-label>Shareable link</span>
-            </button>
-            <p class="visually-hidden" aria-live="polite" data-copy-status></p>
           </div>
         </div>
         <div class="page-split__body">
-          <!-- The wireframe's article is a repeating unit — content heading,
-               prose, a download for the consultation, an "Updates include"
-               follow-up — drawn twice. Kept as drawn: the repetition IS the
-               template (in Drupal: a consultation_section paragraph, repeated),
-               with the download standing between prose blocks as its own
-               component. All copy is the wireframe's lorem. -->
-          <div class="page-content__section" data-animate>
-            <h2>Content for the consultation</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem, hendrerit aliquet magna. Maecenas at rutrum tellus. Nullam tincidunt interdum ante, rutrum dapibus massa tempor vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem, hendrerit aliquet magna. Maecenas at rutrum tellus. Nullam tincidunt interdum ante, rutrum dapibus massa tempor vel.</p>
-          </div>
+          <!-- GovCMS: a webform, like the contact and logo-request forms — the
+               same .form classes, mapped in the webform UI or a form_alter.
+               Static demo: no action, and the field set is transcribed from
+               the live form at greenpower.gov.au/newsletter. Confirm the
+               subscription types and whether the country list is really
+               needed before build; every one of them is a field an author
+               has to maintain. -->
+          <form class="form" data-animate action="#" method="post">
+            <h2 class="form__title">Join our newsletter</h2>
+            <p class="form__intro">An asterisk (*) indicates a required field.</p>
 
-          <article class="download" data-animate>
-            <div class="download__body">
-              <h3 class="download__title">Download for the consultation</h3>
-              <p class="download__summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem, hendrerit aliquet magna. Maecenas at rutrum tellus. Nullam tincidunt interdum ante, rutrum dapibus massa tempor vel.</p>
-              <a class="download__link" href="#">
-                <svg class="download__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5v8.5M4.5 6.5 8 10l3.5-3.5M2.5 14h11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <span>Download<span class="visually-hidden"> for the consultation</span></span>
-                <span class="download__meta">1.42&nbsp;MB &middot; PDF</span>
-              </a>
+            <div class="form__field">
+              <label class="form__label" for="nl-email">Email address *</label>
+              <input class="form__input" id="nl-email" name="email" type="email" autocomplete="email" required>
             </div>
-            <img class="download__cover" src="../assets/images/cover-pdf.png" alt="" width="600" height="845" loading="lazy">
-          </article>
 
-          <div class="page-content__section" data-animate>
-            <h3>Updates include</h3>
-            <p>Content below. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem, hendrerit aliquet magna. Maecenas at rutrum tellus. Nullam tincidunt interdum ante, rutrum dapibus massa tempor vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem, hendrerit aliquet magna. Maecenas at rutrum tellus. Nullam tincidunt interdum ante, rutrum dapibus massa tempor vel.</p>
-          </div>
-
-          <div class="page-content__section" data-animate>
-            <h2>Content for the consultation</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem, hendrerit aliquet magna. Maecenas at rutrum tellus. Nullam tincidunt interdum ante, rutrum dapibus massa tempor vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem, hendrerit aliquet magna. Maecenas at rutrum tellus. Nullam tincidunt interdum ante, rutrum dapibus massa tempor vel.</p>
-          </div>
-
-          <article class="download" data-animate>
-            <div class="download__body">
-              <h3 class="download__title">Download for the consultation</h3>
-              <p class="download__summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem, hendrerit aliquet magna. Maecenas at rutrum tellus. Nullam tincidunt interdum ante, rutrum dapibus massa tempor vel.</p>
-              <a class="download__link" href="#">
-                <svg class="download__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5v8.5M4.5 6.5 8 10l3.5-3.5M2.5 14h11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <span>Download<span class="visually-hidden"> for the consultation</span></span>
-                <span class="download__meta">1.42&nbsp;MB &middot; PDF</span>
-              </a>
+            <div class="form__field">
+              <label class="form__label" for="nl-first">First name *</label>
+              <input class="form__input" id="nl-first" name="first_name" type="text" autocomplete="given-name" required>
             </div>
-            <img class="download__cover" src="../assets/images/cover-pdf.png" alt="" width="600" height="845" loading="lazy">
-          </article>
 
-          <div class="page-content__section" data-animate>
-            <h3>Updates include</h3>
-            <p>Content below. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem, hendrerit aliquet magna. Maecenas at rutrum tellus. Nullam tincidunt interdum ante, rutrum dapibus massa tempor vel. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem, hendrerit aliquet magna. Maecenas at rutrum tellus. Nullam tincidunt interdum ante, rutrum dapibus massa tempor vel.</p>
-          </div>
+            <div class="form__field">
+              <label class="form__label" for="nl-last">Last name *</label>
+              <input class="form__input" id="nl-last" name="last_name" type="text" autocomplete="family-name" required>
+            </div>
+
+            <div class="form__field">
+              <label class="form__label" for="nl-phone">Phone number</label>
+              <input class="form__input" id="nl-phone" name="phone" type="tel" autocomplete="tel">
+            </div>
+
+            <div class="form__field">
+              <label class="form__label" for="nl-org">Company or organisation</label>
+              <input class="form__input" id="nl-org" name="organisation" type="text" autocomplete="organization">
+            </div>
+
+            <fieldset class="form__group">
+              <legend class="form__legend">Subscription type *</legend>
+              <div class="form__choices">
+                <label class="form__choice"><input type="radio" name="subscription_type" value="household" required> Household</label>
+                <label class="form__choice"><input type="radio" name="subscription_type" value="business"> Business</label>
+                <label class="form__choice"><input type="radio" name="subscription_type" value="retailer"> Retailer / Provider</label>
+                <label class="form__choice"><input type="radio" name="subscription_type" value="generator"> Generator</label>
+                <label class="form__choice"><input type="radio" name="subscription_type" value="events"> Events</label>
+                <label class="form__choice"><input type="radio" name="subscription_type" value="other"> Other</label>
+              </div>
+            </fieldset>
+
+            <div class="form__field">
+              <label class="form__label" for="nl-state">State *</label>
+              <div class="form__select-wrap">
+                <select class="form__select" id="nl-state" name="state" required>
+                  <option value="" selected>Select</option>
+                  <option>ACT</option>
+                  <option>NSW</option>
+                  <option>NT</option>
+                  <option>QLD</option>
+                  <option>SA</option>
+                  <option>TAS</option>
+                  <option>VIC</option>
+                  <option>WA</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form__field">
+              <label class="form__label" for="nl-postcode">Postcode</label>
+              <input class="form__input" id="nl-postcode" name="postcode" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="4">
+            </div>
+
+            <!-- WIREFRAME FILLER: the live form carries a full country list.
+                 Four entries stand in for it here — a 200-option select is
+                 the real element's job, not something to transcribe by hand.
+                 Worth asking whether an Australian programme needs it at
+                 all (see the JIRA ticket). -->
+            <div class="form__field">
+              <label class="form__label" for="nl-country">Country</label>
+              <div class="form__select-wrap">
+                <select class="form__select" id="nl-country" name="country">
+                  <option value="au" selected>Australia</option>
+                  <option>New Zealand</option>
+                  <option>United Kingdom</option>
+                  <option>United States</option>
+                </select>
+              </div>
+            </div>
+
+            <fieldset class="form__group">
+              <legend class="form__legend">Are you a current GreenPower customer?</legend>
+              <div class="form__choices">
+                <label class="form__choice"><input type="radio" name="current_customer" value="yes"> Yes</label>
+                <label class="form__choice"><input type="radio" name="current_customer" value="no"> No</label>
+              </div>
+            </fieldset>
+
+            <div class="form__captcha" role="img" aria-label="reCAPTCHA placeholder">
+              <span class="form__captcha-box"></span>
+              <span>I&rsquo;m not a robot<br><small>reCAPTCHA &mdash; placeholder</small></span>
+            </div>
+
+            <div class="form__actions">
+              <button class="btn btn--primary" type="submit">Subscribe</button>
+            </div>
+          </form>
         </div>
       </div>
     </section>
-
-    <!-- Next up — a 3-item view of the latest news, excluding this node -->
-    <!-- Below md the row swipes instead of stacking: three columns will not fit,
-         and a card-by-card scroller keeps each teaser readable with the next
-         peeking past the edge. Inert from md, where the grid is the ordinary
-         count-adaptive one. -->
-    <section class="card-section card-section--scroll card-section--tight-top" aria-labelledby="more-consultations-title">
-      <div class="card-section__head">
-        <h2 class="card-section__heading" id="more-consultations-title">More</h2>
-        <div class="card-section__actions">
-          <!-- Arrows are hidden until the script confirms the row overflows —
-               a control that scrolls nothing is worse than no control. They
-               are a convenience on top of touch swipe, the keyboard scroll
-               region, and the cards' own tab order; never the only way in. -->
-          <button class="card-section__arrow" type="button" data-scroll-prev hidden>
-            <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M13 5H2M6 1 2 5l4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span class="visually-hidden">Previous consultations</span>
-          </button>
-          <button class="card-section__arrow" type="button" data-scroll-next hidden>
-            <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span class="visually-hidden">More consultations</span>
-          </button>
-          <a class="btn btn--tint" href="consultation-landing.html">All<span class="visually-hidden"> consultations</span>
-            <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-      </div>
-      <div class="card-section__grid" data-animate-stagger>
-
-        <article class="card card--news" data-animate>
-          <div class="card__media">
-            <img src="../assets/images/industry-people-shake-hands.png" alt="A panel discussion in front of a seated audience" width="900" height="600" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Open</span>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="consultation-article.html">Name of the consultation<span class="visually-hidden"> &mdash; Open</span></a></h3>
-            <p class="card__body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem,.</p>
-            <p class="card__meta"><span>Updated: <time datetime="2025-03-20">20 Mar 2025</time></span>
-              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-          </div>
-        </article>
-
-        <article class="card card--news" data-animate>
-          <div class="card__media">
-            <img src="../assets/images/industry-people-shake-hands.png" alt="A panel discussion in front of a seated audience" width="900" height="600" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Open</span>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="consultation-article.html">Name of the consultation<span class="visually-hidden"> &mdash; Open</span></a></h3>
-            <p class="card__body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem,.</p>
-            <p class="card__meta"><span>Updated: <time datetime="2025-03-20">20 Mar 2025</time></span>
-              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-          </div>
-        </article>
-
-        <article class="card card--news" data-animate>
-          <div class="card__media">
-            <img src="../assets/images/industry-people-shake-hands.png" alt="A panel discussion in front of a seated audience" width="900" height="600" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Open</span>
-          </div>
-          <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="consultation-article.html">Name of the consultation<span class="visually-hidden"> &mdash; Open</span></a></h3>
-            <p class="card__body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem,.</p>
-            <p class="card__meta"><span>Updated: <time datetime="2025-03-20">20 Mar 2025</time></span>
-              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- Scroller arrows. Revealed only while the row actually overflows, and
-         each is disabled at its end — so the pair never lies about what it can
-         do. Everything they offer is already available without them (swipe,
-         the focusable scroll region, the cards' own links), which is why they
-         can be JS-only. Drupal: one once()-guarded behavior. -->
-    <script>
-      (function () {
-        var section = document.querySelector('.card-section--scroll');
-        if (!section) return;
-        var row = section.querySelector('.card-section__grid');
-        var prev = section.querySelector('[data-scroll-prev]');
-        var next = section.querySelector('[data-scroll-next]');
-        if (!row || !prev || !next) return;
-
-        function scrollable() {
-          // Same test the shared scroll-region script uses: a clipped box
-          // (overflow-x other than auto/scroll) reports a wide scrollWidth but
-          // cannot be moved. +1 absorbs sub-pixel rounding on fluid columns.
-          var ox = getComputedStyle(row).overflowX;
-          return (ox === 'auto' || ox === 'scroll') && row.scrollWidth > row.clientWidth + 1;
-        }
-
-        function step() {
-          // One card plus the gap, read from the DOM rather than assumed, so
-          // the card-width formula can change without this going stale.
-          var card = row.querySelector('.card');
-          if (!card) return row.clientWidth;
-          return card.getBoundingClientRect().width + parseFloat(getComputedStyle(row).columnGap || 0);
-        }
-
-        function sync() {
-          var on = scrollable();
-          prev.hidden = !on;
-          next.hidden = !on;
-          if (!on) return;
-          var max = row.scrollWidth - row.clientWidth;
-          // 1px tolerance: fractional widths mean scrollLeft rarely lands on
-          // exactly 0 or exactly max.
-          prev.disabled = row.scrollLeft <= 1;
-          next.disabled = row.scrollLeft >= max - 1;
-        }
-
-        prev.addEventListener('click', function () { row.scrollBy({ left: -step(), behavior: 'smooth' }); });
-        next.addEventListener('click', function () { row.scrollBy({ left: step(), behavior: 'smooth' }); });
-        row.addEventListener('scroll', sync, { passive: true });
-        window.addEventListener('resize', sync);
-        if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
-        sync();
-      })();
-    </script>
-
-    <!-- Reveal-after: hold an element hidden until the element it names has
-         scrolled fully out of view. Used by the sticky article rail, which
-         repeats what the header band states — so it waits for the band to
-         leave before taking over.
-
-         Progressive enhancement: .js-reveal (which turns the hidden state ON
-         in CSS) is added only here, once the observer exists. No JS, no
-         IntersectionObserver, or a script error before this point, and the
-         element stays plainly visible rather than stranded at opacity 0.
-         Drupal: one once()-guarded behavior. -->
-    <script>
-      (function () {
-        var targets = [].slice.call(document.querySelectorAll('[data-reveal-after]'));
-        if (!targets.length || !('IntersectionObserver' in window)) return;
-
-        var wired = targets.filter(function (el) {
-          return document.querySelector(el.getAttribute('data-reveal-after'));
-        });
-        if (!wired.length) return;
-
-        document.documentElement.classList.add('js-reveal');
-
-        wired.forEach(function (el) {
-          var watched = document.querySelector(el.getAttribute('data-reveal-after'));
-          // threshold 0: revealed once the watched element is FULLY out of
-          // view, not as it starts to leave.
-          new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-              el.classList.toggle('is-revealed', !entry.isIntersecting);
-            });
-          }, { threshold: 0 }).observe(watched);
-        });
-      })();
-    </script>
-
-    <!-- REFERENCE CHROME — copy-link enhancement. In Drupal this is a small
-         once()-guarded behavior over the node's canonical URL. -->
-    <script>
-      (function () {
-        var btn = document.querySelector('[data-copy-link]');
-        var status = document.querySelector('[data-copy-status]');
-        if (!btn) return;
-        var label = btn.querySelector('[data-copy-label]');
-
-        function say(text, announce) {
-          if (label) label.textContent = text;
-          if (status) status.textContent = announce;
-          setTimeout(function () {
-            if (label) label.textContent = 'Shareable link';
-            if (status) status.textContent = '';
-          }, 2000);
-        }
-
-        // execCommand fallback for contexts where the async Clipboard API is
-        // permission-denied (embedded webviews). Deprecated but harmless: it
-        // is only ever reached after the modern path has already refused.
-        function legacyCopy() {
-          var field = document.createElement('input');
-          field.value = location.href;
-          field.setAttribute('readonly', '');
-          field.style.position = 'absolute';
-          field.style.left = '-9999px';
-          document.body.appendChild(field);
-          field.select();
-          var ok = false;
-          try { ok = document.execCommand('copy'); } catch (e) { /* fall through */ }
-          field.remove();
-          return ok;
-        }
-
-        btn.addEventListener('click', function () {
-          var modern = navigator.clipboard
-            ? navigator.clipboard.writeText(location.href)
-            : Promise.reject();
-          modern.then(
-            function () { say('Link copied', 'Link copied to clipboard'); },
-            function () {
-              // NEVER fail silently: a copy button that does nothing reads as
-              // broken. Fall back, and if that refuses too, say so.
-              if (legacyCopy()) say('Link copied', 'Link copied to clipboard');
-              else say('Copy blocked', 'Copying was blocked — copy the address bar URL instead');
-            }
-          );
-        });
-      })();
-    </script>
   </main>
 
   <footer class="site-footer">
@@ -803,6 +611,7 @@
       </div>
     </div>
   </footer>
+
 
   <script>
     // Main navigation: hamburger, dropdown disclosure, morphing backdrop
@@ -1128,6 +937,7 @@
     })();
   </script>
 
+
   <!-- Image parallax — the shared drift (see templates/home.html): each photo
        frame's images ease a few px against the scroll. Selector lists every
        parallax frame so future sections on this template opt in for free.
@@ -1190,94 +1000,6 @@
     })();
   </script>
 
-  <!-- Feature banner: hovering/focusing a link crossfades the media to that
-       link's image and swaps the location pin. Same script as home.html and the
-       design system — Drupal: one once()-guarded behavior shared across pages. -->
-  <script>
-    (function () {
-      var banners = [].slice.call(document.querySelectorAll('[data-feature-banner]'));
-      banners.forEach(function (banner) {
-        var links = [].slice.call(banner.querySelectorAll('[data-feature-image]'));
-        var images = [].slice.call(banner.querySelectorAll('[data-feature-key]'));
-        var locationText = banner.querySelector('[data-feature-location-text]');
-        var locationEl = banner.querySelector('.feature-banner__location');
-        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-        if (!links.length || !images.length) return;
-
-        var current = null;
-        images.forEach(function (img) {
-          if (img.classList.contains('is-active')) current = img.getAttribute('data-feature-key');
-        });
-
-        // Swap the location label and animate the badge from its current width
-        // to the new one. Auto widths can't transition, so measure both ends and
-        // hand CSS two explicit px values; reset to auto once it settles so the
-        // badge stays responsive. Reduced motion just swaps the text.
-        function setLocation(text) {
-          if (!locationText) return;
-          if (!locationEl || reduceMotion.matches) { locationText.textContent = text; return; }
-          var startW = locationEl.getBoundingClientRect().width;
-          locationEl.style.width = 'auto';
-          locationText.textContent = text;
-          var endW = locationEl.getBoundingClientRect().width;
-          locationEl.style.width = startW + 'px';
-          locationEl.getBoundingClientRect(); // force reflow so the next set animates
-          locationEl.style.width = endW + 'px';
-          var done = function (e) {
-            if (e.propertyName !== 'width') return;
-            locationEl.style.width = '';
-            locationEl.removeEventListener('transitionend', done);
-          };
-          locationEl.addEventListener('transitionend', done);
-        }
-
-        function activate(key) {
-          if (key === current) return;
-          var found = false, loc = '';
-          images.forEach(function (img) {
-            var match = img.getAttribute('data-feature-key') === key;
-            if (match) { found = true; loc = img.getAttribute('data-feature-location') || ''; }
-            img.classList.toggle('is-active', match);
-          });
-          if (found) { current = key; setLocation(loc); }
-        }
-
-        // Auto-cycle on the hero's cadence; hover/focus takes over and pauses,
-        // leaving the links resumes. Reduced motion opts out entirely.
-        var keys = images.map(function (img) { return img.getAttribute('data-feature-key'); });
-        var HOLD_MS = 5250;
-        var FADE_MS = 500;
-        var autoTimer = null;
-
-        function stopAuto() { clearTimeout(autoTimer); autoTimer = null; }
-        function scheduleAuto() {
-          stopAuto();
-          if (reduceMotion.matches || keys.length < 2) return;
-          autoTimer = setTimeout(function () {
-            activate(keys[(keys.indexOf(current) + 1) % keys.length]);
-            scheduleAuto();
-          }, HOLD_MS + FADE_MS);
-        }
-
-        links.forEach(function (link) {
-          var key = link.getAttribute('data-feature-image');
-          link.addEventListener('mouseenter', function () { activate(key); });
-          link.addEventListener('focus', function () { activate(key); });
-        });
-
-        var linksList = banner.querySelector('.feature-banner__links');
-        if (linksList) {
-          linksList.addEventListener('mouseenter', stopAuto);
-          linksList.addEventListener('mouseleave', scheduleAuto);
-        }
-        banner.addEventListener('focusin', stopAuto);
-        banner.addEventListener('focusout', scheduleAuto);
-
-        scheduleAuto();
-      });
-    })();
-  </script>
-
   <!-- Scroll-entrance animations: the shared [data-animate] system (see
        docs/animation.md rule 1 and scss/utilities/_scroll-animations.scss).
        ONE IntersectionObserver for the whole page. Progressive enhancement —
@@ -1331,147 +1053,6 @@
       // state. If anything above threw, this never runs and the page stays
       // fully visible.
       document.documentElement.classList.add('js-animations');
-    })();
-  </script>
-
-  <!-- Client logo marquee. A PROGRESSIVE ENHANCEMENT: the band is a plain
-       horizontal scroller in the markup, and this only mounts the continuous
-       scroll when JS runs and motion is welcome. Without either it stays
-       manually scrollable, so nothing is ever unreachable.
-       Seamless loop: clone the list, hide the copy from assistive tech (it is
-       the same twenty logos — nobody should hear them twice), and translate the
-       track exactly -50%, which lands the copy where the original started.
-       Speed is constant rather than duration being fixed: the duration is
-       derived from the measured list width, so adding logos in Drupal makes the
-       band longer, not faster.
-       Drupal: a once()-guarded behavior. -->
-  <script>
-    (function () {
-      var scroller = document.querySelector('.client-logos__scroller');
-      if (!scroller) return;
-      var track = scroller.querySelector('.client-logos__track');
-      var list = track && track.querySelector('.client-logos__list');
-      if (!track || !list) return;
-
-      var SPEED = 40; // px per second — the band's travel, not its cycle time
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-      // WCAG 2.2.2: the control that stops the motion. Hidden until the marquee
-      // actually mounts — with no JS or under reduced motion nothing moves, and
-      // a button that paused nothing would be worse than no button at all.
-      var playback = document.querySelector('[data-logos-playback]');
-      var pauseIcon = playback && playback.querySelector('[data-logos-pause]');
-      var playIcon = playback && playback.querySelector('[data-logos-play]');
-      var label = playback && playback.querySelector('[data-logos-label]');
-
-      function setPaused(paused) {
-        scroller.classList.toggle('is-paused', paused);
-        if (!playback) return;
-        // toggleAttribute, not .hidden — SVG elements lack the hidden IDL
-        // property (the hero's playback control carries the same note).
-        pauseIcon.toggleAttribute('hidden', paused);
-        playIcon.toggleAttribute('hidden', !paused);
-        label.textContent = paused ? 'Play' : 'Pause';
-      }
-
-      function setDuration() {
-        var w = list.getBoundingClientRect().width;
-        if (w > 0) scroller.style.setProperty('--marquee-duration', (w / SPEED).toFixed(2) + 's');
-      }
-
-      function mount() {
-        if (reduce.matches || scroller.classList.contains('is-marquee')) return;
-        var copy = list.cloneNode(true);
-        copy.setAttribute('aria-hidden', 'true');
-        // Nothing inside is focusable, but be explicit: a cloned tab stop would
-        // be a duplicate the user cannot see the point of.
-        copy.querySelectorAll('[tabindex]').forEach(function (el) { el.setAttribute('tabindex', '-1'); });
-        track.appendChild(copy);
-        scroller.classList.add('is-marquee');
-        setDuration();
-        if (playback) {
-          playback.hidden = false;
-          setPaused(false);
-        }
-      }
-
-      function unmount() {
-        if (!scroller.classList.contains('is-marquee')) return;
-        var copy = track.querySelector('.client-logos__list[aria-hidden="true"]');
-        if (copy) copy.remove();
-        scroller.classList.remove('is-marquee');
-        scroller.classList.remove('is-paused');
-        scroller.style.removeProperty('--marquee-duration');
-        if (playback) playback.hidden = true;
-      }
-
-      if (playback) {
-        playback.addEventListener('click', function () {
-          setPaused(!scroller.classList.contains('is-paused'));
-        });
-      }
-
-      function apply() { reduce.matches ? unmount() : mount(); }
-
-      apply();
-      // Images settle after load and the gap is fluid, so re-measure rather than
-      // trusting the first reading.
-      window.addEventListener('load', setDuration);
-      window.addEventListener('resize', setDuration);
-      if (reduce.addEventListener) reduce.addEventListener('change', apply);
-    })();
-  </script>
-
-  <!-- Scroll regions: a table scrolls inside its figure.table wrapper, a code
-       block inside its own pre (CSS, pages/_content.scss), and the client logo
-       band inside its scroller. A scroll box that holds nothing focusable
-       cannot be scrolled from the keyboard (WCAG 2.1.1), so promote ONLY the
-       boxes that actually overflow to a focusable, labelled region — one that
-       fits adds no tab stop and no landmark. Re-checked on resize and once
-       webfonts settle, because the column and the type scale are both fluid.
-       Drupal: one once()-guarded behavior, labels through t(). -->
-  <script>
-    (function () {
-      var wrappers = [].slice.call(document.querySelectorAll(
-        '.page-content__section figure.table, .page-content__section pre, .client-logos__scroller, .card-section--scroll .card-section__grid'
-      ));
-      if (!wrappers.length) return;
-
-      function labelFor(el) {
-        if (el.matches('pre')) return 'Scrollable code block';
-        if (el.matches('.client-logos__scroller')) return 'Client logos, scrollable';
-        if (el.matches('.card-section__grid')) return 'More consultations, scrollable';
-        return 'Scrollable table';
-      }
-
-      function sync() {
-        wrappers.forEach(function (el) {
-          // Only a box the user can actually scroll earns a tab stop. A clipped
-          // box (overflow: hidden — e.g. the logo band once its marquee mounts)
-          // still reports scrollWidth > clientWidth, but no key press will move
-          // it, so promoting it would add a tab stop that does nothing.
-          var ox = getComputedStyle(el).overflowX;
-          var scrollable = (ox === 'auto' || ox === 'scroll');
-          // +1 absorbs sub-pixel rounding: a fluid column routinely resolves to
-          // a fractional width, where scrollWidth reads a pixel over
-          // clientWidth with nothing actually clipped.
-          if (scrollable && el.scrollWidth > el.clientWidth + 1) {
-            el.setAttribute('tabindex', '0');
-            el.setAttribute('role', 'region');
-            el.setAttribute('aria-label', labelFor(el));
-          } else if (el !== document.activeElement) {
-            // Never strip the attributes off the element currently holding
-            // focus — that would drop the user's focus to <body> mid-resize.
-            el.removeAttribute('tabindex');
-            el.removeAttribute('role');
-            el.removeAttribute('aria-label');
-          }
-        });
-      }
-
-      sync();
-      window.addEventListener('resize', sync);
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
     })();
   </script>
 </body>

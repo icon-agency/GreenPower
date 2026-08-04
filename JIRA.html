@@ -621,6 +621,20 @@
           depends: 'F2'
         },
         {
+          ref: 'W3', summary: 'Newsletter signup webform',
+          why: 'The footer Subscribe button on every page needs somewhere to go.',
+          see: [['Template', 'templates/form-newsletter.html']],
+          ac: [
+            'Built as a webform reusing the contact form’s styles',
+            'Footer Subscribe links to this page &mdash; it is a ROUTE, not an overlay (see notes)',
+            'Fields: email, first name, last name, subscription type and state required; phone, organisation, postcode, country and current-customer optional',
+            'Submissions reach whatever list actually sends the newsletter (see D10)',
+            'Success and error states are on the page, not a toast'
+          ],
+          notes: 'A PAGE, not a modal — deliberately. Ten fields with two selects and two radio groups is past the size a dialog carries well: validation errors need somewhere to live that does not fight the dialog’s focus trap, and the success state has nowhere good to go inside an overlay. A route is also linkable from a campaign email or a social post, which an overlay never is. Field set transcribed from greenpower.gov.au/newsletter; confirm the subscription types, and ask whether the country list earns its place on an Australian programme.',
+          depends: 'W1'
+        },
+        {
           ref: 'W2', summary: 'Logo request webform',
           why: 'Same form styles plus the downloads component.',
           see: [['Template', 'templates/form-logo-request.html']],
