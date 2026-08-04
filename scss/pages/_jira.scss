@@ -240,7 +240,11 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-s);
-  align-items: flex-end;
+  // TOP-aligned. Bottom alignment staggered the three labels, because the
+  // columns are different heights — one holds a button where the others hold
+  // an input, and the hints below run to different line counts. The labels
+  // are the row the eye reads across, so they are the row that has to line up.
+  align-items: flex-start;
   padding: var(--space-s) 0;
   margin-top: var(--space-l);
   background-color: $color-ui-background;
