@@ -24,6 +24,7 @@ This is a front-end build intended for later Drupal/GovCMS integration.
 - `/docs/content-rhythm.md`
 - `/docs/animation.md`
 - `/docs/definition-of-done.md`
+- `/docs/handover.md`
 - `/LESSONS.md`
 
 ## Planning rule
@@ -49,7 +50,7 @@ Keep plans brief: 3–6 bullets maximum.
 
 ## Foundations setup (when you receive a calculator-generated prompt)
 
-The tool at `clamp-calculator/clamp-calculator.html` generates a `# Foundations setup` prompt for Claude Code to act on.
+The clamp calculator tool (kept OUTSIDE this repo — see `docs/clamp.md` for its spec) generates a `# Foundations setup` prompt for Claude Code to act on.
 
 When you receive a prompt with that heading:
 - **Trust all token values.** They were back-solved from real Figma measurements or derived from modular-scale math. Do not invent alternatives or recalculate.

@@ -28,7 +28,15 @@ A page or component is done when:
 - Preprocess requirements are noted.
 
 ## Verification
-Run `npm run verify` before marking work done. This should run stylelint, HTML validation, pa11y, and generate breakpoint screenshots.
+Run `npm run verify` before marking work done. It checks: the committed
+`css/main.css` matches a fresh Sass build, no raw colour outside
+`tokens/_colors.scss`, no raw width `@media` outside `_breakpoints.scss`, no
+inline styles, and structural tag balance on every page — and warns on the
+known prototype gaps (`href="#"`, missing `srcset`).
+
+Stylelint, pa11y and visual screenshots are NOT in the script — run an
+automated accessibility scan manually per `accessibility-checklist.md`, and
+treat CI-grade linting as part of the Drupal port (docs/handover.md).
 
 ## Review assets
 - Mobile screenshot

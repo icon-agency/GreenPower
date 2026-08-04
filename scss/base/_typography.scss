@@ -15,7 +15,8 @@
 // one knob: the container was 90rem, so it only tracked the viewport for as
 // long as the root kept growing. That forced a choice — calm type meant an
 // early centred layout, a full-width layout meant ~25px body copy. The
-// container is now an absolute 1960px (abstracts/_variables.scss), so past
+// container is now an absolute $container-max-width (abstracts/_variables.scss;
+// 1700px at writing), so past
 // 1656px the layout keeps widening while the type holds still: a wide screen
 // gains MORE WORDS PER LINE instead of BIGGER EVERYTHING, which is both the
 // conventional wide-screen behaviour and the more readable one.

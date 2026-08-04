@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "build": "sass scss/main.scss css/main.css --no-source-map",
-    "watch": "sass --watch scss/main.scss css/main.css"
+    "watch": "sass --watch scss/main.scss css/main.css",
+    "verify": "node scripts/verify.mjs"
   },
   "devDependencies": {
     "sass": "^1.79.0"

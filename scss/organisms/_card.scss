@@ -398,7 +398,7 @@
     @include flex-row(var(--space-s), center, space-between);
     position: relative; // containing block for the divider highlight below
     padding-block: var(--space-2xs);
-    font-size: $font-size-sm;
+    font-size: $font-size-base; // was sm — read undersized against the base-step body above
     font-weight: $font-weight-medium;
     color: $color-brand-dark-green;
     text-decoration: none;
@@ -767,9 +767,23 @@
   // colour on taupe (≥5.8:1, see __body); the kicker reads through its size
   // and weight instead of a hue of its own.
   &__eyebrow {
+    display: flex;
+    gap: var(--space-2xs);
+    align-items: center;
     font-size: $font-size-base;
     font-weight: $font-weight-demibold;
     color: $color-brand-dark-green;
+  }
+
+  // The optional GreenPower leaf beside a product eyebrow (the impact
+  // teasers) — the article-meta__product mark at the same fixed 1.25rem,
+  // currentColor so it rides the eyebrow's dark green. A flex box because the
+  // reset makes svg display: block. The plain "Featured" eyebrow simply has
+  // no mark in its markup.
+  &__eyebrow-mark {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
   }
 
   // The whole-card link, stretched from the title (the bento stat-link

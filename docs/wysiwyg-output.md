@@ -72,6 +72,20 @@ Prefer option 1 for anything non-trivial. CKEditor is not a layout tool.
 
 ---
 
+## Embedded video
+
+The prose wrapper styles `figure.media` — an iframe in a 16:9 `aspect-ratio`
+box with the prose image radius. That is a FLOOR for a pasted provider URL:
+CKEditor 5's default data output is an `<oembed>` placeholder (an iframe only
+with `mediaEmbed.previewsInData`), Drupal core Media proxies its own iframe
+through `/media/oembed?url=…`, and `video_embed_field` wraps in a div — so the
+rule targets the figure's children loosely. For video placed as content,
+prefer the `video-embed` COMPONENT (its own organism, demoed in the design
+system): the editor supplies one pasted watch URL and everything else is
+derived. See `scss/organisms/_video-embed.scss` for the mapping.
+
+---
+
 ## Wide tables
 
 A table's natural width is whatever its content needs, which is routinely wider than the reading measure. Left alone it stretches — or bleeds out of — the column, so it scrolls inside a wrapper instead.
@@ -108,5 +122,6 @@ Two things to know before changing this:
 - [ ] Heading levels start at `h2`
 - [ ] Table headers use `scope`
 - [ ] Tables sit in a `figure.table` wrapper so a wide one scrolls instead of bleeding
+- [ ] Pasted video URLs render inside `figure.media`; content video uses the `video-embed` component
 - [ ] An overflowing table wrapper is keyboard-scrollable (focusable, labelled)
 - [ ] Links are distinguishable without colour alone

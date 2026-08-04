@@ -320,7 +320,7 @@ Brand colours, fonts, corner radius, and shadows are intentionally excluded — 
 
 ## Defaults Used In The Demo Page
 
-The static calculator page at `clamp-calculator/clamp-calculator.html` starts with these defaults:
+The static calculator page (the tool is kept outside this repo; this doc is its spec) starts with these defaults:
 
 ```text
 Type

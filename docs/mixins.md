@@ -1,16 +1,26 @@
 # Mixin Catalog
 
-Reusable SCSS mixins live in `scss/abstracts/_mixins.scss` (layout + utilities), `scss/abstracts/_breakpoints.scss` (media queries), and `scss/abstracts/_animations.scss` (keyframes + animation mixins).
+Reusable SCSS mixins live in `scss/abstracts/_mixins.scss` (layout + utilities),
+`scss/abstracts/_breakpoints.scss` (media queries), `scss/abstracts/_animations.scss`
+(keyframes + animation mixins) and `scss/abstracts/_angle-badge.scss` (the brand
+angle shape).
 
-**Rule:** reach for a mixin before writing raw CSS for anything on this list. Don't write `@media (min-width: 1024px)` by hand. Don't hand-roll a focus ring. Don't re-implement `visually-hidden`.
+**Rule:** reach for a mixin before writing raw CSS for anything on this list.
+Don't write `@media (min-width: 1024px)` by hand. Don't hand-roll a focus ring.
+Don't re-implement `visually-hidden`.
+
+This catalog lists what EXISTS — every entry below is a real mixin in the file
+named. If you add one, add it here in the same pass.
 
 ---
 
-## Breakpoints
+## Media queries — `_breakpoints.scss`
 
 ### `respond-to($name)`
 
-The only way to write a media query. Accepts named breakpoints (`sm`, `md`, `lg`, `xl`).
+The default way to write a media query. Named breakpoints only
+(`sm` 640 · `md` 960 · `lg` 1200 · `nav` 1380 · `xl` 1440). Mobile-first
+min-width. Need a new stop? Add it to the `$breakpoints` map, never a raw px.
 
 ```scss
 .card {
@@ -22,186 +32,126 @@ The only way to write a media query. Accepts named breakpoints (`sm`, `md`, `lg`
 }
 ```
 
-Never write `@media` directly. If you need a breakpoint that doesn't exist, add it to the breakpoints token map, don't hard-code the pixel value.
+### `respond-between($min, $max)`
+
+Bounded band: min up to just below max, for the rare treatment that must apply
+at one band and revert at the next (e.g. the article split's tablet layout).
+Prefer `respond-to()`; reach for this only when a min-width rule would leak
+into a wider breakpoint.
+
+### `short($max)`
+
+The HEIGHT axis: `@media (max-height: …)`. For the one case width can't
+answer — "does this sticky block fit the viewport?" (see `.article-lead__thumb`).
+Takes a length, not a token: there is no shared scale of viewport heights, and
+the value is always measured against the block being seated.
+
+One sanctioned exception to "no raw @media": a query keyed to
+`$container-max-width` (see `_variables.scss` and the client-logos edge fade) —
+`npm run verify` allows exactly that and flags everything else.
 
 ---
 
-## Accessibility
+## Accessibility — `_mixins.scss`
 
-### `focus-ring($color, $offset)`
+### `focus-ring($color: $color-ui-focus, $offset: 2px)`
 
-WCAG 2.4.11-compliant focus ring (3:1 contrast on light and dark backgrounds). Apply to every interactive element's `:focus-visible` state.
+WCAG 2.4.11-compliant focus ring. Apply on `:focus-visible` of every
+interactive element. `$color-brand-mint` variant for dark surfaces.
 
-```scss
-.btn:focus-visible {
-  @include focus-ring;
-}
+### `visually-hidden`
 
-// Custom colour for dark backgrounds
-.btn--on-dark:focus-visible {
-  @include focus-ring($color-brand-mint);
-}
-```
-
-Defaults: `$color-ui-focus`, `2px` offset.
-
-### `visually-hidden` / `sr-only`
-
-Hide an element from sighted users but keep it available to screen readers. Use for skip-link targets, form labels on icon-only controls, etc.
-
-```scss
-.skip-link {
-  @include visually-hidden;
-
-  &:focus {
-    // restore on keyboard focus
-    position: fixed;
-    // ...
-  }
-}
-```
-
-`sr-only` is an alias for `visually-hidden`.
+Screen-reader-only content. The `.visually-hidden` utility class already
+exists — use the class in markup, the mixin only when composing inside a
+selector. **LESSONS.md:** any element hosting a visually-hidden child needs a
+positioned ancestor, or the absolutely-positioned span resolves against the
+root and inflates the document.
 
 ---
 
-## Layout
+## Layout — `_mixins.scss`
 
-### `container`
+### `container($max: $container-max-width)`
 
-Page-width wrapper with responsive padding. Use on top-level section wrappers.
-
-```scss
-.page-content {
-  @include container;
-}
-```
-
-Produces: `max-width`, `margin-inline: auto`, `padding-inline` that scales with breakpoint.
+Page-width wrapper: max-width, centred, `--space-s-l` inline padding. Use on
+top-level section wrappers.
 
 ### `flex-row($gap, $align, $justify)` / `flex-col($gap)`
 
-Shorthand for common flex compositions. Defaults: `$gap: $spacing-md`, `$align: center`, `$justify: flex-start`.
-
-```scss
-.card__meta { @include flex-row($spacing-sm); }
-.card__body { @include flex-col($spacing-md); }
-```
-
-### `auto-grid($min, $gap)`
-
-CSS Grid with `auto-fit` columns. Defaults: `$min: 280px`, `$gap: $spacing-xl`.
-
-```scss
-.card-grid { @include auto-grid(320px, $spacing-lg); }
-```
-
-### `aspect-ratio($width, $height)`
-
-Reserve space at a fixed ratio and clip overflow. Default: `16:9`.
-
-```scss
-.card__image { @include aspect-ratio(4, 3); }
-```
+Flex shorthands. Defaults: `$spacing-md`, `center`, `flex-start`. `flex-row`
+sets `flex-direction: row` explicitly — load-bearing when overriding a
+mobile-first `flex-col` (LESSONS.md).
 
 ---
 
-## Typography
+## Links — `_mixins.scss`
 
-### `truncate`
+### `link-inline`
 
-Single-line truncation with ellipsis.
+THE inline text link: `$color-ui-link` with a resting underline (never colour
+alone — WCAG 1.4.1), hover turns blue while a centre-out bar grows via
+background-gradient and replaces the underline. Shared by prose
+(`.page-content__section a`), the contact rail and form notes — one definition,
+so every in-text link renders identically. Use it for any new body-copy link;
+never restyle from the base `a`.
 
-```scss
-.card__title { @include truncate; }
-```
-
-### `line-clamp($lines)`
-
-Multi-line truncation (webkit). Default: `2` lines.
-
-```scss
-.card__excerpt { @include line-clamp(3); }
-```
-
-### `fluid-type($min, $max, $min-vw, $max-vw)`
-
-Clamp-based responsive typography. Scales smoothly between viewport widths.
-
-```scss
-.hero__heading { @include fluid-type(2rem, 3.5rem); }
-```
-
-Defaults: `$min-vw: 375px`, `$max-vw: 1280px`.
+The background-gradient build (not a positioned `::after`) is deliberate:
+links wrap, and a pseudo strikes one bar across fragments where a background
+paints per line — and it leaves `::after` free for stretched-link covers
+(see `.download__link`).
 
 ---
 
-## Components
+## Components — `_mixins.scss`
 
 ### `button-reset`
 
-Strip all browser defaults from a `<button>`. Use as the first line of any custom button style.
-
-```scss
-.btn-ghost {
-  @include button-reset;
-  // custom styles...
-}
-```
-
-### `surface($bg, $radius)`
-
-Card / panel base — background, border, radius. Defaults: `$color-ui-surface`, `$radius-lg`.
-
-```scss
-.panel { @include surface; }
-.panel--dark { @include surface($color-brand-navy, $radius-md); }
-```
+Strip browser button chrome. First line of any custom button.
 
 ### `transition($props, $duration, $easing)`
 
-Shorthand for a standard transition. Defaults: `all`, `0.2s`, `ease-in-out`.
+Standard transition shorthand (`all`, `0.2s`, `ease-in-out`) so durations stay
+consistent.
 
-```scss
-.btn { @include transition(background-color); }
-```
+### `tag-pill($font-size: $font-size-xs)`
 
-Use over raw `transition:` so durations stay consistent across components.
+The dark-green label pill (`card__tag`, `article-meta__tag`, provider badges).
+White on Dark Green, pill radius; size parameter per placement.
+
+### `empty-state` / `empty-state-title` / `empty-state-text`
+
+The "no results" block a filtered listing shows (news listing, generator
+directory). Three mixins because the pieces sit on different elements.
+
+---
+
+## Animation — `_animations.scss`
+
+`anim-fade-in-up`, `anim-fade-in-down`, `anim-fade-in`, `anim-fade-out` — all
+`($duration, $easing, $delay, $fill)`. Mount/state-class fades (mega-menu
+panels, feature banner). Scroll-entrance is NOT these: that is the one shared
+`data-animate` system — see `docs/animation.md` rule 1.
 
 ---
 
-## Animation
+## Angle badge — `_angle-badge.scss`
 
-See `animation.md` for scroll-entrance and parallax patterns. For mount-driven fades, use these mixins from `scss/abstracts/_animations.scss`:
-
-### `anim-fade-in-up($duration, $easing, $delay, $fill)`
-
-Fade in while rising 10px. Hidden until animation runs.
-
-```scss
-.menu__item {
-  @include anim-fade-in-up($delay: 100ms);
-}
-```
-
-### `anim-fade-in-down($duration, $easing, $delay, $fill)`
-
-Fade in while descending 10px. Used in the mobile-menu stagger.
-
-### `anim-fade-in($duration, $easing, $delay, $fill)`
-
-Plain opacity fade, no translate.
-
-All three defaults: `0.22s` (or `0.2s` for plain fade), `ease`, `0ms`, `forwards`.
+`angle-badge-box` / `angle-badge-shape` / `angle-badge-curve` — the hero shape
+as a corner badge (caption image, feature banner location pin, page-header
+angle). Geometry assumes a ONE-LINE label; see LESSONS.md before touching.
 
 ---
+
+## Local mixins
+
+`card-horizontal` lives inside `_card.scss`, not abstracts — no other
+component composes it. Promote a local mixin only at 3+ uses (the rule below).
 
 ## When to write a new mixin
 
-Add a mixin when:
+- The pattern appears in 3+ components and would otherwise be copy-pasted.
+- It has parameters that vary across usages.
+- It is hard to remember or easy to get wrong (focus ring, visually-hidden).
 
-- A pattern appears in 3+ components and would otherwise be copy-pasted.
-- The pattern has parameters (sizes, colours) that vary across usages.
-- The pattern is hard to remember or easy to get wrong (focus ring, visually-hidden).
-
-Don't add a mixin for a one-off. The SCSS should read like a description of the component, not a series of opaque `@include` calls.
+Don't add one for a one-off — the SCSS should read like a description of the
+component, not a series of opaque `@include` calls.
