@@ -39,12 +39,26 @@
   // WHITE, never on a tint (the client-logos rule), hence the white plate.
   // The demo renders the plate empty with a mono placeholder; Drupal puts the
   // media image inside and the placeholder text never ships.
+  // SQUARE, and the same square on every row — a directory reads down a column
+  // of plates, so a plate that changed shape with its contents would ripple the
+  // whole listing. The marks themselves are mixed (square through 16×3), and
+  // `contain` fits each one INSIDE the square without cropping: wide marks fit
+  // to the width and leave air above and below, tall ones fit to the height.
+  // That air is the cost of one consistent frame, and it is paid for by size —
+  // the plate is 7.5rem rather than the 5.5rem it started at, so a 2:1 mark
+  // still draws wider than it did in the smaller square.
+  //
+  // Size and padding are custom properties so the real mark set can be retuned
+  // in one place once it lands.
   &__logo {
+    --provider-logo-size: 7.5rem;
+    --provider-logo-pad: var(--space-2xs);
+
     display: grid;
     place-items: center;
     flex-shrink: 0;
-    width: 5.5rem;
-    height: 5.5rem;
+    width: var(--provider-logo-size);
+    height: var(--provider-logo-size);
     overflow: hidden;
     font-family: $font-family-mono;
     font-size: $font-size-xs;
@@ -57,7 +71,7 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      padding: var(--space-2xs);
+      padding: var(--provider-logo-pad);
     }
   }
 
@@ -85,6 +99,12 @@
     // The pills sit on the panel, so they take the card's tint to stay
     // legible against it — the inverse of the card's own surface pair.
     --pill-surface: #{$color-tint-taupe};
+
+    // The gap UNDER the badge is this column's gap plus the badge's own
+    // trailing nudge. The row groups below use the same sum, so the space
+    // above the first label and the space above every later one are equal by
+    // construction — not two values that happen to agree today.
+    --offer-row-gap: calc(var(--space-s) + var(--space-3xs));
 
     display: flex;
     flex-direction: column;
@@ -131,13 +151,15 @@
   &__rows {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-s);
+    gap: var(--offer-row-gap);
     align-self: stretch;
     margin: 0;
 
     @include respond-to('sm') {
       grid-template-columns: auto minmax(0, 1fr);
-      gap: var(--space-s) var(--space-l);
+      // Row gap matches the badge's; the column gap is its own horizontal
+      // measure and is unrelated.
+      gap: var(--offer-row-gap) var(--space-l);
     }
   }
 
@@ -152,7 +174,10 @@
     font-size: $font-size-sm;
 
     dt {
-      font-weight: $font-weight-medium;
+      // Regular weight, not medium. The label is the quiet half of the pair —
+      // it asks the question, the pills answer it — and the medium-weight
+      // pills below already carry the emphasis in this block.
+      font-weight: $font-weight-regular;
       color: $color-brand-dark-green;
 
       // The explainer beside a label ("What are these?") — the base link

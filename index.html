@@ -65,6 +65,8 @@
           <ul class="ds-nav__list">
             <li><a class="ds-nav__link ds-nav__link--external" href="templates/tool-electricity-generators.html">Electricity generators
               <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            <li><a class="ds-nav__link ds-nav__link--external" href="templates/tool-gas-producers.html">Gas producers
+              <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
             <li><a class="ds-nav__link ds-nav__link--external" href="templates/tool-buy-greenpower.html">Buy GreenPower
               <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
           </ul>
@@ -139,6 +141,7 @@
             <li><a class="ds-nav__link" href="#video-embed">Video embed</a></li>
             <li><a class="ds-nav__link" href="#quote">Quote</a></li>
             <li><a class="ds-nav__link" href="#accordion">Accordion</a></li>
+            <li><a class="ds-nav__link" href="#modal">Modal</a></li>
             <li><a class="ds-nav__link" href="#download">Download</a></li>
             <li><a class="ds-nav__link" href="#client-logos">Client logos</a></li>
             <li><a class="ds-nav__link" href="#pathway">Pathway</a></li>
@@ -149,6 +152,7 @@
           <ul class="ds-nav__list">
             <li><a class="ds-nav__link" href="#form">Form</a></li>
             <li><a class="ds-nav__link" href="#contact-info">Contact info</a></li>
+            <li><a class="ds-nav__link" href="#filter-states">Filter option states</a></li>
           </ul>
         </div>
         <div class="ds-nav__group">
@@ -701,8 +705,12 @@
 
         <div class="ds-demo">
           <p class="ds-demo__label">hero &middot; .hero &mdash; open the Home template</p>
-          <p><a class="ds-nav__link ds-nav__link--external" href="templates/home.html">Home template
-            <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+          <a class="ds-thumb-link" href="templates/home.html">
+            <img class="ds-thumb-link__img" src="assets/hero-thumbnail.png" alt="" width="720" height="436" loading="lazy">
+            <span class="ds-thumb-link__label">Home template
+              <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
         </div>
       </section>
 
@@ -1275,6 +1283,24 @@
         </div>
       </section>
 
+      <section class="ds-section" id="modal" aria-labelledby="modal-title">
+        <h3 class="ds-section__title" id="modal-title">Modal</h3>
+        <p class="ds-section__intro">An explainer overlay opened from a link &mdash; short reference copy the reader wants without losing their place in a listing (the buy tool's &ldquo;What are these?&rdquo; links). Built on the native <code class="ds-code">&lt;dialog&gt;</code> opened with <code class="ds-code">showModal()</code>, so the focus trap, focus restore on close, <kbd>Escape</kbd>, and the inert page behind it all come from the browser; the script only opens it and closes on a backdrop click. The body is rich text wrapped in <code class="ds-code">.page-content__section</code> &mdash; whatever an editor writes in CKEditor renders here with the prose styles it would have on a page. In Drupal the trigger is a real link to the explainer node, enhanced with core's <code class="ds-code">use-ajax</code> modal &mdash; with JS off it is simply a working link to a working page.</p>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Opened from an inline link</p>
+          <p class="ds-group__note">Close with the &times; button, a click outside the panel, or <kbd>Escape</kbd>. On small screens the panel keeps a gutter on every side and the body scrolls inside it &mdash; the head does not scroll, so the close button stays reachable however long the copy runs. A press that starts inside the panel and releases outside &mdash; selecting text, on a phone &mdash; does not close it.</p>
+
+          <div class="ds-demo">
+            <div class="page-content">
+              <div class="page-content__section">
+                <p>Products from this provider <a href="#" data-modal="ds-modal-demo" aria-haspopup="dialog">What are these?</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="ds-section" id="download" aria-labelledby="download-title">
         <h3 class="ds-section__title" id="download-title">Download</h3>
         <p class="ds-section__intro">A file card: cover, title, summary, and the file's own size and format. One component covers both placements &mdash; a single file dropped into the page, or a <strong>group</strong> of files under a heading. A group is just an accordion item, so several groups is several accordion items: no separate &ldquo;download group&rdquo; component exists, because the accordion already does disclosure and this adds nothing to it.</p>
@@ -1683,6 +1709,48 @@
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section class="ds-section" id="filter-states" aria-labelledby="filter-states-title">
+        <h3 class="ds-section__title" id="filter-states-title">Filter option states</h3>
+        <p class="ds-section__intro">The option pill used by the directory tools (<code class="ds-code">.tool-filter__check</code>), and the three states it takes. Radios where the question has one answer &mdash; nobody buys as a household <em>and</em> a business &mdash; checkboxes where it genuinely has several, like the location panel. The styling is type-agnostic: <code class="ds-code">:has(input:checked)</code> paints either, so a group can change its mind without a new variant. Shown on the band's own green because these are drawn in white for the page header and would be invisible on this page.</p>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Resting, selected, unavailable</p>
+          <p class="ds-group__note">Three fills reading as a ladder: unavailable has none and recedes into the track, resting takes Taupe 60%, hover deepens to full Taupe, selected is solid Dark Green with the icon knocked out to white. <strong>No borders in any state</strong> &mdash; the fills draw the boundaries, and a border that appeared on one state only made the pill jump as it changed.</p>
+
+          <div class="ds-demo ds-demo--band">
+            <div class="tool-filter">
+              <div class="tool-filter__fields">
+                <fieldset class="tool-filter__field tool-filter__field--auto tool-filter__fieldset">
+                  <legend class="tool-filter__label">Who are you buying for?</legend>
+                  <div class="tool-filter__checks">
+                    <label class="tool-filter__check"><input type="radio" name="ds-buyer" value="household"><img src="assets/icons/home.svg" alt="" width="55" height="55"><span data-option-label>Household</span></label>
+                    <label class="tool-filter__check"><input type="radio" name="ds-buyer" value="business" checked><img src="assets/icons/business-greenpower.svg" alt="" width="55" height="55"><span data-option-label>Business</span></label>
+                  </div>
+                </fieldset>
+                <fieldset class="tool-filter__field tool-filter__field--auto tool-filter__fieldset">
+                  <legend class="tool-filter__label">GreenPower type</legend>
+                  <div class="tool-filter__checks">
+                    <label class="tool-filter__check"><input type="radio" name="ds-type" value="electricity"><img src="assets/icons/electricity.svg" alt="" width="55" height="55"><span data-option-label>Electricity</span></label>
+                    <label class="tool-filter__check" aria-disabled="true"><input type="radio" name="ds-type" value="gas" aria-disabled="true" aria-describedby="ds-filter-note"><img src="assets/icons/gas.svg" alt="" width="55" height="55"><span data-option-label>Gas</span></label>
+                  </div>
+                </fieldset>
+              </div>
+              <p class="tool-filter__note" id="ds-filter-note">GreenPower gas is available to businesses only.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Unavailable is <code class="ds-code">aria-disabled</code>, never <code class="ds-code">disabled</code></p>
+          <p class="ds-group__note">A <code class="ds-code">disabled</code> input leaves the tab order, so someone tabbing the filter never meets the option at all &mdash; they cannot learn it exists, let alone why it is off. <code class="ds-code">aria-disabled</code> keeps it focusable and announced as unavailable, and pairs with a written reason in <code class="ds-code">.tool-filter__note</code> (<code class="ds-code">role="status"</code>, so a constraint that appears in response to a choice is announced without stealing focus). It also means the label is <strong>not</strong> exempt from contrast the way a truly disabled one would be &mdash; hence a muted token at 5.0:1 rather than a faint grey. Because <code class="ds-code">aria-disabled</code> is advisory and does not stop a click, the script refuses the click in the capture phase.</p>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Conditional groups: the rule lives in the markup</p>
+          <p class="ds-group__note">Two attributes drive every dependency &mdash; <code class="ds-code">data-visible-when</code> reveals a group, <code class="ds-code">data-unavailable-when</code> mutes an option &mdash; each holding space-separated <code class="ds-code">group=value</code> conditions that must all hold. The evaluator is generic and never names a business rule, so a new rule is an attribute rather than a branch. That shape is chosen for the port: Drupal's <code class="ds-code">#states</code> is declarative in exactly this way, so each attribute becomes one entry in a <code class="ds-code">hook_form_alter</code> and nobody reverse-engineers a script to learn what the tool does. A revealed group sits inside the fieldset that summons it, immediately after the pills that trigger it, so the next Tab lands in it; hiding one also clears its selection, or the results would keep honouring a filter the user can no longer see. Live on <a class="ds-nav__link ds-nav__link--external" href="templates/tool-buy-greenpower.html">Buy GreenPower</a>.</p>
         </div>
       </section>
 
@@ -2701,6 +2769,72 @@
       sync();
       window.addEventListener('resize', sync);
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+    })();
+  </script>
+
+  <!-- The Modal section's demo dialog. After the content because <dialog>
+       renders in the top layer — DOM position only decides no-JS source
+       order. -->
+  <dialog class="modal" id="ds-modal-demo" aria-labelledby="ds-modal-demo-title">
+    <div class="modal__head">
+      <h2 class="modal__title" id="ds-modal-demo-title">GreenPower products</h2>
+      <button class="modal__close" type="button" data-modal-close>
+        <span class="visually-hidden">Close</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M2 2l10 10M12 2 2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="modal__body">
+      <div class="page-content__section">
+        <p>GreenPower is government-accredited renewable energy. When you buy a GreenPower product, your provider buys the same amount of electricity from accredited renewable generators on your behalf and adds it to the grid.</p>
+        <h3>Choosing a percentage</h3>
+        <p>The percentage is the share of your electricity use that is matched with GreenPower. You pay a small premium on top of your usual rate for that share.</p>
+        <ul>
+          <li><strong>GreenPower 25%</strong> — a quarter of the electricity you use is matched.</li>
+          <li><strong>GreenPower 50%</strong> — half of the electricity you use is matched.</li>
+          <li><strong>GreenPower 100%</strong> — all of the electricity you use is matched.</li>
+        </ul>
+        <p>Not every provider offers every percentage, and some offer their own steps in between. The products listed on each provider's card are the ones they currently sell.</p>
+        <p><a href="#">Read how GreenPower accreditation works</a></p>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    // Explainer overlays — a [data-modal] link opens the <dialog> it names.
+    // Everything else about a modal is the browser's job once showModal() is
+    // called: focus trap, focus restore, Escape, inert background.
+    (function () {
+      var openers = document.querySelectorAll('[data-modal]');
+      if (!openers.length) return;
+
+      [].forEach.call(openers, function (opener) {
+        var dialog = document.getElementById(opener.getAttribute('data-modal'));
+        if (!dialog || typeof dialog.showModal !== 'function') return;
+        opener.addEventListener('click', function (event) {
+          event.preventDefault();
+          dialog.showModal();
+        });
+      });
+
+      [].forEach.call(document.querySelectorAll('.modal'), function (dialog) {
+        [].forEach.call(dialog.querySelectorAll('[data-modal-close]'), function (btn) {
+          btn.addEventListener('click', function () { dialog.close(); });
+        });
+
+        // Click outside. The dialog has no padding, so the only way a click
+        // reports the dialog ITSELF as its target is through the ::backdrop.
+        // Both ends of the click are checked: press inside, drag out and
+        // release — which is what selecting the last line of text does —
+        // lands on the backdrop and would otherwise close the panel mid
+        // selection.
+        var pressedOutside = false;
+        dialog.addEventListener('pointerdown', function (event) {
+          pressedOutside = event.target === dialog;
+        });
+        dialog.addEventListener('click', function (event) {
+          if (pressedOutside && event.target === dialog) dialog.close();
+        });
+      });
     })();
   </script>
 

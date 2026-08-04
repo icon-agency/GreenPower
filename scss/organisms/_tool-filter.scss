@@ -97,7 +97,13 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-s);
-    align-items: flex-end; // the Apply pill sits on the selects' control row
+    // TOP-aligned. Bottom alignment was right while every field was one label
+    // over one control, but a field can now GROW DOWNWARD when it reveals a
+    // dependent group — and hanging the row off the bottom made the other two
+    // fields sink with it, scattering a row that had been level. Anchored at
+    // the top, the labels and the control row stay put and the revealed group
+    // extends below its own field, which is where it belongs.
+    align-items: flex-start;
   }
 
   &__field {
@@ -120,6 +126,19 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     max-width: none;
   }
 
+  // A field that can REVEAL a dependent group is sized for that group whether
+  // or not it is showing. Without a floor the track is one width with the
+  // group open and another with it shut, so the control the user is aiming at
+  // changes size underneath them mid-choice. A floor, not a fixed width:
+  // longer labels can still push it wider.
+  //
+  // 18.5rem is measured — the natural width of the contract group's longest
+  // option ("Decoupled from your contract") at this step of the type scale.
+  // Re-measure if that copy changes materially.
+  &__field:has(&__subfield) {
+    min-width: 18.5rem;
+  }
+
   // A real <fieldset> so the group is named for free — reset the UA chrome.
   &__fieldset {
     padding: 0;
@@ -127,37 +146,53 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     border: 0;
 
     legend {
-      // The legend IS this group's visible label; float clears the UA's
-      // special legend layout so it stacks like the sibling labels do.
+      // The legend IS this group's visible label. The float is a SWITCH, not
+      // a layout instruction: per HTML rendering rules a legend with a float
+      // stops being the fieldset's special "rendered legend" and joins normal
+      // flow, which is the only way it becomes a flex item of
+      // .tool-filter__field and picks up that column's gap. (Once it is a
+      // flex item the float itself is ignored — both halves are true, which
+      // is why this looks redundant and is not.)
       float: left;
       width: 100%;
       padding: 0;
-      margin-bottom: var(--space-2xs);
+      // NO margin-bottom. The column gap already seats it above the control,
+      // and adding a margin on top made these two fields a step taller than
+      // Connection location — which, with the row bottom-aligned, pushed
+      // their labels above the sibling <p> label instead of level with it.
     }
   }
 
-  // --- Inline checkbox pills: a SMALL option set exposed directly ---
+  // --- Inline option pills: a SMALL option set exposed directly ---
   //
   // Two-option groups (Household/Business, Electricity/Gas) don't earn a
   // popover — the pills fit the row, and exposing them saves a click per
-  // filter. Same honest markup as the popover group: real checkboxes in a
-  // real fieldset; the pill is the label, and the box inside it is
-  // visually hidden with its state carried by the pill's fill (the
-  // ds-segment recipe, checkboxes instead of radios).
+  // filter. Same honest markup as the popover group: real inputs in a real
+  // fieldset; the pill is the label, and the input inside it is visually
+  // hidden with its state carried by the pill's fill (the ds-segment recipe).
   //
-  // :has() drives the checked/focus paint, as the design system's segments
-  // already do; where it is unsupported the UA's own focus outline on the
-  // (hidden) input still fires, and submission is unaffected.
+  // RADIOS here, checkboxes in the location panel, and the difference is the
+  // question each asks: nobody buys as a household AND a business, or wants
+  // electricity AND gas in one answer, but a business genuinely does operate
+  // across VIC and NSW. Radios also enforce it natively — no script keeping
+  // two boxes from being ticked at once. The cost is that a radio group has
+  // no unpick gesture, so the route back to unfiltered is the chip row below
+  // (see the script's note).
+  //
+  // Styling is type-agnostic: :has(input:checked) paints either kind, so the
+  // pill needs no variant when a group changes its mind. Where :has() is
+  // unsupported the UA's own focus outline on the (hidden) input still
+  // fires, and submission is unaffected.
+  //
   // The group wears ONE surrounding pill and the options sit inside it, so a
   // two-option choice reads as a single control with a selected part rather
   // than as two loose pills that happen to be adjacent — and the label above
-  // clearly belongs to the whole thing. The design system's segmented control
-  // (.ds-segments) with checkboxes instead of radios and a track around it.
+  // clearly belongs to the whole thing.
   //
-  // The container carries the white surface and the boundary; the options are
-  // transparent until chosen. It also owns the em context, so the 3em
-  // control-row height (search, popover trigger, Apply) is measured here and
-  // the options fill what is left inside the padding.
+  // The container carries the white surface and the boundary. It also owns
+  // the em context, so the 3em control-row height (search field, popover
+  // trigger) is measured here and the options fill what is left inside the
+  // padding.
   &__checks {
     display: inline-flex;
     flex-wrap: wrap;
@@ -175,8 +210,15 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     // Containing block for the visually-hidden input (LESSONS.md).
     position: relative;
     display: inline-flex;
+    // The options DIVIDE the track between them rather than each taking only
+    // what its own word needs. Equal halves are what makes the pair read as
+    // one control with a selected part — and once the track has a width of
+    // its own (see __field:has(__subfield)), content-sized pills left a bare
+    // stretch of track after the shorter label with nothing in it.
+    flex: 1 1 0;
     gap: var(--space-2xs);
     align-items: center;
+    justify-content: center;
     // The container's 3em less its padding AND its 1px border either side.
     // min-height is border-box, so it only sets a floor — the option's own
     // height still adds to the padding and border above it, and leaving the
@@ -186,12 +228,14 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     padding: 0 var(--space-s) 0 var(--space-xs);
     color: $color-ui-text;
     cursor: pointer;
-    // Transparent on the container's white; the boundary belongs to the
-    // group, not to each option.
-    background-color: transparent;
-    border: 1px solid transparent;
+    // Every option carries a fill from rest — the segmented-control read,
+    // where the white showing between them is the GAP and the options are
+    // the solids. No border in any state: with three distinct fills the
+    // boundaries are already drawn, and a border that appeared on one state
+    // only made the pill jump as it changed.
+    background-color: $color-tint-taupe;
     border-radius: $radius-pill;
-    @include transition((background-color, color, border-color));
+    @include transition((background-color, color));
 
     input {
       @include visually-hidden;
@@ -208,36 +252,156 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
       @include transition(filter);
     }
 
+    // Hover deepens to full Taupe — the accordion's 60%/100% pair, running
+    // the other way (the tint is the resting fill here, so the deeper one is
+    // the reaction).
     &:hover {
-      background-color: $color-tint-taupe;
+      background-color: $color-brand-taupe;
     }
 
-    // Checked: LIGHT GREEN fill with Dark Green text — the brand pairing the
-    // bento stat tiles and the footer's Buy pill already use (5.0:1, AA).
+    // Checked: SOLID DARK GREEN, white label. The selected option has to
+    // leave the taupe family altogether — now that rest and hover are both
+    // taupes, any third taupe would read as another hover rather than a
+    // choice. White on Dark Green is 9.2:1, and the icon takes the shared
+    // knockout filter so it comes across with the text.
     //
-    // NOT Dark Green, which is what this was: that is the BAND'S OWN COLOUR,
-    // so a selected pill dissolved into the header and the only thing left on
-    // screen was its white label floating free — the selected state read as
-    // the deleted one. Nor Primary Green, the other obvious fill: white on it
-    // is 3.46:1 and this label is normal-weight text, so it would fail AA
-    // (the same trap the pagination's current page fell into).
-    //
-    // The Dark Green BORDER is load-bearing now that the option sits on the
-    // group's white track: light green against white is only 1.46:1, well
-    // under the 3:1 WCAG 1.4.11 asks of a state indicator, so the fill alone
-    // could not carry the selection. The border reads at 7.3:1 on white and
-    // does.
-    //
-    // The icon keeps its own dark-green artwork here — the knockout filter
-    // the old dark fill needed would now erase it.
+    // Dark Green is also the BAND's colour, which is why an earlier build
+    // avoided it; it works here because the option never touches the band —
+    // the group's white track rings every pill, so the fill always meets
+    // white, never green. Primary Green is the other obvious fill and stays
+    // ruled out: white on it is 3.46:1, under AA for a normal-weight label
+    // (the trap the pagination's current page fell into).
     &:has(input:checked) {
-      color: $color-brand-dark-green;
-      background-color: $color-brand-light-green;
-      border-color: $color-brand-dark-green;
+      color: $color-white;
+      background-color: $color-brand-dark-green;
+
+      img {
+        filter: brightness(0) invert(100%);
+      }
+
+      // Hovering a SELECTED option still has to answer "can I switch this
+      // off?". Neither deeper green passes AA under white text, so the fill
+      // holds and the LABEL warms to Light Green instead — Dark Green's own
+      // brand partner, 5.0:1 against it.
+      &:hover {
+        color: $color-brand-light-green;
+      }
     }
 
+    // The default green ring, not the white one this carried: the option sits
+    // on the group's WHITE track, not on the dark band, and a white outline
+    // offset onto white was invisible.
     &:has(input:focus-visible) {
-      @include focus-ring($color-white);
+      @include focus-ring;
+    }
+
+    // Unavailable — the option is real but this combination is not (Gas while
+    // the buyer is Household). It RECEDES rather than disappearing: the fill
+    // drops away to the group's own white track, so the three states now read
+    // as a ladder — unavailable (no fill) under resting (tint) under selected
+    // (solid).
+    //
+    // Driven by aria-disabled, NOT the disabled attribute, and that is the
+    // load-bearing decision. A disabled input leaves the tab order, so
+    // someone tabbing this filter never meets Gas at all — they cannot learn
+    // it exists, let alone why it is off. aria-disabled keeps it focusable
+    // and announced as unavailable, and the script pairs it with a written
+    // reason in .tool-filter__note. That also means the label is NOT exempt
+    // from contrast the way a truly disabled one would be, hence the muted
+    // token rather than a faint grey: 5.0:1, still readable.
+    &[aria-disabled='true'] {
+      color: $color-ui-text-muted;
+      cursor: not-allowed;
+      background-color: transparent;
+
+      img {
+        // Match the muted LABEL rather than just fading the green artwork —
+        // a pale green glyph beside a grey word read as two different states
+        // of the same pill. grayscale() drops the hue and the opacity lands
+        // the result on the label's own lightness against the white track.
+        //
+        // A filter, not currentColor: these are file-referenced <img> marks,
+        // so nothing inside them inherits from the label. Measured, not
+        // guessed — #006341 desaturates to ~rgb(75,75,75) and 0.8 over white
+        // lifts that to ~rgb(111,111,111), the neutral grey with the same
+        // luminance as the muted token.
+        filter: grayscale(1) opacity(0.8);
+      }
+
+      // No hover reaction — a surface that answers the pointer promises the
+      // click will do something.
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  // A group revealed by another group's answer (the contract options, which
+  // only exist for a business buying electricity).
+  //
+  // It sits INSIDE the fieldset whose answer summons it, immediately after
+  // the pills that trigger it — placement doing the work an announcement
+  // would otherwise have to do, because the very next Tab from the control
+  // that revealed it lands inside it. Revealing fields is a change of
+  // CONTENT, not of context (WCAG 3.2.2), so it needs no warning; it only
+  // needs to be findable.
+  &__subfield {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    margin-top: var(--space-xs);
+
+    // Explicit, because the pill group's own display would otherwise outrank
+    // the UA's [hidden] rule (LESSONS.md).
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // Not a nested <legend>: a fieldset inside a fieldset reads as a second
+  // level of grouping to a screen reader, and this is one question with a
+  // follow-up, not a sub-form. A <p> plus role="group"/aria-labelledby names
+  // it just as well without the extra nesting.
+  &__sublabel {
+    font-size: $font-size-sm;
+    color: $color-white;
+  }
+
+  // The stacked variant of the option track. These two labels are full
+  // sentences rather than one word, so side by side they would push the
+  // filter row past the band; stacked, the track reads as a short list of
+  // choices.
+  //
+  // Options AND track both keep the pill radius the rest of the filter uses.
+  // The track is taller than a single row, so the pill resolves to a stadium
+  // rather than a capsule — which is the point: it echoes the shape of the
+  // options nested inside it, and the horizontal tracks above it, instead of
+  // introducing a third corner treatment into one control.
+  &__checks--stack {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 0;
+    border-radius: $radius-pill;
+
+    .tool-filter__check {
+      // Left-aligned: these read as a short list of sentences, and centring
+      // a sentence in a full-width pill loses the edge the eye scans down.
+      justify-content: flex-start;
+      height: auto;
+      padding: var(--space-2xs) var(--space-s);
+    }
+  }
+
+  // The written half of an unavailable state — why the option is off, in
+  // words, for everyone rather than only for whoever hovers it. role="status"
+  // on the element in markup, so a constraint that appears after a choice is
+  // announced without stealing focus.
+  &__note {
+    font-size: $font-size-sm;
+    color: $color-white;
+
+    &[hidden] {
+      display: none;
     }
   }
 

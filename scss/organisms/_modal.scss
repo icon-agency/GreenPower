@@ -1,0 +1,162 @@
+// -----------------------------------------------------------------------------
+// Modal — an explainer overlay opened from a link in the page
+//
+// The "What are these?" / "What to ask your provider?" links in the buy
+// directory: short reference copy a reader wants WITHOUT losing the row they
+// were reading. Sending them to a page and back would lose the filter state
+// and the scroll position, which is the whole argument for an overlay here.
+//
+// Built on the native <dialog> opened with showModal(), and that choice does
+// most of the work: the top layer escapes every ancestor clip and stacking
+// context (the same reason the state filter is a [popover] — .page-header__inner
+// is overflow: hidden and would slice any absolutely positioned panel), and the
+// browser brings the focus trap, focus restore on close, the inert background
+// and Escape-to-close with it. The script only opens it and handles the
+// click-outside; everything else here is skin.
+//
+// The BODY is the WYSIWYG wrapper (.page-content__section), not bespoke
+// markup — whatever an editor writes in CKEditor renders in the overlay with
+// the prose styles it would have on a page, headings and lists and links
+// included. Nothing about this component constrains what goes inside it.
+//
+// Drupal mapping: no paragraph type. The trigger is a LINK to the real
+// explainer node, enhanced by core's own AJAX dialog —
+//   <a href="/what-are-greenpower-products" class="use-ajax"
+//      data-dialog-type="modal" data-dialog-options='{"width":640}'>
+// which renders that node's body in Drupal's modal and, with JS off or the
+// route hit directly, is just a working link to a working page. Match core's
+// dialog markup to this skin in a theme override of
+// `templates/misc/ajax-progress.html.twig` + the dialog's off-canvas CSS, or
+// keep this markup and point it at the same route. The demo hard-codes the
+// copy inline because there is no node to load.
+// -----------------------------------------------------------------------------
+
+.modal {
+  // The dialog element IS the panel. No padding on it: the click-outside test
+  // is `event.target === dialog`, and any padding here would be part of the
+  // panel's own hit area while still reporting the dialog as the target — so
+  // clicking just inside the visible edge would close it.
+  --modal-gutter: var(--space-m);
+
+  width: min(38rem, 100vw - 2 * var(--modal-gutter));
+  // Two units on purpose: dvh is the honest viewport on mobile, where the
+  // address bar eats 100vh and the close button lands under it. vh first as
+  // the floor for anything that does not know dvh.
+  max-height: calc(100vh - 2 * var(--modal-gutter));
+  max-height: calc(100dvh - 2 * var(--modal-gutter));
+  // Restated, not inherited: a modal <dialog> is centred by `margin: auto`
+  // against the UA's `inset: 0`, and the global margin reset in base/_reset
+  // zeroes it — which parks the panel in the top-left corner.
+  margin: auto;
+  padding: 0;
+  overflow: hidden; // the radius clips the scrolling body
+  color: $color-ui-text;
+  background-color: $color-white;
+  border: 0;
+  border-radius: $radius-lg;
+  // No drop shadow: this system separates surfaces with fill and radius, not
+  // elevation (there is no shadow token to reach for). The backdrop is what
+  // lifts the panel off the page, and it does it at 60%.
+
+  // Flex only while open — an author display value would override the UA's
+  // `dialog:not([open]) { display: none }` and leave the overlay on screen.
+  &[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &::backdrop {
+    background-color: $color-ui-backdrop;
+  }
+
+  // The head does NOT scroll: the close button has to stay reachable however
+  // long the copy runs. Sibling of the scrolling body rather than sticky
+  // inside it, so there is no overlap to paint around.
+  &__head {
+    display: flex;
+    gap: var(--space-s);
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: var(--space-l) var(--space-l) var(--space-s);
+  }
+
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-demibold;
+    color: $color-brand-dark-green;
+  }
+
+  // 2.75rem square — WCAG 2.5.5 (AAA) target size, and the one control on a
+  // panel that may be read on a phone one-handed. It is square rather than
+  // padded so the target is the shape it looks like.
+  &__close {
+    @include button-reset;
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    // Pull it back level with the title's cap height and out to the panel
+    // edge — a 44px box around a 14px glyph otherwise floats in a moat of its
+    // own making.
+    margin: calc(-1 * var(--space-2xs)) calc(-1 * var(--space-2xs)) 0 0;
+    color: $color-brand-dark-green;
+    cursor: pointer;
+    background-color: $color-tint-taupe;
+    border-radius: $radius-pill;
+    @include transition((background-color, color));
+
+    &:hover {
+      color: $color-white;
+      background-color: $color-brand-dark-green;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  // The scrolling half. overscroll-behavior: contain stops the page behind
+  // from taking over the scroll once this hits its end — the mobile symptom
+  // where flicking a full overlay scrolls the article underneath it.
+  &__body {
+    padding: 0 var(--space-l) var(--space-l);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+// showModal() blocks INTERACTION with the page behind, not scrolling — the
+// wheel and trackpad still move it in every engine. One :has() rule locks it
+// for as long as any overlay is open, with no class for the script to add and
+// forget to remove.
+body:has(.modal[open]) {
+  overflow: hidden;
+}
+
+// The entrance. `display` and `overlay` need allow-discrete or the panel would
+// pop in at full opacity and the exit would not play at all (the element
+// leaves the top layer the instant close() runs). @starting-style is the
+// opening frame; browsers without it simply get the panel, which is the
+// correct degradation.
+@media (prefers-reduced-motion: no-preference) {
+  .modal {
+    opacity: 0;
+    transform: translateY(var(--space-s));
+    transition:
+      opacity 0.2s ease-in-out,
+      transform 0.2s ease-in-out,
+      overlay 0.2s ease-in-out allow-discrete,
+      display 0.2s ease-in-out allow-discrete;
+
+    &[open] {
+      opacity: 1;
+      transform: none;
+
+      @starting-style {
+        opacity: 0;
+        transform: translateY(var(--space-s));
+      }
+    }
+  }
+}

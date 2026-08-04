@@ -45,6 +45,7 @@ the NEWEST copy and delete the rest. Copies at handover:
 | Feature banner crossfade (`data-feature-banner`) | 10 | `gp/feature-banner` |
 | Card-row scroller arrows (`data-scroll-prev`) | 4 | `gp/card-scroller` |
 | Copy link (`data-copy-link`) | 3 | `gp/copy-link` |
+| Explainer modals (`data-modal`) | 2 | NOT ported as-is — in Drupal the trigger is a link to the explainer node with core's `use-ajax` modal (see `_modal.scss` header); only the `.modal` skin carries over |
 | Reveal-after (`data-reveal-after`) | 3 | `gp/reveal-after` |
 | News filter pills (`data-news-filter`) | 2 | NOT ported — reference chrome standing in for the view's AJAX round-trip |
 | GSAP SplitText hero (`SplitText`) | 1 (home) | self-hosted library + behavior; GovCMS commonly blocks CDNs |

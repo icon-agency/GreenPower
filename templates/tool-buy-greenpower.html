@@ -414,15 +414,22 @@
             <fieldset class="tool-filter__field tool-filter__field--auto tool-filter__fieldset">
               <legend class="tool-filter__label">Who are you buying for?</legend>
               <div class="tool-filter__checks" data-buy-group="buyer">
-                <label class="tool-filter__check"><input type="checkbox" name="buyer" value="household"><img src="../assets/icons/home.svg" alt="" width="55" height="55"><span data-option-label>Household</span></label>
-                <label class="tool-filter__check"><input type="checkbox" name="buyer" value="business"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55"><span data-option-label>Business</span></label>
+                <label class="tool-filter__check"><input type="radio" name="buyer" value="household"><img src="../assets/icons/home.svg" alt="" width="55" height="55"><span data-option-label>Household</span></label>
+                <label class="tool-filter__check"><input type="radio" name="buyer" value="business"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55"><span data-option-label>Business</span></label>
               </div>
             </fieldset>
             <fieldset class="tool-filter__field tool-filter__field--auto tool-filter__fieldset">
               <legend class="tool-filter__label">GreenPower type</legend>
               <div class="tool-filter__checks" data-buy-group="ptype">
-                <label class="tool-filter__check"><input type="checkbox" name="type" value="electricity"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55"><span data-option-label>Electricity</span></label>
-                <label class="tool-filter__check"><input type="checkbox" name="type" value="gas"><img src="../assets/icons/gas.svg" alt="" width="55" height="55"><span data-option-label>Gas</span></label>
+                <label class="tool-filter__check"><input type="radio" name="type" value="electricity"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55"><span data-option-label>Electricity</span></label>
+                <label class="tool-filter__check" data-unavailable-when="buyer=household" data-unavailable-note="GreenPower gas is available to businesses only."><input type="radio" name="type" value="gas"><img src="../assets/icons/gas.svg" alt="" width="55" height="55"><span data-option-label>Gas</span></label>
+              </div>
+              <div class="tool-filter__subfield" data-visible-when="buyer=business ptype=electricity" hidden>
+                <p class="tool-filter__sublabel" id="buy-contract-label">GreenPower and your contract</p>
+                <div class="tool-filter__checks tool-filter__checks--stack" data-buy-group="contract" role="group" aria-labelledby="buy-contract-label">
+                  <label class="tool-filter__check"><input type="radio" name="contract" value="bundled"><img src="../assets/UI/bundle.svg" alt="" width="24" height="24"><span data-option-label>Bundle with your contract</span></label>
+                  <label class="tool-filter__check"><input type="radio" name="contract" value="decoupled"><img src="../assets/UI/decoupled.svg" alt="" width="24" height="24"><span data-option-label>Decoupled from your contract</span></label>
+                </div>
               </div>
             </fieldset>
             <div class="tool-filter__field">
@@ -445,8 +452,12 @@
                 </fieldset>
               </div>
             </div>
-            <button class="btn btn--white" type="submit">Apply</button>
           </div>
+          <!-- The written half of an unavailable state. role="status" so a
+               constraint that appears in response to a choice is announced
+               without taking focus; the script writes the sentence and
+               unhides it. -->
+          <p class="tool-filter__note" id="buy-filter-note" role="status" data-buy-note hidden></p>
         </form>
         <!-- Imageless header variant: the green block + brand angle stand in
              where field_header_image is empty (see _page-header.scss). -->
@@ -468,11 +479,34 @@
         <p class="provider-directory__count" aria-live="polite" data-buy-count>Showing 10 accredited electricity providers and gas traders</p>
       </div>
 
+      <!-- Provider logos are real marks from assets/logos, each on the card
+           that NAMES that company — a real logo against another company's name
+           would misrepresent both. The set is GreenPower's customer library, so
+           these are the energy businesses within it rather than the full
+           retailer list; confirm the real GreenPower Provider roster (and get
+           their marks) before build. The logo is the company's identity, so it
+           carries the name as alt text rather than aria-hidden.
+
+           WIREFRAME FILLER — data-contract: which providers bundle GreenPower
+           into the contract and which sell it decoupled is invented here, to
+           give the contract filter something to act on. Real values come from
+           the provider record.
+
+           OPEN QUESTION — the Gas filter is now business-only
+           (data-unavailable-when on the Gas pill), but two providers below
+           still advertise a gas offer to households: Red Energy and the VIC/SA
+           trader both carry data-buyer="household business" on a gas ptype,
+           and their cards say "Available for: Household, Business" under the
+           Gas trader badge. Either the rule or the data is wrong. Left as-is
+           on purpose so the contradiction is visible at review rather than
+           quietly resolved in the prototype's favour. -->
       <div class="provider-directory__list" data-animate-stagger>
-          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity gas" data-states="all">
-            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity gas" data-contract="bundled decoupled" data-states="all">
+            <span class="provider-card__logo">
+              <img src="../assets/logos/125-red-energy.png" alt="Red Energy" width="240" height="120" loading="lazy">
+            </span>
             <div class="provider-card__content">
-              <h3 class="provider-card__name">Origin Energy</h3>
+              <h3 class="provider-card__name">Red Energy</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
               <dl class="provider-card__rows">
@@ -485,7 +519,7 @@
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">All states and territories</li></ul></dd>
                 </div>
                 <div class="provider-card__row provider-card__row--wide">
-                  <dt>Products from this provider <a href="#">What are these?</a></dt>
+                  <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
                 </div>
               </dl>
@@ -502,24 +536,26 @@
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">ACT<span class="visually-hidden"> Australian Capital Territory</span></li><li class="provider-card__pill">VIC<span class="visually-hidden"> Victoria</span></li><li class="provider-card__pill">NSW<span class="visually-hidden"> New South Wales</span></li></ul></dd>
                 </div>
                 <div class="provider-card__row provider-card__row--wide">
-                  <dt>GreenPower RGGO certificates <a href="#">What are these?</a></dt>
+                  <dt>GreenPower RGGO certificates <a href="#" data-modal="modal-rggo-certificates" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower RGGO certificates explained</span></a></dt>
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">Coupled certificates</li><li class="provider-card__pill">Decoupled certificates</li></ul></dd>
                 </div>
               </dl>
             </div>
             </div>
             <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Origin Energy</span></a>
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Red Energy</span></a>
               <p class="provider-card__phone"><span>Phone</span>
                 <a class="provider-card__phone-num" href="tel:132461">13 24 61</a></p>
-              <a class="provider-card__ask" href="#">What to ask your provider?</a>
+              <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
             </div>
           </article>
 
-          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-states="all">
-            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-contract="bundled" data-states="all">
+            <span class="provider-card__logo">
+              <img src="../assets/logos/060-flow-power.jpg" alt="Flow Power" width="240" height="120" loading="lazy">
+            </span>
             <div class="provider-card__content">
-              <h3 class="provider-card__name">AGL</h3>
+              <h3 class="provider-card__name">Flow Power</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
               <dl class="provider-card__rows">
@@ -532,24 +568,26 @@
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">All states and territories</li></ul></dd>
                 </div>
                 <div class="provider-card__row provider-card__row--wide">
-                  <dt>Products from this provider <a href="#">What are these?</a></dt>
+                  <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
                 </div>
               </dl>
             </div>
             </div>
             <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; AGL</span></a>
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Flow Power</span></a>
               <p class="provider-card__phone"><span>Phone</span>
                 <a class="provider-card__phone-num" href="tel:131245">13 12 45</a></p>
-              <a class="provider-card__ask" href="#">What to ask your provider?</a>
+              <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
             </div>
           </article>
 
-          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-states="act nsw">
-            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-contract="bundled decoupled" data-states="act nsw">
+            <span class="provider-card__logo">
+              <img src="../assets/logos/energy-on.svg" alt="Energy On" width="16" height="3" loading="lazy">
+            </span>
             <div class="provider-card__content">
-              <h3 class="provider-card__name">ActewAGL</h3>
+              <h3 class="provider-card__name">Energy On</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
               <dl class="provider-card__rows">
@@ -562,24 +600,26 @@
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">ACT<span class="visually-hidden"> Australian Capital Territory</span></li><li class="provider-card__pill">NSW<span class="visually-hidden"> New South Wales</span></li></ul></dd>
                 </div>
                 <div class="provider-card__row provider-card__row--wide">
-                  <dt>Products from this provider <a href="#">What are these?</a></dt>
+                  <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
                 </div>
               </dl>
             </div>
             </div>
             <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; ActewAGL</span></a>
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Energy On</span></a>
               <p class="provider-card__phone"><span>Phone</span>
                 <a class="provider-card__phone-num" href="tel:131493">13 14 93</a></p>
-              <a class="provider-card__ask" href="#">What to ask your provider?</a>
+              <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
             </div>
           </article>
 
-          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-states="all">
-            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-contract="bundled" data-states="all">
+            <span class="provider-card__logo">
+              <img src="../assets/logos/052-energy-action.jpg" alt="Energy Action" width="240" height="120" loading="lazy">
+            </span>
             <div class="provider-card__content">
-              <h3 class="provider-card__name">EnergyAustralia</h3>
+              <h3 class="provider-card__name">Energy Action</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
               <dl class="provider-card__rows">
@@ -592,24 +632,26 @@
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">All states and territories</li></ul></dd>
                 </div>
                 <div class="provider-card__row provider-card__row--wide">
-                  <dt>Products from this provider <a href="#">What are these?</a></dt>
+                  <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
                 </div>
               </dl>
             </div>
             </div>
             <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; EnergyAustralia</span></a>
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Energy Action</span></a>
               <p class="provider-card__phone"><span>Phone</span>
                 <a class="provider-card__phone-num" href="tel:133466">13 34 66</a></p>
-              <a class="provider-card__ask" href="#">What to ask your provider?</a>
+              <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
             </div>
           </article>
 
-          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-states="vic nsw sa tas">
-            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-contract="decoupled" data-states="vic nsw sa tas">
+            <span class="provider-card__logo">
+              <img src="../assets/logos/118-parallel-power.png" alt="Parallel Power" width="240" height="120" loading="lazy">
+            </span>
             <div class="provider-card__content">
-              <h3 class="provider-card__name">Momentum Energy</h3>
+              <h3 class="provider-card__name">Parallel Power</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
               <dl class="provider-card__rows">
@@ -622,24 +664,26 @@
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">VIC<span class="visually-hidden"> Victoria</span></li><li class="provider-card__pill">NSW<span class="visually-hidden"> New South Wales</span></li><li class="provider-card__pill">SA<span class="visually-hidden"> South Australia</span></li><li class="provider-card__pill">TAS<span class="visually-hidden"> Tasmania</span></li></ul></dd>
                 </div>
                 <div class="provider-card__row provider-card__row--wide">
-                  <dt>Products from this provider <a href="#">What are these?</a></dt>
+                  <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
                 </div>
               </dl>
             </div>
             </div>
             <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Momentum Energy</span></a>
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Parallel Power</span></a>
               <p class="provider-card__phone"><span>Phone</span>
                 <a class="provider-card__phone-num" href="tel:1300662778">1300 662 778</a></p>
-              <a class="provider-card__ask" href="#">What to ask your provider?</a>
+              <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
             </div>
           </article>
 
-          <article class="provider-card" data-animate data-buy-item data-buyer="business" data-ptype="electricity" data-states="all">
-            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+          <article class="provider-card" data-animate data-buy-item data-buyer="business" data-ptype="electricity" data-contract="bundled decoupled" data-states="all">
+            <span class="provider-card__logo">
+              <img src="../assets/logos/097-lpa-energy-group-ltd.gif" alt="LPA Energy Group" width="240" height="120" loading="lazy">
+            </span>
             <div class="provider-card__content">
-              <h3 class="provider-card__name">Next Business Energy</h3>
+              <h3 class="provider-card__name">LPA Energy Group</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
               <dl class="provider-card__rows">
@@ -652,24 +696,26 @@
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">All states and territories</li></ul></dd>
                 </div>
                 <div class="provider-card__row provider-card__row--wide">
-                  <dt>Products from this provider <a href="#">What are these?</a></dt>
+                  <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
                 </div>
               </dl>
             </div>
             </div>
             <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Next Business Energy</span></a>
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; LPA Energy Group</span></a>
               <p class="provider-card__phone"><span>Phone</span>
                 <a class="provider-card__phone-num" href="tel:1300466398">1300 466 398</a></p>
-              <a class="provider-card__ask" href="#">What to ask your provider?</a>
+              <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
             </div>
           </article>
 
-          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-states="wa">
-            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-contract="bundled" data-states="wa">
+            <span class="provider-card__logo">
+              <img src="../assets/logos/053-energy-genie.png" alt="Energy Genie" width="240" height="120" loading="lazy">
+            </span>
             <div class="provider-card__content">
-              <h3 class="provider-card__name">Synergy</h3>
+              <h3 class="provider-card__name">Energy Genie</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
               <dl class="provider-card__rows">
@@ -682,24 +728,26 @@
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">WA<span class="visually-hidden"> Western Australia</span></li></ul></dd>
                 </div>
                 <div class="provider-card__row provider-card__row--wide">
-                  <dt>Products from this provider <a href="#">What are these?</a></dt>
+                  <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
                 </div>
               </dl>
             </div>
             </div>
             <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Synergy</span></a>
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Energy Genie</span></a>
               <p class="provider-card__phone"><span>Phone</span>
                 <a class="provider-card__phone-num" href="tel:131353">13 13 53</a></p>
-              <a class="provider-card__ask" href="#">What to ask your provider?</a>
+              <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
             </div>
           </article>
 
-          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-states="vic qld">
-            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity" data-contract="decoupled" data-states="vic qld">
+            <span class="provider-card__logo">
+              <img src="../assets/logos/143-sustainable-energy-solutions.jpg" alt="Sustainable Energy Solutions" width="240" height="120" loading="lazy">
+            </span>
             <div class="provider-card__content">
-              <h3 class="provider-card__name">WINconnect</h3>
+              <h3 class="provider-card__name">Sustainable Energy Solutions</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
               <dl class="provider-card__rows">
@@ -712,24 +760,26 @@
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">VIC<span class="visually-hidden"> Victoria</span></li><li class="provider-card__pill">QLD<span class="visually-hidden"> Queensland</span></li></ul></dd>
                 </div>
                 <div class="provider-card__row provider-card__row--wide">
-                  <dt>Products from this provider <a href="#">What are these?</a></dt>
+                  <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
                 </div>
               </dl>
             </div>
             </div>
             <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; WINconnect</span></a>
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Sustainable Energy Solutions</span></a>
               <p class="provider-card__phone"><span>Phone</span>
                 <a class="provider-card__phone-num" href="tel:1300791970">1300 791 970</a></p>
-              <a class="provider-card__ask" href="#">What to ask your provider?</a>
+              <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
             </div>
           </article>
 
           <article class="provider-card" data-animate data-buy-item data-buyer="business" data-ptype="gas" data-states="act nsw">
-            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+            <span class="provider-card__logo">
+              <img src="../assets/logos/058-ferguson-energy-consulting-services.png" alt="Ferguson Energy" width="240" height="120" loading="lazy">
+            </span>
             <div class="provider-card__content">
-              <h3 class="provider-card__name">Jemena Gas Networks</h3>
+              <h3 class="provider-card__name">Ferguson Energy</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/gas.svg" alt="" width="55" height="55" loading="lazy">Gas trader</p>
               <dl class="provider-card__rows">
@@ -742,14 +792,14 @@
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">ACT<span class="visually-hidden"> Australian Capital Territory</span></li><li class="provider-card__pill">NSW<span class="visually-hidden"> New South Wales</span></li></ul></dd>
                 </div>
                 <div class="provider-card__row provider-card__row--wide">
-                  <dt>GreenPower RGGO certificates <a href="#">What are these?</a></dt>
+                  <dt>GreenPower RGGO certificates <a href="#" data-modal="modal-rggo-certificates" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower RGGO certificates explained</span></a></dt>
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">Coupled certificates</li><li class="provider-card__pill">Decoupled certificates</li></ul></dd>
                 </div>
               </dl>
             </div>
             </div>
             <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Jemena Gas Networks</span></a>
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Ferguson Energy</span></a>
               <p class="provider-card__phone"><span>Phone</span>
                 <a class="provider-card__phone-num" href="tel:1300137078">1300 137 078</a></p>
               <a class="provider-card__ask" href="#">What to ask your trader?</a>
@@ -757,9 +807,11 @@
           </article>
 
           <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="gas" data-states="vic sa">
-            <span class="provider-card__logo" aria-hidden="true">Logo</span>
+            <span class="provider-card__logo">
+              <img src="../assets/logos/014-australian-gas-infrastructure-group.jpg" alt="Australian Gas Infrastructure Group" width="240" height="120" loading="lazy">
+            </span>
             <div class="provider-card__content">
-              <h3 class="provider-card__name">AGIG Renewable Gas</h3>
+              <h3 class="provider-card__name">Australian Gas Infrastructure Group</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/gas.svg" alt="" width="55" height="55" loading="lazy">Gas trader</p>
               <dl class="provider-card__rows">
@@ -772,14 +824,14 @@
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">VIC<span class="visually-hidden"> Victoria</span></li><li class="provider-card__pill">SA<span class="visually-hidden"> South Australia</span></li></ul></dd>
                 </div>
                 <div class="provider-card__row provider-card__row--wide">
-                  <dt>GreenPower RGGO certificates <a href="#">What are these?</a></dt>
+                  <dt>GreenPower RGGO certificates <a href="#" data-modal="modal-rggo-certificates" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower RGGO certificates explained</span></a></dt>
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">Coupled certificates</li><li class="provider-card__pill">Decoupled certificates</li></ul></dd>
                 </div>
               </dl>
             </div>
             </div>
             <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; AGIG Renewable Gas</span></a>
+              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Australian Gas Infrastructure Group</span></a>
               <p class="provider-card__phone"><span>Phone</span>
                 <a class="provider-card__phone-num" href="tel:1800427532">1800 427 532</a></p>
               <a class="provider-card__ask" href="#">What to ask your trader?</a>
@@ -889,6 +941,88 @@
       </div>
     </div>
   </footer>
+
+  <!-- Explainer overlays. THREE dialogs for nineteen links: the copy is the
+       same wherever it is asked from, so each explainer is written once here
+       and every link points at the one that answers it.
+
+       They sit after the footer because that is where they read in source
+       order with JS off; showModal() renders them in the TOP LAYER, so their
+       position in the DOM has no bearing on where they appear.
+
+       WIREFRAME FILLER: the body copy below is placeholder written to show
+       the component holding real prose — it is NOT approved GreenPower
+       content. In Drupal each of these is the body field of the explainer
+       node the trigger links to, so this markup does not ship; only the
+       .modal shell does. -->
+
+  <dialog class="modal" id="modal-greenpower-products" aria-labelledby="modal-greenpower-products-title">
+    <div class="modal__head">
+      <h2 class="modal__title" id="modal-greenpower-products-title">GreenPower products</h2>
+      <button class="modal__close" type="button" data-modal-close>
+        <span class="visually-hidden">Close</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M2 2l10 10M12 2 2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="modal__body">
+      <div class="page-content__section">
+        <p>GreenPower is government-accredited renewable energy. When you buy a GreenPower product, your provider buys the same amount of electricity from accredited renewable generators on your behalf and adds it to the grid.</p>
+        <h3>Choosing a percentage</h3>
+        <p>The percentage is the share of your electricity use that is matched with GreenPower. You pay a small premium on top of your usual rate for that share.</p>
+        <ul>
+          <li><strong>GreenPower 25%</strong> — a quarter of the electricity you use is matched.</li>
+          <li><strong>GreenPower 50%</strong> — half of the electricity you use is matched.</li>
+          <li><strong>GreenPower 100%</strong> — all of the electricity you use is matched.</li>
+        </ul>
+        <p>Not every provider offers every percentage, and some offer their own steps in between. The products listed on each provider's card are the ones they currently sell.</p>
+        <p><a href="#">Read how GreenPower accreditation works</a></p>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="modal-rggo-certificates" aria-labelledby="modal-rggo-certificates-title">
+    <div class="modal__head">
+      <h2 class="modal__title" id="modal-rggo-certificates-title">GreenPower RGGO certificates</h2>
+      <button class="modal__close" type="button" data-modal-close>
+        <span class="visually-hidden">Close</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M2 2l10 10M12 2 2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="modal__body">
+      <div class="page-content__section">
+        <p>A Renewable Gas Guarantee of Origin (RGGO) certificate represents a set quantity of renewable gas produced by an accredited facility and delivered into the gas network. Certificates are how renewable gas is tracked and claimed, because the gas itself cannot be separated from the network once it is in there.</p>
+        <h3>Coupled certificates</h3>
+        <p>Sold together with your gas supply. Your provider retires the certificates against the gas you use, and the renewable claim appears on your account.</p>
+        <h3>Decoupled certificates</h3>
+        <p>Bought separately from your gas supply, so you can make a renewable claim without changing gas retailer. Businesses commonly use these to cover a site or a reporting period.</p>
+        <p><a href="#">Read how RGGO gas certification works</a></p>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="modal-what-to-ask" aria-labelledby="modal-what-to-ask-title">
+    <div class="modal__head">
+      <h2 class="modal__title" id="modal-what-to-ask-title">What to ask your provider</h2>
+      <button class="modal__close" type="button" data-modal-close>
+        <span class="visually-hidden">Close</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M2 2l10 10M12 2 2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="modal__body">
+      <div class="page-content__section">
+        <p>GreenPower is sold as an add-on to an ordinary energy plan, so the details differ from provider to provider. These are worth confirming before you sign up.</p>
+        <ul>
+          <li>Which GreenPower percentages can I buy on the plan I am on?</li>
+          <li>What does GreenPower add to my bill, per unit and per quarter?</li>
+          <li>Is GreenPower shown as its own line item on the bill?</li>
+          <li>Does adding GreenPower change my contract term, my rates or my exit fees?</li>
+          <li>Can I change or cancel GreenPower later, and how much notice do you need?</li>
+          <li>How and when will you confirm the purchase has been made?</li>
+        </ul>
+        <p>Providers on this page are accredited, which means their GreenPower purchases are independently audited every year.</p>
+      </div>
+    </div>
+  </dialog>
 
   <script>
     // Main navigation: hamburger, dropdown disclosure, morphing backdrop
@@ -1560,6 +1694,45 @@
     })();
   </script>
 
+  <script>
+    // Explainer overlays — a [data-modal] link opens the <dialog> it names.
+    // Everything else about a modal is the browser's job once showModal() is
+    // called: focus trap, focus restore, Escape, inert background.
+    (function () {
+      var openers = document.querySelectorAll('[data-modal]');
+      if (!openers.length) return;
+
+      [].forEach.call(openers, function (opener) {
+        var dialog = document.getElementById(opener.getAttribute('data-modal'));
+        if (!dialog || typeof dialog.showModal !== 'function') return;
+        opener.addEventListener('click', function (event) {
+          event.preventDefault();
+          dialog.showModal();
+        });
+      });
+
+      [].forEach.call(document.querySelectorAll('.modal'), function (dialog) {
+        [].forEach.call(dialog.querySelectorAll('[data-modal-close]'), function (btn) {
+          btn.addEventListener('click', function () { dialog.close(); });
+        });
+
+        // Click outside. The dialog has no padding, so the only way a click
+        // reports the dialog ITSELF as its target is through the ::backdrop.
+        // Both ends of the click are checked: press inside, drag out and
+        // release — which is what selecting the last line of text does —
+        // lands on the backdrop and would otherwise close the panel mid
+        // selection.
+        var pressedOutside = false;
+        dialog.addEventListener('pointerdown', function (event) {
+          pressedOutside = event.target === dialog;
+        });
+        dialog.addEventListener('click', function (event) {
+          if (pressedOutside && event.target === dialog) dialog.close();
+        });
+      });
+    })();
+  </script>
+
   <!-- REFERENCE CHROME — stands in for the view's AJAX filter round-trip.
        In Drupal the exposed form submits and the view re-renders; this only
        toggles the static cards so the filters can be tried. Do not port.
@@ -1596,13 +1769,94 @@
           panel: el.querySelector('[popover]'),
           label: label,
           allLabel: label ? label.textContent : '',
-          boxes: [].slice.call(el.querySelectorAll('input[type="checkbox"]'))
+          // Radios in the two single-choice groups, checkboxes in the
+          // multi-select location panel — same shape either way, since what
+          // the filter cares about is which inputs are checked.
+          boxes: [].slice.call(el.querySelectorAll('input[type="checkbox"], input[type="radio"]'))
         };
       });
 
       function checked(group) {
         return group.boxes.filter(function (b) { return b.checked; });
       }
+
+      // --- Conditional rules -------------------------------------------------
+      //
+      // The RULES live in the markup, not in here: `data-visible-when` and
+      // `data-unavailable-when` hold a space-separated list of
+      // `group=value` conditions, all of which must hold. This function is
+      // generic — it never mentions household, gas or contracts — so a new
+      // rule is an attribute, not a branch.
+      //
+      // That shape is chosen for the port. Drupal's Form API #states is
+      // declarative in exactly this way
+      // ('disabled' => [':input[name=buyer]' => ['value' => 'household']]),
+      // so each attribute becomes one #states entry in a hook_form_alter and
+      // nobody has to reverse-engineer a script to learn what the tool does.
+      var noteEl = form.querySelector('[data-buy-note]');
+
+      function satisfied(spec) {
+        return spec.split(/\s+/).every(function (pair) {
+          var bits = pair.split('=');
+          var group = groups.filter(function (g) { return g.key === bits[0]; })[0];
+          return !!group && checked(group).some(function (b) { return b.value === bits[1]; });
+        });
+      }
+
+      function applyRules() {
+        // Reveal / hide dependent groups. A group that goes away takes its
+        // selection with it, or the results would keep honouring a filter the
+        // user can no longer see or clear.
+        [].forEach.call(form.querySelectorAll('[data-visible-when]'), function (el) {
+          var show = satisfied(el.getAttribute('data-visible-when'));
+          if (!show && !el.hidden) {
+            [].forEach.call(el.querySelectorAll('input'), function (i) { i.checked = false; });
+          }
+          el.hidden = !show;
+        });
+
+        // Unavailable options. Same reasoning in the other direction: an
+        // option that becomes unavailable while it is the current answer has
+        // to release that answer, and the note says why so the results
+        // changing under the user is explained rather than mysterious.
+        var reasons = [];
+        [].forEach.call(form.querySelectorAll('[data-unavailable-when]'), function (el) {
+          var off = satisfied(el.getAttribute('data-unavailable-when'));
+          el.setAttribute('aria-disabled', off ? 'true' : 'false');
+          var input = el.querySelector('input');
+          if (off) {
+            input.setAttribute('aria-disabled', 'true');
+            if (input.checked) input.checked = false;
+            if (el.getAttribute('data-unavailable-note')) {
+              reasons.push(el.getAttribute('data-unavailable-note'));
+              // Point the option itself at the note, so the reason reads on
+              // FOCUS as well as being announced when it appears — the thing
+              // a hover tip would do, minus the hover nobody has on a phone.
+              if (noteEl) input.setAttribute('aria-describedby', noteEl.id);
+            }
+          } else {
+            input.removeAttribute('aria-disabled');
+            input.removeAttribute('aria-describedby');
+          }
+        });
+
+        if (noteEl) {
+          noteEl.textContent = reasons.join(' ');
+          noteEl.hidden = !reasons.length;
+        }
+      }
+
+      // aria-disabled is advisory — it does not stop a click the way the
+      // disabled attribute would — so the refusal has to be real. Capture
+      // phase, because the click would otherwise reach the label and toggle
+      // the input before this ran.
+      form.addEventListener('click', function (event) {
+        var pill = event.target.closest('[data-unavailable-when]');
+        if (pill && pill.getAttribute('aria-disabled') === 'true') {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }, true);
 
       function boxLabel(box) {
         return box.parentNode.querySelector('[data-option-label]').textContent;
@@ -1651,11 +1905,18 @@
           });
         }
         group.boxes.forEach(function (box) {
-          // Ticking filters IMMEDIATELY: a checkbox is a committed choice, and
-          // a chip that waited for Apply read as a control that had ignored
-          // you. Free text still commits on Enter or Apply — a chip per
-          // keystroke would flicker through every prefix of the word.
-          box.addEventListener('change', function () { syncTriggers(); apply(); });
+          // Ticking filters IMMEDIATELY — there is no Apply button. Every
+          // control here is a committed choice the moment it changes, and the
+          // count below is a live region, so the result is announced without
+          // a second step. Free text is the exception and still commits on
+          // Enter or the search button: a chip per keystroke would flicker
+          // through every prefix of the word.
+          //
+          // A radio group has no "unpick" gesture, so the way BACK to
+          // unfiltered is the chip this selection puts in the row below
+          // ("Remove filter: Household") or Clear all — both already labelled,
+          // both visible exactly while a filter is on.
+          box.addEventListener("change", function () { applyRules(); syncTriggers(); apply(); });
         });
       });
 
@@ -1718,6 +1979,7 @@
             any = true;
             chipsEl.appendChild(chip(boxLabel(box), boxLabel(box) + ', ' + boxFullLabel(box), function () {
               box.checked = false;
+              applyRules();
               syncTriggers();
               apply();
             }));
@@ -1736,6 +1998,7 @@
           clear.addEventListener('click', function () {
             search.value = '';
             groups.forEach(function (g) { g.boxes.forEach(function (b) { b.checked = false; }); });
+            applyRules();
             syncTriggers();
             apply();
           });
@@ -1763,7 +2026,10 @@
       });
 
       // Run once on load so the count reports the DOM rather than a number
-      // typed into the markup (the authored value is the no-JS fallback).
+      // typed into the markup (the authored value is the no-JS fallback), and
+      // so the conditional groups start in the state the current answers ask
+      // for rather than the state the markup happens to be authored in.
+      applyRules();
       syncTriggers();
       apply();
     })();

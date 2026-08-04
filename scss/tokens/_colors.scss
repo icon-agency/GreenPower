@@ -28,9 +28,11 @@ $color-black: #000000 !default; // translucent media scrims only — never text/
 $color-ui-border: rgba($color-brand-blue, 0.15) !default; // hairline rules on light/tint surfaces
 $color-ui-border-strong: rgba($color-brand-blue, 0.5) !default; // form control boundaries — ≥3:1 on white (WCAG 1.4.11)
 $color-ui-overlay: rgba($color-brand-blue, 0.5) !default; // translucent control chips on media (hero playback)
+$color-ui-backdrop: rgba($color-brand-blue, 0.6) !default; // modal scrim — deeper than the chips: the page behind it is inert, not merely behind something
 $color-ui-scrim: rgba($color-black, 0.35) !default; // video scrims (design spec: #000000 @ 35% — black grades better over footage than brand blue)
 $color-ui-scrim-wash: rgba($color-black, 0.1) !default; // flat wash over the hero videos — evens out bright footage under white text
 $color-ui-text: $color-brand-blue !default;
+$color-ui-text-muted: rgba($color-brand-blue, 0.65) !default; // an unavailable control's label — 5.0:1 on white, still READ as text, not faded out of legibility
 $color-ui-heading: $color-brand-blue !default;
 $color-ui-link: $color-brand-dark-green !default;
 $color-ui-background: $color-white !default;

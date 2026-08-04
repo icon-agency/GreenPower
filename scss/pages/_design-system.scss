@@ -619,6 +619,16 @@
   margin-top: var(--space-2xl);
 }
 
+// A few components only ever live on the page header's green band and are
+// drawn in white FOR that band — the tool filter above all. On this page's
+// white surface their labels would be invisible, so the demo wears the band's
+// own colour rather than the component being restyled to suit the catalogue.
+.ds-demo--band {
+  padding: var(--space-l);
+  background-color: $color-brand-dark-green;
+  border-radius: $radius-lg;
+}
+
 .ds-demo__label {
   font-family: $font-family-mono;
   font-size: $font-size-sm;
@@ -926,4 +936,42 @@ $ds-swatches-alpha: (
       linear-gradient($value, $value),
       linear-gradient(to right, $color-white 0 50%, $color-brand-blue 50% 100%);
   }
+}
+
+// A link that previews what it opens — the hero section's link to the Home
+// template, where the component itself cannot be demoed inline. Image first,
+// label under it: the thumbnail IS the description, and a label above would
+// make the reader wait for it.
+.ds-thumb-link {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  max-width: 22rem;
+  text-decoration: none;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// The hairline keeps a light-topped screenshot from dissolving into the page.
+.ds-thumb-link__img {
+  width: 100%;
+  height: auto;
+  border: 1px solid $color-ui-border;
+  border-radius: $radius-md;
+  @include transition(border-color);
+}
+
+.ds-thumb-link:hover .ds-thumb-link__img {
+  border-color: $color-brand-dark-green;
+}
+
+.ds-thumb-link__label {
+  display: flex;
+  gap: var(--space-2xs);
+  align-items: center;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-brand-dark-green;
 }
