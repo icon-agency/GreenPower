@@ -30,6 +30,21 @@ $breakpoints: (
   }
 }
 
+// SHORT VIEWPORTS — the height axis. Everything above is width; this is for the
+// rare case that depends on how much vertical room there is, not horizontal:
+// a sticky block only sticks if it FITS, so "is there room for this" is a
+// max-height question. Kept as a mixin for the same reason as respond-to():
+// docs/frontend-rules.md bans raw @media, and a height query is still a query.
+//
+// Takes a length rather than a named token deliberately — there is no shared
+// scale of viewport heights, and the value is always measured against the
+// specific block being seated (see .page-split--lead).
+@mixin short($max) {
+  @media (max-height: $max) {
+    @content;
+  }
+}
+
 // Bounded range: min .. just below max. For the rare treatment that must apply
 // at one breakpoint band and revert at the next (e.g. a 2-column-only layout).
 // Prefer respond-to(); reach for this only when a min-width query would leak

@@ -1,0 +1,325 @@
+// -----------------------------------------------------------------------------
+// Form — the enquiry panel and its controls
+//
+// The design system's form styles, introduced by the contact page: a taupe
+// panel holding labelled controls. Everything is class-scoped (.form__*), so
+// nothing leaks to component inputs like the nav's search field.
+//
+// GovCMS: this is a WEBFORM, not a paragraph. The classes map in the webform
+// UI (or a form_alter): wrapper → .form, element wrappers → .form__field,
+// labels → .form__label, controls → .form__input/__select/__textarea. The
+// captcha block below is a static stand-in for the real reCAPTCHA element.
+// -----------------------------------------------------------------------------
+
+.form {
+  padding: var(--space-l) var(--space-m);
+  background-color: $color-tint-taupe;
+  border-radius: $radius-lg;
+
+  // Beside a split rail, lift the panel by its OWN top padding so the form's
+  // title lines up with the rail's heading rather than sitting a padding-step
+  // below it. Both columns start level as boxes; it is the panel's inset that
+  // pushes its first line down, so the fix is to cancel exactly that — same
+  // token, so the two can never drift apart if the padding is retuned.
+  //
+  // The panel's filled top edge then sits above the rail's first line, which is
+  // the intent: the box reads as a frame around the form, and the two headings
+  // read as one row. Only where the columns exist — stacked, the form follows
+  // the rail in flow and a negative margin would pull it into that text.
+  @include respond-to('sm') {
+    .page-split__body > & {
+      margin-top: calc(-1 * var(--space-l));
+    }
+  }
+
+  // The panel's opening pair matches the split rail's heading + lede exactly —
+  // they sit side by side on one row, so any difference in colour or rhythm
+  // reads as a mistake. Sizes already agreed (both take the base h2 / body
+  // step); these are the two that did not: the section-level dark green rather
+  // than the base blue heading colour, and the rail's --space-s gap rather
+  // than a tighter one.
+  &__title {
+    color: $color-brand-dark-green;
+  }
+
+  &__intro {
+    margin-top: var(--space-s);
+    color: $color-ui-text;
+  }
+
+  &__field {
+    margin-top: var(--space-m);
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: var(--space-2xs);
+    font-weight: $font-weight-medium;
+  }
+
+  // One rule for all three control kinds so they cannot drift. White on the
+  // taupe panel; the strong border token is the 3:1 control boundary
+  // (WCAG 1.4.11 — the hairline token fails it on tint surfaces).
+  &__input,
+  &__select,
+  &__textarea {
+    width: 100%;
+    padding: 0.75em 1em;
+    font: inherit;
+    color: $color-ui-text;
+    background-color: $color-white;
+    border: 1px solid $color-ui-border-strong;
+    border-radius: $radius-md;
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  &__textarea {
+    min-height: 11rem;
+    resize: vertical; // never horizontal — the column owns the width
+  }
+
+  // Select: native control, custom chevron. appearance: none drops the
+  // platform arrow; the wrapper's ::after draws the system's own (the nav
+  // chevron), inset clear of the padding. pointer-events: none so the arrow
+  // never intercepts the click.
+  &__select-wrap {
+    position: relative;
+
+    &::after {
+      position: absolute;
+      top: 50%;
+      right: 1em;
+      width: 0.6em;
+      height: 0.6em;
+      pointer-events: none;
+      content: '';
+      border-right: 2px solid $color-brand-dark-green;
+      border-bottom: 2px solid $color-brand-dark-green;
+      transform: translateY(-70%) rotate(45deg);
+    }
+  }
+
+  &__select {
+    appearance: none;
+    padding-right: 2.75em; // room for the chevron
+  }
+
+  // --- Grouped sections (the long application form) ---
+
+  // A titled run of fields with a rule above it — the logo-request form's
+  // "Business details / Business address / …" groups. A div + h3, not
+  // fieldset/legend: these group MIXED controls for scanning, and legend's
+  // float-based styling costs more than the grouping semantics buy. The
+  // choice groups below, where grouping IS the semantics, use real fieldsets.
+  &__section {
+    padding-top: var(--space-l);
+    margin-top: var(--space-l);
+    border-top: 1px solid $color-ui-border;
+  }
+
+  &__section-title {
+    font-size: $font-size-lg;
+    color: $color-ui-heading;
+  }
+
+  // Radio/checkbox group: fieldset so the legend names every control in it —
+  // "Green power percentage" must be announced with each radio (WCAG 1.3.1).
+  // Browser fieldset chrome zeroed; rhythm matches __field.
+  &__group {
+    min-width: 0;
+    padding: 0;
+    margin: var(--space-m) 0 0;
+    border: 0;
+  }
+
+  // Legend styled as the label. float + width is the one reliable way to make
+  // a legend behave as a normal block cross-browser; the clear on the next
+  // sibling puts the choices row under it.
+  &__legend {
+    float: left;
+    width: 100%;
+    padding: 0;
+    margin-bottom: var(--space-2xs);
+    font-weight: $font-weight-medium;
+
+    + * {
+      clear: left;
+    }
+  }
+
+  &__choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-s);
+  }
+
+  // A choice box: native input inside a bordered label, so the whole box is
+  // the target. The input stays visible (accent-color themes the tick — no
+  // rebuilt control to break), and the box's checked emphasis is :has-gated:
+  // without :has the native tick alone still carries the state.
+  &__choice {
+    display: flex;
+    gap: var(--space-2xs);
+    align-items: center;
+    padding: var(--space-xs) var(--space-s);
+    cursor: pointer;
+    background-color: $color-white;
+    border: 1px solid $color-ui-border-strong;
+    border-radius: $radius-md;
+    @include transition((border-color, box-shadow));
+
+    input {
+      flex-shrink: 0;
+      width: 1.25rem;
+      height: 1.25rem;
+      margin: 0;
+      accent-color: $color-brand-dark-green;
+    }
+
+    &:has(input:checked) {
+      border-color: $color-brand-dark-green;
+      box-shadow: inset 0 0 0 1px $color-brand-dark-green;
+    }
+
+    &:has(input:focus-visible) {
+      @include focus-ring;
+    }
+  }
+
+  // File input: native control, themed via ::file-selector-button so choosing
+  // and clearing keep every platform behaviour. The button is the primary
+  // pill one size down.
+  &__file {
+    width: 100%;
+    padding: 0.45em;
+    font-size: $font-size-sm;
+    color: $color-ui-text;
+    background-color: $color-white;
+    border: 1px solid $color-ui-border-strong;
+    border-radius: $radius-md;
+
+    &::file-selector-button {
+      padding: 0.6em 1.2em;
+      margin-right: 1em;
+      font: inherit;
+      font-weight: $font-weight-medium;
+      color: $color-white;
+      cursor: pointer;
+      background-color: $color-brand-dark-green;
+      border: 0;
+      border-radius: $radius-pill;
+      @include transition(background-color);
+    }
+
+    &::file-selector-button:hover {
+      background-color: $color-brand-blue;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  // Constraint lines under a control (file size, formats). Linked to the
+  // control with aria-describedby in the markup.
+  &__help {
+    margin-top: var(--space-2xs);
+    font-size: $font-size-sm;
+  }
+
+  // A sentence between fields ("Read the Terms and Conditions."). Its link is
+  // the design system's inline link, same as prose.
+  &__note {
+    margin-top: var(--space-m);
+
+    a {
+      @include link-inline;
+    }
+  }
+
+  // Static stand-in for the reCAPTCHA iframe: same footprint, clearly labelled
+  // as a placeholder. The real widget replaces this element in Drupal.
+  &__captcha {
+    display: flex;
+    gap: var(--space-s);
+    align-items: center;
+    max-width: 19rem;
+    padding: var(--space-s);
+    margin-top: var(--space-m);
+    font-size: $font-size-sm;
+    background-color: $color-white;
+    border: 1px solid $color-ui-border;
+    border-radius: $radius-sm;
+  }
+
+  &__captcha-box {
+    flex-shrink: 0;
+    width: 1.75rem;
+    height: 1.75rem;
+    background-color: $color-white;
+    border: 2px solid $color-ui-border-strong;
+    border-radius: $radius-sm;
+  }
+
+  &__actions {
+    margin-top: var(--space-l);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Contact info — the rail beside the form
+//
+// The page's phone/email details as an icon list: tinted glyph circle, label,
+// value. Sits in the split's sticky rail under its heading, so it pins while
+// the form scrolls.
+//
+// GovCMS: editorial content (a wysiwyg or a small contact_info paragraph) —
+// the icons are theme assets keyed off field values, not editor uploads.
+// -----------------------------------------------------------------------------
+
+.contact-info {
+  display: grid;
+  gap: var(--space-m);
+  margin-top: var(--space-l);
+
+  &__item {
+    display: flex;
+    gap: var(--space-s);
+    align-items: flex-start;
+  }
+
+  &__icon {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    color: $color-brand-dark-green;
+    background-color: $color-tint-taupe;
+    border-radius: $radius-pill;
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  &__label {
+    font-size: $font-size-base;
+    font-weight: $font-weight-demibold;
+    color: $color-ui-heading;
+  }
+
+  &__value {
+    margin-top: var(--space-3xs);
+
+    // The design system's inline link, not a bare colour — same resting
+    // underline and hover bar as prose (abstracts/_mixins.scss).
+    a {
+      @include link-inline;
+    }
+  }
+}

@@ -49,6 +49,43 @@
   gap: $gap;
 }
 
+// --- Inline link ---
+
+// The design system's inline text link: green with a resting underline (never
+// colour alone — WCAG 1.4.1), hover turns blue while an animated bar grows
+// from the centre out and REPLACES the underline. A background gradient, not
+// an ::after: links wrap, and a pseudo strikes one bar across every fragment,
+// where a background paints per line (box-decoration-break: clone).
+//
+// Lives here because it must render identically wherever body-copy links
+// appear — the prose wrapper and the contact rail both include it, and any
+// future in-text link should too rather than restyling from the base `a`.
+@mixin link-inline {
+  color: $color-ui-link;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: from-font;
+  background-image: linear-gradient($color-brand-green, $color-brand-green);
+  background-repeat: no-repeat;
+  // 50% centres the growth; the bar lands ON the decoration's line so the two
+  // never read as a double rule. 2px = double the from-font weight.
+  background-position: 50% calc(100% - 0.07em);
+  background-size: 0% 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: color 0.2s ease-in-out, background-size 0.3s ease-out;
+
+  &:hover {
+    color: $color-brand-blue;
+    background-size: 100% 2px;
+    text-decoration-color: transparent;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
 // --- Components ---
 
 @mixin button-reset {

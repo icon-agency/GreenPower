@@ -1,0 +1,145 @@
+// -----------------------------------------------------------------------------
+// Article lead — the panelled header variant
+//
+// An alternative to .page-header for an article: instead of one full-bleed band
+// with the image masked into it by the angle shape, the image and the copy are
+// two SEPARATE rounded boxes with a real gap between them. No angle mask.
+//
+// The two are cells of ONE grid row, which is what keeps their heights equal
+// always: the panel's content drives the row, and the figure stretches to
+// match with object-fit covering the crop. (The first cut had the image in the
+// split's sticky rail instead — heights could never match across columns
+// without subgrid, and a subgridded rail can't stick.)
+//
+// The STICKY part is the rail below, unchanged from the news article: the
+// article-meta repeat that reveals once this header scrolls away
+// (data-reveal-after=".article-lead"). This variant adds a small image repeat
+// (__thumb) at the top of that reveal block, so what sticks beside the article
+// is image + tag + title + dates + Copy link — the header restated in
+// miniature. On short viewports there isn't room for the thumb AND the meta in
+// one sticky block, so the thumb drops and the text sticks alone.
+//
+// Outer box: the SAME frame as the band it replaces (container max, --space-xs
+// inline frame, its own size container), so the 34cqi first column lands
+// exactly on the split's rail track below and the page keeps one left edge.
+//
+// Drupal: same fields as the standard article header — a preprocess variable
+// picks this template, not a different content model.
+// -----------------------------------------------------------------------------
+
+.article-lead {
+  max-width: $container-max-width;
+  padding-inline: var(--space-xs);
+  margin-inline: auto;
+  container-type: inline-size;
+
+  // Stacked: image above panel, in flow — the mobile order.
+  @include respond-to('md') {
+    display: grid;
+    // The rail track below, verbatim (see .page-split--article md+), so the
+    // image column and the rail share an edge.
+    grid-template-columns: calc(34cqi + var(--space-l)) minmax(0, 1fr);
+  }
+}
+
+// The image cell. Its right margin IS the gap in the design — the same
+// --space-l the rail below reserves as padding, so the gap and the rail's
+// text inset read as one vertical.
+.article-lead__figure {
+  margin: 0 0 var(--space-m);
+  overflow: hidden;
+  border-radius: $radius-lg;
+
+  img {
+    width: 100%;
+    aspect-ratio: 5 / 4; // stacked: the image sets its own height
+    object-fit: cover;
+  }
+
+  @include respond-to('md') {
+    margin: 0 var(--space-l) 0 0;
+
+    // Paired: the ROW sets the height — the grid stretches this cell to the
+    // panel's height, and the image covers whatever that is. aspect-ratio
+    // yields so the two can never disagree.
+    img {
+      height: 100%;
+      aspect-ratio: auto;
+    }
+  }
+}
+
+// The copy panel: breadcrumb, H1, summary, then the tag + dates row — the
+// band's content on a tint surface. Sides one step tighter than the top and
+// bottom: the panel is a wide box and the band-scale inset read as dead air.
+.article-lead__panel {
+  padding: var(--space-l) var(--space-m);
+  color: $color-ui-text;
+  background-color: $color-tint-taupe;
+  border-radius: $radius-lg;
+
+  // The crumbs are the page-header's, restated for the light surface: that
+  // component hard-codes white for its links and its chevron borders (both
+  // chevrons are ::before borders).
+  .page-header__crumbs {
+    margin-bottom: var(--space-l);
+  }
+
+  .page-header__crumb {
+    color: $color-ui-text;
+
+    // Covers both of the component's white chevron rules: all three selectors
+    // weigh (0,2,0) and this file imports after _page-header.scss, so source
+    // order settles it.
+    &::before {
+      border-color: $color-ui-text;
+    }
+
+    a {
+      color: inherit;
+    }
+  }
+
+  .page-header__title {
+    color: $color-ui-heading;
+  }
+
+  .page-header__intro {
+    margin-top: var(--space-m);
+    color: $color-ui-text;
+  }
+
+  // Tag + dates, on their own line below the summary. The base article-meta
+  // colours are the light-surface set already (the rail uses them on white);
+  // only the band needed --on-dark.
+  .article-meta {
+    margin-top: var(--space-l);
+  }
+}
+
+// The image repeat at the top of the rail's reveal block — the sticky
+// miniature of the header figure. display: none below md comes free: it sits
+// inside .article-meta__summary, which the tablet band already drops.
+.article-lead__thumb {
+  margin: 0 0 var(--space-s);
+  overflow: hidden;
+  border-radius: $radius-md;
+
+  img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+}
+
+// Short viewports: a sticky block taller than the viewport doesn't stick — it
+// scrolls out and parks. Below this height the thumb and the meta cannot both
+// be seated, so the thumb goes and the text sticks alone. Height, not width,
+// hence short() rather than respond-to(). ~46rem seats thumb (~13rem) + meta
+// (~14rem) + the rail's top offset with comfort; re-measure if the rail's
+// content grows.
+@include short(46rem) {
+  .article-lead__thumb {
+    display: none;
+  }
+}

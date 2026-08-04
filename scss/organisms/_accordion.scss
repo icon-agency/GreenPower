@@ -47,8 +47,19 @@
   gap: var(--space-xs); // the card-stack gap, so the pills read as that family
 }
 
-// Each item is a card-family pill: the card's taupe surface and its hover lift
-// (background, not an underline — the affordance the cards already taught).
+// Each item is a card-family pill, and the surface pair FLIPS with the state:
+// closed rests on full Taupe and the bar's hover lightens to the 60% tint —
+// "this will open"; open rests on the tint (an opened pill holding white
+// content must not sit darker than its neighbours) and the bar's hover
+// deepens back to Taupe — "this will close". Each state previews the other.
+//
+// Hover fires from the TRIGGER BAR only: an open panel holds content of its
+// own (downloads, prose), and hovering that content lighting the whole pill
+// read as the pill being one big control, which it is not — only the bar
+// collapses it. :has by necessity — the pill is the summary's PARENT, and
+// only :has can colour a parent from a child's hover. Without :has the pill
+// keeps its resting surface: no cue lost that the native marker doesn't cover.
+//
 // radius-md, not the card's lg: the token file assigns md to dense rows of
 // this kind, and the tighter corner suits a ~3em-tall pill.
 .accordion__item {
@@ -56,8 +67,16 @@
   border-radius: $radius-md;
   @include transition(background-color);
 
-  &:hover {
+  &:has(> .accordion__trigger:hover) {
     background-color: $color-tint-taupe;
+  }
+
+  &[open] {
+    background-color: $color-tint-taupe;
+
+    &:has(> .accordion__trigger:hover) {
+      background-color: $color-brand-taupe;
+    }
   }
 }
 

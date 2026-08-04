@@ -39,6 +39,9 @@
               <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
             <li><a class="ds-nav__link ds-nav__link--external" href="templates/news-article.html">News article
               <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            <!-- Not listed: templates/news-article-lead.html — the panelled-lead
+                 header variant, still in review. The file stays and is reachable
+                 by URL; drop this entry back in to publish it. -->
             <li><a class="ds-nav__link ds-nav__link--external" href="templates/impact-stories.html">Impact stories
               <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
             <li><a class="ds-nav__link ds-nav__link--external" href="templates/impact-article.html">Impact article
@@ -71,6 +74,19 @@
             <li><a class="ds-nav__link ds-nav__link--external" href="templates/landing-industry-accreditation.html">Landing: Industry accreditation
               <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
             <li><a class="ds-nav__link ds-nav__link--external" href="templates/content-page-with-steps.html">Content: Page with steps multi-component
+              <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            <li><a class="ds-nav__link ds-nav__link--external" href="templates/landing-audits-reports.html">Landing: Audits and reports
+              <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            <li><a class="ds-nav__link ds-nav__link--external" href="templates/downloads-quarterly-reports.html">Downloads: Quarterly Reports
+              <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+          </ul>
+        </div>
+        <div class="ds-nav__group">
+          <p class="ds-nav__group-title">Forms</p>
+          <ul class="ds-nav__list">
+            <li><a class="ds-nav__link ds-nav__link--external" href="templates/form-contact.html">Contact us
+              <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            <li><a class="ds-nav__link ds-nav__link--external" href="templates/form-logo-request.html">Logo request
               <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
           </ul>
         </div>
@@ -109,6 +125,13 @@
             <li><a class="ds-nav__link" href="#download">Download</a></li>
             <li><a class="ds-nav__link" href="#client-logos">Client logos</a></li>
             <li><a class="ds-nav__link" href="#pathway">Pathway</a></li>
+          </ul>
+        </div>
+        <div class="ds-nav__group">
+          <p class="ds-nav__group-title">Forms</p>
+          <ul class="ds-nav__list">
+            <li><a class="ds-nav__link" href="#form">Form</a></li>
+            <li><a class="ds-nav__link" href="#contact-info">Contact info</a></li>
           </ul>
         </div>
         <div class="ds-nav__group">
@@ -1408,6 +1431,111 @@
               </article>
             </div>
           </section>
+        </div>
+      </section>
+
+      <div class="ds-category">
+        <h2 class="ds-category__title">Forms</h2>
+        <p class="ds-category__note">The form styles: a taupe panel of labelled controls, introduced by the Contact page and extended by the Logo request application. In GovCMS these are webforms &mdash; the classes map in the webform UI or a form_alter, and the reCAPTCHA placeholder is replaced by the real element.</p>
+      </div>
+
+      <section class="ds-section" id="form" aria-labelledby="form-title">
+        <h3 class="ds-section__title" id="form-title">Form</h3>
+        <p class="ds-section__intro">One of each control: text input, select (native, custom chevron), textarea, choice boxes (native inputs inside bordered labels &mdash; the box border marks the checked state via <code class="ds-code">:has</code>, the native tick alone carries it without), file input themed through <code class="ds-code">::file-selector-button</code>, help text linked with <code class="ds-code">aria-describedby</code>, and titled sections divided by hairlines. Labels always sit above controls and are wired by <code class="ds-code">for</code>/<code class="ds-code">id</code>; radio and checkbox groups are real fieldsets so the legend is announced with each control.</p>
+
+        <div class="ds-demo">
+          <p class="ds-demo__label">webform &middot; .form</p>
+          <form class="form" action="#" method="post">
+            <h2 class="form__title">Form title &mdash; form__title</h2>
+            <p class="form__intro">Form intro &mdash; form__intro. Matches the split rail&rsquo;s heading and lede, because the two sit side by side.</p>
+
+            <div class="form__section">
+              <h3 class="form__section-title">Section title &mdash; form__section</h3>
+
+              <div class="form__field">
+                <label class="form__label" for="ds-form-text">Text input &mdash; form__input</label>
+                <input class="form__input" id="ds-form-text" name="ds-text" type="text">
+              </div>
+
+              <div class="form__field">
+                <label class="form__label" for="ds-form-select">Select &mdash; form__select</label>
+                <div class="form__select-wrap">
+                  <select class="form__select" id="ds-form-select" name="ds-select">
+                    <option value="" selected>Select</option>
+                    <option>Option one</option>
+                    <option>Option two</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form__field">
+                <label class="form__label" for="ds-form-textarea">Textarea &mdash; form__textarea</label>
+                <textarea class="form__textarea" id="ds-form-textarea" name="ds-textarea" placeholder="Placeholder text"></textarea>
+              </div>
+
+              <fieldset class="form__group">
+                <legend class="form__legend">Radio choices &mdash; form__choice</legend>
+                <div class="form__choices">
+                  <label class="form__choice"><input type="radio" name="ds-radio" checked> Choice one</label>
+                  <label class="form__choice"><input type="radio" name="ds-radio"> Choice two</label>
+                </div>
+              </fieldset>
+
+              <fieldset class="form__group">
+                <legend class="form__legend">Checkbox choices &mdash; multi-select</legend>
+                <div class="form__choices">
+                  <label class="form__choice"><input type="checkbox" name="ds-check" checked> Checked box</label>
+                  <label class="form__choice"><input type="checkbox" name="ds-check"> Unchecked box</label>
+                </div>
+              </fieldset>
+
+              <div class="form__field">
+                <label class="form__label" for="ds-form-file">File input &mdash; form__file</label>
+                <input class="form__file" id="ds-form-file" name="ds-file" type="file" aria-describedby="ds-form-file-help">
+                <p class="form__help" id="ds-form-file-help">Help text &mdash; form__help, linked with aria-describedby. Constraints such as file size and formats.</p>
+              </div>
+
+              <p class="form__note">A sentence between fields &mdash; form__note. Its <a href="#form">link</a> is the design system&rsquo;s inline link.</p>
+
+              <div class="form__captcha" role="img" aria-label="reCAPTCHA placeholder">
+                <span class="form__captcha-box"></span>
+                <span>I&rsquo;m not a robot<br><small>reCAPTCHA &mdash; placeholder</small></span>
+              </div>
+
+              <div class="form__actions">
+                <button class="btn btn--primary" type="submit">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="ds-section" id="contact-info" aria-labelledby="contact-info-title">
+        <h3 class="ds-section__title" id="contact-info-title">Contact info</h3>
+        <p class="ds-section__intro">The contact details block beside a form: tinted glyph circle, bold label, linked value. Sits in the split&rsquo;s sticky rail on the Contact page, so it pins while the form scrolls. The links are the shared inline-link mixin &mdash; identical to prose links.</p>
+
+        <div class="ds-demo">
+          <p class="ds-demo__label">contact_info &middot; .contact-info</p>
+          <div class="contact-info">
+            <div class="contact-info__item">
+              <span class="contact-info__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </span>
+              <div>
+                <p class="contact-info__label">Label &mdash; contact-info__label</p>
+                <p class="contact-info__value">Value with a <a href="#contact-info">link</a> &mdash; contact-info__value</p>
+              </div>
+            </div>
+            <div class="contact-info__item">
+              <span class="contact-info__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+              </span>
+              <div>
+                <p class="contact-info__label">Email</p>
+                <p class="contact-info__value"><a href="#contact-info">name@example.gov.au</a></p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

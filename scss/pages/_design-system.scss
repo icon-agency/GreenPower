@@ -98,9 +98,11 @@
 // The sidebar's own title, and the second one that splits the nav further down
 // (.ds-nav__section-title). One rule for both so they cannot drift apart —
 // "in the style of the one above it" is the whole point of the second.
+// step-1: these are the two ORGANISING titles of the whole column, and at the
+// group-label size they read as just more groups.
 .ds-sidebar__title,
 .ds-nav__section-title {
-  font-size: $font-size-sm;
+  font-size: $font-size-lg;
   font-weight: $font-weight-medium;
   color: $color-brand-dark-green;
 }

@@ -43,10 +43,19 @@
 // -----------------------------------------------------------------------------
 
 .download {
-  // Surface as a custom property so a nested placement can restyle it without
-  // this component knowing where it sits (see the accordion rule at the end).
+  // Surface as a PAIR of custom properties so a nested placement can restyle
+  // both without this component knowing where it sits (see the accordion rule
+  // at the end) — the card's own device, so rest and hover can never drift.
   --download-surface: #{$color-brand-taupe};
+  --download-surface-hover: #{$color-tint-taupe};
 
+  // The containing block for BOTH stretched pieces of the link below: its
+  // ::after click cover, and the visually-hidden span that names it —
+  // `visually-hidden` is position: absolute, and without a positioned ancestor
+  // it resolves against the ROOT (LESSONS.md: that inflated the design
+  // system's document to 21,000px). The link itself must stay unpositioned or
+  // its cover would shrink to the link's own box.
+  position: relative;
   display: flex;
   gap: var(--space-m);
   align-items: flex-start;
@@ -54,6 +63,23 @@
   padding: var(--space-m);
   background-color: var(--download-surface);
   border-radius: $radius-md;
+  @include transition(background-color);
+
+  // The whole card is the link (the ::after cover below), so the whole card
+  // shows it: surface lifts, the link text goes blue, its underline bar grows
+  // and the icon nudges the way the file travels — one hover, every cue.
+  &:hover {
+    background-color: var(--download-surface-hover);
+
+    .download__link {
+      color: $color-brand-blue;
+      background-size: 100% 2px;
+    }
+
+    .download__icon {
+      transform: translateY(var(--space-3xs));
+    }
+  }
 }
 
 .download__body {
@@ -83,29 +109,40 @@
   color: $color-ui-text;
 }
 
-// The link is the control; the title above it is a heading, not a target.
+// The link is the control, stretched over the whole card (the ::after cover —
+// the card__title-link mechanism): the anchor's text stays "Download, title,
+// size, format", which is what screen readers and search engines get, while
+// the click target is the card. The focus ring draws around the visible row.
+// NO position of its own — the cover and the visually-hidden span both anchor
+// to .download above.
 .download__link {
   @include flex-row(var(--space-2xs));
-  // Containing block for the visually-hidden span inside (the document title
-  // that gives the link its accessible name). `visually-hidden` is
-  // position: absolute with no offsets, so without a positioned ancestor it
-  // falls to its static position with the ROOT as its containing block — which
-  // no `overflow: hidden` above it can clip. See LESSONS.md: that is what
-  // inflated the design system's document to 21,000px and let anchor clicks
-  // scroll the app shell's top bar out of reach.
-  position: relative;
-  align-self: flex-start; // shrink to the label, don't span the body column
-  margin-top: var(--space-2xs);
+  // Pinned to the card's foot so a list of files levels its download rows
+  // (the card __links/__meta/__cta device); in a content-height card the flex
+  // gap spaces it as before. The row spans the body column and carries the
+  // card__link divider treatment: resting hairline, and the centre-out bar —
+  // the background-gradient build from link-inline, because a positioned
+  // ::after here would break the click cover's anchoring.
+  margin-top: auto;
+  padding-bottom: var(--space-2xs);
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   color: $color-brand-dark-green;
   text-decoration: none;
-  @include transition(color);
+  background-image: linear-gradient($color-brand-green, $color-brand-green);
+  background-repeat: no-repeat;
+  background-position: 50% 100%;
+  background-size: 0% 2px;
+  border-bottom: 1px solid $color-ui-border;
+  transition: color 0.2s ease-in-out, background-size 0.3s ease-out;
 
-  // Blue on hover — the card and nav link convention. Primary Green as TEXT is
-  // 3.5:1 and fails AA at this size.
-  &:hover {
-    color: $color-brand-blue;
+  // The click cover — the whole card, hence the card's radius so a focus
+  // outline drawn by anything non-standard still follows the shape.
+  &::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+    border-radius: $radius-md;
   }
 
   &:focus-visible {
@@ -120,10 +157,6 @@
   width: 1em;
   height: 1em;
   @include transition(transform, 0.2s, ease-out);
-}
-
-.download__link:hover .download__icon {
-  transform: translateY(var(--space-3xs));
 }
 
 // Size and format, inside the link so they are announced with it.
@@ -168,4 +201,8 @@
 // stays unaware that downloads exist.
 .accordion__panel .download {
   --download-surface: #{$color-white};
+  // Hover deepens to full Taupe, not the tint: the open pill behind these
+  // cards IS the tint, and a hover that matched it would dissolve the card's
+  // edge into the pill instead of lifting it.
+  --download-surface-hover: #{$color-brand-taupe};
 }

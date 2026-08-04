@@ -353,6 +353,20 @@
   &__links {
     padding: 0;
     list-style: none;
+    // Pinned to the card's foot: in a grid row the tracks stretch every card
+    // to the tallest, and without this the link rows land wherever each card's
+    // copy happens to stop. The same device __meta and __cta use — every rule
+    // that pins a card's last row looks alike. In a content-height card (the
+    // reading-column stack, stacked mobile) there is no slack to take and the
+    // flex gap spaces it as before.
+    margin-top: auto;
+  }
+
+  // A CTA following a links row: the links above have already absorbed the
+  // slack, so the button rides the normal gap — its own auto (below) would
+  // split the free space into two holes, one over each.
+  &__links + &__cta {
+    margin-top: 0;
   }
 
   // Optional closing action — a button at the foot of the card, under the

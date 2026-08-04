@@ -105,47 +105,11 @@
 
   // --- Inline ---
 
+  // The shared inline-link treatment (abstracts/_mixins.scss) — resting
+  // underline, hover bar replacing it. Extracted so the contact rail's links
+  // render identically to prose; the full rationale lives with the mixin.
   a {
-    color: $color-ui-link;
-    // Never colour alone: the underline carries the link for anyone who cannot
-    // separate the green from the body blue (docs/wysiwyg-output.md). This is
-    // the RESTING state, which is what that requirement is about; on hover the
-    // animated bar below takes over as the underline.
-    text-decoration: underline;
-    text-underline-offset: 0.15em;
-    text-decoration-thickness: from-font;
-
-    // Hover underline — the main-nav motion (grows from the centre out to both
-    // edges, retracts back to the centre; never fades) rebuilt for inline text.
-    // A gradient grown via background-size, NOT the nav's absolutely-positioned
-    // ::after: prose links wrap, and an ::after anchors to the bounding box of
-    // ALL the fragments, striking one bar across every line between the first
-    // and last. A background paints per fragment, so each wrapped line gets its
-    // own correct underline — box-decoration-break: clone makes that explicit
-    // rather than letting the box be sliced.
-    background-image: linear-gradient($color-brand-green, $color-brand-green);
-    background-repeat: no-repeat;
-    // 50% is what centres the growth: at 0% width the bar sits mid-link and
-    // expands both ways from there. Positioned to land ON the text-decoration's
-    // own line, not below it, so the two never read as a double rule.
-    background-position: 50% calc(100% - 0.07em);
-    background-size: 0% 2px; // 2px = double the text-decoration's own weight
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
-    transition: color 0.2s ease-in-out, background-size 0.3s ease-out;
-
-    // The bar REPLACES the resting underline rather than stacking under it —
-    // the decoration is hidden (not removed, so nothing reflows) the moment
-    // hover starts, leaving the green bar as the only rule.
-    &:hover {
-      color: $color-brand-blue;
-      background-size: 100% 2px;
-      text-decoration-color: transparent;
-    }
-
-    &:focus-visible {
-      @include focus-ring;
-    }
+    @include link-inline;
   }
 
   strong,
