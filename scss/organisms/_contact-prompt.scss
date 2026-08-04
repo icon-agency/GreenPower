@@ -1,0 +1,80 @@
+// -----------------------------------------------------------------------------
+// Contact prompt — the referral card a listing shows when it cannot help
+//
+// Two cases the buy directory has no answer for: an event wanting a GreenPower
+// partnership, and an energy user large enough that no retail plan fits. Both
+// are real demand the RESULTS below cannot serve — a provider would turn them
+// away — so the page hands them to GreenPower instead of leaving them to work
+// out that the eight rows they are looking at are not for them.
+//
+// NOT a filter and NOT a result. It is editorial content with a display
+// condition, which is why it is its own component rather than another state on
+// .tool-filter: the rule that reveals it happens to be a filter combination
+// today, and could just as easily be a page or a segment tomorrow.
+//
+// It ACCOMPANIES the results rather than replacing them, and sits above them —
+// the wireframe's own reading. Worth knowing that this is the arguable half of
+// the design: a large energy business filtering business + electricity is told
+// here that a provider cannot help, and then shown eight providers. If the
+// client wants the prompts to REPLACE the list in these cases, that is a
+// change to the reveal rule and the directory's empty state, not to this file.
+//
+// Drupal mapping: not a paragraph on the node. Two blocks (or one block with
+// two items) placed in the view's header region, or a custom block with a
+// visibility condition — whatever the site already uses for "editorial content
+// above a listing". The reveal condition is the same declarative attribute the
+// filter's dependent groups use, so it ports as a #states-style rule rather
+// than as bespoke JS. Heading, body and the link are all fields; nothing here
+// assumes two cards.
+// -----------------------------------------------------------------------------
+
+.contact-prompts {
+  display: grid;
+  // Side by side once there is room for two comfortable measures, stacked
+  // below that. auto-fit rather than a breakpoint: the pair is content, so the
+  // number of cards is the editor's decision and the grid should hold one or
+  // three without a rule per count.
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  gap: var(--space-m);
+  margin-bottom: var(--space-l);
+
+  // Explicit, because the grid display would otherwise outrank the UA's
+  // [hidden] rule (LESSONS.md).
+  &[hidden] {
+    display: none;
+  }
+}
+
+.contact-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--space-l);
+  color: $color-white;
+  // Dark Green, the same surface the page header uses. These are the page
+  // TALKING to the reader rather than listing records, and the taupe card
+  // family is what the records wear — a third tint would have read as another
+  // provider row.
+  background-color: $color-brand-dark-green;
+  border-radius: $radius-lg;
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-demibold;
+    color: $color-white;
+  }
+
+  &__text {
+    margin-top: var(--space-2xs);
+    // The prompt is two lines of explanation, not an article — it keeps the
+    // reading measure so it never runs to a single long line in a wide card.
+    max-width: var(--measure);
+  }
+
+  // Pinned to the foot so the buttons line up across the row however unevenly
+  // the copy above them falls — the card family's shared device.
+  &__cta {
+    margin-top: auto;
+    padding-top: var(--space-m);
+  }
+}

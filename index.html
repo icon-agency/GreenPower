@@ -142,6 +142,7 @@
             <li><a class="ds-nav__link" href="#quote">Quote</a></li>
             <li><a class="ds-nav__link" href="#accordion">Accordion</a></li>
             <li><a class="ds-nav__link" href="#modal">Modal</a></li>
+            <li><a class="ds-nav__link" href="#contact-prompt">Contact prompt</a></li>
             <li><a class="ds-nav__link" href="#download">Download</a></li>
             <li><a class="ds-nav__link" href="#client-logos">Client logos</a></li>
             <li><a class="ds-nav__link" href="#pathway">Pathway</a></li>
@@ -1298,6 +1299,36 @@
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section class="ds-section" id="contact-prompt" aria-labelledby="contact-prompt-title">
+        <h3 class="ds-section__title" id="contact-prompt-title">Contact prompt</h3>
+        <p class="ds-section__intro">The referral card a listing shows when it cannot help. On the buy directory these appear for a business buying electricity &mdash; an event wanting a GreenPower partnership, and an energy user too large for any retail plan &mdash; both real demand the rows below cannot serve, so the page hands them to GreenPower rather than leaving them to work out that the results are not for them. Dark Green because this is the page <em>talking</em> to the reader, where the taupe card family is what the records wear. Buttons pin to the foot so they line up across the row however unevenly the copy falls.</p>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Editorial content with a display condition</p>
+          <p class="ds-group__note">Not a filter and not a result &mdash; which is why it is its own component rather than another state on the filter. It takes the same <code class="ds-code">data-visible-when</code> attribute the filter's dependent groups use, so one evaluator drives both, but nothing here knows anything about a form. In Drupal these are blocks in the view's header region with a visibility condition, not paragraphs on the node; heading, body and link are all fields, and nothing assumes two cards &mdash; the grid holds one or three without a rule per count.</p>
+
+          <div class="ds-demo">
+            <div class="contact-prompts">
+              <article class="contact-prompt">
+                <h4 class="contact-prompt__title">Running an event?</h4>
+                <p class="contact-prompt__text">Interested in having your event powered by accredited renewable electricity through a GreenPower partnership?</p>
+                <p class="contact-prompt__cta"><a class="btn btn--white" href="#">Contact us<span class="visually-hidden"> about powering an event with GreenPower</span></a></p>
+              </article>
+              <article class="contact-prompt">
+                <h4 class="contact-prompt__title">Large energy business?</h4>
+                <p class="contact-prompt__text">Does your business use over XXX MWh per year and want a cost-effective way to switch to accredited renewable energy?</p>
+                <p class="contact-prompt__cta"><a class="btn btn--white" href="#">Contact us<span class="visually-hidden"> about GreenPower for a large energy business</span></a></p>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Open: accompany or replace?</p>
+          <p class="ds-group__note">These currently sit <strong>above</strong> the results and the results still show &mdash; the wireframe's own reading. It is the arguable half of the design: a large energy business filtering business + electricity is told a provider cannot help, and then shown eight providers. If the client wants the prompts to replace the list in these cases, that is a change to the reveal rule and the directory's empty state, not to this component. <code class="ds-code">XXX MWh</code> is the wireframe's placeholder and needs a real threshold.</p>
         </div>
       </section>
 

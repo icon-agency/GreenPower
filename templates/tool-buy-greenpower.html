@@ -479,6 +479,32 @@
         <p class="provider-directory__count" aria-live="polite" data-buy-count>Showing 10 accredited electricity providers and gas traders</p>
       </div>
 
+      <!-- The two cases the directory below cannot serve. Revealed by the same
+           declarative attribute the filter's dependent groups use — this is
+           content with a display condition, not a filter, so the rule reads
+           the same way while the component has nothing to do with the form.
+
+           Placed AFTER the count and before the list: the count answers the
+           filter, then these say "if you are one of these, the rows below are
+           not for you", then the rows. They accompany the results rather than
+           replacing them — see _contact-prompt.scss for why that is the
+           arguable half of this.
+
+           WIREFRAME FILLER: "XXX MWh" is the wireframe's own placeholder; the
+           real threshold needs to come from the client. -->
+      <div class="contact-prompts" data-visible-when="buyer=business ptype=electricity" hidden>
+        <article class="contact-prompt">
+          <h3 class="contact-prompt__title">Running an event?</h3>
+          <p class="contact-prompt__text">Interested in having your event powered by accredited renewable electricity through a GreenPower partnership?</p>
+          <p class="contact-prompt__cta"><a class="btn btn--white" href="#">Contact us<span class="visually-hidden"> about powering an event with GreenPower</span></a></p>
+        </article>
+        <article class="contact-prompt">
+          <h3 class="contact-prompt__title">Large energy business?</h3>
+          <p class="contact-prompt__text">Does your business use over XXX MWh per year and want a cost-effective way to switch to accredited renewable energy?</p>
+          <p class="contact-prompt__cta"><a class="btn btn--white" href="#">Contact us<span class="visually-hidden"> about GreenPower for a large energy business</span></a></p>
+        </article>
+      </div>
+
       <!-- Provider logos are real marks from assets/logos, each on the card
            that NAMES that company — a real logo against another company's name
            would misrepresent both. The set is GreenPower's customer library, so
@@ -1804,10 +1830,16 @@
       }
 
       function applyRules() {
-        // Reveal / hide dependent groups. A group that goes away takes its
-        // selection with it, or the results would keep honouring a filter the
-        // user can no longer see or clear.
-        [].forEach.call(form.querySelectorAll('[data-visible-when]'), function (el) {
+        // Reveal / hide anything conditional. DOCUMENT-wide, not form-wide:
+        // the same rule governs a dependent field INSIDE the form and the
+        // referral cards above the results, and they are one mechanism —
+        // narrowing the query to the form would have quietly excluded half of
+        // what this exists to drive.
+        //
+        // A group that goes away takes its selection with it, or the results
+        // would keep honouring a filter the user can no longer see or clear.
+        // Content with nothing to clear is unaffected.
+        [].forEach.call(document.querySelectorAll('[data-visible-when]'), function (el) {
           var show = satisfied(el.getAttribute('data-visible-when'));
           if (!show && !el.hidden) {
             [].forEach.call(el.querySelectorAll('input'), function (i) { i.checked = false; });

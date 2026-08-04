@@ -372,16 +372,30 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
   // filter row past the band; stacked, the track reads as a short list of
   // choices.
   //
-  // Options AND track both keep the pill radius the rest of the filter uses.
-  // The track is taller than a single row, so the pill resolves to a stadium
-  // rather than a capsule — which is the point: it echoes the shape of the
-  // options nested inside it, and the horizontal tracks above it, instead of
-  // introducing a third corner treatment into one control.
+  // The options keep the pill shape the rest of the filter uses. The TRACK
+  // cannot simply take the same `pill` keyword, and that is the whole point
+  // of the custom property below: a pill resolves to HALF THE ELEMENT'S OWN
+  // HEIGHT, so on a box holding two stacked rows it came out at ~51px against
+  // the options' ~21px — twice their curve, which read as a stadium wrapped
+  // around two capsules rather than as one control.
+  //
+  // So the option's radius is named as a value both can use, and the track
+  // takes that plus the padding between them. Outer = inner + gap is the
+  // concentric rule: the two curves then run parallel instead of one bulging
+  // past the other.
+  //
+  // 1.325rem is half the option's height at this step of the type scale —
+  // i.e. exactly what `pill` was already resolving to on the option, so the
+  // options are unchanged. If the scale ever grows them past ~2.65rem tall
+  // their corners stop being a full pill, which is a small and graceful drift
+  // rather than a break.
   &__checks--stack {
+    --stack-option-radius: 1.325rem;
+
     flex-direction: column;
     align-items: stretch;
     min-height: 0;
-    border-radius: $radius-pill;
+    border-radius: calc(var(--stack-option-radius) + var(--space-3xs));
 
     .tool-filter__check {
       // Left-aligned: these read as a short list of sentences, and centring
@@ -389,6 +403,7 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
       justify-content: flex-start;
       height: auto;
       padding: var(--space-2xs) var(--space-s);
+      border-radius: var(--stack-option-radius);
     }
   }
 
