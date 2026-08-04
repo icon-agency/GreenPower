@@ -439,7 +439,7 @@
     },
     {
       name: 'Listings and directories',
-      note: 'Views, not paragraphs. Exposed filters render as the filter bar; rows are node teasers; chips and count are the view header.',
+      note: 'Views, not paragraphs. Exposed filters render as the filter bar; rows are node teasers; chips and count are the view header. The last three (V5, V6, V7) are what the design system calls TOOLS — Electricity generators, Gas producers, Buy GreenPower. They sit with the news listing here rather than in an epic of their own because they share the filter bar and the chips, and building those twice is the mistake this grouping exists to prevent.',
       tickets: [
         {
           ref: 'V1', summary: 'News listing view',
@@ -496,8 +496,8 @@
           depends: 'F6, V3'
         },
         {
-          ref: 'V5', summary: 'Electricity generators directory',
-          why: 'Accredited generator listing with a map.',
+          ref: 'V5', summary: 'Electricity generators tool',
+          why: 'The accredited generator directory with its map — "Electricity generators" in the design system\u2019s Tools group.',
           see: [['Template', 'templates/tool-electricity-generators.html']],
           ac: [
             'View over <code>accredited_generator</code> nodes; rows are teasers',
@@ -508,8 +508,8 @@
           depends: 'V4'
         },
         {
-          ref: 'V6', summary: 'Gas producers directory',
-          why: 'Same view shape, gas taxonomy.',
+          ref: 'V6', summary: 'Gas producers tool',
+          why: 'Same view shape as the generators tool, gas taxonomy — "Gas producers" in the design system\u2019s Tools group.',
           see: [['Template', 'templates/tool-gas-producers.html']],
           ac: [
             'Same view configuration as V5 with the renewable gas type filter',
@@ -519,8 +519,8 @@
           depends: 'V5'
         },
         {
-          ref: 'V7', summary: 'Buy GreenPower directory',
-          why: 'Provider and trader listing, the most complex of the three.',
+          ref: 'V7', summary: 'Buy GreenPower tool',
+          why: 'Provider and trader directory, the most complex of the three tools — "Buy GreenPower" in the design system\u2019s Tools group.',
           see: [['Template', 'templates/tool-buy-greenpower.html']],
           ac: [
             'View over <code>accredited_provider</code> nodes; rows are teasers',
