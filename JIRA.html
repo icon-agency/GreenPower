@@ -41,11 +41,11 @@
 
       <p>The epic is the <strong>goal</strong>. The story is <strong>one shippable piece</strong>. The subtask is <strong>one person, one sitting</strong>.</p>
 
-      <p>The <strong>story</strong> is the useful unit: one person can finish it, and someone else can verify it is done. That is why this backlog has 58 of them rather than 8 fat ones &mdash; &ldquo;build all the components&rdquo; cannot be reviewed, but &ldquo;Card renders with an optional image and pins its links to the foot&rdquo; can.</p>
+      <p>The <strong>story</strong> is the useful unit: one person can finish it, and someone else can verify it is done. That is why this backlog has <strong data-jira-total></strong> of them across <strong data-jira-epics></strong> epics rather than a handful of fat ones &mdash; &ldquo;build all the components&rdquo; cannot be reviewed, but &ldquo;Card renders with an optional image and pins its links to the foot&rdquo; can.</p>
 
       <p>Put simply: <strong>the epic holds the why, the story holds the what.</strong> Any single ticket inside Foundations looks like plumbing on its own; the epic is what says nothing else lands cleanly until it is done.</p>
 
-      <h3>Why these eight</h3>
+      <h3>Why these epics</h3>
       <p>Grouped by what blocks what, not by how the design system is arranged:</p>
       <ul>
         <li><strong>Foundations</strong> and <strong>Global regions</strong> go first &mdash; everything imports them.</li>
@@ -448,8 +448,10 @@
           ac: [
             'View over news nodes with an exposed <code>field_news_type</code> filter, AJAX-enabled',
             'Filter pills are the styled exposed form; filtering is the view’s request, not client script',
+            'Featured lead item renders differently from the grid below it',
             'Result count is announced when it changes',
-            'Empty state renders when nothing matches'
+            'Empty state renders when nothing matches',
+            'The display is REUSABLE &mdash; impact stories, consultations and program rules are the same pattern filtered differently (see P6)'
           ],
           notes: 'The prototype’s pill script is reference chrome — do not port it.',
           depends: 'G5, F6'
@@ -627,34 +629,56 @@
     },
     {
       name: 'Page templates',
-      note: 'Each is a content type plus a layout, assembled from components already ticketed above. Build these last — they are integration, not new CSS.',
+      note: 'Only pages with STRUCTURE OF THEIR OWN — a content type, a view mode, a listing — are tickets here. Build them last: they are integration, not new CSS. Pages an author assembles from the master template and the existing components are NOT tickets, because building them is editorial work in the CMS, not development. The five that were listed here have moved to P1 as its acceptance evidence.',
       tickets: [
         {
           ref: 'P1', summary: 'Master template: single column and split sticky left',
           why: 'The two reading layouts every content page uses.',
-          see: [['DS', 'index.html#content-single-column'], ['DS', 'index.html#content-split-sticky-left'], ['Template', 'templates/master-template.html']],
+          see: [
+            ['DS', 'index.html#content-single-column'],
+            ['DS', 'index.html#content-split-sticky-left'],
+            ['Template', 'templates/master-template.html'],
+            ['Example', 'templates/landing-simple.html'],
+            ['Example', 'templates/landing-industry-accreditation.html'],
+            ['Example', 'templates/content-page-with-steps.html'],
+            ['Example', 'templates/landing-audits-reports.html'],
+            ['Example', 'templates/downloads-quarterly-reports.html']
+          ],
           ac: [
             'Both layouts are one <code>section</code> paragraph with a layout field',
             'Both accept the same component set as siblings between prose sections',
             'Sticky rail behaves at every breakpoint and drops when the viewport is too short',
-            'Reading column holds the measure'
+            'Reading column holds the measure',
+            'DONE WHEN an editor can reproduce all five Example pages above with no developer involvement and no new code &mdash; that is the real test of this ticket'
           ],
-          notes: 'This is the ticket that proves the component set composes. Do it early in the template epic.',
+          notes: 'The five Example links are NOT build tickets. They are pages an author assembles from this template and the component set, and they exist to prove the set composes — treat them as the acceptance evidence for this ticket and as authoring reference for the client.',
           depends: 'C1, C2'
         },
         { ref: 'P2', summary: 'Homepage', why: 'Hero, bento, feature banner, latest news scroller.', see: [['Template', 'templates/home.html']], ac: ['Assembles the homepage components', 'Latest news row is a view, not hard-coded', 'Scroller arrows are keyboard operable'], notes: '', depends: 'G4, P1' },
-        { ref: 'P3', summary: 'News landing', why: 'Article index.', see: [['Template', 'templates/news-landing.html']], ac: ['Uses the news listing view', 'Featured lead item renders differently from the grid'], notes: '', depends: 'V1' },
         { ref: 'P4', summary: 'News article', why: 'Standard article page.', see: [['Template', 'templates/news-article.html']], ac: ['Article header, meta block, prose body, related items', 'Body accepts every content component'], notes: '', depends: 'P1, V2' },
         { ref: 'P5', summary: 'DECIDE then build: panelled article header', why: 'Alternative article header, complete but hidden from the design system nav.', see: [['Handover §5', 'docs/handover.md']], ac: ['Decision recorded: publish as a variant or delete', 'If published: unhide the design system entry'], notes: 'Blocked on a product decision.', depends: 'Decision D5' },
-        { ref: 'P6', summary: 'Impact stories landing', why: 'Story index with square media.', see: [['Template', 'templates/impact-stories.html']], ac: ['Story cards square their media', 'Wide card bodies hold the measure'], notes: '', depends: 'C2' },
-        { ref: 'P7', summary: 'Impact article', why: 'Story detail page.', see: [['Template', 'templates/impact-article.html']], ac: ['Article layout with the impact header treatment'], notes: 'Copy transcribed from wireframes — grep WIREFRAME FILLER.', depends: 'P4' },
-        { ref: 'P8', summary: 'Consultation landing and article', why: 'Consultation index and detail.', see: [['Template', 'templates/consultation-landing.html'], ['Template', 'templates/consultation-article.html']], ac: ['Both pages assemble from existing components', 'Status and dates render from fields'], notes: '', depends: 'P4' },
-        { ref: 'P9', summary: 'Program rules and legislation landing and article', why: 'Rules index and detail.', see: [['Template', 'templates/rules-legislation-landing.html'], ['Template', 'templates/rules-legislation-article.html']], ac: ['Both pages assemble from existing components'], notes: '', depends: 'P4' },
-        { ref: 'P10', summary: 'Simple landing page', why: 'Category landing built from multi-card sections.', see: [['Template', 'templates/landing-simple.html']], ac: ['Card sections use the real menu labels', 'No component modified for this page'], notes: '', depends: 'C2, P1' },
-        { ref: 'P11', summary: 'Industry accreditation landing', why: 'Accreditation entry page.', see: [['Template', 'templates/landing-industry-accreditation.html']], ac: ['Assembles from existing components'], notes: '', depends: 'P1' },
-        { ref: 'P12', summary: 'Page with steps', why: 'Numbered multi-component content page.', see: [['Template', 'templates/content-page-with-steps.html']], ac: ['Steps render from a repeatable paragraph', 'Works in both reading layouts'], notes: '', depends: 'P1' },
-        { ref: 'P13', summary: 'Audits and reports landing', why: 'Reports entry page.', see: [['Template', 'templates/landing-audits-reports.html']], ac: ['Assembles from existing components'], notes: '', depends: 'P1, C4' },
-        { ref: 'P14', summary: 'Quarterly reports downloads', why: 'Grouped download listing.', see: [['Template', 'templates/downloads-quarterly-reports.html']], ac: ['Downloads grouped inside accordion panels', 'File size and date come from the file entity'], notes: '', depends: 'C4, C3' }
+        {
+          ref: 'P6', summary: 'Content types and listings for the four article kinds',
+          why: 'News, impact stories, consultations and program rules all need somewhere to live — but they are one layout, not four.',
+          see: [
+            ['Template', 'templates/news-article.html'],
+            ['Example', 'templates/impact-article.html'],
+            ['Example', 'templates/consultation-article.html'],
+            ['Example', 'templates/rules-legislation-article.html'],
+            ['Example', 'templates/impact-stories.html'],
+            ['Example', 'templates/consultation-landing.html'],
+            ['Example', 'templates/rules-legislation-landing.html']
+          ],
+          ac: [
+            'DECIDE FIRST: four content types, or one with a type taxonomy? The four article pages are structurally identical, so a type field is the cheaper answer unless their FIELDS genuinely differ',
+            'Whichever is chosen, all four articles render through the ONE layout built in P4 &mdash; no per-kind Twig',
+            'Each listing is a display of the ONE view pattern built in V1, filtered by kind',
+            'Kind-specific fields exist where the content needs them: consultations carry status and closing dates, rules and consultations carry downloads',
+            'DONE WHEN an editor can publish in all four kinds and each appears on its own listing, with no new templates written'
+          ],
+          notes: 'Measured, not assumed: all four article templates use the same page-header + page-split + page-content + article-meta structure and differ only in which components the body happens to contain (impact adds a video, consultation and rules add downloads). All four landings are a filtered card grid; news and impact add a pager. This ticket replaces what were four near-identical template tickets.',
+          depends: 'P4, V1'
+        },
       ]
     },
     {
@@ -791,6 +815,17 @@
         }, 1400);
       });
     }
+
+    // Totals come from the data, never typed into the prose. The explainer
+    // said "58 tickets" while the backlog had moved on, which is exactly the
+    // drift this page exists to avoid everywhere else.
+    var TOTAL = EPICS.reduce(function (n, e) { return n + e.tickets.length; }, 0);
+    [].forEach.call(document.querySelectorAll('[data-jira-total]'), function (el) {
+      el.textContent = TOTAL + ' tickets';
+    });
+    [].forEach.call(document.querySelectorAll('[data-jira-epics]'), function (el) {
+      el.textContent = EPICS.length;
+    });
 
     function slug(s) {
       return 'epic-' + s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
