@@ -1,0 +1,252 @@
+// -----------------------------------------------------------------------------
+// JIRA ticket sheet — the build backlog, laid out to be copied from
+//
+// An INTERNAL page (JIRA.html), not part of the site. It exists so the port can
+// be tracked as tickets without anyone re-describing the prototype in prose:
+// every ticket points at the page and design-system section that already show
+// the answer, and carries the Drupal mapping that already lives in the
+// component's SCSS header.
+//
+// Styled here rather than in a <style> block so it obeys the same rules as
+// everything else — colour from tokens, spacing from the scale. It is the same
+// arrangement as pages/_design-system.scss, which styles index.html.
+//
+// Nothing in this file ships to a Drupal theme.
+// -----------------------------------------------------------------------------
+
+.jira {
+  max-width: 62rem;
+  padding: var(--space-l) var(--space-s-l) var(--space-3xl);
+  margin-inline: auto;
+}
+
+.jira__title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-demibold;
+  color: $color-brand-dark-green;
+}
+
+.jira__intro {
+  max-width: var(--measure);
+  margin-top: var(--space-2xs);
+}
+
+// --- Controls -----------------------------------------------------------------
+// Sticky, because the search box is useless the moment it scrolls away on a
+// list this long.
+.jira__controls {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+  align-items: flex-end;
+  padding: var(--space-s) 0;
+  margin-top: var(--space-l);
+  background-color: $color-ui-background;
+  border-bottom: 1px solid $color-ui-border;
+}
+
+.jira__control {
+  display: flex;
+  flex: 1 1 16rem;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.jira__label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-brand-dark-green;
+}
+
+.jira__input {
+  width: 100%;
+  padding: var(--space-2xs) var(--space-s);
+  font-family: inherit;
+  font-size: max(#{$font-size-sm}, 1rem); // the iOS-zoom floor
+  color: $color-ui-text;
+  background-color: $color-white;
+  border: 1px solid $color-ui-border-strong;
+  border-radius: $radius-pill;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.jira__hint {
+  font-size: $font-size-xs;
+  color: $color-ui-text;
+}
+
+// --- Buttons ------------------------------------------------------------------
+
+.jira__btn {
+  @include button-reset;
+  padding: var(--space-3xs) var(--space-xs);
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  color: $color-brand-dark-green;
+  cursor: pointer;
+  background-color: $color-tint-taupe;
+  border-radius: $radius-pill;
+  @include transition((background-color, color));
+
+  &:hover {
+    color: $color-white;
+    background-color: $color-brand-dark-green;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // Confirmation lives ON the button — a toast would be one more thing to
+  // position and dismiss, and the click that needs confirming is right here.
+  &[data-copied='true'] {
+    color: $color-white;
+    background-color: $color-brand-green;
+  }
+}
+
+.jira__btn--primary {
+  font-size: $font-size-sm;
+  color: $color-white;
+  background-color: $color-brand-dark-green;
+
+  &:hover {
+    background-color: $color-brand-blue;
+  }
+}
+
+// --- Epics --------------------------------------------------------------------
+
+.jira__epic {
+  margin-top: var(--space-2xl);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.jira__epic-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: var(--space-2xs);
+  border-bottom: 2px solid $color-brand-dark-green;
+}
+
+.jira__epic-title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-demibold;
+  color: $color-brand-dark-green;
+}
+
+// A SIBLING of the head, not a third flex item in it. Flex line-breaking
+// measures an item's basis clamped by its max-width, so `flex: 0 0 100%` plus
+// the reading measure resolved to 484px — narrow enough to sit on the title's
+// line, which is exactly what it was meant to prevent.
+.jira__epic-note {
+  max-width: var(--measure);
+  margin-top: var(--space-2xs);
+  font-size: $font-size-sm;
+}
+
+// --- Tickets ------------------------------------------------------------------
+
+.jira__ticket {
+  padding: var(--space-s) var(--space-m);
+  margin-top: var(--space-s);
+  background-color: $color-tint-taupe;
+  border-radius: $radius-lg;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.jira__ticket-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-s);
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.jira__ticket-summary {
+  flex: 1 1 20rem;
+  font-size: $font-size-base;
+  font-weight: $font-weight-demibold;
+  color: $color-brand-dark-green;
+}
+
+.jira__ref {
+  font-family: $font-family-mono;
+  font-size: $font-size-xs;
+  color: $color-ui-text;
+}
+
+.jira__actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--space-3xs);
+}
+
+// The ticket body is a real <dl> — every row is a labelled field, which is
+// exactly what it is in JIRA too.
+.jira__fields {
+  margin: var(--space-s) 0 0;
+
+  dt {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  dd {
+    margin: var(--space-3xs) 0 var(--space-s);
+    font-size: $font-size-sm;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  ul {
+    padding-left: var(--space-m);
+    margin: 0;
+  }
+
+  li + li {
+    margin-top: var(--space-3xs);
+  }
+
+  code {
+    padding: 0.1em 0.35em;
+    font-family: $font-family-mono;
+    font-size: 0.9em;
+    color: $color-brand-dark-green;
+    background-color: $color-white;
+    border-radius: $radius-sm;
+  }
+
+  a {
+    @include link-inline;
+  }
+}
+
+.jira__empty {
+  padding: var(--space-l) 0;
+  font-size: $font-size-sm;
+
+  &[hidden] {
+    display: none;
+  }
+}

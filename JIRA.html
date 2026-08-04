@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en-AU" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Build backlog — GreenPower design system</title>
+  <meta name="robots" content="noindex">
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+  <link rel="stylesheet" href="https://use.typekit.net/nxc8sxb.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<main class="jira" id="main-content">
+
+  <h1 class="jira__title">Build backlog</h1>
+  <p class="jira__intro">Every ticket points at a page and a design-system section that already answer the question, so nothing here re-describes the design in prose. The Drupal notes are lifted from the mapping header each component already carries in its SCSS partial &mdash; they are the spec, not a suggestion.</p>
+
+  <div class="jira__controls">
+    <div class="jira__control">
+      <label class="jira__label" for="jira-base">Published base URL</label>
+      <input class="jira__input" id="jira-base" type="url" placeholder="https://example.github.io/GreenPower/" autocomplete="off">
+      <p class="jira__hint">Set once. Copied tickets use absolute links so they work from inside JIRA.</p>
+    </div>
+    <div class="jira__control">
+      <label class="jira__label" for="jira-search">Filter tickets</label>
+      <input class="jira__input" id="jira-search" type="search" placeholder="card, webform, srcset&hellip;" autocomplete="off">
+      <p class="jira__hint"><span data-jira-count></span> shown</p>
+    </div>
+    <div class="jira__control">
+      <span class="jira__label">Bulk</span>
+      <p><button class="jira__btn jira__btn--primary" type="button" data-jira-csv>Download CSV for JIRA import</button></p>
+      <p class="jira__hint">Columns: Summary, Description, Epic Name, Issue Type, Labels.</p>
+    </div>
+  </div>
+
+  <div data-jira-list></div>
+
+  <p class="jira__empty" data-jira-empty hidden>No tickets match that filter.</p>
+
+</main>
+
+<script>
+  // The backlog as DATA, so the cards, the clipboard text and the CSV are all
+  // one source. Adding a ticket means adding an object here — never editing
+  // markup in three places and hoping they agree.
+  //
+  // Fields map to JIRA: `summary` is the Summary field, everything else
+  // composes the Description. `ref` is a local handle for conversation ("start
+  // with C4"), NOT a JIRA key — real keys come back from the import.
+  var EPICS = [
+    {
+      name: 'Foundations',
+      note: 'Theme scaffold and the cross-cutting jobs. Nothing else lands cleanly until these do, and the image task is the one with real user impact.',
+      tickets: [
+        {
+          ref: 'F1', summary: 'Set up the GovCMS theme and Sass build',
+          why: 'Everything else in this backlog compiles into this theme.',
+          see: [['Layer order', 'scss/main.scss']],
+          ac: [
+            'Theme builds the design system Sass; the layer order in <code>main.scss</code> is preserved &mdash; it is the dependency graph, not a preference',
+            '<code>@import</code> migrated to <code>@use</code> (mechanical; Dart Sass 3 removes @import)',
+            'Compiled CSS is a build artefact in Drupal, not committed as it is in the prototype',
+            'One theme library per concern rather than one global blob'
+          ],
+          notes: 'The prototype commits css/main.css only because GitHub Pages does not run Sass.',
+          depends: ''
+        },
+        {
+          ref: 'F2', summary: 'Port design tokens: colour, type, spacing, radius',
+          why: 'Every component references semantic tokens, never raw values.',
+          see: [['DS', 'index.html#colours'], ['DS', 'index.html#typography']],
+          ac: [
+            'Colour values exist in exactly one file; components reference semantic aliases (<code>$color-ui-text</code>) not brand values',
+            'Fluid type and space scales carried over as <code>clamp()</code> custom properties',
+            '<code>--measure</code> (the 52ch reading column) available globally',
+            'A raw hex in a component file fails the build or review'
+          ],
+          notes: 'Values are back-solved from rendered text, not taken at face value — see the note above --measure in pages/_content.scss before changing it.',
+          depends: 'F1'
+        },
+        {
+          ref: 'F3', summary: 'Self-host or library-load the webfont kit',
+          why: 'Typekit is linked per-template in the prototype; GovCMS environments may block it.',
+          see: [['Any template head', 'templates/home.html']],
+          ac: [
+            'Font loads from one theme library, not per-template markup',
+            'A fallback path exists for environments that block Typekit (self-hosted kit)',
+            'No layout shift on load beyond what the prototype shows'
+          ],
+          notes: 'Kit ID nxc8sxb.',
+          depends: 'F1'
+        },
+        {
+          ref: 'F4', summary: 'Ship the icon set',
+          why: 'Icons are file-referenced SVGs recoloured by filter, not inline currentColor art.',
+          see: [['DS', 'index.html#icons']],
+          ac: [
+            'Icons available to templates and to editors where a component takes an icon field',
+            'Dark-green artwork on a dark fill is knocked out with the shared filter',
+            'Decorative icons carry empty alt; meaningful ones carry a name'
+          ],
+          notes: 'assets/icons plus assets/UI (bundle, decoupled).',
+          depends: 'F1'
+        },
+        {
+          ref: 'F5', summary: 'Responsive images: srcset and re-encode',
+          why: 'The top port task. Source PNGs are ~1MB at 900x600 and no template ships srcset.',
+          see: [['Handover §1', 'docs/handover.md']],
+          ac: [
+            'Image styles and responsive image mappings on media view modes',
+            'Re-encoded to WebP/AVIF, under 150KB per image',
+            'Download covers enforced to a portrait ratio by image style rather than trusting uploads',
+            'No template work beyond the field formatter'
+          ],
+          notes: 'Layout keeps growing past the type cap, so single-resolution images go soft on large displays.',
+          depends: 'F1'
+        },
+        {
+          ref: 'F6', summary: 'Consolidate inline scripts into Drupal behaviours',
+          why: 'Every template carries its own copy; the drift this causes has already happened once.',
+          see: [['Handover §2 table', 'docs/handover.md']],
+          ac: [
+            'Each prototype script becomes ONE <code>once()</code>-guarded behavior in a theme library',
+            'Ported from the NEWEST copy, then the rest deleted',
+            'User-facing strings go through <code>t()</code>',
+            'News filter pills are NOT ported &mdash; they stand in for the view’s AJAX round-trip'
+          ],
+          notes: 'nav · auto-hiding header · parallax · scroll-entrance · scroll regions · logos marquee · feature banner · card scroller · copy link · reveal-after · modal · conditional filter rules.',
+          depends: 'F1'
+        }
+      ]
+    },
+    {
+      name: 'Global regions',
+      note: 'Theme regions and menu blocks. Not paragraphs — an editor must not be able to forget one on a page or add it twice.',
+      tickets: [
+        {
+          ref: 'G1', summary: 'Main navigation',
+          why: 'Two-level mega menu with search, hamburger and an auto-hiding header.',
+          see: [['Any template', 'templates/home.html']],
+          ac: [
+            '<code>menu--main.html.twig</code> renders the list/item/link/submenu from a 2-level menu tree',
+            'Search button renders as the last item',
+            'Panels open on click, close on Escape and outside click',
+            'Header hides on scroll down and returns on scroll up',
+            'Keyboard-operable end to end; focus never lost behind the backdrop'
+          ],
+          notes: 'Maps to the main menu block, not a paragraph type.',
+          depends: 'F1, F6'
+        },
+        {
+          ref: 'G2', summary: 'Footer',
+          why: 'Three menus plus site furniture, in the theme footer region.',
+          see: [['Any template', 'templates/home.html']],
+          ac: [
+            'Three footer menus placed as menu blocks (greenpower, for-you, support)',
+            'Group titles come from block titles, not hard-coded markup',
+            'Logo, legal line and social links render from theme settings or blocks'
+          ],
+          notes: 'Theme region, not a paragraph.',
+          depends: 'F1'
+        },
+        {
+          ref: 'G3', summary: 'Page header band',
+          why: 'The green interior banner every non-home page opens with.',
+          see: [['DS', 'index.html#page-header'], ['Live', 'templates/landing-simple.html']],
+          ac: [
+            'H1 from node title; intro from the summary field; optional header image',
+            'Drupal’s breadcrumb block renders in the band region &mdash; style it, do not re-template it',
+            'Imageless variant renders the green block and brand angle',
+            'Band paints its own colour behind the image so the clip edge cannot show a hairline'
+          ],
+          notes: 'Page-level (node), not a paragraph.',
+          depends: 'F1'
+        },
+        {
+          ref: 'G4', summary: 'Homepage hero',
+          why: 'Video slides, split headline animation, playback control.',
+          see: [['DS', 'index.html#hero'], ['Live', 'templates/home.html']],
+          ac: [
+            'Paragraph <code>hero_video</code>: title, summary, two CTAs, repeatable media slides',
+            'Respects <code>prefers-reduced-motion</code>',
+            'Playback control is keyboard operable and labelled',
+            'GSAP SplitText is self-hosted &mdash; GovCMS commonly blocks CDNs'
+          ],
+          notes: 'The only component carrying a third-party animation library.',
+          depends: 'F1, F6'
+        },
+        {
+          ref: 'G5', summary: 'Pager',
+          why: 'Listing pages need the themed pager.',
+          see: [['Live', 'templates/news-landing.html']],
+          ac: [
+            'Style Drupal’s <code>pager.html.twig</code>; do not re-template it',
+            'Ellipsis and range come from the pager plugin’s quantity setting',
+            'Current page meets contrast as normal-weight text'
+          ],
+          notes: 'views_mini_pager or full, themed to the prototype classes.',
+          depends: 'F1'
+        }
+      ]
+    },
+    {
+      name: 'Content components',
+      note: 'Paragraph types an editor places in a page. One ticket each: field definition, preprocess, thin Twig, plus the empty-field behaviour.',
+      tickets: [
+        {
+          ref: 'C1', summary: 'WYSIWYG body wrapper',
+          why: 'One wrapper styles every CKEditor body field &mdash; no per-component prose CSS.',
+          see: [['DS', 'index.html#wysiwyg']],
+          ac: [
+            'Any body field rendered inside the wrapper is styled with no extra CSS',
+            'Prose starts at h2 &mdash; the page owns the h1',
+            'Tables scroll inside their CKEditor figure wrapper and are keyboard-scrollable',
+            'Inline links use the shared link treatment, never colour alone'
+          ],
+          notes: '<div class="page-content__section">{{ content.body }}</div>',
+          depends: 'F2'
+        },
+        {
+          ref: 'C2', summary: 'Card and multi-card section',
+          why: 'The workhorse component: 1–4 cards, count-adaptive grid.',
+          see: [['DS', 'index.html#card'], ['DS', 'index.html#multi-card-section']],
+          ac: [
+            'Paragraph <code>card</code>: image (optional), icon (optional), title, body (optional), links (multiple, optional)',
+            'Grid adapts to the number of cards; a single imageless card caps at half width',
+            'Link rows pin to the card foot so they align across a row of uneven cards',
+            'Optional fields omit their markup entirely when empty'
+          ],
+          notes: 'Section wrapper is left-aligned. Variants (news, story, featured) live on the listing pages.',
+          depends: 'F2'
+        },
+        {
+          ref: 'C3', summary: 'Accordion',
+          why: 'FAQ and dense reference copy.',
+          see: [['DS', 'index.html#accordion']],
+          ac: [
+            'Paragraph <code>accordion</code>: optional heading plus repeatable items (title + body)',
+            'Built on <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code> &mdash; ships NO JavaScript',
+            'Each question is a real heading so screen reader users can jump between them',
+            'Heading level is a preprocess variable, not hard-coded',
+            'Open and hover surfaces flip as specified'
+          ],
+          notes: 'Height animation is pure CSS; unsupported browsers open instantly and stay functional.',
+          depends: 'F2'
+        },
+        {
+          ref: 'C4', summary: 'Download',
+          why: 'File cards; whole card clickable.',
+          see: [['DS', 'index.html#download']],
+          ac: [
+            'Paragraph <code>download</code>: media Document, optional title (falls back to media name), optional summary',
+            'File size and format come from the file entity, never editorial fields',
+            'Whole card is one link target with the accessible name on the anchor',
+            'Hover surface differs inside an accordion panel'
+          ],
+          notes: 'GovCMS-friendly: Media + Paragraphs only, no custom module.',
+          depends: 'F2, F5'
+        },
+        {
+          ref: 'C5', summary: 'Quote',
+          why: 'Pull quote with optional avatar.',
+          see: [['DS', 'index.html#quote']],
+          ac: [
+            'Paragraph <code>quote</code>: text, optional image, name, role',
+            'Avatar markup omitted entirely when the image is empty'
+          ],
+          notes: 'Distinct from a blockquote an editor types in CKEditor.',
+          depends: 'F2'
+        },
+        {
+          ref: 'C6', summary: 'Video embed',
+          why: 'Client requirement; editors paste a watch URL.',
+          see: [['DS', 'index.html#video-embed']],
+          ac: [
+            'Paragraph <code>video_embed</code>: media reference (remote_video) plus optional caption',
+            'Editor pastes a normal watch URL; the iframe is derived output',
+            'Core Media oEmbed proxies the embed &mdash; no third-party embed module needed',
+            'Ratio holds at every width; caption omitted when empty'
+          ],
+          notes: 'data-oembed-url records the pasted URL.',
+          depends: 'F2'
+        },
+        {
+          ref: 'C7', summary: 'Full-width image with caption',
+          why: 'Breakout image with the brand angle badge.',
+          see: [['DS', 'index.html#full-width-image-caption']],
+          ac: [
+            'Paragraph <code>caption_image</code>: image (required), caption (optional)',
+            'Renders figure/figcaption; figcaption omitted when the caption is empty',
+            'Angle badge geometry assumes a one-line label'
+          ],
+          notes: '',
+          depends: 'F2, F5'
+        },
+        {
+          ref: 'C8', summary: 'Feature banner',
+          why: 'Crossfading promo band.',
+          see: [['DS', 'index.html#feature-banner']],
+          ac: [
+            'Paragraph <code>feature_banner</code>: optional icon, title, intro, repeatable items (link + image)',
+            'Crossfade respects reduced motion',
+            'Works with a single item'
+          ],
+          notes: '',
+          depends: 'F2, F6'
+        },
+        {
+          ref: 'C9', summary: 'Bento grid',
+          why: 'Two-tile stat/media layout.',
+          see: [['DS', 'index.html#bento-grid']],
+          ac: [
+            'Paragraph <code>bento_grid</code>: heading plus exactly two tile bundles (media tile, stat tile)',
+            'Stat tiles use the light-green/dark-green brand pairing',
+            'Icon knockout filter is the extended form &mdash; the short one snaps'
+          ],
+          notes: '',
+          depends: 'F2'
+        },
+        {
+          ref: 'C10', summary: 'Pathway',
+          why: 'Grouped link sets on a dark band.',
+          see: [['DS', 'index.html#pathway']],
+          ac: [
+            'Paragraph <code>pathway_section</code>: heading, intro, repeatable <code>pathway_group</code> (icon, title, links)',
+            'Works with two or more groups'
+          ],
+          notes: '',
+          depends: 'F2'
+        },
+        {
+          ref: 'C11', summary: 'Client logos',
+          why: 'Scrolling customer wall.',
+          see: [['DS', 'index.html#client-logos']],
+          ac: [
+            'Paragraph <code>client_logos</code>: heading plus multiple image media',
+            'ALT TEXT IS THE ORGANISATION NAME and lives on the media entity, set once per logo',
+            'Marquee pauses on hover/focus and respects reduced motion',
+            'Scroller is keyboard-scrollable and labelled'
+          ],
+          notes: 'Third-party brand art sits on white, never a tint.',
+          depends: 'F2, F5, F6'
+        },
+        {
+          ref: 'C12', summary: 'Explainer modal',
+          why: '"What are these?" reference copy without losing the reader’s place in a listing.',
+          see: [['DS', 'index.html#modal'], ['Live', 'templates/tool-buy-greenpower.html']],
+          ac: [
+            'Trigger is a real LINK to the explainer node, enhanced with <code>use-ajax</code> + <code>data-dialog-type="modal"</code>',
+            'With JS off it is a working link to a working page',
+            'Body is the node body field rendered with the standard prose styles',
+            'Closes on the X, on outside click and on Escape; focus returns to the trigger',
+            'On mobile the panel keeps a gutter, the head stays put and only the body scrolls'
+          ],
+          notes: 'No paragraph type. Prototype hard-codes the copy because there is no node to load.',
+          depends: 'C1, F6'
+        },
+        {
+          ref: 'C13', summary: 'Contact prompt cards',
+          why: 'Referral cards for demand a listing cannot serve.',
+          see: [['DS', 'index.html#contact-prompt'], ['Live', 'templates/tool-buy-greenpower.html']],
+          ac: [
+            'Two blocks (or one block with two items) in the view’s header region with a visibility condition',
+            'Heading, body and link are all fields &mdash; nothing assumes two cards',
+            'Grid holds one or three without a rule per count',
+            'Buttons pin to the card foot so they line up across the row'
+          ],
+          notes: 'Editorial content with a display condition, NOT a filter and not a result. See L4 for the rule.',
+          depends: 'F2'
+        },
+        {
+          ref: 'C14', summary: 'DECIDE then build: on-this-page nav and page feedback',
+          why: 'Both are built and imported but rendered on no page.',
+          see: [['Handover §5', 'docs/handover.md']],
+          ac: [
+            'Decision recorded: keep for the "On this page" / "Was this page useful?" patterns, or delete both partials and their imports',
+            'If kept: page-nav is a menu block or preprocess over the node’s section paragraphs; page-feedback is site furniture placed as a block'
+          ],
+          notes: 'Blocked on a product decision — do not start until it is made.',
+          depends: 'Decision D4'
+        }
+      ]
+    },
+    {
+      name: 'Listings and directories',
+      note: 'Views, not paragraphs. Exposed filters render as the filter bar; rows are node teasers; chips and count are the view header.',
+      tickets: [
+        {
+          ref: 'V1', summary: 'News listing view',
+          why: 'Filterable article index with a pager.',
+          see: [['Live', 'templates/news-landing.html']],
+          ac: [
+            'View over news nodes with an exposed <code>field_news_type</code> filter, AJAX-enabled',
+            'Filter pills are the styled exposed form; filtering is the view’s request, not client script',
+            'Result count is announced when it changes',
+            'Empty state renders when nothing matches'
+          ],
+          notes: 'The prototype’s pill script is reference chrome — do not port it.',
+          depends: 'G5, F6'
+        },
+        {
+          ref: 'V2', summary: 'News teaser and article meta',
+          why: 'The row rendered by the listing, and the meta block on the article.',
+          see: [['Live', 'templates/news-article.html']],
+          ac: [
+            'A <code>node--news--meta</code> view mode: thumbnail, type tag, title, optional event dates',
+            'Event dates row is OMITTED entirely when empty',
+            'Tag styling comes from the shared pill mixin'
+          ],
+          notes: '',
+          depends: 'V1'
+        },
+        {
+          ref: 'V3', summary: 'Selected-filters chips',
+          why: 'Shared across all three directories.',
+          see: [['Live', 'templates/tool-buy-greenpower.html']],
+          ac: [
+            'A facets summary block (or the exposed form’s reset markup) themed to these classes',
+            'Each chip names what it removes, expanded for screen readers',
+            'Clear all resets every filter including search',
+            'Chips are the documented route back to unfiltered for single-select groups'
+          ],
+          notes: 'Count lives with each directory, not with the chips.',
+          depends: 'F1'
+        },
+        {
+          ref: 'V4', summary: 'Exposed filter bar',
+          why: 'The control row all three tools share, sitting in the header band.',
+          see: [['DS', 'index.html#filter-states'], ['Live', 'templates/tool-buy-greenpower.html']],
+          ac: [
+            'Styled widgets of <code>views-exposed-form.html.twig</code>, AJAX-enabled',
+            'Single-answer groups are radios; multi-answer groups are checkboxes',
+            'Multi-select uses the Popover API so it escapes the band’s overflow clip',
+            'NO Apply button &mdash; every control commits on change',
+            'Result count carries <code>role="status"</code> so auto-apply is announced'
+          ],
+          notes: 'The no-Apply decision is conformant only with the live count — see L1.',
+          depends: 'F6, V3'
+        },
+        {
+          ref: 'V5', summary: 'Electricity generators directory',
+          why: 'Accredited generator listing with a map.',
+          see: [['Live', 'templates/tool-electricity-generators.html']],
+          ac: [
+            'View over <code>accredited_generator</code> nodes; rows are teasers',
+            'Exposed filters: fulltext, state, generator type',
+            'Empty state renders when nothing matches'
+          ],
+          notes: '',
+          depends: 'V4'
+        },
+        {
+          ref: 'V6', summary: 'Gas producers directory',
+          why: 'Same view shape, gas taxonomy.',
+          see: [['Live', 'templates/tool-gas-producers.html']],
+          ac: [
+            'Same view configuration as V5 with the renewable gas type filter',
+            'H1 and intro copy confirmed with the client'
+          ],
+          notes: 'Duplicated from the generators tool in the prototype — share the view display if practical.',
+          depends: 'V5'
+        },
+        {
+          ref: 'V7', summary: 'Buy GreenPower directory',
+          why: 'Provider and trader listing, the most complex of the three.',
+          see: [['Live', 'templates/tool-buy-greenpower.html']],
+          ac: [
+            'View over <code>accredited_provider</code> nodes; rows are teasers',
+            'Teaser: title, logo media, website link, phone, ask link, plus repeatable offer paragraphs',
+            'Each offer states buyers, states and products as metadata pills &mdash; not controls',
+            'Card filter attributes are the union of its offers, written by preprocess',
+            'Logo sits on a white plate, uncropped and centred'
+          ],
+          notes: 'Gas offer sits on a white inset panel so two offers read as two propositions.',
+          depends: 'V4'
+        }
+      ]
+    },
+    {
+      name: 'Buy tool conditional logic',
+      note: 'The rules are DATA, not branches. Each is one declarative condition in the prototype and one #states entry in Drupal — build the mechanism once (L1), then each rule is small.',
+      tickets: [
+        {
+          ref: 'L1', summary: 'Filter commits on change; single-answer groups',
+          why: 'Nobody buys as a household and a business, and an Apply step read as a control that had ignored you.',
+          see: [['Live', 'templates/tool-buy-greenpower.html']],
+          ac: [
+            'Selecting any filter updates the results with no Apply step',
+            '"Who are you buying for?" takes one answer; "GreenPower type" takes one answer',
+            '"Connection location" still takes several',
+            'Search commits on Enter or the search button, not per keystroke',
+            'The result count is announced when it changes'
+          ],
+          notes: 'No WCAG criterion requires an Apply button; auto-apply is conformant because the list re-renders in place AND the count is a live region. Removing the live region breaks that.',
+          depends: 'V4, V7'
+        },
+        {
+          ref: 'L2', summary: 'Rule: gas is unavailable to households',
+          why: 'Households cannot buy GreenPower gas, so the option must say so rather than return nothing.',
+          see: [['DS', 'index.html#filter-states']],
+          ac: [
+            'With Household selected, Gas is visibly muted and cannot be selected',
+            'Gas stays keyboard-reachable and is announced as unavailable',
+            'A visible message explains why, linked to the control with <code>aria-describedby</code>',
+            'Selecting Household while Gas is chosen clears Gas and updates the results',
+            'Clearing filters (chip or Clear all) restores Gas'
+          ],
+          notes: 'Use aria-disabled, NOT the disabled attribute — a disabled control leaves the tab order, so the option can never explain itself. Because aria-disabled is advisory, the click must also be refused.',
+          depends: 'L1, Decision D3'
+        },
+        {
+          ref: 'L3', summary: 'Rule: contract options for business electricity',
+          why: 'Bundled vs decoupled only applies to a business buying electricity.',
+          see: [['DS', 'index.html#filter-states']],
+          ac: [
+            'Business + Electricity reveals "GreenPower and your contract" with two options',
+            'One answer only; choosing one filters the list',
+            'Changing either parent filter hides the group AND clears its selection',
+            'The group follows the GreenPower type options in tab order',
+            'Field width does not change when the group shows or hides'
+          ],
+          notes: 'Revealing fields is a change of content, not context (WCAG 3.2.2) — no warning needed, but it must be findable, which is why placement matters.',
+          depends: 'L1'
+        },
+        {
+          ref: 'L4', summary: 'Rule: contact prompts for business electricity',
+          why: 'Events and large energy users are demand no provider can serve.',
+          see: [['DS', 'index.html#contact-prompt']],
+          ac: [
+            'Business + Electricity shows the two prompt blocks above the results',
+            'They hide when either filter changes',
+            'Content is editable, not hard-coded',
+            'Behaviour matches the decision recorded in D1'
+          ],
+          notes: 'Currently built to ACCOMPANY the results. If D1 says replace, this also changes the directory’s empty state.',
+          depends: 'C13, L1, Decision D1'
+        }
+      ]
+    },
+    {
+      name: 'Forms',
+      note: 'Webforms, not paragraphs. The prototype pages are the presentational half only.',
+      tickets: [
+        {
+          ref: 'W1', summary: 'Contact webform',
+          why: 'General enquiry form on the split sticky layout.',
+          see: [['DS', 'index.html#form'], ['Live', 'templates/form-contact.html']],
+          ac: [
+            'Built as a webform; classes applied in the webform UI or a <code>form_alter</code>',
+            'Customer-type options confirmed with the client',
+            'reCAPTCHA placeholder replaced with the real element',
+            'Errors and required states are keyboard and screen-reader accessible',
+            'Contact rail renders beside it without the form panel breaking heading alignment'
+          ],
+          notes: 'Select options (industry, energy provider) are placeholder lists.',
+          depends: 'F2'
+        },
+        {
+          ref: 'W2', summary: 'Logo request webform',
+          why: 'Same form styles plus the downloads component.',
+          see: [['Live', 'templates/form-logo-request.html']],
+          ac: [
+            'Built as a webform reusing the contact form’s styles',
+            'File upload field renders with the custom button treatment',
+            'Download component embedded and functioning'
+          ],
+          notes: '',
+          depends: 'W1, C4'
+        }
+      ]
+    },
+    {
+      name: 'Page templates',
+      note: 'Each is a content type plus a layout, assembled from components already ticketed above. Build these last — they are integration, not new CSS.',
+      tickets: [
+        {
+          ref: 'P1', summary: 'Master template: single column and split sticky left',
+          why: 'The two reading layouts every content page uses.',
+          see: [['DS', 'index.html#content-single-column'], ['DS', 'index.html#content-split-sticky-left'], ['Live', 'templates/master-template.html']],
+          ac: [
+            'Both layouts are one <code>section</code> paragraph with a layout field',
+            'Both accept the same component set as siblings between prose sections',
+            'Sticky rail behaves at every breakpoint and drops when the viewport is too short',
+            'Reading column holds the measure'
+          ],
+          notes: 'This is the ticket that proves the component set composes. Do it early in the template epic.',
+          depends: 'C1, C2'
+        },
+        { ref: 'P2', summary: 'Homepage', why: 'Hero, bento, feature banner, latest news scroller.', see: [['Live', 'templates/home.html']], ac: ['Assembles the homepage components', 'Latest news row is a view, not hard-coded', 'Scroller arrows are keyboard operable'], notes: '', depends: 'G4, P1' },
+        { ref: 'P3', summary: 'News landing', why: 'Article index.', see: [['Live', 'templates/news-landing.html']], ac: ['Uses the news listing view', 'Featured lead item renders differently from the grid'], notes: '', depends: 'V1' },
+        { ref: 'P4', summary: 'News article', why: 'Standard article page.', see: [['Live', 'templates/news-article.html']], ac: ['Article header, meta block, prose body, related items', 'Body accepts every content component'], notes: '', depends: 'P1, V2' },
+        { ref: 'P5', summary: 'DECIDE then build: panelled article header', why: 'Alternative article header, complete but hidden from the design system nav.', see: [['Handover §5', 'docs/handover.md']], ac: ['Decision recorded: publish as a variant or delete', 'If published: unhide the design system entry'], notes: 'Blocked on a product decision.', depends: 'Decision D5' },
+        { ref: 'P6', summary: 'Impact stories landing', why: 'Story index with square media.', see: [['Live', 'templates/impact-stories.html']], ac: ['Story cards square their media', 'Wide card bodies hold the measure'], notes: '', depends: 'C2' },
+        { ref: 'P7', summary: 'Impact article', why: 'Story detail page.', see: [['Live', 'templates/impact-article.html']], ac: ['Article layout with the impact header treatment'], notes: 'Copy transcribed from wireframes — grep WIREFRAME FILLER.', depends: 'P4' },
+        { ref: 'P8', summary: 'Consultation landing and article', why: 'Consultation index and detail.', see: [['Live', 'templates/consultation-landing.html'], ['Live', 'templates/consultation-article.html']], ac: ['Both pages assemble from existing components', 'Status and dates render from fields'], notes: '', depends: 'P4' },
+        { ref: 'P9', summary: 'Program rules and legislation landing and article', why: 'Rules index and detail.', see: [['Live', 'templates/rules-legislation-landing.html'], ['Live', 'templates/rules-legislation-article.html']], ac: ['Both pages assemble from existing components'], notes: '', depends: 'P4' },
+        { ref: 'P10', summary: 'Simple landing page', why: 'Category landing built from multi-card sections.', see: [['Live', 'templates/landing-simple.html']], ac: ['Card sections use the real menu labels', 'No component modified for this page'], notes: '', depends: 'C2, P1' },
+        { ref: 'P11', summary: 'Industry accreditation landing', why: 'Accreditation entry page.', see: [['Live', 'templates/landing-industry-accreditation.html']], ac: ['Assembles from existing components'], notes: '', depends: 'P1' },
+        { ref: 'P12', summary: 'Page with steps', why: 'Numbered multi-component content page.', see: [['Live', 'templates/content-page-with-steps.html']], ac: ['Steps render from a repeatable paragraph', 'Works in both reading layouts'], notes: '', depends: 'P1' },
+        { ref: 'P13', summary: 'Audits and reports landing', why: 'Reports entry page.', see: [['Live', 'templates/landing-audits-reports.html']], ac: ['Assembles from existing components'], notes: '', depends: 'P1, C4' },
+        { ref: 'P14', summary: 'Quarterly reports downloads', why: 'Grouped download listing.', see: [['Live', 'templates/downloads-quarterly-reports.html']], ac: ['Downloads grouped inside accordion panels', 'File size and date come from the file entity'], notes: '', depends: 'C4, C3' }
+      ]
+    },
+    {
+      name: 'Decisions (not dev work)',
+      note: 'These belong to the client or PM. They block the tickets listed against them — keep them out of a sprint until answered.',
+      tickets: [
+        {
+          ref: 'D1', summary: 'DECISION: do contact prompts replace the results, or sit alongside?',
+          why: 'A large energy business is currently told a provider cannot help, then shown eight providers.',
+          see: [['Live', 'templates/tool-buy-greenpower.html']],
+          ac: ['Answer recorded on this ticket', 'L4 updated if the answer is "replace"'],
+          notes: 'Built as ACCOMPANY (above the results) — the wireframe’s own reading.',
+          depends: 'Blocks L4'
+        },
+        {
+          ref: 'D2', summary: 'DECISION: MWh threshold for the large energy business prompt',
+          why: 'Copy currently reads "over XXX MWh per year".',
+          see: [['Live', 'templates/tool-buy-greenpower.html']],
+          ac: ['Real figure supplied and the copy updated'],
+          notes: 'Wireframe placeholder.',
+          depends: 'Blocks L4'
+        },
+        {
+          ref: 'D3', summary: 'DECISION: can households buy GreenPower gas?',
+          why: 'The rule and the data disagree.',
+          see: [['Live', 'templates/tool-buy-greenpower.html']],
+          ac: ['Answer recorded', 'Either the L2 rule is dropped or the provider data is corrected'],
+          notes: 'Two providers currently advertise a gas offer to households while the filter says gas is business-only. Flagged in the markup rather than quietly resolved.',
+          depends: 'Blocks L2'
+        },
+        {
+          ref: 'D4', summary: 'DECISION: keep or delete on-this-page nav and page feedback',
+          why: 'Both built and imported, rendered on no page.',
+          see: [['Handover §5', 'docs/handover.md']],
+          ac: ['Answer recorded', 'C14 either scoped or closed'],
+          notes: '',
+          depends: 'Blocks C14'
+        },
+        {
+          ref: 'D5', summary: 'DECISION: publish or delete the panelled article header',
+          why: 'Complete but hidden from the design system nav while in review.',
+          see: [['Handover §5', 'docs/handover.md']],
+          ac: ['Answer recorded', 'P5 either scoped or closed'],
+          notes: '',
+          depends: 'Blocks P5'
+        },
+        {
+          ref: 'D6', summary: 'DECISION: confirm placeholder content before build',
+          why: 'Several pages carry copy transcribed from wireframes that repeats or contradicts itself.',
+          see: [['Handover §4', 'docs/handover.md']],
+          ac: ['Every WIREFRAME FILLER marker reviewed and answered', 'Form select options (industry, energy provider) confirmed'],
+          notes: 'grep WIREFRAME FILLER across templates — each marker explains what it needs.',
+          depends: ''
+        }
+      ]
+    }
+  ];
+
+  (function () {
+    var listEl = document.querySelector('[data-jira-list]');
+    var emptyEl = document.querySelector('[data-jira-empty]');
+    var countEl = document.querySelector('[data-jira-count]');
+    var baseEl = document.getElementById('jira-base');
+    var searchEl = document.getElementById('jira-search');
+    var BASE_KEY = 'gp-jira-base';
+
+    baseEl.value = localStorage.getItem(BASE_KEY) || '';
+    baseEl.addEventListener('input', function () {
+      localStorage.setItem(BASE_KEY, baseEl.value.trim());
+    });
+
+    // Strip the markup the cards use for emphasis — JIRA wants plain text, and
+    // <code> pasted as a tag is worse than no formatting at all.
+    function plain(html) {
+      var d = document.createElement('div');
+      d.innerHTML = html;
+      return d.textContent;
+    }
+
+    function absolute(href) {
+      var base = baseEl.value.trim();
+      if (!base) return href;
+      return base.replace(/\/+$/, '') + '/' + href.replace(/^\/+/, '');
+    }
+
+    // The Description field, as text. Labels rather than JIRA wiki markup: it
+    // pastes correctly into both the rich editor and the markup one, where
+    // wiki syntax only survives in the second.
+    function description(t) {
+      var out = 'WHY\n' + plain(t.why) + '\n';
+      if (t.see && t.see.length) {
+        out += '\nREFERENCE\n';
+        t.see.forEach(function (s) { out += s[0] + ': ' + absolute(s[1]) + '\n'; });
+      }
+      out += '\nACCEPTANCE CRITERIA\n';
+      t.ac.forEach(function (a) { out += '- ' + plain(a) + '\n'; });
+      if (t.notes) out += '\nNOTES\n' + plain(t.notes) + '\n';
+      if (t.depends) out += '\nDEPENDS ON\n' + t.depends + '\n';
+      return out;
+    }
+
+    function copy(text, btn) {
+      navigator.clipboard.writeText(text).then(function () {
+        var was = btn.textContent;
+        btn.textContent = 'Copied';
+        btn.setAttribute('data-copied', 'true');
+        setTimeout(function () {
+          btn.textContent = was;
+          btn.removeAttribute('data-copied');
+        }, 1400);
+      });
+    }
+
+    function render() {
+      EPICS.forEach(function (epic) {
+        var sec = document.createElement('section');
+        sec.className = 'jira__epic';
+        sec.setAttribute('data-epic', epic.name);
+
+        var head = document.createElement('div');
+        head.className = 'jira__epic-head';
+        head.innerHTML =
+          '<h2 class="jira__epic-title">' + epic.name + '</h2>' +
+          '<span class="jira__ref">' + epic.tickets.length + ' tickets</span>';
+        sec.appendChild(head);
+
+        var note = document.createElement('p');
+        note.className = 'jira__epic-note';
+        note.textContent = epic.note;
+        sec.appendChild(note);
+
+        epic.tickets.forEach(function (t) {
+          var art = document.createElement('article');
+          art.className = 'jira__ticket';
+          art.setAttribute('data-ticket', '');
+          art.setAttribute('data-haystack',
+            (t.ref + ' ' + t.summary + ' ' + t.why + ' ' + t.ac.join(' ') + ' ' + t.notes + ' ' + epic.name).toLowerCase());
+
+          var see = (t.see || []).map(function (s) {
+            return '<a href="' + s[1] + '">' + s[0] + '</a>';
+          }).join(' &middot; ');
+
+          art.innerHTML =
+            '<div class="jira__ticket-head">' +
+              '<h3 class="jira__ticket-summary"><span class="jira__ref">' + t.ref + '</span> &nbsp;' + t.summary + '</h3>' +
+              '<div class="jira__actions">' +
+                '<button class="jira__btn" type="button" data-copy="summary">Summary</button>' +
+                '<button class="jira__btn" type="button" data-copy="description">Description</button>' +
+              '</div>' +
+            '</div>' +
+            '<dl class="jira__fields">' +
+              '<dt>Why</dt><dd>' + t.why + '</dd>' +
+              (see ? '<dt>Reference</dt><dd>' + see + '</dd>' : '') +
+              '<dt>Acceptance criteria</dt><dd><ul>' + t.ac.map(function (a) { return '<li>' + a + '</li>'; }).join('') + '</ul></dd>' +
+              (t.notes ? '<dt>Drupal notes</dt><dd>' + t.notes + '</dd>' : '') +
+              (t.depends ? '<dt>Depends on</dt><dd>' + t.depends + '</dd>' : '') +
+            '</dl>';
+
+          art.querySelector('[data-copy="summary"]').addEventListener('click', function (e) {
+            copy(t.summary, e.currentTarget);
+          });
+          art.querySelector('[data-copy="description"]').addEventListener('click', function (e) {
+            copy(description(t), e.currentTarget);
+          });
+
+          sec.appendChild(art);
+        });
+
+        listEl.appendChild(sec);
+      });
+    }
+
+    function filter() {
+      var q = searchEl.value.trim().toLowerCase();
+      var shown = 0;
+      [].forEach.call(document.querySelectorAll('[data-ticket]'), function (el) {
+        var hit = !q || el.getAttribute('data-haystack').indexOf(q) !== -1;
+        el.hidden = !hit;
+        if (hit) shown += 1;
+      });
+      // An epic with nothing left in it is noise, not a heading.
+      [].forEach.call(document.querySelectorAll('.jira__epic'), function (sec) {
+        sec.hidden = !sec.querySelector('[data-ticket]:not([hidden])');
+      });
+      emptyEl.hidden = shown > 0;
+      countEl.textContent = shown + (shown === 1 ? ' ticket' : ' tickets');
+    }
+
+    // CSV for JIRA's bulk importer — the columns it maps by default.
+    function csv() {
+      var rows = [['Summary', 'Description', 'Epic Name', 'Issue Type', 'Labels']];
+      EPICS.forEach(function (epic) {
+        epic.tickets.forEach(function (t) {
+          rows.push([
+            t.ref + ' ' + t.summary,
+            description(t),
+            epic.name,
+            /^DECISION/.test(t.summary) ? 'Task' : 'Story',
+            'greenpower-ds'
+          ]);
+        });
+      });
+      var text = rows.map(function (r) {
+        return r.map(function (c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(',');
+      }).join('\n');
+
+      var url = URL.createObjectURL(new Blob([text], { type: 'text/csv' }));
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'greenpower-backlog.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    render();
+    filter();
+    searchEl.addEventListener('input', filter);
+    document.querySelector('[data-jira-csv]').addEventListener('click', csv);
+  })();
+</script>
+
+</body>
+</html>
