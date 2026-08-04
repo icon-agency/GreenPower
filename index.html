@@ -46,6 +46,14 @@
               <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
             <li><a class="ds-nav__link ds-nav__link--external" href="templates/impact-article.html">Impact article
               <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            <li><a class="ds-nav__link ds-nav__link--external" href="templates/consultation-landing.html">Consultation landing
+              <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            <li><a class="ds-nav__link ds-nav__link--external" href="templates/consultation-article.html">Consultation article
+              <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            <li><a class="ds-nav__link ds-nav__link--external" href="templates/rules-legislation-landing.html">Rules &amp; legislation landing
+              <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            <li><a class="ds-nav__link ds-nav__link--external" href="templates/rules-legislation-article.html">Rules &amp; legislation article
+              <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
           </ul>
         </div>
         <!-- Tools: pages whose job is a task, not a read — a directory to
@@ -112,6 +120,15 @@
           </ul>
         </div>
         <div class="ds-nav__group">
+          <p class="ds-nav__group-title">Headers</p>
+          <ul class="ds-nav__list">
+            <li><a class="ds-nav__link" href="#hero">Homepage hero</a></li>
+            <li><a class="ds-nav__link" href="#page-header">Page header</a></li>
+            <li><a class="ds-nav__link" href="#header-article-landing">Article landing header</a></li>
+            <li><a class="ds-nav__link" href="#header-article">Article header</a></li>
+          </ul>
+        </div>
+        <div class="ds-nav__group">
           <p class="ds-nav__group-title">Components</p>
           <ul class="ds-nav__list">
             <li><a class="ds-nav__link" href="#wysiwyg">CKEditor WYSIWYG</a></li>
@@ -137,7 +154,6 @@
         <div class="ds-nav__group">
           <p class="ds-nav__group-title">Layout patterns</p>
           <ul class="ds-nav__list">
-            <li><a class="ds-nav__link" href="#page-header">Page header</a></li>
             <li><a class="ds-nav__link" href="#content-single-column">Content: Single column</a></li>
             <li><a class="ds-nav__link" href="#content-split-sticky-left">Content: Split sticky left</a></li>
             <li><a class="ds-nav__link" href="#multi-card-section">Multi-card section</a></li>
@@ -666,6 +682,137 @@
               <span class="ds-icon__name">up-dollar.svg</span>
               </li>
           </ul>
+        </div>
+      </section>
+
+      <div class="ds-category">
+        <h2 class="ds-category__title">Headers</h2>
+        <p class="ds-category__note">Every way a page can open: the homepage hero, the interior band, and the two article variants (a filtered listing, and an article with its sticky rail). All but the hero are one component &mdash; <code class="ds-code">.page-header</code> &mdash; carrying a modifier and different content.</p>
+      </div>
+
+      <section class="ds-section" id="hero" aria-labelledby="hero-title">
+        <h3 class="ds-section__title" id="hero-title">Homepage hero</h3>
+        <p class="ds-section__intro">The full-viewport opener, homepage only. A rotating background video behind a sticky content layer, the brand angle shape cut into its foot, and a GSAP SplitText reveal on the headline. Too tall and too motion-heavy to demo inline &mdash; open the home template to see it, and read <code class="ds-code">docs/animation.md</code> for the four systems it composes (parallax, the scroll-exit, the shape entrance and the auto-hiding header it sits under).</p>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Why it is not demoed here</p>
+          <p class="ds-group__note">The hero measures its own journey against the viewport &mdash; a sticky frame, a scroll-linked exit and a <code class="ds-code">100svh</code> media layer. Inside a documentation column those measurements are meaningless, and a scaled-down copy would misrepresent the timing. The behaviour contract that matters is in <code class="ds-code">scss/organisms/_hero.scss</code> and the LESSONS.md entries on <code class="ds-code">overflow: hidden</code> vs <code class="ds-code">clip</code> and the parallax offset.</p>
+        </div>
+
+        <div class="ds-demo">
+          <p class="ds-demo__label">hero &middot; .hero &mdash; open the Home template</p>
+          <p><a class="ds-nav__link ds-nav__link--external" href="templates/home.html">Home template
+            <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+        </div>
+      </section>
+
+      <section class="ds-section" id="page-header" aria-labelledby="ph-title" data-page-header-demo>
+        <h3 class="ds-section__title" id="ph-title">Page header</h3>
+        <p class="ds-section__intro">The interior-page banner: breadcrumb, H1 and summary on a Dark Green band, with an optional image filling the right side and its top-left corner cut by the brand angle — the same 45° + artwork-bézier geometry as the hero panel. Toggle the image off and the shape stays, filled flat in Primary Green; on phones it drops away entirely, so an imageless header ends cleanly after the summary rather than stacking a decorative block. In Drupal this is page-level (node title, <code class="ds-code">field_summary</code>, optional <code class="ds-code">field_header_image</code>) with the breadcrumb block placed in the band — not a paragraph.</p>
+
+        <form class="ds-controls ds-controls--inline" aria-label="Page header configuration">
+          <fieldset class="ds-controls__group">
+            <legend class="ds-controls__legend">Parts</legend>
+            <label class="ds-control"><input type="checkbox" data-ph-toggle="image" checked><span>Image</span></label>
+          </fieldset>
+        </form>
+
+        <div class="ds-bleed">
+          <header class="page-header">
+            <div class="page-header__inner">
+              <nav aria-label="Breadcrumb">
+                <ol class="page-header__crumbs">
+                  <li class="page-header__crumb"><a href="#page-header">Home</a></li>
+                  <li class="page-header__crumb"><a href="#page-header">What is GreenPower</a></li>
+                  <li class="page-header__crumb" aria-current="page">How GreenPower works</li>
+                </ol>
+              </nav>
+              <h1 class="page-header__title">How GreenPower works</h1>
+              <p class="page-header__intro">The GreenPower label makes it easy to recognise and purchase renewable electricity and gas that meets stringent environmental standards.</p>
+              <div class="page-header__media">
+                <img src="assets/images/family-eating.png" alt="" width="900" height="600" loading="lazy">
+                <span class="page-header__angle" aria-hidden="true">
+                  <svg class="page-header__angle-curve page-header__angle-curve--top" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L299.02 0Z" fill="currentColor"/></svg>
+                  <svg class="page-header__angle-curve page-header__angle-curve--side" viewBox="0 0 210.3 299.02" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 299.02C0.001 209.1 13.03 197.18 60.79 149.51L210.3 0L0 0Z" fill="currentColor"/></svg>
+                </span>
+              </div>
+            </div>
+          </header>
+        </div>
+      </section>
+
+      <section class="ds-section" id="header-article-landing" aria-labelledby="hal-title">
+        <h3 class="ds-section__title" id="hal-title">Article landing header</h3>
+        <p class="ds-section__intro">The listing band: the same <code class="ds-code">.page-header</code>, imageless (<code class="ds-code">--empty</code> paints the brand-green block and angle where <code class="ds-code">field_header_image</code> is empty), with the filter pills composed INTO the band. The pills are the view's exposed form, styled &mdash; solid fills, because the row runs over the angle shape past a certain width where a translucent pill would fail contrast. Used by News landing, Consultations, and Program Rules and legislation.</p>
+
+        <div class="ds-demo">
+          <p class="ds-demo__label">page_header &middot; .page-header + .page-header__media--empty + .news-filter</p>
+          <div class="ds-bleed">
+            <header class="page-header">
+              <div class="page-header__inner">
+                <nav aria-label="Breadcrumb (demo)">
+                  <ol class="page-header__crumbs">
+                    <li class="page-header__crumb"><a href="#header-article-landing">Home</a></li>
+                    <li class="page-header__crumb" aria-current="page">Listing title</li>
+                  </ol>
+                </nav>
+                <h4 class="page-header__title">Listing title &mdash; the page H1</h4>
+                <p class="page-header__intro">Listing intro &mdash; field_summary. One or two lines describing what the listing holds.</p>
+                <div class="news-filter">
+                  <ul class="news-filter__list" aria-label="Filter (demo)">
+                    <li><button class="news-filter__pill" type="button" aria-pressed="true">All</button></li>
+                    <li><button class="news-filter__pill" type="button" aria-pressed="false">Type one</button></li>
+                    <li><button class="news-filter__pill" type="button" aria-pressed="false">Type two</button></li>
+                  </ul>
+                </div>
+                <div class="page-header__media page-header__media--empty">
+                  <span class="page-header__angle" aria-hidden="true">
+                    <svg class="page-header__angle-curve page-header__angle-curve--top" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L299.02 0Z" fill="currentColor"/></svg>
+                    <svg class="page-header__angle-curve page-header__angle-curve--side" viewBox="0 0 210.3 299.02" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 299.02C0.001 209.1 13.03 197.18 60.79 149.51L210.3 0L0 0Z" fill="currentColor"/></svg>
+                  </span>
+                </div>
+              </div>
+            </header>
+          </div>
+        </div>
+      </section>
+
+      <section class="ds-section" id="header-article" aria-labelledby="ha-title">
+        <h3 class="ds-section__title" id="ha-title">Article header</h3>
+        <p class="ds-section__intro">The article band: <code class="ds-code">--media-left</code> mirrors the image to the left, and an <code class="ds-code">.article-meta</code> row states the type and dates (or, on an impact story, the product line). The rail below the band repeats that meta and reveals it once the band scrolls away &mdash; the repeat is <code class="ds-code">aria-hidden</code>, since this copy comes first and carries the labels. The media box paints the band colour behind the image so its clipped edge cannot show a hairline at fractional widths.</p>
+
+        <div class="ds-demo">
+          <p class="ds-demo__label">page_header &middot; .page-header--media-left + .article-meta--on-dark</p>
+          <div class="ds-bleed">
+            <header class="page-header page-header--media-left">
+              <div class="page-header__inner">
+                <nav aria-label="Breadcrumb (demo)">
+                  <ol class="page-header__crumbs">
+                    <li class="page-header__crumb"><a href="#header-article">Home</a></li>
+                    <li class="page-header__crumb"><a href="#header-article">Listing</a></li>
+                    <li class="page-header__crumb" aria-current="page">Article title</li>
+                  </ol>
+                </nav>
+                <h4 class="page-header__title">Article title &mdash; the page H1</h4>
+                <p class="page-header__intro">Article summary &mdash; field_summary, one or two lines.</p>
+                <div class="article-meta article-meta--on-dark">
+                  <span class="article-meta__tag">Type</span>
+                  <ul class="article-meta__dates">
+                    <li class="article-meta__date">
+                      <span><span class="visually-hidden">Published </span><time datetime="2025-08-12">12 Aug 2025</time></span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="page-header__media">
+                  <img src="assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy">
+                  <span class="page-header__angle" aria-hidden="true">
+                    <svg class="page-header__angle-curve page-header__angle-curve--top" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L299.02 0Z" fill="currentColor"/></svg>
+                    <svg class="page-header__angle-curve page-header__angle-curve--side" viewBox="0 0 210.3 299.02" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 299.02C0.001 209.1 13.03 197.18 60.79 149.51L210.3 0L0 0Z" fill="currentColor"/></svg>
+                  </span>
+                </div>
+              </div>
+            </header>
+          </div>
         </div>
       </section>
 
@@ -1543,41 +1690,6 @@
         <h2 class="ds-category__title">Layout patterns</h2>
         <p class="ds-category__note">How those components compose into a page: the interior banner, the two reading layouts they sit in, and the card grids.</p>
       </div>
-
-      <section class="ds-section" id="page-header" aria-labelledby="ph-title" data-page-header-demo>
-        <h3 class="ds-section__title" id="ph-title">Page header</h3>
-        <p class="ds-section__intro">The interior-page banner: breadcrumb, H1 and summary on a Dark Green band, with an optional image filling the right side and its top-left corner cut by the brand angle — the same 45° + artwork-bézier geometry as the hero panel. Toggle the image off and the shape stays, filled flat in Primary Green; on phones it drops away entirely, so an imageless header ends cleanly after the summary rather than stacking a decorative block. In Drupal this is page-level (node title, <code class="ds-code">field_summary</code>, optional <code class="ds-code">field_header_image</code>) with the breadcrumb block placed in the band — not a paragraph.</p>
-
-        <form class="ds-controls ds-controls--inline" aria-label="Page header configuration">
-          <fieldset class="ds-controls__group">
-            <legend class="ds-controls__legend">Parts</legend>
-            <label class="ds-control"><input type="checkbox" data-ph-toggle="image" checked><span>Image</span></label>
-          </fieldset>
-        </form>
-
-        <div class="ds-bleed">
-          <header class="page-header">
-            <div class="page-header__inner">
-              <nav aria-label="Breadcrumb">
-                <ol class="page-header__crumbs">
-                  <li class="page-header__crumb"><a href="#page-header">Home</a></li>
-                  <li class="page-header__crumb"><a href="#page-header">What is GreenPower</a></li>
-                  <li class="page-header__crumb" aria-current="page">How GreenPower works</li>
-                </ol>
-              </nav>
-              <h1 class="page-header__title">How GreenPower works</h1>
-              <p class="page-header__intro">The GreenPower label makes it easy to recognise and purchase renewable electricity and gas that meets stringent environmental standards.</p>
-              <div class="page-header__media">
-                <img src="assets/images/family-eating.png" alt="" width="900" height="600" loading="lazy">
-                <span class="page-header__angle" aria-hidden="true">
-                  <svg class="page-header__angle-curve page-header__angle-curve--top" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L299.02 0Z" fill="currentColor"/></svg>
-                  <svg class="page-header__angle-curve page-header__angle-curve--side" viewBox="0 0 210.3 299.02" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 299.02C0.001 209.1 13.03 197.18 60.79 149.51L210.3 0L0 0Z" fill="currentColor"/></svg>
-                </span>
-              </div>
-            </div>
-          </header>
-        </div>
-      </section>
 
       <section class="ds-section" id="content-single-column" aria-labelledby="sc-title">
         <h3 class="ds-section__title" id="sc-title">Content: Single column</h3>

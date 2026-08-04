@@ -753,6 +753,16 @@
     // rather than competing with it. AA is not in play for it, and white on
     // Dark Green is 7.3:1 regardless.
     @include tag-pill;
+    // Over the photo when there IS one. :has-gated so an IMAGELESS card (the
+    // rules listing, where the tag opens the content instead) keeps the pill
+    // in flow above the title rather than absolutely positioned over the
+    // card's own corner. Where :has is unsupported the pill sits in flow —
+    // the safe way round, since flow is the imageless card's correct layout
+    // and the photo card merely loses the overlay.
+    align-self: flex-start; // shrink to the label, don't span the column
+  }
+
+  &:has(> .card__media) &__tag {
     position: absolute;
     top: var(--space-2xs);
     left: var(--space-2xs);

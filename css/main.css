@@ -1772,6 +1772,9 @@ a:focus-visible {
   color: #ffffff;
   background-color: #006341;
   border-radius: 100em;
+  align-self: flex-start;
+}
+.card:has(> .card__media) .card__tag {
   position: absolute;
   top: var(--space-2xs);
   left: var(--space-2xs);
@@ -2765,6 +2768,7 @@ a:focus-visible {
 }
 .page-header__media {
   overflow: hidden;
+  background-color: #006341;
 }
 .page-header__media img {
   position: absolute;

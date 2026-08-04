@@ -265,6 +265,20 @@
     // overlay clips itself; the band's own overflow rounds the corners).
     overflow: hidden;
 
+    // The band colour BEHIND the image, so the clip edge can never show a
+    // hairline. The media's width is a percentage, so its edge lands on a
+    // fractional CSS pixel (measured 493.38 → device pixel 986.75 at dpr 2);
+    // the browser blends that pixel between the image and whatever is behind
+    // the box, and "behind" is the transparent header, not the green — which
+    // read as a thin light line down the seam. Painting the band colour here
+    // makes the blend image-to-green, which is the edge the design wants.
+    //
+    // Same family as the hero's overbleed (LESSONS.md): at fractional x you
+    // cannot make the edge land cleanly, so put the right colour underneath
+    // it. A colour, not a nudge — no layout moves, and it holds at any width
+    // and any device pixel ratio.
+    background-color: $color-brand-dark-green;
+
     img {
       position: absolute;
       inset: 0;
