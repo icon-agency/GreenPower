@@ -107,18 +107,28 @@
   color: $color-brand-dark-green;
 }
 
-// Repo link pinned to the bottom of the sidebar
+// The tools group pinned to the bottom of the sidebar — the repo, and the
+// build backlog. The push-to-bottom and the divider belong to the GROUP, not
+// to whichever link happens to be first: they sat on .ds-sidebar__repo while
+// it was alone, which would have drawn a second rule between the two links
+// the moment one was added.
+.ds-sidebar__tools {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin-top: auto; // push to the bottom of the flex column
+  padding-top: var(--space-m);
+  border-top: 1px solid $color-ui-border;
+}
+
 .ds-sidebar__repo {
   display: flex;
   gap: var(--space-2xs);
   align-items: center;
-  margin-top: auto; // push to the bottom of the flex column
-  padding-top: var(--space-m);
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   color: $color-brand-dark-green;
   text-decoration: none;
-  border-top: 1px solid $color-ui-border;
   @include transition(color);
 
   &:hover {

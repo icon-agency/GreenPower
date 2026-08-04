@@ -5850,17 +5850,23 @@ body:has(.modal[open]) {
   color: #006341;
 }
 
+.ds-sidebar__tools {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin-top: auto;
+  padding-top: var(--space-m);
+  border-top: 1px solid rgba(0, 38, 62, 0.15);
+}
+
 .ds-sidebar__repo {
   display: flex;
   gap: var(--space-2xs);
   align-items: center;
-  margin-top: auto;
-  padding-top: var(--space-m);
   font-size: var(--step--1);
   font-weight: 500;
   color: #006341;
   text-decoration: none;
-  border-top: 1px solid rgba(0, 38, 62, 0.15);
   transition: color 0.2s ease-in-out;
 }
 .ds-sidebar__repo:hover {
@@ -6635,7 +6641,13 @@ body:has(.modal[open]) {
   color: #006341;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  :root:has(.jira-shell) {
+    scroll-behavior: smooth;
+  }
+}
 .jira-shell {
+  --jira-sticky-h: 9rem;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-l);
@@ -6818,6 +6830,7 @@ body:has(.modal[open]) {
 
 .jira__epic {
   margin-top: var(--space-2xl);
+  scroll-margin-top: calc(var(--jira-sticky-h) + var(--space-s));
 }
 .jira__epic[hidden] {
   display: none;
@@ -6848,11 +6861,16 @@ body:has(.modal[open]) {
 .jira__ticket {
   padding: var(--space-s) var(--space-m);
   margin-top: var(--space-s);
+  scroll-margin-top: calc(var(--jira-sticky-h) + var(--space-s));
   background-color: #f3efe5;
   border-radius: 16px;
 }
 .jira__ticket[hidden] {
   display: none;
+}
+.jira__ticket:target {
+  outline: 3px solid #009f4d;
+  outline-offset: 3px;
 }
 
 .jira__ticket-head {

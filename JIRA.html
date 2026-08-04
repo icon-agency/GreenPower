@@ -728,6 +728,25 @@
       return 'epic-' + s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     }
 
+    // Every ref that exists, so a dependency can only link to a real ticket —
+    // a "Depends on Q9" typo stays plain text rather than becoming a link to
+    // nowhere.
+    var REFS = {};
+    EPICS.forEach(function (epic) {
+      epic.tickets.forEach(function (t) { REFS[t.ref] = true; });
+    });
+
+    // "L1, Decision D3" and "Blocks L4" are prose with refs IN them, not lists
+    // of refs — so linkify the tokens and leave the words that carry the
+    // relationship alone.
+    function linkRefs(text) {
+      return text.replace(/\b([A-Z]\d{1,2})\b/g, function (whole, ref) {
+        return REFS[ref]
+          ? '<a href="#ticket-' + ref + '" data-dep="' + ref + '">' + ref + '</a>'
+          : whole;
+      });
+    }
+
     function render() {
       var navEl = document.querySelector('[data-jira-nav]');
 
@@ -762,6 +781,7 @@
         epic.tickets.forEach(function (t) {
           var art = document.createElement('article');
           art.className = 'jira__ticket';
+          art.id = 'ticket-' + t.ref;
           art.setAttribute('data-ticket', '');
           art.setAttribute('data-haystack',
             (t.ref + ' ' + t.summary + ' ' + t.why + ' ' + t.ac.join(' ') + ' ' + t.notes + ' ' + epic.name).toLowerCase());
@@ -783,7 +803,7 @@
               (see ? '<dt>Reference</dt><dd>' + see + '</dd>' : '') +
               '<dt>Acceptance criteria</dt><dd><ul>' + t.ac.map(function (a) { return '<li>' + a + '</li>'; }).join('') + '</ul></dd>' +
               (t.notes ? '<dt>Drupal notes</dt><dd>' + t.notes + '</dd>' : '') +
-              (t.depends ? '<dt>Depends on</dt><dd>' + t.depends + '</dd>' : '') +
+              (t.depends ? '<dt>Depends on</dt><dd>' + linkRefs(t.depends) + '</dd>' : '') +
             '</dl>';
 
           art.querySelector('[data-copy="summary"]').addEventListener('click', function (e) {
@@ -869,9 +889,41 @@
       URL.revokeObjectURL(url);
     }
 
+    // A dependency link has to land even when a filter is hiding its target —
+    // otherwise following "Depends on C2" from a filtered view does nothing at
+    // all, which reads as a broken link rather than as a hidden one.
+    document.addEventListener('click', function (event) {
+      var link = event.target.closest('[data-dep]');
+      if (!link) return;
+      if (searchEl.value) {
+        searchEl.value = '';
+        filter();
+      }
+    });
+
+    // The control bar's real height, so scroll-margin-top clears it exactly.
+    // Measured rather than guessed because it wraps to two rows on a narrow
+    // viewport, which a hard-coded offset would get wrong on every phone.
+    // rAF-throttled per LESSONS.md.
+    var shell = document.querySelector('.jira-shell');
+    var controls = document.querySelector('.jira__controls');
+    var measuring = false;
+
+    function measureSticky() {
+      measuring = false;
+      shell.style.setProperty('--jira-sticky-h', controls.offsetHeight + 'px');
+    }
+
+    function requestMeasure() {
+      if (!measuring) { requestAnimationFrame(measureSticky); measuring = true; }
+    }
+
     render();
     filter();
     spy();
+    measureSticky();
+    window.addEventListener('resize', requestMeasure);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureSticky);
     searchEl.addEventListener('input', filter);
     document.querySelector('[data-jira-csv]').addEventListener('click', csv);
   })();

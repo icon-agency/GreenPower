@@ -20,7 +20,25 @@
 // phone. This is a working document read at a desk, so the nav is just a
 // sticky column that becomes a plain block when there is no room for it —
 // no drawer, no toggle, nothing to open.
+// Smooth anchor scrolling, scoped to this page so it cannot change how the
+// product pages behave. Following "Depends on C2" across 58 near-identical
+// cards is disorienting when the view teleports — the travel is what tells
+// you which direction you moved and roughly how far.
+//
+// Behind a reduced-motion query: a long smooth scroll is exactly the kind of
+// large-area movement that setting exists to stop, and instant jumping is the
+// correct degradation.
+@media (prefers-reduced-motion: no-preference) {
+  :root:has(.jira-shell) {
+    scroll-behavior: smooth;
+  }
+}
+
 .jira-shell {
+  // Measured by the script from the real control bar; this is the value used
+  // until it runs (and if it never does).
+  --jira-sticky-h: 9rem;
+
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-l);
@@ -217,6 +235,9 @@
 
 .jira__epic {
   margin-top: var(--space-2xl);
+  // Both jump targets stop clear of the sticky control bar. Without this the
+  // thing you navigated to arrives underneath it.
+  scroll-margin-top: calc(var(--jira-sticky-h) + var(--space-s));
 
   &[hidden] {
     display: none;
@@ -254,11 +275,19 @@
 .jira__ticket {
   padding: var(--space-s) var(--space-m);
   margin-top: var(--space-s);
+  scroll-margin-top: calc(var(--jira-sticky-h) + var(--space-s));
   background-color: $color-tint-taupe;
   border-radius: $radius-lg;
 
   &[hidden] {
     display: none;
+  }
+
+  // Jumped to from a "Depends on" link. Landing mid-list in 58 near-identical
+  // cards otherwise leaves the reader hunting for which one moved.
+  &:target {
+    outline: 3px solid $color-ui-focus;
+    outline-offset: 3px;
   }
 }
 
