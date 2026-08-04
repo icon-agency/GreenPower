@@ -66,6 +66,13 @@
         <li>The refs (<code>F1</code>, <code>C2</code>, <code>L2</code>) are handles for conversation, not JIRA keys. Real keys come back from the import.</li>
       </ul>
 
+      <h3>What is not here yet</h3>
+      <p>Two gaps worth knowing before you rely on this:</p>
+      <ul>
+        <li><strong>No user stories.</strong> Tickets are written as summary, rationale and acceptance criteria &mdash; not &ldquo;As a&hellip; I want&hellip; so that&hellip;&rdquo;. Public-facing stories can be written from the prototype; author-side ones need the roles in <a href="#ticket-D10" data-dep="D10">D10</a> first.</li>
+        <li><strong>Back-end criteria are partial.</strong> The content model is sketched &mdash; paragraph types, field names, view configuration &mdash; but it was <em>inferred from the design</em> and nobody has signed it off (<a href="#ticket-D9" data-dep="D9">D9</a>). Permissions, editorial workflow, data import and integrations are absent entirely (<a href="#ticket-D7" data-dep="D7">D7</a>, <a href="#ticket-D8" data-dep="D8">D8</a>, <a href="#ticket-D10" data-dep="D10">D10</a>).</li>
+      </ul>
+
     </div>
   </details>
 
@@ -735,6 +742,59 @@
           ac: ['Every WIREFRAME FILLER marker reviewed and answered', 'Form select options (industry, energy provider) confirmed'],
           notes: 'grep WIREFRAME FILLER across templates — each marker explains what it needs.',
           depends: ''
+        },
+        {
+          ref: 'D7', summary: 'DISCOVERY: where do the provider and generator records come from?',
+          why: 'The three tools list records that the prototype types by hand. How they reach Drupal changes what those tickets actually are.',
+          see: [['Template', 'templates/tool-buy-greenpower.html'], ['Template', 'templates/tool-electricity-generators.html']],
+          ac: [
+            'Answer recorded: entered by an editor, imported from a file, or synced from an external system',
+            'If imported or synced: source, format, update frequency and who owns the data',
+            'If imported or synced: a migration or integration ticket raised &mdash; none exists today',
+            'If hand-entered: who maintains the records, and how often they change'
+          ],
+          notes: 'The largest single unknown in this backlog. V5, V6 and V7 quietly assume an editor types every record in. A feed or an API changes their scope and probably adds an epic.',
+          depends: 'Blocks V5, V6, V7'
+        },
+        {
+          ref: 'D8', summary: 'DISCOVERY: is there an existing site with content to migrate?',
+          why: 'A migration is invisible in this backlog and would be an epic of its own.',
+          see: [],
+          ac: [
+            'Answer recorded: yes or no',
+            'If yes: roughly how much content, of what kinds, and in what system',
+            'If yes: whether existing URLs must be preserved, and redirects raised as a ticket',
+            'If yes: a migration epic added to this backlog'
+          ],
+          notes: 'Nothing here assumes any existing content. If there is a live GreenPower site behind this redesign, that assumption is wrong and the estimate is short.',
+          depends: ''
+        },
+        {
+          ref: 'D9', summary: 'DISCOVERY: sign off the content model',
+          why: 'Every field name in this backlog was inferred from the design, not agreed with a back-end developer.',
+          see: [['DS', 'index.html#card']],
+          ac: [
+            'Field names, types, cardinality and required/optional confirmed for every paragraph and content type',
+            'P6 answered: four content types for the article kinds, or one with a type taxonomy',
+            'Vocabularies listed, and whether their terms are editor-managed or fixed',
+            'Anything the design implies but the model cannot support is raised before build, not during'
+          ],
+          notes: 'The Drupal mapping header in each component’s SCSS partial is the current proposal. It was written FROM the design and is a starting point for this conversation, not the outcome of one.',
+          depends: 'Blocks C2, C3, C4, P6'
+        },
+        {
+          ref: 'D10', summary: 'DISCOVERY: roles, destinations, search and non-functionals',
+          why: 'Five smaller answers that acceptance criteria across the whole backlog depend on.',
+          see: [['Handover', 'docs/handover.md']],
+          ac: [
+            'ROLES AND WORKFLOW: who authors, who approves, is content moderation used? Author-side user stories cannot be written until this is known',
+            'FORMS: where webform submissions go &mdash; email, a CRM, something else',
+            'SEARCH: is Search API fulltext available on this GovCMS plan? The filter bar assumes it',
+            'NON-FUNCTIONALS: accessibility conformance target, performance budget, browser support',
+            'TAXONOMIES: news type, generator type, gas type, states, buyer type, product type confirmed'
+          ],
+          notes: 'Each of these becomes criteria on many tickets rather than one. The accessibility target matters most and is not assumed here: L1 asserts that auto-apply is conformant because the count is a live region — that is standard WCAG reasoning, but it was never checked against GovCMS’s own published requirement, and whether that requirement is 2.1 AA or 2.2 AA is itself unconfirmed.',
+          depends: 'Blocks W1, W2'
         }
       ]
     }
