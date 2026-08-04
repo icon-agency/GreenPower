@@ -14,10 +14,102 @@
 // Nothing in this file ships to a Drupal theme.
 // -----------------------------------------------------------------------------
 
-.jira {
-  max-width: 62rem;
+// --- Shell --------------------------------------------------------------------
+// Two columns from md, one below it. NOT the design system's sidebar: that one
+// is a fixed drawer with a toggle because it sits over product pages on a
+// phone. This is a working document read at a desk, so the nav is just a
+// sticky column that becomes a plain block when there is no room for it —
+// no drawer, no toggle, nothing to open.
+.jira-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-l);
+  max-width: 80rem;
   padding: var(--space-l) var(--space-s-l) var(--space-3xl);
   margin-inline: auto;
+
+  @include respond-to('md') {
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: var(--space-xl);
+    align-items: start;
+  }
+}
+
+.jira-sidebar {
+  padding: var(--space-s);
+  background-color: $color-tint-taupe;
+  border-radius: $radius-lg;
+
+  @include respond-to('md') {
+    position: sticky;
+    top: var(--space-s);
+    // Its own scroll when the epic list outgrows the viewport, so a long
+    // backlog never pushes the last epic out of reach.
+    max-height: calc(100dvh - 2 * var(--space-s));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+.jira-sidebar__title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $color-brand-dark-green;
+}
+
+.jira-nav__list {
+  padding: 0;
+  margin: var(--space-2xs) 0 0;
+  list-style: none;
+}
+
+.jira-nav__link {
+  display: flex;
+  gap: var(--space-2xs);
+  align-items: baseline;
+  justify-content: space-between;
+  padding: var(--space-3xs) var(--space-2xs);
+  font-size: $font-size-sm;
+  color: $color-ui-text;
+  text-decoration: none;
+  border-radius: $radius-sm;
+  @include transition((background-color, color));
+
+  &:hover {
+    color: $color-brand-dark-green;
+    background-color: $color-brand-taupe;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // Set by the scroll spy on whichever epic the reader is in. aria-current is
+  // the state itself rather than a class mirroring it, so the styling and the
+  // announcement cannot disagree.
+  &[aria-current='true'] {
+    font-weight: $font-weight-medium;
+    color: $color-white;
+    background-color: $color-brand-dark-green;
+  }
+
+  // An epic the filter has emptied. Dimmed rather than removed: the list is
+  // also a map of the whole backlog, and holes in it are harder to read than
+  // greyed rows.
+  &[data-empty='true'] {
+    color: $color-ui-text-muted;
+    pointer-events: none;
+  }
+}
+
+.jira-nav__count {
+  flex-shrink: 0;
+  font-family: $font-family-mono;
+  font-size: $font-size-xs;
+}
+
+.jira {
+  max-width: 62rem;
 }
 
 .jira__title {

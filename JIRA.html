@@ -11,6 +11,15 @@
 </head>
 <body>
 
+<div class="jira-shell">
+
+  <aside class="jira-sidebar">
+    <p class="jira-sidebar__title">Epics</p>
+    <nav class="jira-nav" aria-label="Epics">
+      <ol class="jira-nav__list" data-jira-nav></ol>
+    </nav>
+  </aside>
+
 <main class="jira" id="main-content">
 
   <h1 class="jira__title">Build backlog</h1>
@@ -39,6 +48,8 @@
   <p class="jira__empty" data-jira-empty hidden>No tickets match that filter.</p>
 
 </main>
+
+</div>
 
 <script>
   // The backlog as DATA, so the cards, the clipboard text and the CSV are all
@@ -713,10 +724,27 @@
       });
     }
 
+    function slug(s) {
+      return 'epic-' + s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+
     function render() {
+      var navEl = document.querySelector('[data-jira-nav]');
+
       EPICS.forEach(function (epic) {
+        var id = slug(epic.name);
+
+        var li = document.createElement('li');
+        li.innerHTML =
+          '<a class="jira-nav__link" href="#' + id + '" data-nav-for="' + id + '">' +
+            '<span>' + epic.name + '</span>' +
+            '<span class="jira-nav__count">' + epic.tickets.length + '</span>' +
+          '</a>';
+        navEl.appendChild(li);
+
         var sec = document.createElement('section');
         sec.className = 'jira__epic';
+        sec.id = id;
         sec.setAttribute('data-epic', epic.name);
 
         var head = document.createElement('div');
@@ -780,12 +808,39 @@
         el.hidden = !hit;
         if (hit) shown += 1;
       });
-      // An epic with nothing left in it is noise, not a heading.
+      // An epic with nothing left in it is noise, not a heading. Its nav row
+      // stays put but goes quiet — the list doubles as a map of the whole
+      // backlog, and holes in a map are harder to read than greyed rows.
       [].forEach.call(document.querySelectorAll('.jira__epic'), function (sec) {
-        sec.hidden = !sec.querySelector('[data-ticket]:not([hidden])');
+        var live = sec.querySelectorAll('[data-ticket]:not([hidden])').length;
+        sec.hidden = !live;
+        var link = document.querySelector('[data-nav-for="' + sec.id + '"]');
+        if (link) {
+          link.setAttribute('data-empty', live ? 'false' : 'true');
+          link.querySelector('.jira-nav__count').textContent = live;
+        }
       });
       emptyEl.hidden = shown > 0;
       countEl.textContent = shown + (shown === 1 ? ' ticket' : ' tickets');
+    }
+
+    // Scroll spy. rootMargin pins the "you are here" band to the top third of
+    // the viewport, so the highlight changes as an epic's heading reaches the
+    // top rather than when its last ticket finally leaves the bottom.
+    function spy() {
+      var links = [].slice.call(document.querySelectorAll('.jira-nav__link'));
+      if (!('IntersectionObserver' in window) || !links.length) return;
+
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          links.forEach(function (l) { l.removeAttribute('aria-current'); });
+          var link = document.querySelector('[data-nav-for="' + entry.target.id + '"]');
+          if (link) link.setAttribute('aria-current', 'true');
+        });
+      }, { rootMargin: '0px 0px -66% 0px' });
+
+      [].forEach.call(document.querySelectorAll('.jira__epic'), function (s) { io.observe(s); });
     }
 
     // CSV for JIRA's bulk importer — the columns it maps by default.
@@ -816,6 +871,7 @@
 
     render();
     filter();
+    spy();
     searchEl.addEventListener('input', filter);
     document.querySelector('[data-jira-csv]').addEventListener('click', csv);
   })();
