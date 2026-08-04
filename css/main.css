@@ -6684,6 +6684,35 @@ body:has(.modal[open]) {
   color: #006341;
 }
 
+.jira-sidebar__intro {
+  padding-bottom: var(--space-2xs);
+  margin-bottom: var(--space-2xs);
+  font-size: var(--step--1);
+  border-bottom: 1px solid rgba(0, 38, 62, 0.15);
+}
+.jira-sidebar__intro a {
+  color: #006341;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: from-font;
+  background-image: linear-gradient(#009f4d, #009f4d);
+  background-repeat: no-repeat;
+  background-position: 50% calc(100% - 0.07em);
+  background-size: 0% 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: color 0.2s ease-in-out, background-size 0.3s ease-out;
+}
+.jira-sidebar__intro a:hover {
+  color: #00263e;
+  background-size: 100% 2px;
+  text-decoration-color: transparent;
+}
+.jira-sidebar__intro a:focus-visible {
+  outline: 3px solid #009f4d;
+  outline-offset: 2px;
+}
+
 .jira-nav__list {
   padding: 0;
   margin: var(--space-2xs) 0 0;
@@ -6739,6 +6768,69 @@ body:has(.modal[open]) {
 .jira__intro {
   max-width: var(--measure);
   margin-top: var(--space-2xs);
+}
+
+.jira-explainer {
+  padding: var(--space-s) var(--space-m);
+  margin-top: var(--space-m);
+  background-color: #f3efe5;
+  border-radius: 16px;
+  scroll-margin-top: calc(var(--jira-sticky-h) + var(--space-s));
+}
+
+.jira-explainer__summary {
+  font-size: var(--step-0);
+  font-weight: 500;
+  color: #006341;
+  cursor: pointer;
+}
+.jira-explainer__summary:focus-visible {
+  outline: 3px solid #009f4d;
+  outline-offset: 2px;
+}
+
+.jira-explainer__body {
+  max-width: var(--measure);
+  margin-top: var(--space-s);
+  font-size: var(--step--1);
+}
+.jira-explainer__body > * + * {
+  margin-top: var(--space-s);
+}
+.jira-explainer__body h3 {
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: #006341;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.jira-explainer__body ul {
+  padding-left: var(--space-m);
+  margin: 0;
+}
+.jira-explainer__body li + li {
+  margin-top: var(--space-3xs);
+}
+.jira-explainer__body strong {
+  font-weight: 500;
+}
+
+.jira-ladder {
+  padding: var(--space-s);
+  margin: 0;
+  font-family: ui-monospace, "SF Mono", "SFMono-Regular", menlo, consolas, monospace;
+  font-size: var(--step--2);
+  line-height: 1.6;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+.jira-ladder span {
+  display: block;
+  color: #00263e;
+}
+.jira-ladder b {
+  font-weight: 500;
+  color: #006341;
 }
 
 .jira__controls {
@@ -6797,13 +6889,23 @@ body:has(.modal[open]) {
   background: none;
   border: 0;
   cursor: pointer;
+  display: inline-flex;
+  gap: var(--space-3xs);
+  align-items: center;
   padding: var(--space-3xs) var(--space-xs);
   font-size: var(--step--2);
   font-weight: 500;
   color: #006341;
   cursor: pointer;
-  background-color: #f3efe5;
+  background-color: #ffffff;
   border-radius: 100em;
+}
+.jira__btn svg {
+  flex-shrink: 0;
+  width: 0.85em;
+  height: 0.85em;
+}
+.jira__btn {
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 .jira__btn:hover {

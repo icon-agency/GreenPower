@@ -14,6 +14,7 @@
 <div class="jira-shell">
 
   <aside class="jira-sidebar">
+    <p class="jira-sidebar__intro"><a href="#how-this-works" data-jira-explainer-open>How this backlog is organised</a></p>
     <p class="jira-sidebar__title">Epics</p>
     <nav class="jira-nav" aria-label="Epics">
       <ol class="jira-nav__list" data-jira-nav></ol>
@@ -24,6 +25,49 @@
 
   <h1 class="jira__title">Build backlog</h1>
   <p class="jira__intro">Every ticket points at a page and a design-system section that already answer the question, so nothing here re-describes the design in prose. The Drupal notes are lifted from the mapping header each component already carries in its SCSS partial &mdash; they are the spec, not a suggestion.</p>
+
+  <details class="jira-explainer" id="how-this-works" data-jira-explainer>
+    <summary class="jira-explainer__summary">How this backlog is organised</summary>
+    <div class="jira-explainer__body">
+
+      <h3>What an epic is</h3>
+      <p>A container for work too big to be one ticket. It is <strong>not</strong> a bigger ticket &mdash; nobody is ever assigned an epic. It groups tickets so you can talk about progress without listing fourteen things.</p>
+
+      <p class="jira-ladder">
+        <span><b>Epic</b> &nbsp;Content components</span>
+        <span>&nbsp;&nbsp;&#9492;&#9472; <b>Story</b> &nbsp;C2 Card and multi-card section</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9492;&#9472; <b>Subtask</b> &nbsp;Build the field definitions</span>
+      </p>
+
+      <p>The epic is the <strong>goal</strong>. The story is <strong>one shippable piece</strong>. The subtask is <strong>one person, one sitting</strong>.</p>
+
+      <p>The <strong>story</strong> is the useful unit: one person can finish it, and someone else can verify it is done. That is why this backlog has 58 of them rather than 8 fat ones &mdash; &ldquo;build all the components&rdquo; cannot be reviewed, but &ldquo;Card renders with an optional image and pins its links to the foot&rdquo; can.</p>
+
+      <p>Put simply: <strong>the epic holds the why, the story holds the what.</strong> Any single ticket inside Foundations looks like plumbing on its own; the epic is what says nothing else lands cleanly until it is done.</p>
+
+      <h3>Why these eight</h3>
+      <p>Grouped by what blocks what, not by how the design system is arranged:</p>
+      <ul>
+        <li><strong>Foundations</strong> and <strong>Global regions</strong> go first &mdash; everything imports them.</li>
+        <li><strong>Content components</strong>, <strong>Listings</strong> and <strong>Forms</strong> can run in parallel once foundations land.</li>
+        <li><strong>Buy tool logic</strong> needs the directory to exist first.</li>
+        <li><strong>Page templates</strong> come last: they are assembly, not new code.</li>
+        <li><strong>Decisions</strong> are not dev work at all.</li>
+      </ul>
+
+      <h3>Why decisions get their own epic</h3>
+      <p>A decision buried inside a build ticket is invisible until a developer hits it mid-sprint. Pulled out, <a href="#ticket-D3" data-dep="D3">D3</a> (&ldquo;can households buy gas?&rdquo;) visibly blocks <a href="#ticket-L2" data-dep="L2">L2</a>, and it can be chased a week early. Keep these out of a sprint until they are answered.</p>
+
+      <h3>Using this page</h3>
+      <ul>
+        <li><strong>Copy summary</strong> and <strong>Copy description</strong> are two buttons because JIRA has two fields. Paste each into its own.</li>
+        <li>Set the <strong>base URL</strong> once and every copied ticket carries absolute links, so they work from inside a ticket.</li>
+        <li><strong>Download CSV</strong> creates the whole backlog for JIRA&rsquo;s bulk importer &mdash; Summary, Description, Epic Name, Issue Type, Labels.</li>
+        <li>The refs (<code>F1</code>, <code>C2</code>, <code>L2</code>) are handles for conversation, not JIRA keys. Real keys come back from the import.</li>
+      </ul>
+
+    </div>
+  </details>
 
   <div class="jira__controls">
     <div class="jira__control">
@@ -175,7 +219,7 @@
         {
           ref: 'G3', summary: 'Page header band',
           why: 'The green interior banner every non-home page opens with.',
-          see: [['DS', 'index.html#page-header'], ['Live', 'templates/landing-simple.html']],
+          see: [['DS', 'index.html#page-header'], ['Template', 'templates/landing-simple.html']],
           ac: [
             'H1 from node title; intro from the summary field; optional header image',
             'Drupal’s breadcrumb block renders in the band region &mdash; style it, do not re-template it',
@@ -188,7 +232,7 @@
         {
           ref: 'G4', summary: 'Homepage hero',
           why: 'Video slides, split headline animation, playback control.',
-          see: [['DS', 'index.html#hero'], ['Live', 'templates/home.html']],
+          see: [['DS', 'index.html#hero'], ['Template', 'templates/home.html']],
           ac: [
             'Paragraph <code>hero_video</code>: title, summary, two CTAs, repeatable media slides',
             'Respects <code>prefers-reduced-motion</code>',
@@ -201,7 +245,7 @@
         {
           ref: 'G5', summary: 'Pager',
           why: 'Listing pages need the themed pager.',
-          see: [['Live', 'templates/news-landing.html']],
+          see: [['Template', 'templates/news-landing.html']],
           ac: [
             'Style Drupal’s <code>pager.html.twig</code>; do not re-template it',
             'Ellipsis and range come from the pager plugin’s quantity setting',
@@ -356,7 +400,7 @@
         {
           ref: 'C12', summary: 'Explainer modal',
           why: '"What are these?" reference copy without losing the reader’s place in a listing.',
-          see: [['DS', 'index.html#modal'], ['Live', 'templates/tool-buy-greenpower.html']],
+          see: [['DS', 'index.html#modal'], ['Template', 'templates/tool-buy-greenpower.html']],
           ac: [
             'Trigger is a real LINK to the explainer node, enhanced with <code>use-ajax</code> + <code>data-dialog-type="modal"</code>',
             'With JS off it is a working link to a working page',
@@ -370,7 +414,7 @@
         {
           ref: 'C13', summary: 'Contact prompt cards',
           why: 'Referral cards for demand a listing cannot serve.',
-          see: [['DS', 'index.html#contact-prompt'], ['Live', 'templates/tool-buy-greenpower.html']],
+          see: [['DS', 'index.html#contact-prompt'], ['Template', 'templates/tool-buy-greenpower.html']],
           ac: [
             'Two blocks (or one block with two items) in the view’s header region with a visibility condition',
             'Heading, body and link are all fields &mdash; nothing assumes two cards',
@@ -400,7 +444,7 @@
         {
           ref: 'V1', summary: 'News listing view',
           why: 'Filterable article index with a pager.',
-          see: [['Live', 'templates/news-landing.html']],
+          see: [['Template', 'templates/news-landing.html']],
           ac: [
             'View over news nodes with an exposed <code>field_news_type</code> filter, AJAX-enabled',
             'Filter pills are the styled exposed form; filtering is the view’s request, not client script',
@@ -413,7 +457,7 @@
         {
           ref: 'V2', summary: 'News teaser and article meta',
           why: 'The row rendered by the listing, and the meta block on the article.',
-          see: [['Live', 'templates/news-article.html']],
+          see: [['Template', 'templates/news-article.html']],
           ac: [
             'A <code>node--news--meta</code> view mode: thumbnail, type tag, title, optional event dates',
             'Event dates row is OMITTED entirely when empty',
@@ -425,7 +469,7 @@
         {
           ref: 'V3', summary: 'Selected-filters chips',
           why: 'Shared across all three directories.',
-          see: [['Live', 'templates/tool-buy-greenpower.html']],
+          see: [['Template', 'templates/tool-buy-greenpower.html']],
           ac: [
             'A facets summary block (or the exposed form’s reset markup) themed to these classes',
             'Each chip names what it removes, expanded for screen readers',
@@ -438,7 +482,7 @@
         {
           ref: 'V4', summary: 'Exposed filter bar',
           why: 'The control row all three tools share, sitting in the header band.',
-          see: [['DS', 'index.html#filter-states'], ['Live', 'templates/tool-buy-greenpower.html']],
+          see: [['DS', 'index.html#filter-states'], ['Template', 'templates/tool-buy-greenpower.html']],
           ac: [
             'Styled widgets of <code>views-exposed-form.html.twig</code>, AJAX-enabled',
             'Single-answer groups are radios; multi-answer groups are checkboxes',
@@ -452,7 +496,7 @@
         {
           ref: 'V5', summary: 'Electricity generators directory',
           why: 'Accredited generator listing with a map.',
-          see: [['Live', 'templates/tool-electricity-generators.html']],
+          see: [['Template', 'templates/tool-electricity-generators.html']],
           ac: [
             'View over <code>accredited_generator</code> nodes; rows are teasers',
             'Exposed filters: fulltext, state, generator type',
@@ -464,7 +508,7 @@
         {
           ref: 'V6', summary: 'Gas producers directory',
           why: 'Same view shape, gas taxonomy.',
-          see: [['Live', 'templates/tool-gas-producers.html']],
+          see: [['Template', 'templates/tool-gas-producers.html']],
           ac: [
             'Same view configuration as V5 with the renewable gas type filter',
             'H1 and intro copy confirmed with the client'
@@ -475,7 +519,7 @@
         {
           ref: 'V7', summary: 'Buy GreenPower directory',
           why: 'Provider and trader listing, the most complex of the three.',
-          see: [['Live', 'templates/tool-buy-greenpower.html']],
+          see: [['Template', 'templates/tool-buy-greenpower.html']],
           ac: [
             'View over <code>accredited_provider</code> nodes; rows are teasers',
             'Teaser: title, logo media, website link, phone, ask link, plus repeatable offer paragraphs',
@@ -495,7 +539,7 @@
         {
           ref: 'L1', summary: 'Filter commits on change; single-answer groups',
           why: 'Nobody buys as a household and a business, and an Apply step read as a control that had ignored you.',
-          see: [['Live', 'templates/tool-buy-greenpower.html']],
+          see: [['Template', 'templates/tool-buy-greenpower.html']],
           ac: [
             'Selecting any filter updates the results with no Apply step',
             '"Who are you buying for?" takes one answer; "GreenPower type" takes one answer',
@@ -556,7 +600,7 @@
         {
           ref: 'W1', summary: 'Contact webform',
           why: 'General enquiry form on the split sticky layout.',
-          see: [['DS', 'index.html#form'], ['Live', 'templates/form-contact.html']],
+          see: [['DS', 'index.html#form'], ['Template', 'templates/form-contact.html']],
           ac: [
             'Built as a webform; classes applied in the webform UI or a <code>form_alter</code>',
             'Customer-type options confirmed with the client',
@@ -570,7 +614,7 @@
         {
           ref: 'W2', summary: 'Logo request webform',
           why: 'Same form styles plus the downloads component.',
-          see: [['Live', 'templates/form-logo-request.html']],
+          see: [['Template', 'templates/form-logo-request.html']],
           ac: [
             'Built as a webform reusing the contact form’s styles',
             'File upload field renders with the custom button treatment',
@@ -588,7 +632,7 @@
         {
           ref: 'P1', summary: 'Master template: single column and split sticky left',
           why: 'The two reading layouts every content page uses.',
-          see: [['DS', 'index.html#content-single-column'], ['DS', 'index.html#content-split-sticky-left'], ['Live', 'templates/master-template.html']],
+          see: [['DS', 'index.html#content-single-column'], ['DS', 'index.html#content-split-sticky-left'], ['Template', 'templates/master-template.html']],
           ac: [
             'Both layouts are one <code>section</code> paragraph with a layout field',
             'Both accept the same component set as siblings between prose sections',
@@ -598,19 +642,19 @@
           notes: 'This is the ticket that proves the component set composes. Do it early in the template epic.',
           depends: 'C1, C2'
         },
-        { ref: 'P2', summary: 'Homepage', why: 'Hero, bento, feature banner, latest news scroller.', see: [['Live', 'templates/home.html']], ac: ['Assembles the homepage components', 'Latest news row is a view, not hard-coded', 'Scroller arrows are keyboard operable'], notes: '', depends: 'G4, P1' },
-        { ref: 'P3', summary: 'News landing', why: 'Article index.', see: [['Live', 'templates/news-landing.html']], ac: ['Uses the news listing view', 'Featured lead item renders differently from the grid'], notes: '', depends: 'V1' },
-        { ref: 'P4', summary: 'News article', why: 'Standard article page.', see: [['Live', 'templates/news-article.html']], ac: ['Article header, meta block, prose body, related items', 'Body accepts every content component'], notes: '', depends: 'P1, V2' },
+        { ref: 'P2', summary: 'Homepage', why: 'Hero, bento, feature banner, latest news scroller.', see: [['Template', 'templates/home.html']], ac: ['Assembles the homepage components', 'Latest news row is a view, not hard-coded', 'Scroller arrows are keyboard operable'], notes: '', depends: 'G4, P1' },
+        { ref: 'P3', summary: 'News landing', why: 'Article index.', see: [['Template', 'templates/news-landing.html']], ac: ['Uses the news listing view', 'Featured lead item renders differently from the grid'], notes: '', depends: 'V1' },
+        { ref: 'P4', summary: 'News article', why: 'Standard article page.', see: [['Template', 'templates/news-article.html']], ac: ['Article header, meta block, prose body, related items', 'Body accepts every content component'], notes: '', depends: 'P1, V2' },
         { ref: 'P5', summary: 'DECIDE then build: panelled article header', why: 'Alternative article header, complete but hidden from the design system nav.', see: [['Handover §5', 'docs/handover.md']], ac: ['Decision recorded: publish as a variant or delete', 'If published: unhide the design system entry'], notes: 'Blocked on a product decision.', depends: 'Decision D5' },
-        { ref: 'P6', summary: 'Impact stories landing', why: 'Story index with square media.', see: [['Live', 'templates/impact-stories.html']], ac: ['Story cards square their media', 'Wide card bodies hold the measure'], notes: '', depends: 'C2' },
-        { ref: 'P7', summary: 'Impact article', why: 'Story detail page.', see: [['Live', 'templates/impact-article.html']], ac: ['Article layout with the impact header treatment'], notes: 'Copy transcribed from wireframes — grep WIREFRAME FILLER.', depends: 'P4' },
-        { ref: 'P8', summary: 'Consultation landing and article', why: 'Consultation index and detail.', see: [['Live', 'templates/consultation-landing.html'], ['Live', 'templates/consultation-article.html']], ac: ['Both pages assemble from existing components', 'Status and dates render from fields'], notes: '', depends: 'P4' },
-        { ref: 'P9', summary: 'Program rules and legislation landing and article', why: 'Rules index and detail.', see: [['Live', 'templates/rules-legislation-landing.html'], ['Live', 'templates/rules-legislation-article.html']], ac: ['Both pages assemble from existing components'], notes: '', depends: 'P4' },
-        { ref: 'P10', summary: 'Simple landing page', why: 'Category landing built from multi-card sections.', see: [['Live', 'templates/landing-simple.html']], ac: ['Card sections use the real menu labels', 'No component modified for this page'], notes: '', depends: 'C2, P1' },
-        { ref: 'P11', summary: 'Industry accreditation landing', why: 'Accreditation entry page.', see: [['Live', 'templates/landing-industry-accreditation.html']], ac: ['Assembles from existing components'], notes: '', depends: 'P1' },
-        { ref: 'P12', summary: 'Page with steps', why: 'Numbered multi-component content page.', see: [['Live', 'templates/content-page-with-steps.html']], ac: ['Steps render from a repeatable paragraph', 'Works in both reading layouts'], notes: '', depends: 'P1' },
-        { ref: 'P13', summary: 'Audits and reports landing', why: 'Reports entry page.', see: [['Live', 'templates/landing-audits-reports.html']], ac: ['Assembles from existing components'], notes: '', depends: 'P1, C4' },
-        { ref: 'P14', summary: 'Quarterly reports downloads', why: 'Grouped download listing.', see: [['Live', 'templates/downloads-quarterly-reports.html']], ac: ['Downloads grouped inside accordion panels', 'File size and date come from the file entity'], notes: '', depends: 'C4, C3' }
+        { ref: 'P6', summary: 'Impact stories landing', why: 'Story index with square media.', see: [['Template', 'templates/impact-stories.html']], ac: ['Story cards square their media', 'Wide card bodies hold the measure'], notes: '', depends: 'C2' },
+        { ref: 'P7', summary: 'Impact article', why: 'Story detail page.', see: [['Template', 'templates/impact-article.html']], ac: ['Article layout with the impact header treatment'], notes: 'Copy transcribed from wireframes — grep WIREFRAME FILLER.', depends: 'P4' },
+        { ref: 'P8', summary: 'Consultation landing and article', why: 'Consultation index and detail.', see: [['Template', 'templates/consultation-landing.html'], ['Template', 'templates/consultation-article.html']], ac: ['Both pages assemble from existing components', 'Status and dates render from fields'], notes: '', depends: 'P4' },
+        { ref: 'P9', summary: 'Program rules and legislation landing and article', why: 'Rules index and detail.', see: [['Template', 'templates/rules-legislation-landing.html'], ['Template', 'templates/rules-legislation-article.html']], ac: ['Both pages assemble from existing components'], notes: '', depends: 'P4' },
+        { ref: 'P10', summary: 'Simple landing page', why: 'Category landing built from multi-card sections.', see: [['Template', 'templates/landing-simple.html']], ac: ['Card sections use the real menu labels', 'No component modified for this page'], notes: '', depends: 'C2, P1' },
+        { ref: 'P11', summary: 'Industry accreditation landing', why: 'Accreditation entry page.', see: [['Template', 'templates/landing-industry-accreditation.html']], ac: ['Assembles from existing components'], notes: '', depends: 'P1' },
+        { ref: 'P12', summary: 'Page with steps', why: 'Numbered multi-component content page.', see: [['Template', 'templates/content-page-with-steps.html']], ac: ['Steps render from a repeatable paragraph', 'Works in both reading layouts'], notes: '', depends: 'P1' },
+        { ref: 'P13', summary: 'Audits and reports landing', why: 'Reports entry page.', see: [['Template', 'templates/landing-audits-reports.html']], ac: ['Assembles from existing components'], notes: '', depends: 'P1, C4' },
+        { ref: 'P14', summary: 'Quarterly reports downloads', why: 'Grouped download listing.', see: [['Template', 'templates/downloads-quarterly-reports.html']], ac: ['Downloads grouped inside accordion panels', 'File size and date come from the file entity'], notes: '', depends: 'C4, C3' }
       ]
     },
     {
@@ -620,7 +664,7 @@
         {
           ref: 'D1', summary: 'DECISION: do contact prompts replace the results, or sit alongside?',
           why: 'A large energy business is currently told a provider cannot help, then shown eight providers.',
-          see: [['Live', 'templates/tool-buy-greenpower.html']],
+          see: [['Template', 'templates/tool-buy-greenpower.html']],
           ac: ['Answer recorded on this ticket', 'L4 updated if the answer is "replace"'],
           notes: 'Built as ACCOMPANY (above the results) — the wireframe’s own reading.',
           depends: 'Blocks L4'
@@ -628,7 +672,7 @@
         {
           ref: 'D2', summary: 'DECISION: MWh threshold for the large energy business prompt',
           why: 'Copy currently reads "over XXX MWh per year".',
-          see: [['Live', 'templates/tool-buy-greenpower.html']],
+          see: [['Template', 'templates/tool-buy-greenpower.html']],
           ac: ['Real figure supplied and the copy updated'],
           notes: 'Wireframe placeholder.',
           depends: 'Blocks L4'
@@ -636,7 +680,7 @@
         {
           ref: 'D3', summary: 'DECISION: can households buy GreenPower gas?',
           why: 'The rule and the data disagree.',
-          see: [['Live', 'templates/tool-buy-greenpower.html']],
+          see: [['Template', 'templates/tool-buy-greenpower.html']],
           ac: ['Answer recorded', 'Either the L2 rule is dropped or the provider data is corrected'],
           notes: 'Two providers currently advertise a gas offer to households while the filter says gas is business-only. Flagged in the markup rather than quietly resolved.',
           depends: 'Blocks L2'
@@ -669,6 +713,8 @@
     }
   ];
 
+  var COPY_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5.5" y="5.5" width="9" height="9" rx="1.5"/><path d="M10.5 5.5v-3a1 1 0 0 0-1-1h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h3"/></svg>';
+
   (function () {
     var listEl = document.querySelector('[data-jira-list]');
     var emptyEl = document.querySelector('[data-jira-empty]');
@@ -680,6 +726,23 @@
     baseEl.value = localStorage.getItem(BASE_KEY) || '';
     baseEl.addEventListener('input', function () {
       localStorage.setItem(BASE_KEY, baseEl.value.trim());
+    });
+
+    // The explainer is open on a first visit and shut once it has been shut —
+    // the right default genuinely differs between someone meeting this page
+    // and someone opening it for the fiftieth time, and only the reader knows
+    // which they are.
+    var explainer = document.querySelector('[data-jira-explainer]');
+    var OPEN_KEY = 'gp-jira-explainer';
+    explainer.open = localStorage.getItem(OPEN_KEY) !== 'closed';
+    explainer.addEventListener('toggle', function () {
+      localStorage.setItem(OPEN_KEY, explainer.open ? 'open' : 'closed');
+    });
+
+    // The sidebar link has to work when the panel is shut, or it scrolls to a
+    // collapsed summary and looks broken.
+    document.querySelector('[data-jira-explainer-open]').addEventListener('click', function () {
+      explainer.open = true;
     });
 
     // Strip the markup the cards use for emphasis — JIRA wants plain text, and
@@ -714,11 +777,13 @@
 
     function copy(text, btn) {
       navigator.clipboard.writeText(text).then(function () {
-        var was = btn.textContent;
-        btn.textContent = 'Copied';
+        // innerHTML, not textContent — the label carries an icon, and swapping
+        // the text alone would delete it and never put it back.
+        var was = btn.innerHTML;
+        btn.innerHTML = 'Copied';
         btn.setAttribute('data-copied', 'true');
         setTimeout(function () {
-          btn.textContent = was;
+          btn.innerHTML = was;
           btn.removeAttribute('data-copied');
         }, 1400);
       });
@@ -793,9 +858,12 @@
           art.innerHTML =
             '<div class="jira__ticket-head">' +
               '<h3 class="jira__ticket-summary"><span class="jira__ref">' + t.ref + '</span> &nbsp;' + t.summary + '</h3>' +
+              // Two buttons because JIRA has two fields. Labelled with the
+              // verb, not just the field name — "Summary" alone read as a
+              // heading rather than as something to press.
               '<div class="jira__actions">' +
-                '<button class="jira__btn" type="button" data-copy="summary">Summary</button>' +
-                '<button class="jira__btn" type="button" data-copy="description">Description</button>' +
+                '<button class="jira__btn" type="button" data-copy="summary">' + COPY_ICON + 'Copy summary</button>' +
+                '<button class="jira__btn" type="button" data-copy="description">' + COPY_ICON + 'Copy description</button>' +
               '</div>' +
             '</div>' +
             '<dl class="jira__fields">' +

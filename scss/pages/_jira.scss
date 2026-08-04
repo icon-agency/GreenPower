@@ -75,6 +75,17 @@
   color: $color-brand-dark-green;
 }
 
+.jira-sidebar__intro {
+  padding-bottom: var(--space-2xs);
+  margin-bottom: var(--space-2xs);
+  font-size: $font-size-sm;
+  border-bottom: 1px solid $color-ui-border;
+
+  a {
+    @include link-inline;
+  }
+}
+
 .jira-nav__list {
   padding: 0;
   margin: var(--space-2xs) 0 0;
@@ -141,6 +152,84 @@
   margin-top: var(--space-2xs);
 }
 
+// --- Explainer ----------------------------------------------------------------
+// What an epic is, for whoever opens this without a JIRA habit. A <details>
+// so the orientation is there on a first visit and one click away on the
+// fiftieth — with the open state remembered, because the right default
+// genuinely differs between those two readers.
+.jira-explainer {
+  padding: var(--space-s) var(--space-m);
+  margin-top: var(--space-m);
+  background-color: $color-tint-taupe;
+  border-radius: $radius-lg;
+  scroll-margin-top: calc(var(--jira-sticky-h) + var(--space-s));
+}
+
+.jira-explainer__summary {
+  font-size: $font-size-base;
+  font-weight: $font-weight-demibold;
+  color: $color-brand-dark-green;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.jira-explainer__body {
+  max-width: var(--measure);
+  margin-top: var(--space-s);
+  font-size: $font-size-sm;
+
+  > * + * {
+    margin-top: var(--space-s);
+  }
+
+  h3 {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-demibold;
+    color: $color-brand-dark-green;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  ul {
+    padding-left: var(--space-m);
+    margin: 0;
+  }
+
+  li + li {
+    margin-top: var(--space-3xs);
+  }
+
+  strong {
+    font-weight: $font-weight-demibold;
+  }
+}
+
+// The three levels, drawn as an indented ladder rather than described. The
+// indent IS the hierarchy, so it reads in one glance where a sentence about
+// containment would not.
+.jira-ladder {
+  padding: var(--space-s);
+  margin: 0;
+  font-family: $font-family-mono;
+  font-size: $font-size-xs;
+  line-height: 1.6;
+  background-color: $color-white;
+  border-radius: $radius-md;
+
+  span {
+    display: block;
+    color: $color-ui-text;
+  }
+
+  b {
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+  }
+}
+
 // --- Controls -----------------------------------------------------------------
 // Sticky, because the search box is useless the moment it scrolls away on a
 // list this long.
@@ -195,13 +284,25 @@
 
 .jira__btn {
   @include button-reset;
+  display: inline-flex;
+  gap: var(--space-3xs);
+  align-items: center;
   padding: var(--space-3xs) var(--space-xs);
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;
   color: $color-brand-dark-green;
   cursor: pointer;
-  background-color: $color-tint-taupe;
+  // WHITE, not the tint: the ticket card is already tint-taupe, so a tinted
+  // button on it had no visible fill at all and read as two words of green
+  // text nobody could tell were clickable.
+  background-color: $color-white;
   border-radius: $radius-pill;
+
+  svg {
+    flex-shrink: 0;
+    width: 0.85em;
+    height: 0.85em;
+  }
   @include transition((background-color, color));
 
   &:hover {
