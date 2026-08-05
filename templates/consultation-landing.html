@@ -398,6 +398,9 @@
           </ol>
         </nav>
         <h1 class="page-header__title" data-animate>Consultations</h1>
+        <!-- WIREFRAME FILLER: placeholder description. The slot is real
+             (field_summary on the node); the words are not. -->
+        <p class="page-header__intro" data-animate>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem, in vulputate lorem. Nulla facilisi.</p>
         <!-- Views exposed filter (field_news_type), AJAX-enabled in Drupal.
              Buttons, not links: they filter in place; none pressed = show all. -->
         <div class="news-filter" data-animate data-news-filter>
@@ -557,6 +560,23 @@
         <p class="card-section__empty-text">Try removing a filter, or choose <strong>All</strong> to see everything.</p>
       </div>
 
+
+      <!-- The view's own pager (see _pagination.scss) — style Drupal's
+           pager.html.twig rather than re-templating it; the range and the
+           ellipsis come from the pager plugin's quantity setting. Hidden with
+           the grid when a filter empties the list, so an empty result never
+           offers a page 2. -->
+      <nav class="pagination" aria-label="Pagination" data-animate>
+        <ul class="pagination__list">
+          <li><a class="pagination__link" href="#" aria-label="Previous page">
+            <svg class="pagination__arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M13 5H2M6 1 2 5l4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+          <li><a class="pagination__link" href="#" aria-label="Page 1" aria-current="page">1</a></li>
+          <li><a class="pagination__link" href="#" aria-label="Page 2">2</a></li>
+          <li><a class="pagination__link" href="#" aria-label="Page 3">3</a></li>
+          <li><a class="pagination__link" href="#" aria-label="Next page">
+            <svg class="pagination__arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+        </ul>
+      </nav>
 
     </section>
 
