@@ -34,9 +34,37 @@
   color: $color-white;
   background-color: $color-brand-dark-green;
 
+  // Size container so --edge-inset below can be stated in cqi. Inline-size
+  // containment is safe here: the section's width comes from the page, never
+  // from its contents.
+  container-type: inline-size;
+
+  // Where the COPY starts, measured from the section's own edge — the same
+  // line the page-header band puts its breadcrumb/title on: the logo's inset,
+  // plus the frame width, so the words sit a frame inside the logo rather than
+  // hard on its line. max() rather than a media query because one expression
+  // covers both sides of the container cap: under it the centring term goes
+  // negative and the gutter arm wins, over it the centring term does.
+  //
+  // cqi, not %: this is consumed on __content, a GRID ITEM, whose percentages
+  // resolve against its own column — half the banner from md up — so a
+  // percentage here would halve the inset exactly where the banner is widest.
+  // cqi resolves against the section's inline size wherever it is used. (And
+  // not vw, which counts the scrollbar and would drift the copy off the logo
+  // by a scrollbar's width on Windows.)
+  --edge-inset: max(
+    calc(var(--space-s-l) + var(--space-xs)),
+    calc(
+      (100cqi - #{$container-max-width}) / 2 + var(--space-s-l) +
+        var(--space-xs)
+    )
+  );
+
   &__inner {
-    max-width: $container-max-width;
-    margin-inline: auto;
+    // NO max-width: the banner's content widens with the viewport instead of
+    // stopping at the container cap — the background was always full-bleed, and
+    // now the media panel is too. The copy does not run wide with it: it starts
+    // on the --edge-inset line above and keeps its own measure.
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-m);
@@ -65,23 +93,17 @@
     flex-direction: column;
     gap: var(--space-m);
     align-items: flex-start;
-    // --space-m inline, matching .bento-grid__overlay's own inline padding
-    // exactly. That is what puts this copy on the same vertical line as the
-    // media-tile titles below it ("Melbourne Airport"), not on the tile's OUTER
-    // edge: both blocks are text sitting on a coloured surface, and both are
-    // inset from their surface by --space-m. The two surfaces already start
-    // level, because .bento-grid__inner and .feature-banner__inner are the same
-    // max-width with the same --space-xs gutter, so
-    //   tile text  = --space-xs + --space-m
-    //   banner text = --space-xs + --space-m
-    // resolves identically at every width with no breakpoint of its own. Aim
-    // this at the overlay's token if it ever moves; a hard value would drift.
+    // Left inset is the section's --edge-inset LESS the frame __inner already
+    // contributes, so the copy starts exactly on that line — the page-header
+    // band's treatment, and the reason this is no longer the flat --space-m it
+    // was: with the cap gone, a fixed inset would walk the copy off the logo
+    // the moment the viewport passed the container width.
     //
-    // Even on all four sides. Written long-hand rather than collapsed to a
-    // single value because these are three independent decisions that happen to
-    // agree: the inline pair is the alignment above, and the block pair is the
-    // copy's own breathing room. Change one without disturbing the others.
-    padding: var(--space-m) var(--space-m) var(--space-m);
+    // The right and block insets stay --space-m: those are the copy's own
+    // breathing room against the media column and the section edges, three
+    // independent decisions that used to happen to agree on one value.
+    padding: var(--space-m) var(--space-m) var(--space-m)
+      calc(var(--edge-inset) - var(--space-xs));
   }
 
   // Same size as .card__icon. The source artwork is dark green — render it

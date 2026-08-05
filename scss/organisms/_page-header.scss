@@ -32,28 +32,51 @@
   margin-inline: auto;
   padding-inline: var(--space-xs);
 
-  // The COPY still lines up with the logo above it, which is the point of the
-  // exercise: the band is wider than the container, the words are not.
+  // The COPY tracks the logo above it, which is the point of the exercise:
+  // the band is wider than the container, the words are not. It sits one
+  // frame width INSIDE that line, though — the band's edge is a green edge,
+  // not the page's, and copy landing on the logo line leaves only the frame
+  // itself between the words and that edge, which reads as no margin at all.
+  // So the inner's padding IS the logo's inset, unreduced: the text starts at
+  // (frame + logo inset), a frame's breathing room in from the band edge.
   //
-  // This is the inner's padding, so it is the logo's inset MINUS the frame
-  // the band already sits inside — the text starts at (frame + this). max()
-  // rather than a media query because one expression covers both sides of the
-  // cap: under it the centring term goes negative and the gutter arm wins,
-  // over it the centring term does.
-  //
-  // 100% here is the band's content box (viewport less the frame both sides),
-  // which is exactly why the second arm needs no frame correction while the
-  // first does. And 100%, not 100vw: vw counts the scrollbar, so a vw-based
-  // inset would drift the copy a scrollbar's width off the logo on Windows.
+  // max() rather than a media query because one expression covers both sides
+  // of the cap: under it the centring term goes negative and the gutter arm
+  // wins, over it the centring term does. The second arm adds the frame back
+  // because its 100% is the band's CONTENT box (viewport less the frame both
+  // sides) — with it, both arms put the copy the same frame width right of
+  // the logo, so the offset is constant across the cap rather than collapsing
+  // above it. And 100%, not 100vw: vw counts the scrollbar, so a vw-based
+  // inset would drift the copy a scrollbar's width on Windows.
   --edge-inset: max(
-    calc(var(--space-s-l) - var(--space-xs)),
-    calc((100% - #{$container-max-width}) / 2 + var(--space-s-l))
+    var(--space-s-l),
+    calc(
+      (100% - #{$container-max-width}) / 2 + var(--space-s-l) +
+        var(--space-xs)
+    )
   );
 
   // Size container so the media reserve below can be stated in cqi — see the
   // note on --media-reserve. Inline-size containment is safe here: the
   // header's width comes from the viewport, never from its contents.
   container-type: inline-size;
+
+  // The band is uncapped, but the CONTENT below it is not: .page-body--article
+  // stops at the container width, and the article's rail track is a percentage
+  // of THAT. So the band's media column cannot simply be a percentage of the
+  // band — past the cap the two percentages are percentages of different
+  // widths, and the header copy drifts left of the body column it is supposed
+  // to sit above (measured 48px adrift at a 2000px viewport).
+  //
+  // These two describe the capped track the page's content actually uses:
+  // its width, and how far the band's own content box starts to the left of
+  // it. Under the cap the offset is zero and the track IS the band, so every
+  // expression built on them collapses to the plain percentage it used to be.
+  --track-width: min(
+    calc(100cqi),
+    calc(#{$container-max-width} - 2 * var(--space-xs))
+  );
+  --track-offset: calc((100cqi - var(--track-width)) / 2);
 
   &__inner {
     // The brand angle at panel scale (hero-family constants). cut = how deep
@@ -83,16 +106,26 @@
     // (34%, per the design's column guides) from md.
     //
     // The reserve is stated ONCE and published as --media-reserve so a child
-    // can cancel it exactly (the news filter runs its pills over the shape).
+    // can cancel it exactly (the news filter runs its pills over the shape),
+    // and so the media itself can take its width from it rather than restating
+    // the fraction.
+    //
+    // It is a fraction of the CAPPED track plus the offset to that track's
+    // start (see --track-width / --track-offset above), which is what puts the
+    // copy edge on the article body's left edge at any width. Under the cap
+    // the offset is 0 and the track is the band, so this is the plain 40% /
+    // 34% it has always been.
+    //
     // cqi rather than %, deliberately: this padding's percentages resolve
     // against the band's containing block, while a child's margin percentages
     // resolve against the band's CONTENT box — "the same 40%" is two
     // different lengths. cqi resolves against the .page-header container's
     // inline size in both places, so the reserve and its cancellation are the
-    // same number by construction (and 40cqi ≡ the old 40% here: the media's
-    // own width percentage resolves against that same box).
+    // same number by construction.
     @include respond-to('sm') {
-      --media-reserve: calc(40cqi + var(--space-l));
+      --media-reserve: calc(
+        var(--track-offset) + 0.4 * var(--track-width) + var(--space-l)
+      );
 
       padding: var(--space-l) var(--media-reserve) var(--space-l)
         var(--edge-inset);
@@ -103,7 +136,9 @@
     }
 
     @include respond-to('md') {
-      --media-reserve: calc(34cqi + var(--space-l));
+      --media-reserve: calc(
+        var(--track-offset) + 0.34 * var(--track-width) + var(--space-l)
+      );
 
       padding-right: var(--media-reserve);
       min-height: 19rem; // desktop: a shallower band — the copy sets the pace
@@ -269,18 +304,20 @@
     aspect-ratio: 2 / 1;
     margin: var(--space-l) calc(-1 * var(--edge-inset)) calc(-1 * var(--space-l));
 
-    // Tablet up: a right-hand column, angle on its top-left toward the copy
+    // Tablet up: a right-hand column, angle on its top-left toward the copy.
+    //
+    // Width comes from --media-reserve rather than restating the fraction: the
+    // reserve IS this column plus the gap to the copy, so subtracting the gap
+    // is the column. That keeps the panel's inner edge and the copy edge on
+    // one line by construction — including past the container cap, where the
+    // reserve picks up the offset to the capped track and a bare percentage of
+    // the band would not.
     @include respond-to('sm') {
       position: absolute;
       inset: 0 0 0 auto;
-      width: 40%;
+      width: calc(var(--media-reserve) - var(--space-l));
       aspect-ratio: auto;
       margin: 0;
-    }
-
-    @include respond-to('md') {
-      // A third of the band, per the design's column guides
-      width: 34%;
     }
 
     // Clips the image's parallax drift + overscan to the media box (the angle

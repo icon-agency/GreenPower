@@ -277,9 +277,12 @@
   color: $color-white;
   background-color: $color-brand-dark-green;
 
-  // Snug frame for the subscribe band — the bento/feature-banner tight inset
+  // Snug frame for the subscribe band — the bento/feature-banner tight inset.
+  // NO max-width: the band widens with the viewport rather than stopping at
+  // the container cap, like the page-header band and the caption image. It
+  // keeps the frame and the radius, so it still reads as a band on the page.
+  // The nav alignment below is unaffected — see the note on __body.
   &__band {
-    max-width: $container-max-width;
     padding: var(--space-xs) var(--space-xs) 0;
     margin-inline: auto;
   }
@@ -347,10 +350,11 @@
 
     @include respond-to('md') {
       // The nav column starts on the subscribe image's right edge. That edge
-      // lands on the container's horizontal CENTRE by construction: the band
-      // shares this content's outer box (same max-width, both centred) and its
-      // symmetric --space-xs padding cancels, so half the band's inner width
-      // plus its own left inset is exactly half the outer box.
+      // lands on the container's horizontal CENTRE by construction: the image
+      // is half the band, and the band's symmetric --space-xs padding puts its
+      // inner midpoint on the PAGE's centre line — which is also this centred
+      // content's own midpoint. That holds whether or not the band is capped,
+      // so the band widening past the container cap does not move this edge.
       //
       // Half of THIS grid's inner width resolves to the same point once its
       // gutter is accounted for, so first column + gap = 50% puts column two

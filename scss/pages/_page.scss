@@ -36,10 +36,13 @@
 
   // Tablet band: the split collapses to one column here, so the body no longer
   // gets its left edge from a grid track — it has to come from this frame. The
-  // band's copy sits at its own --space-xs frame PLUS the inner's --space-l, so
-  // matching that sum puts the article directly under the header text. Above
-  // md the two-column track takes over and this reverts to the tight frame.
+  // band's copy sits at its own --space-xs frame PLUS --space-s-l (the header's
+  // --edge-inset below the container cap, which is the page's standard text
+  // gutter), so matching that sum puts the article directly under the header
+  // text. --space-s-l, NOT --space-l: they are close enough to look right and
+  // different enough to measure — it was 8px adrift at 900px. Above md the
+  // two-column track takes over and this reverts to the tight frame.
   @include respond-between('sm', 'md') {
-    padding-inline: calc(var(--space-xs) + var(--space-l));
+    padding-inline: calc(var(--space-xs) + var(--space-s-l));
   }
 }

@@ -23,10 +23,15 @@
 // -----------------------------------------------------------------------------
 
 .caption-image {
-  // Contained to the standard width, but with the feature-banner's tight frame
-  // (--space-xs all round) rather than the container gutter, so the image sits
-  // snug to the section edges — matching .feature-banner__inner.
-  max-width: $container-max-width;
+  // NO max-width: the figure widens with the viewport instead of stopping at
+  // the container cap — the same stance as the page-header band. It keeps the
+  // feature-banner's tight frame (--space-xs all round) rather than the
+  // container gutter, so the image still sits snug to the section edges,
+  // matching .feature-banner__inner; it is just a band that uses the full
+  // width available.
+  //
+  // The --inline variant is unaffected: there the figure sits in the reading
+  // column, whose own width is the cap that matters.
   margin: 0 auto;
   padding: var(--space-xs);
 
