@@ -4155,7 +4155,7 @@ body:has(.modal[open]) {
   justify-content: center;
   height: calc(3em - 2 * var(--space-3xs) - 2px);
   padding: 0 var(--space-s) 0 var(--space-xs);
-  color: #00263e;
+  color: #006341;
   cursor: pointer;
   background-color: #f3efe5;
   border-radius: 100em;
@@ -4191,19 +4191,19 @@ body:has(.modal[open]) {
   filter: brightness(0) invert(100%);
 }
 .tool-filter__check:has(input:checked):hover {
-  color: #bce194;
+  background-color: rgb(30.6, 117.72, 87.8);
 }
 .tool-filter__check:has(input:focus-visible) {
   outline: 3px solid #009f4d;
   outline-offset: 2px;
 }
 .tool-filter__check[aria-disabled=true] {
-  color: rgba(0, 38, 62, 0.65);
+  color: rgb(51, 130.2, 103);
   cursor: not-allowed;
   background-color: transparent;
 }
 .tool-filter__check[aria-disabled=true] img {
-  filter: grayscale(1) opacity(0.8);
+  filter: opacity(0.8);
 }
 .tool-filter__check[aria-disabled=true]:hover {
   background-color: transparent;

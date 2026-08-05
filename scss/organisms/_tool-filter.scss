@@ -226,7 +226,13 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     // controls' 48.
     height: calc(3em - 2 * var(--space-3xs) - 2px);
     padding: 0 var(--space-s) 0 var(--space-xs);
-    color: $color-ui-text;
+    // The ICON'S OWN COLOUR, not the body text token. These marks are
+    // file-referenced SVGs drawn in Dark Green — nothing in them inherits — so
+    // a navy label put two colours in one pill and the word read as a
+    // different element from the glyph beside it. Matching the artwork costs
+    // no filter and cannot drift from it. 6.3:1 on the resting tint, 5.8:1 on
+    // the hover fill.
+    color: $color-brand-dark-green;
     cursor: pointer;
     // Every option carries a fill from rest — the segmented-control read,
     // where the white showing between them is the GAP and the options are
@@ -280,11 +286,20 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
       }
 
       // Hovering a SELECTED option still has to answer "can I switch this
-      // off?". Neither deeper green passes AA under white text, so the fill
-      // holds and the LABEL warms to Light Green instead — Dark Green's own
-      // brand partner, 5.0:1 against it.
+      // off?" — but it answers with the SURFACE, like every other option in
+      // the group, not by recolouring the word. A label that changes hue on
+      // hover reads as a state change in the option itself rather than as the
+      // pointer being over it, and it was the only control in the row that
+      // spoke that way.
+      //
+      // The lifted Dark Green the news filter's pills already use for exactly
+      // this — a hover on a Dark Green surface carrying white text. sass:color
+      // mix(), because no token exists for a lifted Dark Green; #1F7658 holds
+      // white at 5.6:1, so the label needs no help. Lifted rather than
+      // deepened: Dark Green is near the bottom of its own ramp, so a darker
+      // step has almost nowhere to go and reads as nothing at all.
       &:hover {
-        color: $color-brand-light-green;
+        background-color: mix($color-white, $color-brand-dark-green, 12%);
       }
     }
 
@@ -310,22 +325,29 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     // from contrast the way a truly disabled one would be, hence the muted
     // token rather than a faint grey: 5.0:1, still readable.
     &[aria-disabled='true'] {
-      color: $color-ui-text-muted;
+      // A LIFTED DARK GREEN, not the muted navy token: the pill's fill drops
+      // away here, so all that is left to read is the label and the glyph, and
+      // those two have to recede together as one thing. The icon fades with
+      // plain opacity over the white track, which lands it on exactly
+      // mix(white, Dark Green, 20%) — so the label states that mix and the two
+      // are the same colour by construction, not by approximation.
+      //
+      // This replaces a grayscale() on the icon that existed only to chase the
+      // old navy label; with the label on the artwork's own hue there is
+      // nothing left to desaturate towards, and the earlier pairing landed a
+      // warm grey glyph beside a blue-grey word.
+      //
+      // 4.6:1, still AA. aria-disabled is NOT the disabled attribute (see
+      // below), so this label is not exempt from contrast — which is what
+      // fixes the fade at 0.8 rather than something fainter.
+      color: mix($color-white, $color-brand-dark-green, 20%);
       cursor: not-allowed;
       background-color: transparent;
 
       img {
-        // Match the muted LABEL rather than just fading the green artwork —
-        // a pale green glyph beside a grey word read as two different states
-        // of the same pill. grayscale() drops the hue and the opacity lands
-        // the result on the label's own lightness against the white track.
-        //
         // A filter, not currentColor: these are file-referenced <img> marks,
-        // so nothing inside them inherits from the label. Measured, not
-        // guessed — #006341 desaturates to ~rgb(75,75,75) and 0.8 over white
-        // lifts that to ~rgb(111,111,111), the neutral grey with the same
-        // luminance as the muted token.
-        filter: grayscale(1) opacity(0.8);
+        // so nothing inside them inherits from the label.
+        filter: opacity(0.8);
       }
 
       // No hover reaction — a surface that answers the pointer promises the
