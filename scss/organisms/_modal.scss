@@ -58,11 +58,21 @@
   // elevation (there is no shadow token to reach for). The backdrop is what
   // lifts the panel off the page, and it does it at 60%.
 
+  // The direction lives HERE, not on [open] beside the display it belongs to,
+  // and the split is load-bearing. On close the attribute goes at once, but
+  // `display` is in the exit transition with allow-discrete, so it holds
+  // `flex` for the whole 200ms; flex-direction has no such reprieve and would
+  // snap back to the initial `row` on the same frame. The panel then spends
+  // the entire exit as a flex ROW — head beside body, the title in one column
+  // and the copy in another — which is the two-column flash the overlay showed
+  // every time it closed. Declared unconditionally, there is nothing to revert.
+  flex-direction: column;
+
   // Flex only while open — an author display value would override the UA's
   // `dialog:not([open]) { display: none }` and leave the overlay on screen.
+  // This one is safe to scope because it IS transitioned (see the exit below).
   &[open] {
     display: flex;
-    flex-direction: column;
   }
 
   &::backdrop {
