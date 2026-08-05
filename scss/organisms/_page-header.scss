@@ -25,14 +25,34 @@
 // -----------------------------------------------------------------------------
 
 .page-header {
-  max-width: $container-max-width;
+  // NO max-width: the band widens with the viewport instead of stopping at
+  // the container cap. It keeps its tight frame and its radius — the same
+  // snug inset as the bento grid / feature banner — so it still reads as a
+  // band on the page, just one that uses the full width available.
   margin-inline: auto;
-  // Tight frame (not the container gutter) so the band runs close to the
-  // viewport edges — the same snug inset as the bento grid / feature banner.
   padding-inline: var(--space-xs);
+
+  // The COPY still lines up with the logo above it, which is the point of the
+  // exercise: the band is wider than the container, the words are not.
+  //
+  // This is the inner's padding, so it is the logo's inset MINUS the frame
+  // the band already sits inside — the text starts at (frame + this). max()
+  // rather than a media query because one expression covers both sides of the
+  // cap: under it the centring term goes negative and the gutter arm wins,
+  // over it the centring term does.
+  //
+  // 100% here is the band's content box (viewport less the frame both sides),
+  // which is exactly why the second arm needs no frame correction while the
+  // first does. And 100%, not 100vw: vw counts the scrollbar, so a vw-based
+  // inset would drift the copy a scrollbar's width off the logo on Windows.
+  --edge-inset: max(
+    calc(var(--space-s-l) - var(--space-xs)),
+    calc((100% - #{$container-max-width}) / 2 + var(--space-s-l))
+  );
+
   // Size container so the media reserve below can be stated in cqi — see the
   // note on --media-reserve. Inline-size containment is safe here: the
-  // header's width comes from max-width/auto, never from its contents.
+  // header's width comes from the viewport, never from its contents.
   container-type: inline-size;
 
   &__inner {
@@ -51,7 +71,9 @@
 
     position: relative;
     overflow: hidden; // clips the image + the oversized wedge to the radius
-    padding: var(--space-l) var(--space-m);
+    // Inline padding is the logo's inset less the band's own frame, so the
+    // copy starts on the logo's line however wide the viewport gets.
+    padding: var(--space-l) var(--edge-inset);
     color: $color-white;
     background-color: $color-brand-dark-green;
     border-radius: $radius-lg;
@@ -73,7 +95,7 @@
       --media-reserve: calc(40cqi + var(--space-l));
 
       padding: var(--space-l) var(--media-reserve) var(--space-l)
-        var(--space-l);
+        var(--edge-inset);
       // Was 24rem — authored when the crumbs ran two lines and the intro sat
       // a space-l below the title. Both have since tightened, so the old
       // floor engaged hard and left a slab of dead green under the intro.
@@ -245,7 +267,7 @@
     // overlay is mirrored below), tying the photo back into the green above.
     position: relative;
     aspect-ratio: 2 / 1;
-    margin: var(--space-l) calc(-1 * var(--space-m)) calc(-1 * var(--space-l));
+    margin: var(--space-l) calc(-1 * var(--edge-inset)) calc(-1 * var(--space-l));
 
     // Tablet up: a right-hand column, angle on its top-left toward the copy
     @include respond-to('sm') {
@@ -345,7 +367,7 @@
   // modifier; same fields, same block, opposite handedness.
   &--media-left &__inner {
     @include respond-to('md') {
-      padding: var(--space-l) var(--space-l) var(--space-l)
+      padding: var(--space-l) var(--edge-inset) var(--space-l)
         var(--media-reserve);
     }
   }
