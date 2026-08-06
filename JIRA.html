@@ -504,15 +504,19 @@
         },
         {
           ref: 'V5', summary: 'Electricity generators tool',
-          why: 'The accredited generator directory with its map — "Electricity generators" in the design system\u2019s Tools group.',
-          see: [['Template', 'templates/tool-electricity-generators.html']],
+          why: 'The accredited generator directory — "Electricity generators" in the design system\u2019s Tools group. The list, filters and teasers; the map is V8.',
+          see: [['Template', 'templates/tool-electricity-generators.html'], ['DS', 'index.html#generator-card']],
           ac: [
-            'View over <code>accredited_generator</code> nodes; rows are teasers',
+            'View over generator nodes (machine name per D11); rows are teasers',
             'Exposed filters: fulltext, state, generator type',
+            'Fulltext covers title, company and the FULL place line including postcode — &ldquo;3377&rdquo; and &ldquo;Ararat&rdquo; find the same record (D12)',
+            'Teaser carries <code>data-state</code>/<code>data-type</code>/<code>data-lat</code>/<code>data-lng</code> machine values, and the state/type slugs match the exposed filter values exactly — the map and filters read them',
+            'View on map is a BUTTON (an action), not a link; the whole actions row is omitted when a record has neither website nor coordinates',
+            'Optional image, description and website omit their wrapper entirely when empty — never an empty element or an href-less link',
             'Empty state renders when nothing matches'
           ],
-          notes: '',
-          depends: 'V4'
+          notes: 'The design system\u2019s Directory tools category documents the card (full, empty and selected states), the layout and the filters — build from it, not from the wireframe.',
+          depends: 'V4, D11, D12'
         },
         {
           ref: 'V6', summary: 'Gas producers tool',
@@ -522,8 +526,8 @@
             'Same view configuration as V5 with the renewable gas type filter',
             'H1 and intro copy confirmed with the client'
           ],
-          notes: 'Duplicated from the generators tool in the prototype — share the view display if practical.',
-          depends: 'V5'
+          notes: 'Duplicated from the generators tool in the prototype — share the view display if practical. Whether gas SHARES the generator content type (and so needs its vocabulary on the same reference field) is part of D14.',
+          depends: 'V5, D14'
         },
         {
           ref: 'V7', summary: 'Buy GreenPower tool',
@@ -538,6 +542,23 @@
           ],
           notes: 'Gas offer sits on a white inset panel so two offers read as two propositions.',
           depends: 'V4'
+        },
+        {
+          ref: 'V8', summary: 'Generators map: markers, popup and the pin–card link',
+          why: 'The Leaflet map beside the generator and gas lists. No ticket owned it — the markers, the cluster, the popup view mode, the two-way link with the cards, and the deployment decisions were all invisible to the backlog.',
+          see: [['DS', 'index.html#generator-map'], ['Template', 'templates/tool-electricity-generators.html']],
+          ac: [
+            'Markers derive from the rendered teasers (<code>data-lat</code>/<code>data-lng</code>) and follow the FILTERED list — the map can never show a record the list has filtered away',
+            'Cluster bubble styled to the system (markercluster structural CSS only); its count is the accessible name',
+            'Popup renders the compact view mode: image (if any), name, company, place line, type/capacity/CER, website (if any) — never the description',
+            'Clicking a pin rings its card (<code>.is-highlighted</code>) and brings it level with the map\u2019s top; the ring follows the POPUP lifecycle, not the click, so opening a second pin swaps the ring rather than clearing it',
+            'View on map opens the pin\u2019s popup and rings the card WITHOUT scrolling the list — that card is already under the reader\u2019s cursor',
+            'Leaflet 1.9.4 + markercluster 1.5.3 self-hosted as a theme library — GovCMS commonly blocks third-party CDNs',
+            'Production tile provider decided and licensed — OSM\u2019s tile policy covers development traffic only — and the attribution control is never removed',
+            'Below lg the map is a toggled view; from lg it is a sticky column beside the list and the toggle is gone'
+          ],
+          notes: 'Port the prototype\u2019s scroll BEHAVIOUR, not a scrollTo: it closes the gap per frame (the sticky top moves with the auto-hide header, so a precomputed target always lands wrong) and clamps to the map\u2019s sticky range so the page never runs onto the footer. The last card in a list cannot reach the map\u2019s top — that is the clamp working, not a bug.',
+          depends: 'V5, D11'
         }
       ]
     },
@@ -809,6 +830,70 @@
           ],
           notes: 'Each of these becomes criteria on many tickets rather than one. The accessibility target matters most and is not assumed here: L1 asserts that auto-apply is conformant because the count is a live region — that is standard WCAG reasoning, but it was never checked against GovCMS’s own published requirement, and whether that requirement is 2.1 AA or 2.2 AA is itself unconfirmed.',
           depends: 'Blocks W1, W2'
+        },
+        {
+          ref: 'D11', summary: 'DECISION: one authoritative Generator field list — a name collision blocks config',
+          why: 'The Generator content-type ticket, the SCSS mapping comments and the design system disagree on field names — and <code>field_location</code> means the TEXT place line in the ticket but the GEOFIELD in the prototype docs. A migration or preprocess written against the wrong doc silently reads the wrong field.',
+          see: [['DS', 'index.html#generator-card'], ['Naming rules', 'docs/field-naming.md']],
+          ac: [
+            'The collision resolved: the geofield keeps the ticket\u2019s <code>field_geolocation</code>; the text place line gets a name that is NOT <code>field_location</code>',
+            'Content-type machine name settled — the ticket says <code>generator</code>, every prototype doc says <code>accredited_generator</code>; decide together with D13',
+            'One field list declared for company/description/website (three sets exist today: ticket, SCSS headers, design system); <code>docs/field-naming.md</code> is the arbiter — its rules already validate the ticket\u2019s <code>field_image</code> and bare <code>title</code>',
+            '<code>field_geolocation</code> optional-with-drop-marker, not required — a required geofield blocks whole records from import when geocoding fails, and the prototype designs for the empty case (&ldquo;a missing value drops the marker, never the row&rdquo;)',
+            'Description text format: drop lists from the restricted CKEditor set, or add list styling to the card description — decide BEFORE the format is configured; removing an allowed tag later strands content',
+            'Whichever names win, the losing docs are corrected in the same pass (SCSS headers, design system, template comments)'
+          ],
+          notes: 'Shortest path across this cluster: D11 and D12 land before ANY config export; D13 travels with the machine-name choice; D14 before terms are created; everything else is ticket wording. Raised from the Generator content-type ticket review, 6 Aug 2026.',
+          depends: 'Blocks V5, V6, V8'
+        },
+        {
+          ref: 'D12', summary: 'DECISION: postcode — in the content model, or not at all',
+          why: 'GP-42 requires postcode search and the prototype implements it; the content-type ticket has no postcode field anywhere and its location example omits it. The ticket\u2019s own field list cannot deliver its own tool\u2019s search.',
+          see: [['Template', 'templates/tool-electricity-generators.html'], ['DS', 'index.html#generator-card']],
+          ac: [
+            'Either the place-line field\u2019s format is specified as &ldquo;Suburb, Full State Name Postcode&rdquo; with editor help text enforcing it, or a discrete postcode field is added and composed into the line at render time',
+            'The search index explicitly covers title, company and the FULL place line including postcode — otherwise Drupal will not reproduce the prototype\u2019s search',
+            'Exact-match vs substring decided: a fulltext &ldquo;3377&rdquo; also matches CER codes containing those digits'
+          ],
+          notes: 'The prototype\u2019s haystack reads the RENDERED place line, so what matches is always what is displayed — keep that property whichever way the field goes.',
+          depends: 'Blocks V5, V6'
+        },
+        {
+          ref: 'D13', summary: 'DECISION: accreditation status — lifecycle field, or unpublish on import',
+          why: 'The content-type ticket adds <code>field_accreditation_status</code> (accredited | suspended | revoked); the client already decided the directory badge is STRUCTURAL with no status filter. Both can be true — but only under conditions the ticket never states.',
+          see: [['DS', 'index.html#generator-card']],
+          ac: [
+            'If the field ships: the GP-42 view filters status = accredited so suspended/revoked nodes never render, AND the card view mode never renders the field — the badge stays template markup. Both written into the tickets',
+            'If it does not: suspended/revoked handled by unpublishing on import, and the field dropped',
+            'The machine-name choice follows (see D11): <code>accredited_generator</code> if the type only ever holds accredited records, plain <code>generator</code> if lifecycle data lives in it'
+          ],
+          notes: 'The structural badge lies the moment a suspended node renders — that is the whole risk.',
+          depends: 'Blocks V5'
+        },
+        {
+          ref: 'D14', summary: 'DECISION: generator vocabularies — labels, both state forms, and the gas vocab',
+          why: 'Term labels surface in filter options, chips and card meta, and three of them are unconfirmed. Extends D10\u2019s taxonomy line with the specifics the content-type ticket surfaced.',
+          see: [['Template', 'templates/tool-gas-producers.html'], ['DS', 'index.html#filter-multi']],
+          ac: [
+            'Biomass (ticket) vs Bioenergy (prototype) settled against the CER registry\u2019s own terms BEFORE terms are created',
+            'Whether unpopulated types (Geothermal, Other) appear in the exposed filter — the prototype implies populated-only (Views &ldquo;limit to available&rdquo;)',
+            'State terms carry BOTH forms — abbreviation (NSW) and full name (New South Wales). The filter\u2019s screen-reader expansion, the chips\u2019 accessible names, the rendered place line and full-name search all need the full form; a term named &ldquo;NSW&rdquo; alone silently degrades all four',
+            'The gas vocabulary confirmed with the client — the prototype\u2019s five gas types are flagged in-file as a best guess — and if gas producers shares the content type, <code>field_generator_type</code>\u2019s target bundles include the gas vocab NOW; retrofitting target bundles after content exists is painful'
+          ],
+          notes: 'Whichever labels win, the prototype filter values and data-type slugs get one correcting pass.',
+          depends: 'Blocks V5, V6'
+        },
+        {
+          ref: 'D15', summary: 'ANSWERED: no URL alias for generators — suppress the node page instead',
+          why: 'The content-type ticket asked whether generator nodes need a Pathauto alias pattern.',
+          see: [['DS', 'index.html#generator-card']],
+          ac: [
+            'ANSWER: no alias pattern for MVP. Full node view is not required, generators sit in no menus, and nothing anywhere links to a generator\u2019s own page — the only per-generator link in the whole design is the EXTERNAL website',
+            'The real gap the question hides: without an alias AND without a themed full view, every generator still gets a raw, unthemed, indexable /node/N page. Add Rabbit Hole (redirect to the directory) or an equivalent access rule to the content-type ticket\u2019s scope',
+            'Pathauto dropped from that ticket\u2019s dependency list; if a full generator page ships post-MVP, decide the alias pattern then — under the directory\u2019s own path'
+          ],
+          notes: 'Recorded here so the recommendation survives the JIRA comment thread it was asked in.',
+          depends: ''
         }
       ]
     }
