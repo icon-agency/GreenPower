@@ -1576,15 +1576,46 @@
         });
         body.appendChild(meta);
 
+        // The rest of the record, behind a disclosure. The popup is a glance at
+        // a generator, and the description is the one field that can run to a
+        // paragraph — inlining it made every balloon tall enough to cover the
+        // map it is pinned to, whether or not the reader wanted the detail.
+        //
+        // Native <details>, like the accordion: the browser owns the toggling,
+        // the keyboard operation and the expanded/collapsed state it reports,
+        // and with no JS at all the panel is simply open rather than broken.
+        //
+        // Omitted ENTIRELY when a record has neither a description nor a
+        // website, which is the empty-record case the listing already handles
+        // (card 2 on both directory pages) — a control that expands onto
+        // nothing is worse than no control.
+        var desc = card.querySelector('.generator-card__desc');
         var site = card.querySelector('[data-gen-website]');
-        if (site) {
-          var wrap = document.createElement('p');
-          wrap.className = 'generator-popup__link';
-          var a = document.createElement('a');
-          a.href = site.getAttribute('href');
-          a.textContent = 'Visit website';
-          wrap.appendChild(a);
-          body.appendChild(wrap);
+
+        if (desc || site) {
+          var details = document.createElement('details');
+          details.className = 'generator-popup__details';
+
+          var summary = document.createElement('summary');
+          summary.className = 'generator-popup__summary';
+          summary.textContent = 'View details';
+          details.appendChild(summary);
+
+          if (desc) {
+            details.appendChild(p('generator-popup__desc', desc.textContent.trim()));
+          }
+
+          if (site) {
+            var wrap = document.createElement('p');
+            wrap.className = 'generator-popup__link';
+            var a = document.createElement('a');
+            a.href = site.getAttribute('href');
+            a.textContent = 'Visit website';
+            wrap.appendChild(a);
+            details.appendChild(wrap);
+          }
+
+          body.appendChild(details);
         }
 
         root.appendChild(body);
@@ -1651,6 +1682,17 @@
           if (entry && entry.card.classList.contains('is-highlighted')) {
             entry.card.classList.remove('is-highlighted');
           }
+
+          // Collapse the disclosure behind it. Leaflet builds each popup's
+          // content ONCE and reuses that element every time the popup opens,
+          // so an expanded panel would still be expanded on the next open --
+          // while a different pin, with its own element, opened collapsed. Two
+          // popups in different states for no reason the reader chose. Every
+          // popup now opens the same way.
+          var details = event.popup.getElement()
+            ? event.popup.getElement().querySelector('.generator-popup__details')
+            : null;
+          if (details) details.open = false;
         });
 
         entries = cards.map(function (card) {
@@ -1667,7 +1709,28 @@
               // Markers are keyboard-focusable; the title names each one
               title: (card.querySelector('.generator-card__title') || { textContent: 'Generator' }).textContent.trim()
             }
-          ).bindPopup(popupFor(card), {
+          );
+
+          // Leaflet measures a popup when it OPENS and anchors its bottom edge
+          // to the pin, so a disclosure that expands afterwards grows the
+          // balloon UPWARD off the top of the map — measured at -68px against a
+          // map top of 29px with only 150px of extra content. update() re-runs
+          // the layout, re-anchors, and (autoPan being on) pans the map so the
+          // opened popup fits.
+          //
+          // Bound here, once per marker, rather than in the popupopen handler:
+          // the content element is built once and reused for the life of the
+          // marker, so a listener added on every open would stack up.
+          var popupContent = popupFor(card);
+          var popupDetails = popupContent.querySelector('.generator-popup__details');
+          if (popupDetails) {
+            popupDetails.addEventListener('toggle', function () {
+              var popup = marker.getPopup();
+              if (popup && popup.isOpen()) popup.update();
+            });
+          }
+
+          marker.bindPopup(popupContent, {
             // A fixed width so the photo's height is deterministic — the
             // close button is stepped past it in CSS (--popup-media-h).
             minWidth: 252,

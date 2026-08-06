@@ -1801,7 +1801,7 @@
 
         <div class="ds-group">
           <p class="ds-group__title">Marker popup</p>
-          <p class="ds-group__note">Built from the card, not authored twice: the same title, company, place and meta rows, the optional photo, and the optional website link. Leaflet fixes the balloon at 252px so the photo&rsquo;s height is deterministic, and the title reserves room at its right for the close button that sits on that line. Every text row is a <code class="ds-code">&lt;p&gt;</code> qualified by element as well as class &mdash; Leaflet ships <code class="ds-code">.leaflet-popup-content p { margin: 18px 0 }</code>, which outranks a plain class, so the rhythm has to win on specificity rather than by resetting broadly.</p>
+          <p class="ds-group__note">Built from the card, not authored twice: the same title, company, place and meta rows, the optional photo, and &mdash; behind <strong>View details</strong> &mdash; the description and website link. Leaflet fixes the balloon at 252px so the photo&rsquo;s height is deterministic, and the title reserves room at its right for the close button that sits on that line. Every text row is a <code class="ds-code">&lt;p&gt;</code> qualified by element as well as class &mdash; Leaflet ships <code class="ds-code">.leaflet-popup-content p { margin: 18px 0 }</code>, which outranks a plain class, so the rhythm has to win on specificity rather than by resetting broadly.</p>
 
           <div class="ds-demo">
             <div class="ds-map-popup">
@@ -1816,11 +1816,22 @@
                     <p class="generator-popup__meta-row"><strong>Capacity:</strong> 000 MW</p>
                     <p class="generator-popup__meta-row"><strong>CER code:</strong> field_cer_code</p>
                   </div>
-                  <p class="generator-popup__link"><a href="#generator-map">Visit website</a></p>
+                  <details class="generator-popup__details">
+                    <summary class="generator-popup__summary">View details</summary>
+                    <p class="generator-popup__desc">Description &mdash; field_gen_summary, optional. The one field that can run to a paragraph, which is why it sits behind the disclosure rather than in the balloon by default.</p>
+                    <p class="generator-popup__link"><a href="#generator-map">Visit website</a></p>
+                  </details>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">&ldquo;View details&rdquo; &mdash; the rest of the record</p>
+          <p class="ds-group__note">A native <code class="ds-code">&lt;details&gt;</code>, like the accordion: the browser owns the toggling, the keyboard operation and the state it reports, and with no JS the panel is simply open rather than broken. Closed by default, because the popup is a <em>glance</em> at a record &mdash; the description is the one field that can run to a paragraph, and inlining it made every balloon tall enough to cover the map it is pinned to.</p>
+          <p class="ds-group__note">Two behaviours worth keeping on the port. <strong>Leaflet must be told when it resizes:</strong> it measures a popup on open and anchors its BOTTOM edge to the pin, so a panel expanding afterwards grows the balloon upward &mdash; measured, 150px of extra content put its top 68px above the map&rsquo;s. The script calls <code class="ds-code">popup.update()</code> on <code class="ds-code">toggle</code>, which re-anchors and lets autoPan bring the map to fit; there is deliberately no max-height, so the balloon grows to its content. <strong>And it collapses on close:</strong> Leaflet builds each popup&rsquo;s content once and reuses it, so without a reset an expanded panel would reopen expanded while a different pin opened collapsed &mdash; two popups in different states for no reason the reader chose.</p>
+          <p class="ds-group__note">Omitted entirely when a record has neither a description nor a website &mdash; the empty-record case both directory pages carry as card 2. A control that expands onto nothing is worse than no control.</p>
         </div>
 
         <div class="ds-group">

@@ -449,10 +449,82 @@
     }
   }
 
-  // A full step clear of the facts above: the link is the popup's one action,
-  // and at the paragraph rhythm it read as a fourth line of the record.
+  // --- The disclosure: description and website, behind "View details" ---
+  //
+  // The popup is a glance at a record; this is where the rest of it lives. It
+  // sits a full step clear of the facts above, as the lone website link used
+  // to — it is the balloon's one control and reads as a fourth line of the
+  // record at the paragraph rhythm.
+  //
+  // No max-height, deliberately: the balloon grows to its content and the map
+  // pans to fit (the script calls popup.update() on toggle, which re-anchors
+  // and triggers Leaflet's autoPan). A cap with an inner scrollbar was the
+  // alternative and was rejected — a scroll region inside a 252px balloon that
+  // is itself inside a scrolling map is two nested scrollers a reader has to
+  // tell apart.
+  &__details {
+    margin-top: var(--space-m);
+    border-top: 1px solid rgba($color-brand-dark-green, 0.15);
+  }
+
+  // The control. Styled as the link it replaces rather than as a button: it
+  // reveals text in place, which is what an in-page link does, and the popup
+  // has no room for a second button weight beside the close.
+  &__summary {
+    padding-top: var(--space-2xs);
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    cursor: pointer;
+    // Drops the default disclosure triangle everywhere but WebKit…
+    list-style: none;
+
+    // …which needs its own reset (the accordion's pairing).
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    // The affordance the triangle carried, in the system's own vocabulary: a
+    // chevron that turns to point down once the panel is open, matching the
+    // multi-select trigger in the filter bar above the map.
+    &::after {
+      display: inline-block;
+      width: 0.4em;
+      height: 0.4em;
+      margin-left: var(--space-2xs);
+      vertical-align: 0.15em;
+      content: '';
+      border-right: 1.5px solid currentcolor;
+      border-bottom: 1.5px solid currentcolor;
+      transform: rotate(45deg);
+      @include transition(transform, 0.2s, ease-out);
+    }
+
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  &__details[open] &__summary::after {
+    transform: rotate(-135deg);
+  }
+
+  // The description, which the card carries and the collapsed popup does not.
+  // Element-qualified like every other row here, to outrank Leaflet's own
+  // `.leaflet-popup-content p { margin: 18px 0 }`.
+  p#{&}__desc {
+    margin: var(--space-2xs) 0 0;
+    color: $color-ui-text;
+  }
+
+  // Inside the disclosure now. Keeps its step off whatever precedes it —
+  // the description when there is one, the summary when there is not.
   p#{&}__link {
-    margin: var(--space-m) 0 0;
+    margin: var(--space-2xs) 0 0;
 
     a {
       font-weight: $font-weight-medium;
