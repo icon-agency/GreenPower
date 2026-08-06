@@ -4919,13 +4919,29 @@ body:has(.modal[open]) {
   margin: var(--space-2xs) 0 0;
 }
 .generator-popup p.generator-popup__link a {
+  display: inline-flex;
+  gap: var(--space-3xs);
+  align-items: center;
   font-weight: 500;
   color: #006341;
+  text-decoration: none;
+}
+.generator-popup p.generator-popup__link a svg {
+  flex-shrink: 0;
+  width: 0.75em;
+  height: 0.75em;
+  opacity: 0.6;
+  transition: transform 0.2s ease-out;
+}
+.generator-popup p.generator-popup__link a span {
   text-decoration: underline;
   text-underline-offset: 0.15em;
 }
 .generator-popup p.generator-popup__link a:hover {
   color: #00263e;
+}
+.generator-popup p.generator-popup__link a:hover svg {
+  transform: translate(var(--space-3xs), calc(-1 * var(--space-3xs)));
 }
 .generator-popup p.generator-popup__link a:focus-visible {
   outline: 3px solid #009f4d;

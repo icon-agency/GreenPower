@@ -1610,7 +1610,21 @@
             wrap.className = 'generator-popup__link';
             var a = document.createElement('a');
             a.href = site.getAttribute('href');
-            a.textContent = 'Visit website';
+
+            // The label in its own span so the underline sits under the WORDS.
+            // On the anchor it would run under the glyph too, which reads as a
+            // box with a line through it rather than a link with a mark beside
+            // it.
+            var label = document.createElement('span');
+            label.textContent = 'Visit website';
+            a.appendChild(label);
+
+            // The card's own leaves-this-page glyph, CLONED rather than
+            // authored again: the popup is built from the card, and a second
+            // copy of the path data is a second thing to keep in step.
+            var glyph = site.querySelector('svg');
+            if (glyph) a.appendChild(glyph.cloneNode(true));
+
             wrap.appendChild(a);
             details.appendChild(wrap);
           }

@@ -531,13 +531,39 @@
     margin: var(--space-2xs) 0 0;
 
     a {
+      display: inline-flex;
+      gap: var(--space-3xs);
+      align-items: center;
       font-weight: $font-weight-medium;
       color: $color-brand-dark-green;
-      text-decoration: underline;
-      text-underline-offset: 0.15em;
+      // The rule moves to the LABEL below — on the anchor it would run under
+      // the glyph as well.
+      text-decoration: none;
+
+      // The card's external-link treatment, restated for this surface: the
+      // glyph rides the label's own text step, sits at the same --space-3xs
+      // an icon wants beside words (an icon carries whitespace inside its own
+      // box, so the gap that suits two runs of text leaves a hole beside one),
+      // and nudges up-and-right on hover — the direction it already points.
+      svg {
+        flex-shrink: 0;
+        width: 0.75em;
+        height: 0.75em;
+        opacity: 0.6;
+        @include transition(transform, 0.2s, ease-out);
+      }
+
+      span {
+        text-decoration: underline;
+        text-underline-offset: 0.15em;
+      }
 
       &:hover {
         color: $color-brand-blue;
+
+        svg {
+          transform: translate(var(--space-3xs), calc(-1 * var(--space-3xs)));
+        }
       }
 
       &:focus-visible {
