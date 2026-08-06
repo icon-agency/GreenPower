@@ -486,11 +486,15 @@
     // The affordance the triangle carried, in the system's own vocabulary: a
     // chevron that turns to point down once the panel is open, matching the
     // multi-select trigger in the filter bar above the map.
-    &::after {
+    //
+    // LEADING the label, where the native marker it replaces sat — so the
+    // control keeps the shape a disclosure has everywhere else, and the label
+    // starts on the same line as the text above it rather than after a glyph.
+    &::before {
       display: inline-block;
       width: 0.4em;
       height: 0.4em;
-      margin-left: var(--space-2xs);
+      margin-right: var(--space-2xs);
       vertical-align: 0.15em;
       content: '';
       border-right: 1.5px solid currentcolor;
@@ -509,7 +513,7 @@
     }
   }
 
-  &__details[open] &__summary::after {
+  &__details[open] &__summary::before {
     transform: rotate(-135deg);
   }
 

@@ -4888,11 +4888,11 @@ body:has(.modal[open]) {
 .generator-popup__summary::-webkit-details-marker {
   display: none;
 }
-.generator-popup__summary::after {
+.generator-popup__summary::before {
   display: inline-block;
   width: 0.4em;
   height: 0.4em;
-  margin-left: var(--space-2xs);
+  margin-right: var(--space-2xs);
   vertical-align: 0.15em;
   content: "";
   border-right: 1.5px solid currentcolor;
@@ -4908,7 +4908,7 @@ body:has(.modal[open]) {
   outline: 3px solid #009f4d;
   outline-offset: 2px;
 }
-.generator-popup__details[open] .generator-popup__summary::after {
+.generator-popup__details[open] .generator-popup__summary::before {
   transform: rotate(-135deg);
 }
 .generator-popup p.generator-popup__desc {
