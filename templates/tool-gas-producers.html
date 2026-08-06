@@ -415,8 +415,8 @@
              the imageless angle shape (see _tool-filter.scss). -->
         <form class="tool-filter" data-animate data-gen-filter action="#" aria-label="Filter generators">
           <div class="tool-filter__search">
-            <label class="visually-hidden" for="gen-search">Search by name or project</label>
-            <input id="gen-search" class="tool-filter__search-input" type="search" name="q" placeholder="Search by name or project (e.g. Malabar Biomethane)">
+            <label class="visually-hidden" for="gen-search">Search by name, location or postcode</label>
+            <input id="gen-search" class="tool-filter__search-input" type="search" name="q" placeholder="Search by name, location or postcode (e.g. Malabar Biomethane, 2036)">
             <button class="tool-filter__search-submit" type="submit">
               <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="9" cy="9" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M14 14l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
               <span class="visually-hidden">Search</span>
@@ -479,7 +479,6 @@
                 </fieldset>
               </div>
             </div>
-            <button class="btn btn--white" type="submit">Apply</button>
           </div>
         </form>
         <!-- Imageless header variant: the green block + brand angle stand in
@@ -522,7 +521,7 @@
                   <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
                   <h3 class="generator-card__title">Malabar Biomethane Facility</h3>
                   <p class="generator-card__company">Jemena Limited</p>
-                  <p class="generator-card__place">Malabar, New South Wales</p>
+                  <p class="generator-card__place">Malabar, New South Wales 2036</p>
                 </div>
                 <img class="generator-card__media" src="../assets/images/gas.png" alt="" width="1500" height="1500" loading="lazy">
               </div>
@@ -541,25 +540,39 @@
               </div>
             </article>
 
+            <!-- EMPTY OPTIONAL FIELDS — deliberately incomplete, as a worked
+                 example (the electricity generators page carries the same one).
+                 Image, description and website are all optional on the producer
+                 record, and this card shows the listing when an editor has
+                 filled in none of them: no media column, no summary paragraph,
+                 and an actions row carrying only "View on map". No variant
+                 class is involved — the card simply has fewer children and
+                 closes up around them.
+
+                 Second in the list on purpose: sat further down it was easy to
+                 scroll past, and the point of the example is the contrast with
+                 the complete record directly above it.
+
+                 Drupal: field_gen_image, field_gen_summary and field_gen_url
+                 are optional, so the Twig wraps each in an {% if %} and omits
+                 the wrapper entirely when empty (never an empty <p> or a link
+                 with no href). Same for the whole .generator-card__actions row
+                 if a record ever has neither a website nor coordinates. -->
             <article class="generator-card" data-animate data-gen-item data-lat="-37.5760" data-lng="145.0290" data-state="vic" data-type="landfill-gas">
               <div class="generator-card__head">
                 <div class="generator-card__intro">
                   <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
                   <h3 class="generator-card__title">Wollert Landfill Gas Facility</h3>
                   <p class="generator-card__company">Yarra Valley Water</p>
-                  <p class="generator-card__place">Wollert, Victoria</p>
+                  <p class="generator-card__place">Wollert, Victoria 3750</p>
                 </div>
-                <img class="generator-card__media" src="../assets/video/green-gas.png" alt="" width="1500" height="1500" loading="lazy">
               </div>
               <dl class="generator-card__meta">
                 <div class="generator-card__meta-row"><dt>Gas type</dt><dd>Landfill gas</dd></div>
                 <div class="generator-card__meta-row"><dt>Capacity</dt><dd>41 TJ/yr</dd></div>
                 <div class="generator-card__meta-row"><dt>CER code</dt><dd>LG02VC08</dd></div>
               </dl>
-              <p class="generator-card__desc">The Wollert facility captures landfill gas that would otherwise be flared and upgrades it to pipeline-quality renewable gas, certified under the GreenPower renewable gas programme.</p>
               <div class="generator-card__actions">
-                <a class="generator-card__link" href="#" data-gen-website>Visit website<span class="visually-hidden"> &mdash; Wollert Landfill Gas Facility</span>
-                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
                 <button class="generator-card__map-link" type="button" data-gen-map-focus>
                   <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
                   View on map<span class="visually-hidden"> &mdash; Wollert Landfill Gas Facility</span></button>
@@ -572,7 +585,7 @@
                   <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
                   <h3 class="generator-card__title">Glenrowan Bioenergy Plant</h3>
                   <p class="generator-card__company">Goulburn Valley Water</p>
-                  <p class="generator-card__place">Glenrowan, Victoria</p>
+                  <p class="generator-card__place">Glenrowan, Victoria 3675</p>
                 </div>
                 <img class="generator-card__media" src="../assets/video/Glenrowan.png" alt="" width="1500" height="1500" loading="lazy">
               </div>
@@ -597,7 +610,7 @@
                   <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
                   <h3 class="generator-card__title">Woodman Point Wastewater Biogas</h3>
                   <p class="generator-card__company">Water Corporation</p>
-                  <p class="generator-card__place">Munster, Western Australia</p>
+                  <p class="generator-card__place">Munster, Western Australia 6166</p>
                 </div>
                 <img class="generator-card__media" src="../assets/images/gas.png" alt="" width="1500" height="1500" loading="lazy">
               </div>
@@ -622,7 +635,7 @@
                   <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
                   <h3 class="generator-card__title">Bundaberg Renewable Gas Hub</h3>
                   <p class="generator-card__company">Queensland Renewable Gas</p>
-                  <p class="generator-card__place">Bundaberg, Queensland</p>
+                  <p class="generator-card__place">Bundaberg, Queensland 4670</p>
                 </div>
                 <img class="generator-card__media" src="../assets/video/green-gas.png" alt="" width="1500" height="1500" loading="lazy">
               </div>
@@ -647,7 +660,7 @@
                   <p class="generator-card__badge"><img src="../assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
                   <h3 class="generator-card__title">Whyalla Green Hydrogen Facility</h3>
                   <p class="generator-card__company">SA Renewable Fuels</p>
-                  <p class="generator-card__place">Whyalla, South Australia</p>
+                  <p class="generator-card__place">Whyalla, South Australia 5600</p>
                 </div>
                 <img class="generator-card__media" src="../assets/video/green-energy.png" alt="" width="1500" height="1500" loading="lazy">
               </div>
@@ -1491,6 +1504,10 @@
 
       var mapEl = root.querySelector('[data-gen-map]');
       var cards = [].slice.call(root.querySelectorAll('[data-gen-item]'));
+      // The sticky pane and the column it sticks INSIDE — alignCard() clamps
+      // against the gap between them so a scroll never outruns the map.
+      var paneEl = root.querySelector('.generator-directory__map-pane');
+      var layoutEl = root.querySelector('.generator-directory__layout');
       var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
       var wide = window.matchMedia('(min-width: 1200px)'); // respond-to('lg')
       var map = null;
@@ -1612,6 +1629,29 @@
           }
         });
         map.addLayer(cluster);
+        // THE RING FOLLOWS THE POPUP, not the click that caused it.
+        //
+        // Setting it on the click and clearing it on popupclose looked
+        // equivalent and was not: opening a second popup CLOSES the first, so
+        // the close fired after the new ring was already set and wiped it.
+        // Clicking a second card left nothing highlighted at all.
+        //
+        // Driving both ends from the popup removes the ordering problem —
+        // whatever opens a popup rings its card, and a close only clears the
+        // card that popup owns. If the events arrive in the other order, the
+        // closing card is no longer the ringed one and the guard below leaves
+        // the new ring alone.
+        map.on('popupopen', function (event) {
+          var entry = entryForPopup(event.popup);
+          if (entry) ringCard(entry.card);
+        });
+
+        map.on('popupclose', function (event) {
+          var entry = entryForPopup(event.popup);
+          if (entry && entry.card.classList.contains('is-highlighted')) {
+            entry.card.classList.remove('is-highlighted');
+          }
+        });
 
         entries = cards.map(function (card) {
           var marker = L.marker(
@@ -1634,6 +1674,19 @@
             maxWidth: 252
           });
           cluster.addLayer(marker);
+
+          // --- Pin click -> select the card beside it ---
+          //
+          // The other half of "View on map": that button takes a card to its
+          // pin, this takes a pin back to its card, so the list and the map
+          // read as one interface rather than two views of the same data.
+          //
+          // Bound HERE, at marker creation, rather than in a second pass over
+          // `entries` -- the pairing is already in hand and cannot fall out of
+          // step with it. Leaflet fires this for keyboard activation too, so
+          // the behaviour is not pointer-only.
+          marker.on('click', function () { highlightCard(card); }); // scroll; the ring rides the popup
+
           return { card: card, marker: marker };
         });
 
@@ -1709,12 +1762,155 @@
       applyWidth();
       if (wide.addEventListener) wide.addEventListener('change', applyWidth);
 
+      // --- Map pin -> the card in the list ---
+      //
+      // Rings the pin's card and brings it level with the map's top edge. The
+      // map is position: sticky, so the list scrolls PAST it in the page flow
+      // and the alignment is simply "close the gap between the two boxes":
+      // scrollY + card.top - map.top. Reading the map's live top rather than
+      // its CSS inset is what makes this hold whether or not the site header
+      // is currently stuck (the sticky offset changes with it).
+      //
+      // Below lg the two are separate views rather than columns, so there is
+      // nothing to line the card up WITH -- the ring still goes on, and the
+      // scroll is skipped as meaningless there.
+      // The ring alone. Split out from the scroll because the two entry points
+      // want different amounts: a PIN click comes from the map, where the
+      // reader has no idea which row is theirs, so the card has to be brought
+      // to them; VIEW ON MAP comes from the card itself, which is already
+      // under their cursor -- scrolling it there would move the page out from
+      // under the thing they just clicked.
+      function ringCard(card) {
+        cards.forEach(function (c) { c.classList.remove('is-highlighted'); });
+        card.classList.add('is-highlighted');
+      }
+
+      // A pin click asks for the SCROLL. The ring arrives on its own, from the
+      // popup this click is about to open (see the popupopen handler).
+      function highlightCard(card) {
+        if (!wide.matches) return; // stacked views: nothing to line the card up WITH
+        glideToMap(card);
+      }
+
+      // Which entry owns a given popup — the pairing already exists in
+      // `entries`, so this reads it rather than reaching into Leaflet's
+      // internals for the popup's source marker.
+      function entryForPopup(popup) {
+        var found = null;
+        entries.forEach(function (e) {
+          if (e.marker.getPopup() === popup) found = e;
+        });
+        return found;
+      }
+
+      // Bring the card level with the map's top edge, by CLOSING THE GAP each
+      // frame rather than scrolling to a position worked out in advance.
+      //
+      // Every fixed-target version of this jumped, and the reason is circular:
+      // the map's sticky inset steps by --header-height when the auto-hide bar
+      // moves, the bar moves in response to scrolling, and the scroll is what
+      // we are trying to size. Aim at where the map is and the bar slides out
+      // from under you; aim at where you predict it will be and a short hop
+      // never crosses the bar's threshold, so the prediction is wrong the other
+      // way. Either way the correction lands as a snap, which is the jump.
+      //
+      // Measuring the live gap every frame removes the guess entirely. The bar
+      // can appear, retract or do nothing at all mid-flight and the motion just
+      // absorbs it -- the target is re-read 60 times a second, so there is never
+      // a stale number to correct. An exponential approach (a constant fraction
+      // of what is left) eases out naturally, needs no duration and no easing
+      // curve, and cannot overshoot.
+      // A NOTE ON THE SETTLE WINDOW, because it is the one number here that was
+      // tuned rather than reasoned.
+      //
+      // The auto-hide bar changes state up to a second after the page stops,
+      // and the map's sticky top steps by --header-height when it does. Keeping
+      // the loop alive that long to absorb it sounds right and is not: the
+      // correction scrolls UP, scrolling up reveals the bar, the bar pushes the
+      // pane back down, and the loop chases itself. Measured, a card oscillated
+      // for six seconds and still finished 87px out. There is no fixed point
+      // while the target moves in response to the movement.
+      //
+      // So the loop exits shortly after it is level (6 frames) and does not try
+      // to follow a late change. The motion is one eased glide, it never snaps,
+      // and where the bar shifts afterwards the card ends up within a bar's
+      // height of the map's top rather than exactly on it. Removing that last
+      // gap means giving the map pane a constant sticky inset -- see
+      // _generator-directory.scss, where the step below the bar is deliberate.
+      var glideFrame = null;
+      function glideToMap(card) {
+        if (glideFrame) window.cancelAnimationFrame(glideFrame);
+
+        var stop = function () {
+          if (glideFrame) window.cancelAnimationFrame(glideFrame);
+          glideFrame = null;
+          window.removeEventListener('wheel', stop);
+          window.removeEventListener('touchstart', stop);
+          window.removeEventListener('keydown', stop);
+        };
+        // The reader's own scroll always wins -- a page that keeps pulling
+        // against the wheel is worse than one that never moved.
+        window.addEventListener('wheel', stop, { passive: true });
+        window.addEventListener('touchstart', stop, { passive: true });
+        window.addEventListener('keydown', stop);
+
+        var settled = 0;
+        var frames = 0;
+        var step = function () {
+          // A hard ceiling so a gap that can never close (an odd sticky state,
+          // a card taller than the pane) cannot leave this running forever.
+          if (++frames > 240) return stop();
+          var gap = card.getBoundingClientRect().top - mapEl.getBoundingClientRect().top;
+          // Never outrun the sticky column: past its end the pane unsticks and
+          // the page runs on to the footer with the map gone. A card near the
+          // end of the list simply rides as high as the column allows.
+          var slack = layoutEl.getBoundingClientRect().bottom - paneEl.getBoundingClientRect().bottom;
+          if (gap > slack) gap = slack;
+
+          // Being level for one frame is not the same as being finished. The
+          // auto-hide bar settles its OWN state well after the page stops --
+          // measured on this page, it unpinned a full second after the scroll
+          // ended, lifting the pane's top by --header-height and leaving a card
+          // that had landed exactly level sitting 86px out.
+          //
+          // So the loop keeps watching for ~1.2s of continuous stillness rather
+          // than exiting at the first quiet frame. If the bar moves inside that
+          // window the gap reopens and gets closed the same way everything else
+          // is closed here -- eased, a fraction per frame -- so a late change is
+          // a drift rather than the snap it used to be. Idle frames are free:
+          // the scrollBy below is zero while the gap is.
+          if (Math.abs(gap) < 0.5) {
+            settled += 1;
+            if (settled > 6) return stop();
+            glideFrame = window.requestAnimationFrame(step);
+            return;
+          }
+          settled = 0;
+
+          var before = window.scrollY;
+          window.scrollBy(0, gap * 0.18); // ~18% of the remainder per frame
+          if (window.scrollY === before && Math.abs(gap) >= 0.5) return stop(); // clamped
+          glideFrame = window.requestAnimationFrame(step);
+        };
+
+        if (reduced.matches) {
+          // No motion: one instant hop, same clamp, no animation at all.
+          var gap = card.getBoundingClientRect().top - mapEl.getBoundingClientRect().top;
+          var slack = layoutEl.getBoundingClientRect().bottom - paneEl.getBoundingClientRect().bottom;
+          window.scrollBy(0, gap > slack ? slack : gap);
+          return;
+        }
+        glideFrame = window.requestAnimationFrame(step);
+      }
+
       // --- "View on map" on each card ---
 
       cards.forEach(function (card) {
         var btn = card.querySelector('[data-gen-map-focus]');
         if (!btn) return;
         btn.addEventListener('click', function () {
+          // No ring here: opening the popup below sets it (popupopen), which is
+          // also what makes a SECOND click swap the ring rather than lose it.
           if (!wide.matches) setView('map'); // the map must be on screen first
           initMap();
           if (!map) return; // no Leaflet — the button did all it could
@@ -1812,8 +2008,9 @@
         return groups.filter(function (g) { return g.panel.matches(':popover-open'); });
       }
 
-      // Close every open panel (Apply commits the choice; the browser already
-      // closes on outside click and Escape — that is the popover contract).
+      // Close every open panel (submitting the search commits the choice; the
+      // browser already closes on outside click and Escape — that is the
+      // popover contract).
       function closeGroups() {
         openGroups().forEach(function (g) { g.panel.hidePopover(); });
       }
@@ -1880,8 +2077,18 @@
         var shown = 0;
 
         cards.forEach(function (card) {
+          // Name, operator, AND the place line -- which carries the suburb, the
+          // state and the postcode, so "3377" and "Ararat" both find the same
+          // record. Searching a location is the same instinct as searching a
+          // postcode, and with only the name and company in here both returned
+          // nothing while the answer was on screen.
+          //
+          // Read from the rendered text rather than a data- attribute: the
+          // place line IS the string the reader can see, so what matches is
+          // always what is displayed, with no second copy to fall out of step.
           var haystack = (card.querySelector('.generator-card__title').textContent + ' ' +
-            card.querySelector('.generator-card__company').textContent).toLowerCase();
+            card.querySelector('.generator-card__company').textContent + ' ' +
+            card.querySelector('.generator-card__place').textContent).toLowerCase();
           // A group with nothing ticked does not constrain — the news
           // filter's "no selection means all" rule, per group.
           var match = picked.every(function (p) {
@@ -1944,10 +2151,12 @@
       }
 
       // Ticking a box filters IMMEDIATELY — a checkbox is a committed choice,
-      // and a chip that only appeared after a second click on Apply read as a
-      // control that had ignored you. Free text is the exception: it commits
-      // on Enter or Apply, because filtering (and drawing a chip) per
-      // keystroke would flicker through every prefix of the word.
+      // and a chip that only appeared after a second click on a separate
+      // Apply button read as a control that had ignored you, which is why that
+      // button is gone (the buy tool never had one). Free text is the
+      // exception: it commits on Enter or the search button, because filtering
+      // (and drawing a chip) per keystroke would flicker through every prefix
+      // of the word.
       groups.forEach(function (group) {
         group.boxes.forEach(function (box) {
           box.addEventListener('change', apply);

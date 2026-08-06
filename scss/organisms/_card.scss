@@ -612,8 +612,33 @@
 // :not(:first-child) leaves the single card to the rule above rather than
 // applying the mixin twice. Counts 2 and 4 sit 2-up in this band with even
 // rows, so nothing spans; at md+ the grids go 3- or 4-up and this ends.
+//
+// PARITY IS NOT THE CHILD COUNT when a featured lead is present. .card--featured
+// spans the whole row from sm, so it consumes a row by itself and every card
+// after it pairs off independently of it — but nth-child still counts it, and
+// the test comes out one off. On the news listing (a featured card plus twelve)
+// the twelve pair perfectly, yet the thirteenth child tested as odd, span the
+// last row on its own, and left a card-shaped hole beside the twelfth.
+//
+// So the parity that matters is the parity of the cards that actually FLOW into
+// the 2-up rows, and the two branches below are the same rule counted from the
+// right place: without a featured lead, the last card is odd; with one, it is
+// even, because the lead already took a row.
+//
+// :has() gates the split. Without it neither branch matches and no trailing card
+// goes horizontal — the cards simply stay paired, which is a tidy grid with a
+// gap at the end rather than a broken one. Same degradation stance as the
+// quantity queries above.
 @include respond-between('sm', 'md') {
-  .card-section:not(.card-section--scroll) .card-section__grid > .card:last-child:nth-child(odd):not(:first-child) {
+  .card-section:not(.card-section--scroll)
+    .card-section__grid:not(:has(> .card--featured:first-child))
+    > .card:last-child:nth-child(odd):not(:first-child) {
+    @include card-horizontal;
+  }
+
+  .card-section:not(.card-section--scroll)
+    .card-section__grid:has(> .card--featured:first-child)
+    > .card:last-child:nth-child(even) {
     @include card-horizontal;
   }
 }

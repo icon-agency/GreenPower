@@ -370,6 +370,19 @@
 // own popup DOM, and its pieces belong to the popup, not to the page layout.
 // -----------------------------------------------------------------------------
 .generator-popup {
+  // --step--2, a step below the card's own body copy.
+  //
+  // The balloon is a fixed 252px — narrower than any column on the page — and
+  // at the card's size the record cost real lines inside it: three for a long
+  // facility name, two for an address that fits on one elsewhere. The popup is
+  // a glance at a record, not the record itself (the card beside it carries the
+  // full thing at full size), so it can afford to sit a step below the listing
+  // rather than matching it.
+  //
+  // The title steps down with it, keeping one step of separation, or the
+  // heading would tower over its own body at nearly twice the size.
+  font-size: $font-size-xs;
+
   &__media {
     display: block;
     width: 100%;
@@ -396,7 +409,7 @@
     // its 2rem box plus the --space-2xs it is inset by.
     padding-right: 2.75rem;
     margin: 0;
-    font-size: $font-size-base;
+    font-size: $font-size-sm; // one step over the body below it
     font-weight: $font-weight-demibold;
     line-height: $line-height-tight;
     color: $color-brand-dark-green;

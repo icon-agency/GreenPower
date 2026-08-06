@@ -2,9 +2,11 @@
 // Tool filter — search + select filters composed into the page-header band
 //
 // The directory tools' filter form (accredited generators now; a provider
-// finder would take the same block): a search field with an in-field submit,
-// labelled selects and an Apply button, sitting in the dark green page-header
-// under the H1. The news-filter's composition pattern with form controls in
+// finder would take the same block): a search field with an in-field submit
+// and labelled selects, sitting in the dark green page-header under the H1.
+// No Apply button — every choice commits itself (a box on change, the text on
+// Enter or the search button), so a separate submit had nothing left to do but
+// look like the choices had not landed yet. The news-filter's composition pattern with form controls in
 // place of toggle pills — placed inside .page-header__inner by the template,
 // styling nothing of the header's. The header reacts only by dropping its
 // min-height floor (:has(), _page-header.scss).
@@ -52,7 +54,9 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     height: 3em; // the .btn / nav-circle control height
     padding: 0 calc(var(--space-s) + 1.3em + var(--space-2xs)) 0 var(--space-s);
     font-size: 1em;
-    color: $color-ui-text;
+    // Matches the placeholder it replaces as you type, and the toggles beside
+    // it — the whole row is Dark Green on white.
+    color: $color-brand-dark-green;
     background-color: $color-white;
     border: 1px solid $color-ui-border-strong; // WCAG 1.4.11 boundary contrast
     border-radius: $radius-pill;
@@ -456,8 +460,8 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
   // clips the media and the angle wedge to the radius), so ANY absolutely
   // positioned panel inside it is cut off at the band's bottom edge. The
   // first build dodged that by putting the open panel IN FLOW, which grew the
-  // band and shoved the type field and Apply around the page — reported
-  // broken, and it was. [popover] renders in the TOP LAYER: it escapes every
+  // band and shoved the rest of the row around the page — reported broken,
+  // and it was. [popover] renders in the TOP LAYER: it escapes every
   // ancestor clip and stacking context, and the BROWSER brings light-dismiss
   // (outside click) and Escape handling with it. The script's only job is
   // placing the panel under its trigger.
@@ -483,7 +487,12 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     height: 3em;
     padding: 0 var(--space-s);
     font-size: max(#{$font-size-sm}, 1rem); // the search input's iOS-zoom floor
-    color: $color-ui-text;
+    // Dark Green, like every other word in this row — the pill labels, the
+    // search placeholder and the options in the panel below. The navy body
+    // token belongs to running prose on a page; here it made the one control
+    // that states a CHOICE read as a different family from the choices.
+    // 8.9:1 on white.
+    color: $color-brand-dark-green;
     text-align: left;
     background-color: $color-white;
     border: 1px solid $color-ui-border-strong; // WCAG 1.4.11 boundary contrast
@@ -574,9 +583,16 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     display: flex;
     gap: var(--space-2xs);
     align-items: center;
+    // Padding so the hover below has a surface to fill rather than tinting the
+    // bare panel behind the words; the negative inline margin keeps the labels
+    // on the edge they already sat on, so only the hover target grows.
+    padding: var(--space-3xs) var(--space-2xs);
+    margin-inline: calc(-1 * var(--space-2xs));
     font-size: $font-size-sm;
-    color: $color-ui-text;
+    color: $color-brand-dark-green; // the row's colour, matching the toggle above
     cursor: pointer;
+    border-radius: $radius-sm;
+    @include transition(background-color);
 
     input {
       flex-shrink: 0;
@@ -585,8 +601,12 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
       accent-color: $color-brand-dark-green; // the .ds-control convention
     }
 
+    // The hover answers with the SURFACE. It used to darken the label to Dark
+    // Green, which is now the resting colour — so the reaction would have been
+    // nothing at all. The tint is the same one the option pills rest on, and it
+    // matches how those pills answer the pointer.
     &:hover {
-      color: $color-brand-dark-green;
+      background-color: $color-tint-taupe;
     }
 
     // The ring belongs on the row, not the 1.1em box — :has() so the label

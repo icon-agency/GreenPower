@@ -356,7 +356,12 @@
 .ds-nav__link {
   display: block;
   padding: var(--space-3xs) var(--space-2xs);
-  font-size: $font-size-sm;
+  // One step down (--step--2). The sidebar is a long index, not reading matter,
+  // and at step--1 the entries carried more weight than the pages they point
+  // at. It lands on the group title's size, which is fine: that heading is
+  // uppercase, medium and letter-spaced, so it still reads as a heading without
+  // needing a size difference to do the work.
+  font-size: $font-size-xs;
   color: $color-brand-dark-green;
   text-decoration: none;
   border-radius: $radius-sm;
@@ -984,4 +989,56 @@ $ds-swatches-alpha: (
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
   color: $color-brand-dark-green;
+}
+
+// -----------------------------------------------------------------------------
+// Map marker swatches — the pin and the cluster bubble, shown WITHOUT a map
+//
+// Leaflet sizes both of these from its own iconSize option, as inline styles on
+// a div it builds at runtime. The catalogue has no map to supply that, and the
+// build forbids inline styles anywhere (verify enforces it), so the two marks
+// get their box from here instead. Sizes match the values the tool pages hand
+// Leaflet — 24×32 for the pin, 40×40 for the cluster — so what the catalogue
+// shows is the mark at the size it actually renders.
+//
+// Scoped to this wrapper, not added to the components: on a real map the
+// dimensions must keep coming from Leaflet, or a marker would stop tracking
+// its coordinate.
+// -----------------------------------------------------------------------------
+.ds-map-marks {
+  display: flex;
+  gap: var(--space-xl);
+  align-items: flex-start;
+
+  // px, not rem, and deliberately: Leaflet's iconSize is an array of PIXELS,
+  // so a rem here would only match at one root font-size and this page does not
+  // share the tool pages'. These are the numbers the tool pages hand Leaflet, so
+  // the catalogue shows each mark at the size it actually renders on a map.
+  .generator-directory__pin {
+    width: 24px;
+    height: 32px;
+  }
+
+  .generator-directory__cluster {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+// The popup, shown as flat markup rather than inside a Leaflet balloon. Leaflet
+// fixes the balloon at 252px (minWidth/maxWidth on bindPopup, so the photo's
+// height is deterministic) — the catalogue holds the same width so the wrapping
+// is honest, and paints the white ground the balloon would provide.
+.ds-map-popup {
+  // The popup's own photo height, which normally comes from the directory
+  // block — this demo sits outside it, and an undefined var left the image
+  // unconstrained.
+  --popup-media-h: 9.5rem;
+
+  width: 252px;
+  max-width: 100%;
+  overflow: hidden;
+  background-color: $color-white;
+  border-radius: $radius-md;
+  box-shadow: 0 1px 3px rgba($color-black, 0.35);
 }

@@ -153,11 +153,22 @@
           </ul>
         </div>
         <div class="ds-nav__group">
+          <p class="ds-nav__group-title">Directory tools</p>
+          <ul class="ds-nav__list">
+            <li><a class="ds-nav__link" href="#generator-card">Generator card</a></li>
+            <li><a class="ds-nav__link" href="#generator-directory">Directory layout</a></li>
+            <li><a class="ds-nav__link" href="#generator-map">Map panel</a></li>
+            <li><a class="ds-nav__link" href="#filter-multi">Multi-select filter</a></li>
+            <li><a class="ds-nav__link" href="#filter-chips">Applied filters</a></li>
+            <li><a class="ds-nav__link" href="#directory-empty">Empty results</a></li>
+          </ul>
+        </div>
+        <div class="ds-nav__group">
           <p class="ds-nav__group-title">Forms</p>
           <ul class="ds-nav__list">
             <li><a class="ds-nav__link" href="#form">Form</a></li>
             <li><a class="ds-nav__link" href="#contact-info">Contact info</a></li>
-            <li><a class="ds-nav__link" href="#filter-states">Filter option states</a></li>
+            <li><a href="#filter-states">Filter option states</a></li>
           </ul>
         </div>
         <div class="ds-nav__group">
@@ -1650,6 +1661,278 @@
       </section>
 
       <div class="ds-category">
+        <h2 class="ds-category__title">Directory tools</h2>
+        <p class="ds-category__note">The components the three directory tools carry and no editorial page does: the record card, the two-pane layout it sits in, and the map beside it. They are catalogued here because they are the pieces most likely to be rebuilt from scratch during the Drupal port &mdash; a view row, a views layout and a geofield map &mdash; and the decisions in them are easy to lose. Live on <a href="templates/tool-electricity-generators.html">Electricity generators</a> and <a href="templates/tool-gas-producers.html">Gas producers</a>.</p>
+      </div>
+
+      <section class="ds-section" id="generator-card" aria-labelledby="generator-card-title">
+        <h3 class="ds-section__title" id="generator-card-title">Generator card</h3>
+        <p class="ds-section__intro">One accredited generator in the directory listing. The card family&rsquo;s surface conventions &mdash; tinted tile, brand radius, gap-spaced children &mdash; carrying a <em>record</em> rather than editorial teaser copy. It is its own block, not more <code class="ds-code">.card</code> pieces: the news additions were optional elements on the same teaser anatomy, but this layout (head row with a side thumbnail, <code class="ds-code">dl</code> meta, action row) shares none of the card&rsquo;s structure &mdash; only its tokens.</p>
+
+        <div class="ds-group">
+          <p class="ds-group__title">The full record</p>
+          <p class="ds-group__note">Ten fields, four of them optional. The place line carries suburb, state <em>and</em> postcode as one string, which is also what the search reads &mdash; so what matches is always what is displayed, with no second copy to fall out of step. Capacity keeps its unit. The two actions differ by element on purpose: <strong>Visit website is a link</strong> (navigation, and it leaves the site, hence the external glyph) while <strong>View on map is a button</strong> (an action &mdash; it pans the map beside it). That distinction is the one in <code class="ds-code">docs/frontend-rules.md</code>, not a styling preference.</p>
+
+          <div class="ds-demo">
+            <article class="generator-card">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h4 class="generator-card__title">Generator name &mdash; field_title</h4>
+                  <p class="generator-card__company">Company &mdash; field_gen_company</p>
+                  <p class="generator-card__place">Suburb, State 0000 &mdash; field_gen_place</p>
+                </div>
+                <img class="generator-card__media" src="assets/images/wind.png" alt="" width="1500" height="1500" loading="lazy">
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>field_generator_type</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>000 MW &mdash; field_capacity</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>field_cer_code</dd></div>
+              </dl>
+              <p class="generator-card__desc">Description &mdash; field_gen_summary, optional. Accreditation and Power Purchase Agreement detail, capped at a readable measure so a long entry does not run the width of the card.</p>
+              <div class="generator-card__actions">
+                <a class="generator-card__link" href="#generator-card">Visit website<span class="visually-hidden"> &mdash; example generator</span>
+                  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <button class="generator-card__map-link" type="button">
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; example generator</span></button>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Every optional field empty</p>
+          <p class="ds-group__note">Image, description and website are all optional, and an editor will leave them blank. The card takes it without a variant class &mdash; it simply has fewer children and closes up around them, so there is no media column, no summary, and an actions row carrying only View on map. <strong>Note what View on map does here:</strong> it holds the right edge whether or not a website link sits beside it, because <code class="ds-code">space-between</code> only separates two items and the control would otherwise move depending on data the reader cannot see. In Twig each optional field wants an <code class="ds-code">{% if %}</code> around the whole element &mdash; never an empty <code class="ds-code">&lt;p&gt;</code> or a link with no <code class="ds-code">href</code>.</p>
+
+          <div class="ds-demo">
+            <article class="generator-card">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h4 class="generator-card__title">Generator name &mdash; field_title</h4>
+                  <p class="generator-card__company">Company &mdash; field_gen_company</p>
+                  <p class="generator-card__place">Suburb, State 0000 &mdash; field_gen_place</p>
+                </div>
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>field_generator_type</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>000 MW &mdash; field_capacity</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>field_cer_code</dd></div>
+              </dl>
+              <div class="generator-card__actions">
+                <button class="generator-card__map-link" type="button">
+                  <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                  View on map<span class="visually-hidden"> &mdash; example generator</span></button>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Selected from the map &mdash; <code class="ds-code">.is-highlighted</code></p>
+          <p class="ds-group__note">Set on the card whose pin has been clicked, and cleared when the popup closes, so the list and the map read as one interface rather than two views of the same data. An <strong>inset ring</strong>, not a border and not an outline: a border would add 2px to the box and nudge every card below it the moment a pin was clicked, and an outline sits outside the radius where the list&rsquo;s gap is tight enough for neighbouring rings to touch. It is decorative only &mdash; the popup names the generator and the scroll puts the card on screen, so nothing here is the sole carrier of the message, which is why it is a plain class and not <code class="ds-code">aria-selected</code> on a listbox the markup does not have.</p>
+
+          <div class="ds-demo">
+            <article class="generator-card is-highlighted">
+              <div class="generator-card__head">
+                <div class="generator-card__intro">
+                  <p class="generator-card__badge"><img src="assets/icons/greenpower.svg" alt="" width="55" height="55" loading="lazy">Accredited</p>
+                  <h4 class="generator-card__title">Generator name &mdash; field_title</h4>
+                  <p class="generator-card__company">Company &mdash; field_gen_company</p>
+                  <p class="generator-card__place">Suburb, State 0000 &mdash; field_gen_place</p>
+                </div>
+              </div>
+              <dl class="generator-card__meta">
+                <div class="generator-card__meta-row"><dt>Generator type</dt><dd>field_generator_type</dd></div>
+                <div class="generator-card__meta-row"><dt>Capacity</dt><dd>000 MW &mdash; field_capacity</dd></div>
+                <div class="generator-card__meta-row"><dt>CER code</dt><dd>field_cer_code</dd></div>
+              </dl>
+            </article>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Drupal</p>
+          <p class="ds-group__note">A node teaser view mode of <code class="ds-code">accredited_generator</code>, rendered as the rows of the generators view: title, <code class="ds-code">field_gen_company</code>, <code class="ds-code">field_gen_place</code> (suburb, state and postcode as one string), <code class="ds-code">field_state</code> and <code class="ds-code">field_generator_type</code> (taxonomy, and the two exposed filters), <code class="ds-code">field_capacity</code>, <code class="ds-code">field_cer_code</code>, <code class="ds-code">field_gen_summary</code>, <code class="ds-code">field_gen_url</code>, <code class="ds-code">field_gen_image</code>, and <code class="ds-code">field_location</code> (geofield &mdash; the template writes it to <code class="ds-code">data-lat</code>/<code class="ds-code">data-lng</code> for the markers; a missing value drops the marker, never the row). The Accredited badge is <strong>structural</strong>, not a field: everything in this directory is accredited by definition.</p>
+        </div>
+      </section>
+
+      <section class="ds-section" id="generator-directory" aria-labelledby="generator-directory-title">
+        <h3 class="ds-section__title" id="generator-directory-title">Directory layout</h3>
+        <p class="ds-section__intro">The two-pane shell around the cards: a scrolling list with a sticky map beside it. The exposed filters sit in the page header band above (see <a href="#filter-states">Filter option states</a>), and the count row below them carries the result total and &mdash; on smaller screens &mdash; the view toggle.</p>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Count row and view toggle</p>
+          <p class="ds-group__note">The count is a live region: it updates as filters change and announces the new total without stealing focus. The toggle is a real <code class="ds-code">role="group"</code> of two buttons carrying <code class="ds-code">aria-pressed</code>, not a pair of links &mdash; switching view changes nothing about the address. <strong>It only exists below 1200px.</strong> From <code class="ds-code">lg</code> the map is a sticky column beside the list and both are on screen at once, so there is nothing to choose between; the toggle is hidden and the buttons stop being reachable. With no JS the toggle is hidden at every width, because there is no map to switch to and a control that does nothing is worse than none.</p>
+
+          <div class="ds-demo">
+            <div class="generator-directory__status">
+              <p class="generator-directory__count" aria-live="polite">Showing 000 accredited generators</p>
+              <div class="generator-directory__toggle" role="group" aria-label="Results view">
+                <button class="generator-directory__toggle-btn" type="button" aria-pressed="true">List</button>
+                <button class="generator-directory__toggle-btn" type="button" aria-pressed="false">Map</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">The sticky map column</p>
+          <p class="ds-group__note">From <code class="ds-code">lg</code> the map pane sticks full-height while the list scrolls past it, inset by the section&rsquo;s own <code class="ds-code">--space-xs</code> frame top and bottom and carrying the brand radius. It steps down below the auto-hide header when that bar reveals &mdash; the same published <code class="ds-code">--header-height</code> and the same timing as the article rail &mdash; and gives back in height what it takes in top inset, so the bottom inset holds. A <code class="ds-code">ResizeObserver</code> has Leaflet re-measure through the ease, or the tiles would be laid out for the old height. <strong>That moving inset is why the pin&rarr;card scroll closes its gap per frame rather than aiming at a position worked out in advance</strong> &mdash; see the note under Map panel.</p>
+        </div>
+      </section>
+
+      <section class="ds-section" id="generator-map" aria-labelledby="generator-map-title">
+        <h3 class="ds-section__title" id="generator-map-title">Map panel</h3>
+        <p class="ds-section__intro">Leaflet with OpenStreetMap tiles, carrying one marker per visible record. Markers follow the filtered list rather than the full set &mdash; one source of truth, so the map can never show a generator the list has filtered away. Only markercluster&rsquo;s <em>structural</em> stylesheet is loaded: the count bubble is built by <code class="ds-code">iconCreateFunction</code> and styled here, so it wears the system&rsquo;s colour and type rather than the library&rsquo;s default. Shown flat below, without a map behind them &mdash; the live version is on the <a href="templates/tool-electricity-generators.html">tool pages</a>.</p>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Pin and cluster</p>
+          <p class="ds-group__note">The pin is a <code class="ds-code">divIcon</code> anchored so its <strong>tip</strong> sits on the coordinate, with the popup opening above the head. A drop-shadow filter lifts it off busy tiles without a second shape to maintain. The cluster is the same palette one step louder, because it stands for several: Dark Green with a white ring, and its count is the accessible name &mdash; markercluster makes the bubble a focusable button. Both take the standard focus ring, offset so it clears the teardrop&rsquo;s point.</p>
+
+          <div class="ds-demo">
+            <div class="ds-map-marks">
+              <span class="generator-directory__pin"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 0C5.373 0 0 5.373 0 12c0 8.5 12 20 12 20s12-11.5 12-20c0-6.627-5.373-12-12-12z" fill="currentColor"/><circle cx="12" cy="12" r="4.5" fill="#fff"/></svg></span>
+              <span class="generator-directory__cluster">7</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Marker popup</p>
+          <p class="ds-group__note">Built from the card, not authored twice: the same title, company, place and meta rows, the optional photo, and the optional website link. Leaflet fixes the balloon at 252px so the photo&rsquo;s height is deterministic, and the title reserves room at its right for the close button that sits on that line. Every text row is a <code class="ds-code">&lt;p&gt;</code> qualified by element as well as class &mdash; Leaflet ships <code class="ds-code">.leaflet-popup-content p { margin: 18px 0 }</code>, which outranks a plain class, so the rhythm has to win on specificity rather than by resetting broadly.</p>
+
+          <div class="ds-demo">
+            <div class="ds-map-popup">
+              <div class="generator-popup">
+                <img class="generator-popup__media" src="assets/images/wind.png" alt="" width="1500" height="1500" loading="lazy">
+                <div class="generator-popup__body">
+                  <p class="generator-popup__title">Generator name &mdash; field_title</p>
+                  <p class="generator-popup__line">Company &mdash; field_gen_company</p>
+                  <p class="generator-popup__line">Suburb, State 0000</p>
+                  <div class="generator-popup__meta">
+                    <p class="generator-popup__meta-row"><strong>Generator type:</strong> field_generator_type</p>
+                    <p class="generator-popup__meta-row"><strong>Capacity:</strong> 000 MW</p>
+                    <p class="generator-popup__meta-row"><strong>CER code:</strong> field_cer_code</p>
+                  </div>
+                  <p class="generator-popup__link"><a href="#generator-map">Visit website</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">The two-way link between list and map</p>
+          <p class="ds-group__note"><strong>Card &rarr; map:</strong> View on map brings the map on screen if it is not (below <code class="ds-code">lg</code>), pans to the generator, breaks open the cluster if the pin is inside one &mdash; a marker that is not on the map cannot open a popup &mdash; and opens it. <strong>Map &rarr; card:</strong> clicking a pin rings its card with <code class="ds-code">.is-highlighted</code> and brings it level with the map&rsquo;s top edge.</p>
+          <p class="ds-group__note">That scroll closes the gap a fraction per frame rather than scrolling to a computed position, and the reason is worth keeping: the map&rsquo;s sticky top steps by <code class="ds-code">--header-height</code> when the auto-hide bar moves, the bar moves in response to scrolling, and the scroll is the thing being sized. Aim at where the map is and the bar slides out from under you; aim at where you predict it will be and a short hop never crosses the bar&rsquo;s threshold. Either way the correction lands as a visible snap. Measuring the live gap every frame removes the guess &mdash; the bar can appear or retract mid-flight and the motion absorbs it. Two limits are deliberate: the travel is <strong>clamped to the map&rsquo;s sticky range</strong>, so a card near the end of the list rides as high as the column allows rather than running the page past the directory onto the footer; and the reader&rsquo;s own wheel, touch or key input cancels the glide.</p>
+        </div>
+      </section>
+
+      <section class="ds-section" id="filter-multi" aria-labelledby="filter-multi-title">
+        <h3 class="ds-section__title" id="filter-multi-title">Multi-select filter</h3>
+        <p class="ds-section__intro">The directory tools&rsquo; &ldquo;choose any number of these&rdquo; control: a pill trigger that summarises the choice, over a floating panel of checkboxes. <strong>Not a <code class="ds-code">&lt;select multiple&gt;</code></strong> &mdash; that control needs ctrl/cmd-click to take a second value (undiscoverable, and impossible on a touch keyboard), cannot be styled to match this row, and renders as a scrolling listbox rather than the pill the design asks for. Checkboxes in a <code class="ds-code">&lt;fieldset&gt;</code> are the honest markup for the question, and each one is its own comfortable target.</p>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Trigger and panel</p>
+          <p class="ds-group__note">The panel is a <code class="ds-code">[popover]</code>, and that is load-bearing. The page header band is <code class="ds-code">overflow: hidden</code> (it clips the media and the angle wedge to the radius), so <em>any</em> absolutely positioned panel inside it is cut off at the band&rsquo;s bottom edge. An earlier build dodged that by putting the open panel in flow, which grew the band and shoved the fields around the page. The top layer escapes every ancestor clip and stacking context, and the browser brings light-dismiss and Escape with it &mdash; the script only places the panel under its trigger. <code class="ds-code">popovertarget</code> is HTML, so it opens with no JS at all, and the top layer is <em>rendering</em> only, so the checkboxes stay in the form for a plain GET.</p>
+          <p class="ds-group__note">The trigger names itself without JS: a visually-hidden span carries the field name, so its accessible name reads &ldquo;State or territory: All states and territories&rdquo;, and the script only swaps the summary as boxes tick. Options that abbreviate carry the full word for screen readers &mdash; <code class="ds-code">NSW</code> is spoken &ldquo;New South Wales&rdquo;. <strong>Open the panel below</strong> &mdash; it is the live control, not a picture of one.</p>
+
+          <div class="ds-demo ds-demo--band">
+            <div class="tool-filter">
+              <div class="tool-filter__fields">
+                <div class="tool-filter__field">
+                  <p class="tool-filter__label">State or territory</p>
+                  <div class="tool-filter__multi">
+                    <button class="tool-filter__multi-toggle" type="button" popovertarget="ds-state-panel" aria-expanded="false">
+                      <span class="visually-hidden">State or territory: </span>
+                      <span>All states and territories</span>
+                    </button>
+                    <fieldset class="tool-filter__multi-panel" id="ds-state-panel" popover>
+                      <legend class="visually-hidden">State or territory</legend>
+                      <label class="tool-filter__option"><input type="checkbox" name="ds-state" value="act"><span data-option-label>ACT</span> <span class="visually-hidden">Australian Capital Territory</span></label>
+                      <label class="tool-filter__option"><input type="checkbox" name="ds-state" value="nsw"><span data-option-label>NSW</span> <span class="visually-hidden">New South Wales</span></label>
+                      <label class="tool-filter__option"><input type="checkbox" name="ds-state" value="qld"><span data-option-label>QLD</span> <span class="visually-hidden">Queensland</span></label>
+                      <label class="tool-filter__option"><input type="checkbox" name="ds-state" value="vic"><span data-option-label>VIC</span> <span class="visually-hidden">Victoria</span></label>
+                    </fieldset>
+                  </div>
+                </div>
+                <div class="tool-filter__field">
+                  <p class="tool-filter__label">Renewable generator type</p>
+                  <div class="tool-filter__multi">
+                    <button class="tool-filter__multi-toggle" type="button" popovertarget="ds-type-panel" aria-expanded="false">
+                      <span class="visually-hidden">Renewable generator type: </span>
+                      <span>All energy sources</span>
+                    </button>
+                    <fieldset class="tool-filter__multi-panel" id="ds-type-panel" popover>
+                      <legend class="visually-hidden">Renewable generator type</legend>
+                      <label class="tool-filter__option"><input type="checkbox" name="ds-type" value="bioenergy"><span data-option-label>Bioenergy</span></label>
+                      <label class="tool-filter__option"><input type="checkbox" name="ds-type" value="hydro"><span data-option-label>Hydro</span></label>
+                      <label class="tool-filter__option"><input type="checkbox" name="ds-type" value="solar"><span data-option-label>Solar</span></label>
+                      <label class="tool-filter__option"><input type="checkbox" name="ds-type" value="wind"><span data-option-label>Wind</span></label>
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Every word in the row is Dark Green</p>
+          <p class="ds-group__note">The trigger summary, the options in the panel and the text you type in the search field all take the brand colour rather than the navy body token. The option icons are file-referenced SVGs drawn in Dark Green &mdash; nothing inside an <code class="ds-code">&lt;img&gt;</code> inherits <code class="ds-code">currentColor</code> &mdash; so a navy label put two colours in one control and the word read as a different element from the glyph beside it. Hover answers with the <em>surface</em>, never by recolouring the label: a label that changes hue on hover reads as a state change in the option rather than as the pointer being over it.</p>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Drupal</p>
+          <p class="ds-group__note">These are the styled widgets of <code class="ds-code">views-exposed-form.html.twig</code> &mdash; the generators view&rsquo;s <code class="ds-code">field_state</code> and <code class="ds-code">field_generator_type</code> exposed filters, AJAX-enabled. The trigger, the panel and the summary are template markup around the checkboxes Views already renders; nothing here needs a custom element.</p>
+        </div>
+      </section>
+
+      <section class="ds-section" id="filter-chips" aria-labelledby="filter-chips-title">
+        <h3 class="ds-section__title" id="filter-chips-title">Applied filters</h3>
+        <p class="ds-section__intro">The row under the band showing what is currently narrowing the results, and letting each one go. It mirrors the applied state exactly &mdash; <strong>one chip per selected value</strong>, so &ldquo;Victoria + New South Wales + Solar&rdquo; is three removable chips rather than one summarising the lot, and each chip unticks its own box. A free-text search gets a chip too, so every constraint on the list is visible in one place.</p>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Chips and Clear all</p>
+          <p class="ds-group__note">Each chip is a <code class="ds-code">&lt;button&gt;</code> &mdash; removing a filter is an action, not navigation &mdash; carrying an <code class="ds-code">aria-label</code> that says what removing it does and names the value in full (&ldquo;Remove filter: NSW, New South Wales&rdquo;), because the visible label is an abbreviation. Clear all appears only when something is applied; the whole row is <code class="ds-code">hidden</code> when nothing is, rather than sitting empty and reserving space.</p>
+
+          <div class="ds-demo">
+            <ul class="filter-chips" aria-label="Active filters">
+              <li><button class="filter-chips__chip" type="button" aria-label="Remove filter: VIC, Victoria"><span>VIC</span><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button></li>
+              <li><button class="filter-chips__chip" type="button" aria-label="Remove filter: NSW, New South Wales"><span>NSW</span><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button></li>
+              <li><button class="filter-chips__chip" type="button" aria-label="Remove filter: Solar"><span>Solar</span><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button></li>
+              <li><button class="filter-chips__chip" type="button" aria-label="Remove filter: search 3377"><span>3377</span><svg viewBox="0 0 10 10" aria-hidden="true" focusable="false"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button></li>
+              <li><button class="filter-chips__clear" type="button">Clear all</button></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="ds-section" id="directory-empty" aria-labelledby="directory-empty-title">
+        <h3 class="ds-section__title" id="directory-empty-title">Empty results</h3>
+        <p class="ds-section__intro">A filtered directory can come back with nothing, and it has to say so. Without this the list collapses to zero height and the page shows a blank gap between the header band and the pager &mdash; with the pager still offering pages of nothing, which reads as broken rather than as &ldquo;no results&rdquo;.</p>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Says what happened, and what to do about it</p>
+          <p class="ds-group__note">The count above is already a live region announcing the new total, so this block is <strong>for sighted users</strong>: it carries no role of its own and must not restate the status string, or anyone running both would hear it twice. It names the situation and offers the way out &mdash; remove one filter, or clear them all. The pager hides itself alongside it: a pager over nothing invites clicks that change nothing.</p>
+
+          <div class="ds-demo">
+            <div class="generator-directory__empty">
+              <p class="generator-directory__empty-title">No generators match those filters</p>
+              <p class="generator-directory__empty-text">Try removing a filter, or clear them all to see every accredited generator.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">Drupal</p>
+          <p class="ds-group__note">This is the view&rsquo;s &ldquo;No results behavior&rdquo; area &mdash; a global text area on the generators view &mdash; not template markup to port. The text should run through <code class="ds-code">t()</code>, and Views hides its own pager on an empty result set, so the <code class="ds-code">display: none</code> in the CSS is only standing in for that server behaviour.</p>
+        </div>
+      </section>
+
+      <div class="ds-category">
         <h2 class="ds-category__title">Forms</h2>
         <p class="ds-category__note">The form styles: a taupe panel of labelled controls, introduced by the Contact page and extended by the Logo request application. In GovCMS these are webforms &mdash; the classes map in the webform UI or a form_alter, and the reCAPTCHA placeholder is replaced by the real element.</p>
       </div>
@@ -1792,7 +2075,7 @@
 
         <div class="ds-group">
           <p class="ds-group__title">Conditional groups: the rule lives in the markup</p>
-          <p class="ds-group__note">Two attributes drive every dependency &mdash; <code class="ds-code">data-visible-when</code> reveals a group, <code class="ds-code">data-unavailable-when</code> mutes an option &mdash; each holding space-separated <code class="ds-code">group=value</code> conditions that must all hold. The evaluator is generic and never names a business rule, so a new rule is an attribute rather than a branch. That shape is chosen for the port: Drupal's <code class="ds-code">#states</code> is declarative in exactly this way, so each attribute becomes one entry in a <code class="ds-code">hook_form_alter</code> and nobody reverse-engineers a script to learn what the tool does. A revealed group sits inside the fieldset that summons it, immediately after the pills that trigger it, so the next Tab lands in it; hiding one also clears its selection, or the results would keep honouring a filter the user can no longer see. Live on <a class="ds-nav__link ds-nav__link--external" href="templates/tool-buy-greenpower.html">Buy GreenPower</a>.</p>
+          <p class="ds-group__note">Two attributes drive every dependency &mdash; <code class="ds-code">data-visible-when</code> reveals a group, <code class="ds-code">data-unavailable-when</code> mutes an option &mdash; each holding space-separated <code class="ds-code">group=value</code> conditions that must all hold. The evaluator is generic and never names a business rule, so a new rule is an attribute rather than a branch. That shape is chosen for the port: Drupal's <code class="ds-code">#states</code> is declarative in exactly this way, so each attribute becomes one entry in a <code class="ds-code">hook_form_alter</code> and nobody reverse-engineers a script to learn what the tool does. A revealed group sits inside the fieldset that summons it, immediately after the pills that trigger it, so the next Tab lands in it; hiding one also clears its selection, or the results would keep honouring a filter the user can no longer see. Live on <a href="templates/tool-buy-greenpower.html">Buy GreenPower</a>.</p>
         </div>
       </section>
 
@@ -2876,6 +3159,49 @@
         dialog.addEventListener('click', function (event) {
           if (pressedOutside && event.target === dialog) dialog.close();
         });
+      });
+    })();
+  </script>
+
+  <!-- Multi-select demo: place the popover under its trigger.
+       [popover] renders in the top layer, which has no relationship to the
+       document position of the button that opened it — so without this the
+       panel lands in the viewport's top-left corner and the catalogue shows
+       something the tool pages never do. Same placement the tools use (see the
+       `place` function in tool-electricity-generators.html); this is only the
+       positioning, since the demo has no results to filter. Drupal: one shared
+       once()-guarded behavior, not a copy per page. -->
+  <script>
+    (function () {
+      var groups = [].slice.call(document.querySelectorAll('#filter-multi .tool-filter__multi'));
+      groups.forEach(function (group) {
+        var trigger = group.querySelector('.tool-filter__multi-toggle');
+        var panel = group.querySelector('[popover]');
+        if (!trigger || !panel || typeof panel.showPopover !== 'function') return;
+
+        function place() {
+          var rect = trigger.getBoundingClientRect();
+          panel.style.margin = '0';
+          panel.style.minWidth = rect.width + 'px';
+          panel.style.top = (rect.bottom + 6) + 'px';
+          panel.style.left =
+            Math.max(8, Math.min(rect.left, window.innerWidth - panel.offsetWidth - 8)) + 'px';
+        }
+
+        // beforetoggle fires while the panel is still closed but measurable,
+        // so the first frame is already in the right place — placing it after
+        // the open would show one frame in the corner.
+        panel.addEventListener('beforetoggle', function (event) {
+          if (event.newState === 'open') place();
+          trigger.setAttribute('aria-expanded', event.newState === 'open' ? 'true' : 'false');
+        });
+        // The catalogue's content pane scrolls independently of the window,
+        // and the top layer does not scroll with it — so a panel left open
+        // would detach from its trigger.
+        var pane = document.querySelector('.ds-content');
+        if (pane) pane.addEventListener('scroll', function () {
+          if (panel.matches(':popover-open')) panel.hidePopover();
+        }, { passive: true });
       });
     })();
   </script>

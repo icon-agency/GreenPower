@@ -32,6 +32,25 @@
   padding: var(--space-m);
   background-color: $color-tint-taupe; // the listing surface (news-teaser rest)
   border-radius: $radius-lg;
+  @include transition(box-shadow);
+
+  // Selected from the MAP: clicking a pin rings its card in the list beside it,
+  // so the two halves stay one interface rather than two views of the same
+  // data. Transient — the script clears it when the popup closes.
+  //
+  // An inset ring, not a border and not an outline: a border would add 2px to
+  // the box and nudge every card below it the moment a pin was clicked, and an
+  // outline sits OUTSIDE the radius where the list's gap is tight enough for
+  // neighbouring rings to touch. box-shadow paints inside the card's own
+  // rounded edge and costs no layout at all.
+  //
+  // Decorative only. The pin's popup names the generator and the scroll puts
+  // the card on screen, so nothing here is the sole carrier of the message —
+  // which is why this is a plain class and not aria-selected on a listbox the
+  // markup does not have.
+  &.is-highlighted {
+    box-shadow: inset 0 0 0 2px $color-brand-dark-green;
+  }
 
   &__head {
     display: flex;
@@ -228,6 +247,14 @@
     display: inline-flex;
     gap: var(--space-3xs);
     align-items: center;
+    // Pinned right, whether or not there is a website link to its left.
+    // space-between on the row only separates TWO items; with the website
+    // omitted — it is an optional field, see the worked example on the gas
+    // producers page — the map button was the only child and sat at the start,
+    // so the control moved depending on data the reader cannot see. An auto
+    // margin holds the right edge in both cases, and is inert when the row is
+    // full because space-between has already put it there.
+    margin-left: auto;
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     color: $color-brand-dark-green;

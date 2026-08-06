@@ -98,13 +98,13 @@
   gap: var(--space-s);
   align-items: center; // the icon and title are centred; the cards stretch
   padding: var(--space-l) var(--space-xs) var(--space-xs);
-  background-color: $color-brand-dark-green;
+  background-color: $color-brand-taupe;
   border-radius: $radius-lg;
 }
 
-// Same size as every other component icon; the source SVGs are Dark Green, so
-// they are knocked out to white with the shared filter rather than shipping a
-// second asset.
+// Same size as every other component icon. The source SVGs are Dark Green and
+// the panel is now a light surface, so they ship as drawn — the white knockout
+// filter that used to sit here had nothing left to knock out of.
 .pathway-group__icon {
   width: $icon-size;
   height: $icon-size;
@@ -114,14 +114,13 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: brightness(0) invert(100%);
   }
 }
 
 .pathway-group__title {
   font-size: $font-size-lg;
   font-weight: $font-weight-demibold;
-  color: $color-white; // leading comes from the base heading rule
+  color: $color-brand-dark-green; // leading comes from the base heading rule
   text-align: center;
 }
 
@@ -147,9 +146,9 @@
 
 // --- One route ---
 
-// Light Green 35% — the token that exists precisely to carry Dark Green text on
-// a green surface, so the card sits inside the panel as a tonal step rather
-// than a different colour.
+// Taupe 60% inside the panel's full Taupe — the accordion's 60%/100% pairing,
+// so the card sits inside the panel as a tonal step in one family rather than
+// as a different colour. Dark Green reads at 6.3:1 on it.
 .pathway {
   display: flex;
   flex-direction: column;
@@ -157,7 +156,7 @@
   align-items: flex-start;
   height: 100%; // equal-height cards when a panel holds several
   padding: var(--space-s);
-  background-color: $color-tint-light-green;
+  background-color: $color-tint-taupe;
   border-radius: $radius-md;
 
   // One step roomier once the columns are wide enough to carry it. It stays
@@ -183,8 +182,8 @@
 }
 
 // The card link, restated for this surface: the rule and the hover bar are
-// green rather than the card's blue-tinted hairline, because the ground here is
-// already green.
+// green rather than the card's blue-tinted hairline, matching the label they
+// sit under now that the whole card is one colour.
 .pathway__link {
   @include flex-row(var(--space-s), center, space-between);
   position: relative; // containing block for the divider highlight
