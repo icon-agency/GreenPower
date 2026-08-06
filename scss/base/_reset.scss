@@ -14,6 +14,25 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+
+  // In-page jumps glide rather than teleport — the footer's Back to top above
+  // all, where a cut from the bottom of a long article to the masthead gives
+  // the reader nothing to tell them the page moved rather than changed.
+  //
+  // CSS, not a script: this is presentational behaviour, and the platform owns
+  // it (docs/frontend-rules.md). It also means the jump degrades to an instant
+  // one wherever smooth scrolling is unsupported, and the reduced-motion block
+  // at the foot of this file already forces it back to `auto` — so the
+  // preference is honoured with no second rule to remember.
+  //
+  // The easing is the UA's own, and it is an ease-in-out; CSS exposes no way to
+  // name a curve or a duration here. A specific curve would mean animating the
+  // scroll in JS, which is what this system deliberately does not do for an
+  // effect the browser already provides.
+  //
+  // The design system and the JIRA page set this on their own scrolling panes
+  // (they scroll a container, not the document) — same intent, same value.
+  scroll-behavior: smooth;
 }
 
 body {

@@ -420,6 +420,18 @@
     color: $color-ui-text;
   }
 
+  // The NAME is a heading, not the first of the address lines, so it wants the
+  // step the address gives the facts below it (--space-2xs) rather than the
+  // tight --space-3xs that holds the operator and place together as one block.
+  // At the same gap as its own lines the title read as part of the address.
+  //
+  // Stated on the adjacency rather than as a margin-bottom on the title, so it
+  // cannot depend on margins collapsing — the body is a plain block today, but
+  // the rule holds if it ever becomes a flex column, where they would not.
+  p#{&}__title + p#{&}__line {
+    margin-top: var(--space-2xs);
+  }
+
   // The facts sit as their own tight cluster, a step clear of the address
   // lines above so the two read as separate groups rather than one list.
   // A <div>, so Leaflet's paragraph rule never reached it.
