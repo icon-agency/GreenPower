@@ -4875,7 +4875,7 @@ body:has(.modal[open]) {
   color: #006341;
 }
 .generator-popup__details {
-  margin-top: var(--space-m);
+  margin-top: var(--space-2xs);
   border-top: 1px solid rgba(0, 99, 65, 0.15);
 }
 .generator-popup__summary {

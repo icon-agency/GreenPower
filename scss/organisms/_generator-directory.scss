@@ -451,10 +451,15 @@
 
   // --- The disclosure: description and website, behind "View details" ---
   //
-  // The popup is a glance at a record; this is where the rest of it lives. It
-  // sits a full step clear of the facts above, as the lone website link used
-  // to — it is the balloon's one control and reads as a fourth line of the
-  // record at the paragraph rhythm.
+  // The popup is a glance at a record; this is where the rest of it lives.
+  //
+  // On the popup's OWN rhythm: --space-2xs above the rule, matching the step
+  // between the title and the address and between the address and the facts,
+  // and the same again below it from the summary's padding — so the rule sits
+  // centred in a gap the balloon already uses rather than opening a hole. It
+  // inherited --space-m from the lone website link this replaced, which put
+  // 47.5px between the facts and the control against a 12px rhythm either
+  // side of it.
   //
   // No max-height, deliberately: the balloon grows to its content and the map
   // pans to fit (the script calls popup.update() on toggle, which re-anchors
@@ -463,7 +468,7 @@
   // is itself inside a scrolling map is two nested scrollers a reader has to
   // tell apart.
   &__details {
-    margin-top: var(--space-m);
+    margin-top: var(--space-2xs);
     border-top: 1px solid rgba($color-brand-dark-green, 0.15);
   }
 
