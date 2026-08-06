@@ -1888,7 +1888,14 @@
           settled = 0;
 
           var before = window.scrollY;
-          window.scrollBy(0, gap * 0.18); // ~18% of the remainder per frame
+          // behavior: 'instant', and it is REQUIRED, not tidiness. The root
+          // carries scroll-behavior: smooth (for in-page anchor jumps like the
+          // footer's Back to top), and a bare scrollBy inherits it -- so every
+          // frame of this loop would kick off its own eased animation, each one
+          // read mid-flight by the next frame. The glide fought itself and gave
+          // up over a thousand pixels short. This loop IS the easing; its steps
+          // have to land immediately.
+          window.scrollBy({ top: gap * 0.18, behavior: 'instant' }); // ~18% of the remainder per frame
           if (window.scrollY === before && Math.abs(gap) >= 0.5) return stop(); // clamped
           glideFrame = window.requestAnimationFrame(step);
         };
@@ -1897,7 +1904,7 @@
           // No motion: one instant hop, same clamp, no animation at all.
           var gap = card.getBoundingClientRect().top - mapEl.getBoundingClientRect().top;
           var slack = layoutEl.getBoundingClientRect().bottom - paneEl.getBoundingClientRect().bottom;
-          window.scrollBy(0, gap > slack ? slack : gap);
+          window.scrollBy({ top: gap > slack ? slack : gap, behavior: 'instant' });
           return;
         }
         glideFrame = window.requestAnimationFrame(step);
