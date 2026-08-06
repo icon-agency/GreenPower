@@ -4658,6 +4658,9 @@ body:has(.modal[open]) {
   background: none;
   border: 0;
   cursor: pointer;
+  display: inline-flex;
+  gap: var(--space-3xs);
+  align-items: center;
   padding: var(--space-3xs) var(--space-s);
   font-size: var(--step--1);
   font-weight: 500;
@@ -4673,6 +4676,11 @@ body:has(.modal[open]) {
 .generator-directory__toggle-btn:focus-visible {
   outline: 3px solid #009f4d;
   outline-offset: 2px;
+}
+.generator-directory__toggle-btn svg {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
 }
 .generator-directory__toggle-btn[aria-pressed=true] {
   color: #ffffff;

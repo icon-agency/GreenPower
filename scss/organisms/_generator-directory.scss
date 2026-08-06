@@ -89,6 +89,12 @@
 
   &__toggle-btn {
     @include button-reset;
+    // inline-flex for the glyph: the icon names the view alongside the word
+    // rather than instead of it, so the control still reads at a glance
+    // without asking anyone to learn two symbols.
+    display: inline-flex;
+    gap: var(--space-3xs); // an icon carries whitespace in its own box
+    align-items: center;
     padding: var(--space-3xs) var(--space-s);
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
@@ -104,6 +110,15 @@
 
     &:focus-visible {
       @include focus-ring;
+    }
+
+    // Rides the label's text step, and takes its colour from the button — so
+    // the knockout on the pressed state carries the glyph with the word and
+    // neither needs a second rule.
+    svg {
+      flex-shrink: 0;
+      width: 1em;
+      height: 1em;
     }
 
     &[aria-pressed='true'] {
