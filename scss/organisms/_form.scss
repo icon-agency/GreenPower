@@ -335,5 +335,23 @@
     a {
       @include link-inline;
     }
+
+    // A PHONE NUMBER GETS ITS OWN LINE. The value reads as a sentence handing
+    // over a number ("Call the GreenPower team on 02 9995 5468"), and in the
+    // split's narrow rail that wrapped mid-phrase — "…team" / "on 02 9995
+    // 5468" — breaking the number away from the words that introduce it and
+    // burying it in the middle of a line.
+    //
+    // fit-content, not a plain block: a full-width block would stretch the
+    // underline and the focus ring across the empty rail beside the number.
+    // The box stays on the digits; only the line break is new.
+    //
+    // Scoped to tel: links in THIS component. The buy directory's numbers are
+    // .provider-card__phone-num and sit in a different layout — they are not
+    // affected, and should not be.
+    a[href^='tel:'] {
+      display: block;
+      width: fit-content;
+    }
   }
 }

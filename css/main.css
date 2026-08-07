@@ -4069,6 +4069,10 @@ body:has(.modal[open]) {
   outline: 3px solid #009f4d;
   outline-offset: 2px;
 }
+.contact-info__value a[href^="tel:"] {
+  display: block;
+  width: fit-content;
+}
 
 .tool-filter {
   position: relative;
