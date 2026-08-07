@@ -4626,6 +4626,7 @@ body:has(.modal[open]) {
   padding-block: var(--space-s-l) var(--space-3xl);
 }
 .generator-directory__toolbar {
+  scroll-margin-top: calc(var(--header-height, 4.5rem) + var(--space-s));
   display: flex;
   flex-direction: column;
   gap: var(--space-s);

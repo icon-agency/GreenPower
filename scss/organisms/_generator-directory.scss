@@ -50,7 +50,20 @@
   // closure — and the section keeps a full break beneath it.
   padding-block: var(--space-s-l) var(--space-3xl);
 
+  // Where the toolbar comes to rest when the script scrolls to it — a card's
+  // "View on map" below lg, which switches the stacked view and brings the
+  // toggles into sight above the map. Clears the masthead, plus a step.
+  //
+  // Correct only once the page has SETTLED, which is why the script scrolls
+  // twice (see the handler). Read at the moment of a scroll that starts deep
+  // in the list, both terms are wrong: --header-height is 0 while the bar is
+  // retracted, and the bar is `position: relative` there, so pinning it on the
+  // way up pulls it out of flow and shifts everything above the toolbar up by
+  // its own height. The second pass reads this again with the bar pinned and
+  // measured, and lands.
   &__toolbar {
+    scroll-margin-top: calc(var(--header-height, 4.5rem) + var(--space-s));
+
     display: flex;
     flex-direction: column;
     gap: var(--space-s);

@@ -2033,6 +2033,45 @@
         card.classList.add('is-highlighted');
       }
 
+      // Bring the toolbar to the top so the toggles sit above the map — the
+      // stacked view's answer to "View on map".
+      //
+      // TWICE, and not out of superstition. A scroll that starts deep in the
+      // list has to survive the masthead: it is `position: relative` down
+      // there, and --header-height reads 0, so the first pass resolves its
+      // scroll-margin against a bar that is not clearing anything. Travelling
+      // up then PINS the bar — it goes fixed, leaves the flow, and everything
+      // above the toolbar shifts up by its height. Measured, the first pass
+      // lands the toolbar 16px from the top with 77px of masthead over it.
+      //
+      // The second pass reads the same declarative target with the page in its
+      // final state and lands exactly. It runs on scrollend, so it is a
+      // continuation of the same movement rather than a correction anyone sees
+      // as a second scroll; the guard stops it recursing.
+      var anchoring = false;
+      function anchorToolbar(toolbar) {
+        var go = function () {
+          toolbar.scrollIntoView({
+            block: 'start',
+            behavior: reduced.matches ? 'auto' : 'smooth'
+          });
+        };
+
+        go();
+        if (anchoring || reduced.matches) return;
+        anchoring = true;
+
+        var settle = function () {
+          anchoring = false;
+          go();
+        };
+        if ('onscrollend' in window) {
+          window.addEventListener('scrollend', settle, { once: true });
+        } else {
+          window.setTimeout(settle, 600); // Safari: no scrollend
+        }
+      }
+
       // A pin click asks for the SCROLL. The ring arrives on its own, from the
       // popup this click is about to open (see the popupopen handler).
       function highlightCard(card) {
@@ -2166,7 +2205,8 @@
         btn.addEventListener('click', function () {
           // No ring here: opening the popup below sets it (popupopen), which is
           // also what makes a SECOND click swap the ring rather than lose it.
-          if (!wide.matches) setView('map'); // the map must be on screen first
+          var stacked = !wide.matches;
+          if (stacked) setView('map'); // the map must be on screen first
           initMap();
           if (!map) return; // no Leaflet — the button did all it could
           var entry = null;
@@ -2183,8 +2223,33 @@
             entry.marker.openPopup();
           }
           // Put the keyboard where the action landed — the map container is
-          // focusable. preventScroll: at lg the map is already alongside.
+          // focusable. preventScroll: at lg the map is already alongside, and
+          // below it the scroll below is the one that should decide the view.
           mapEl.focus({ preventScroll: true });
+
+          // Below lg, bring the map to the reader.
+          //
+          // The two views are STACKED there, so switching swaps what sits under
+          // the toolbar while the page stays where the tapped card was — from a
+          // card well down the list that leaves the map off-screen above and
+          // nothing but its tail below. Anchoring the toolbar puts the toggles
+          // at the top with the map directly beneath them, so the control that
+          // changed the view stays in sight beside its result.
+          //
+          // LAST, and on the next frame, because everything above it moves the
+          // page: hiding the list shortens the document by a third, and
+          // invalidateSize/setView/openPopup lay the pane out again. Scrolling
+          // before that settled aimed at a toolbar position that no longer
+          // existed by the time the scroll finished — measured, it landed 16px
+          // from the top against the 93px the scroll-margin asks for. One frame
+          // later the geometry is final and the browser resolves it correctly.
+          //
+          // Above lg this never runs: both panes are already on screen, and the
+          // glide to the pin does the work instead.
+          if (stacked) {
+            var toolbar = root.querySelector('.generator-directory__toolbar');
+            if (toolbar) anchorToolbar(toolbar);
+          }
         });
       });
 
