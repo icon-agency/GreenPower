@@ -285,24 +285,19 @@
   gap: var(--space-m);
   margin-top: var(--space-l);
 
-  // STACKED, not a row. The rail is the narrow half of the split, and beside
-  // the icon there was about 200px left for the value — less than the natural
-  // width of an address like greenpower.admin@planning.nsw.gov.au, so the item
-  // pushed past the rail and ran under the form panel next to it (measured: a
-  // 297px value in a 263px rail).
-  //
-  // Stacking hands the value the rail's full width. It is not the whole fix on
-  // its own — see __value — but it is the half that keeps the glyph from
-  // taking a third of the line it has to share.
+  // The glyph reads BESIDE the detail, not above it. Stacking was tried to cure
+  // the overflow below and cured the wrong half of it: the row was never the
+  // problem — the flex item refusing to shrink was.
   &__item {
     display: flex;
-    flex-direction: column;
-    // A tighter step than the row's --space-s: that gap sat between a circle
-    // and a word reading across; this one sits under the circle, where the
-    // same distance reads as a break between two things rather than a join.
-    gap: var(--space-2xs);
+    gap: var(--space-s);
     align-items: flex-start;
-    min-width: 0; // a flex item will not shrink past its content without this
+    // Load-bearing. A flex item's min-width is `auto`, which floors it at its
+    // content's min-content width — and an email address is one unbreakable
+    // token, so the item simply refused to fit the rail and ran out under the
+    // form panel beside it (measured: a 297px value in a 263px rail). Nothing
+    // about the layout was wrong; this one line is what let it fit.
+    min-width: 0;
   }
 
   &__icon {
