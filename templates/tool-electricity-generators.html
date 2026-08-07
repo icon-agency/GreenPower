@@ -2045,39 +2045,56 @@
       // Bring the toolbar to the top so the toggles sit above the map — the
       // stacked view's answer to "View on map".
       //
-      // TWICE, and not out of superstition. A scroll that starts deep in the
-      // list has to survive the masthead: it is `position: relative` down
-      // there, and --header-height reads 0, so the first pass resolves its
-      // scroll-margin against a bar that is not clearing anything. Travelling
-      // up then PINS the bar — it goes fixed, leaves the flow, and everything
-      // above the toolbar shifts up by its height. Measured, the first pass
-      // lands the toolbar 16px from the top with 77px of masthead over it.
+      // REPEATEDLY, until it actually lands — not a fixed number of passes.
       //
-      // The second pass reads the same declarative target with the page in its
-      // final state and lands exactly. It runs on scrollend, so it is a
-      // continuation of the same movement rather than a correction anyone sees
-      // as a second scroll; the guard stops it recursing.
+      // The masthead is what makes this hard. Wherever the scroll starts from,
+      // moving changes the bar's state, and the bar's state changes the target:
+      // it is `position: relative` in the page and `fixed` once pinned, so
+      // pinning it pulls it out of the flow and shifts everything above the
+      // toolbar up by its own height; --header-height, which the toolbar's
+      // scroll-margin is built on, reads 0 while it is retracted. Measured, a
+      // single pass lands the toolbar 16px from the top under a 77px bar, and
+      // two passes still left it 66px under at desktop width.
+      //
+      // So each pass CHECKS its own result: if the toolbar is clear of the bar
+      // the work is done, and if it is not, the target is read again with the
+      // page as it now stands. Bounded by tries and by a no-progress guard, so
+      // a page that cannot satisfy it (the toolbar already at the document's
+      // end) stops rather than loops. Each pass runs on scrollend, so it reads
+      // as one continuous movement rather than a visible correction.
       var anchoring = false;
-      function anchorToolbar(toolbar) {
-        var go = function () {
-          toolbar.scrollIntoView({
-            block: 'start',
-            behavior: reduced.matches ? 'auto' : 'smooth'
-          });
+      function anchorToolbar(toolbar, tries) {
+        if (tries === undefined) tries = 3;
+
+        var landed = function () {
+          var bar = document.querySelector('.site-header');
+          var clear = bar && window.getComputedStyle(bar).position === 'fixed'
+            ? bar.getBoundingClientRect().bottom
+            : 0;
+          return toolbar.getBoundingClientRect().top >= clear - 1;
         };
 
-        go();
-        if (anchoring || reduced.matches) return;
+        var before = window.scrollY;
+        toolbar.scrollIntoView({
+          block: 'start',
+          behavior: reduced.matches ? 'auto' : 'smooth'
+        });
+
+        if (anchoring || reduced.matches || tries < 1) return;
         anchoring = true;
 
         var settle = function () {
           anchoring = false;
-          go();
+          if (landed()) return;                    // the bar is clear of it
+          if (window.scrollY === before) return;   // nothing moved — cannot do better
+          anchorToolbar(toolbar, tries - 1);
         };
         if ('onscrollend' in window) {
-          window.addEventListener('scrollend', settle, { once: true });
+          window.addEventListener('scrollend', function () {
+            window.setTimeout(settle, 250); // past the bar's own reveal ease
+          }, { once: true });
         } else {
-          window.setTimeout(settle, 600); // Safari: no scrollend
+          window.setTimeout(settle, 700); // Safari: no scrollend
         }
       }
 
@@ -2270,6 +2287,19 @@
               map.invalidateSize();
               map.setView(here, 9, { animate: !reduced.matches });
               sayLocation('Map centred on your location.');
+
+              // Bring the map to the reader once it has accepted. The same
+              // anchor "View on map" uses, and at EVERY width rather than only
+              // below lg: the button lives up in the header band, so a reader
+              // who pressed it is looking at the band — the map is below the
+              // fold in the stacked view and in the split alike. Landing the
+              // toolbar under the masthead puts the map directly beneath it.
+              //
+              // Only on success. A denial leaves the page where it is: there is
+              // nothing new to look at, and moving the page would be the one
+              // thing worse than not finding you.
+              var toolbar = root.querySelector('.generator-directory__toolbar');
+              if (toolbar) anchorToolbar(toolbar);
             },
             function () {
               locating = false;
