@@ -4729,9 +4729,6 @@ body:has(.modal[open]) {
   margin: var(--space-2xs) auto 0;
   color: #00263e;
 }
-.generator-directory.is-empty .pagination {
-  display: none;
-}
 .generator-directory__map-pane {
   position: relative;
   display: none;
@@ -5195,9 +5192,6 @@ body:has(.modal[open]) {
   max-width: 44ch;
   margin: var(--space-2xs) auto 0;
   color: #00263e;
-}
-.provider-directory.is-empty .pagination {
-  display: none;
 }
 
 .page-feedback {

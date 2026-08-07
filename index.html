@@ -1778,6 +1778,11 @@
         </div>
 
         <div class="ds-group">
+          <p class="ds-group__title">No pager &mdash; the map is why</p>
+          <p class="ds-group__note">The list renders <strong>every</strong> record; the filters are the narrowing mechanism. Markers derive from the rendered cards &mdash; one source of truth &mdash; so a paged list would page the <em>map</em>: ten pins of three hundred, quietly lying about coverage, and the pin&rarr;card link pointing at cards that are not on the current page. At directory scale (a few hundred records) the full list is safe: images are lazy, markers cluster, and find-in-page works across the whole directory. The current site ships the same way. In Drupal the view&rsquo;s pager is &ldquo;Display all items&rdquo;; the news listing keeps its real pager &mdash; there is no map there to keep honest.</p>
+        </div>
+
+        <div class="ds-group">
           <p class="ds-group__title">The sticky map column</p>
           <p class="ds-group__note">From <code class="ds-code">lg</code> the map pane sticks full-height while the list scrolls past it, inset by the section&rsquo;s own <code class="ds-code">--space-xs</code> frame top and bottom and carrying the brand radius. It steps down below the auto-hide header when that bar reveals &mdash; the same published <code class="ds-code">--header-height</code> and the same timing as the article rail &mdash; and gives back in height what it takes in top inset, so the bottom inset holds. A <code class="ds-code">ResizeObserver</code> has Leaflet re-measure through the ease, or the tiles would be laid out for the old height. <strong>That moving inset is why the pin&rarr;card scroll closes its gap per frame rather than aiming at a position worked out in advance</strong> &mdash; see the note under Map panel.</p>
         </div>
@@ -1927,7 +1932,7 @@
 
         <div class="ds-group">
           <p class="ds-group__title">Says what happened, and what to do about it</p>
-          <p class="ds-group__note">The count above is already a live region announcing the new total, so this block is <strong>for sighted users</strong>: it carries no role of its own and must not restate the status string, or anyone running both would hear it twice. It names the situation and offers the way out &mdash; remove one filter, or clear them all. The pager hides itself alongside it: a pager over nothing invites clicks that change nothing.</p>
+          <p class="ds-group__note">The count above is already a live region announcing the new total, so this block is <strong>for sighted users</strong>: it carries no role of its own and must not restate the status string, or anyone running both would hear it twice. It names the situation and offers the way out &mdash; remove one filter, or clear them all. (There is no pager to hide with it &mdash; the directories render every record; see Directory layout.)</p>
 
           <div class="ds-demo">
             <div class="generator-directory__empty">

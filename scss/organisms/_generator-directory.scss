@@ -18,8 +18,9 @@
 // Drupal mapping: a VIEW page over accredited_generator nodes —
 //   exposed filters render as .tool-filter in the header band; the cards are
 //   the view rows (generator-card teasers); chips + count are the view
-//   header (facets summary); the pager is the view's own; the map is a view
-//   attachment over the same result set. Leaflet: self-host as a theme
+//   header (facets summary); the pager is "Display all items" — NO pager,
+//   because the markers derive from the rendered rows, so a paged list would
+//   page the map; the map is a view attachment over the same result set. Leaflet: self-host as a theme
 //   library (GovCMS commonly blocks third-party CDNs), and production needs
 //   its own tile arrangement — tile.openstreetmap.org's usage policy covers
 //   development-scale traffic, not a government site's.
@@ -183,10 +184,6 @@
     @include empty-state-text;
   }
 
-  // An empty result set has no pages — the news listing's rule.
-  &.is-empty .pagination {
-    display: none;
-  }
 
   // --- Map pane ---
 

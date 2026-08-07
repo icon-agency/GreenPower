@@ -689,20 +689,15 @@
             <p class="generator-directory__empty-text">Try removing a filter, or clear them all to see every accredited producer.</p>
           </div>
 
-          <!-- The view's pager (mini pager themed to these classes) -->
-          <nav class="pagination" aria-label="Pagination" data-animate>
-            <ul class="pagination__list">
-              <li><a class="pagination__link" href="#" aria-label="Previous page">
-                <svg class="pagination__arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M13 5H2M6 1 2 5l4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-              <li><a class="pagination__link" href="#" aria-label="Page 1" aria-current="page">1</a></li>
-              <li><a class="pagination__link" href="#" aria-label="Page 2">2</a></li>
-              <li><a class="pagination__link" href="#" aria-label="Page 3">3</a></li>
-              <li><span class="pagination__ellipsis" aria-hidden="true">&hellip;</span></li>
-              <li><a class="pagination__link" href="#" aria-label="Page 12">12</a></li>
-              <li><a class="pagination__link" href="#" aria-label="Next page">
-                <svg class="pagination__arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            </ul>
-          </nav>
+          <!-- NO PAGER, deliberately — the map is why. Markers derive from the
+               rendered cards, so a paged list would page the MAP: ten pins of
+               three hundred, and the pin-to-card link pointing at cards that
+               are not on the current page. The full list is the map's data.
+               At directory scale (a few hundred records) this is safe: images
+               are lazy, markers cluster, and the filters — not a pager — are
+               how the list is narrowed. The current site ships the same way.
+               Drupal: the view's pager is "Display all items"; the news
+               listing keeps its real pager — no map to keep honest there. -->
         </div>
 
         <!-- The map: an ENHANCEMENT of the listing, built from the cards'

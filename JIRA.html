@@ -508,6 +508,7 @@
           see: [['Template', 'templates/tool-electricity-generators.html'], ['DS', 'index.html#generator-card']],
           ac: [
             'View over generator nodes (machine name per D11); rows are teasers',
+            'NO pager — the view renders ALL records ("Display all items"). Markers derive from the rendered rows, so a paged list would page the map and break the pin-to-card link; filters and search are the narrowing mechanism. Amends GP-42\u2019s "Pagination works correctly" criterion — the current site also ships the full list',
             'Exposed filters: fulltext, state, generator type',
             'Fulltext covers title, company and the FULL place line including postcode — &ldquo;3377&rdquo; and &ldquo;Ararat&rdquo; find the same record (D12)',
             'Teaser carries <code>data-state</code>/<code>data-type</code>/<code>data-lat</code>/<code>data-lng</code> machine values, and the state/type slugs match the exposed filter values exactly — the map and filters read them',
@@ -535,6 +536,7 @@
           see: [['Template', 'templates/tool-buy-greenpower.html']],
           ac: [
             'View over <code>accredited_provider</code> nodes; rows are teasers',
+            'NO pager ("Display all items") — the accredited retail market is a few dozen records and the filters are the narrowing mechanism',
             'Teaser: title, logo media, website link, phone, ask link, plus repeatable offer paragraphs',
             'Each offer states buyers, states and products as metadata pills &mdash; not controls',
             'Card filter attributes are the union of its offers, written by preprocess',

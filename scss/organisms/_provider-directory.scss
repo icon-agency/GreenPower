@@ -52,8 +52,4 @@
     @include empty-state-text;
   }
 
-  // An empty result set has no pages — the news listing's rule.
-  &.is-empty .pagination {
-    display: none;
-  }
 }
