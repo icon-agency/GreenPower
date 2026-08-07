@@ -1583,10 +1583,6 @@ a:focus-visible {
 .card__links {
   padding: 0;
   list-style: none;
-  margin-top: auto;
-}
-.card__links + .card__cta {
-  margin-top: 0;
 }
 .card__cta {
   display: flex;

@@ -353,20 +353,23 @@
   &__links {
     padding: 0;
     list-style: none;
-    // Pinned to the card's foot: in a grid row the tracks stretch every card
-    // to the tallest, and without this the link rows land wherever each card's
-    // copy happens to stop. The same device __meta and __cta use — every rule
-    // that pins a card's last row looks alike. In a content-height card (the
-    // reading-column stack, stacked mobile) there is no slack to take and the
-    // flex gap spaces it as before.
-    margin-top: auto;
-  }
-
-  // A CTA following a links row: the links above have already absorbed the
-  // slack, so the button rides the normal gap — its own auto (below) would
-  // split the free space into two holes, one over each.
-  &__links + &__cta {
-    margin-top: 0;
+    // The list follows the BODY, on the card's own gap — no auto margin.
+    //
+    // It used to be pinned to the card's foot, on the reasoning that a grid row
+    // stretches every card to the tallest and the link rows would otherwise
+    // land wherever each card's copy stopped. That holds when the descriptions
+    // differ; it fails badly when the LINK COUNTS differ, which is the more
+    // common case. Measured on the accreditation row: three cards with equal
+    // three-line descriptions, but seven links, seven links and four — pinning
+    // dropped the short card's list to the foot and opened roughly 300px of
+    // empty tile above it, while the others' lists began right under their
+    // copy. The rule meant to align the lists was the only thing pulling them
+    // apart.
+    //
+    // Following the body aligns them here by construction (equal copy, equal
+    // start) and leaves a short card simply shorter, which reads as less to
+    // say rather than as a hole. __cta keeps its own auto margin, so the
+    // closing buttons still land on one line however uneven the lists are.
   }
 
   // Optional closing action — a button at the foot of the card, under the
@@ -385,6 +388,12 @@
   // at 47px and 29px off the base before this, which reads as a mistake rather
   // than a rhythm. The card's own flex `gap` is unaffected by an auto margin,
   // so the minimum space above the button is still the standard step.
+  //
+  // This is now the card's ONLY auto margin. A `&__links + &__cta` rule used to
+  // zero it, on the reasoning that the links above had already absorbed the
+  // slack — true while __links carried its own auto margin, and wrong the
+  // moment it stopped. Left in place it pinned nothing: the buttons drifted 51px
+  // apart on the products landing, the exact fault the pin exists to prevent.
   //
   // Drupal: an optional link field on the card paragraph (field_card_cta),
   // rendered only when set — the card costs nothing where it is absent.
