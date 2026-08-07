@@ -320,6 +320,21 @@
     }
   }
 
+  // The reader's own position on the map. A DOT, deliberately not the
+  // teardrop: pins mean generators here, and one symbol must not carry two
+  // jobs — the same rule that gave the view toggle a folded map rather than a
+  // second pin. Brand blue so "you" reads against a field of green pins; the
+  // white ring and shadow lift it off any tile, as the pin's own shadow does.
+  //
+  // Added straight to the map, never to the cluster group, or the reader would
+  // cluster with the generators.
+  &__you {
+    background-color: $color-brand-blue;
+    border: 3px solid $color-white;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba($color-black, 0.35);
+  }
+
   // --- Leaflet chrome, tuned to the system (the library ships its own font
   // stack and square corners). Scoped to the directory so nothing leaks. ---
 

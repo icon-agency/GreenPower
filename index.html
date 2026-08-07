@@ -1794,12 +1794,13 @@
 
         <div class="ds-group">
           <p class="ds-group__title">Pin and cluster</p>
-          <p class="ds-group__note">The pin is a <code class="ds-code">divIcon</code> anchored so its <strong>tip</strong> sits on the coordinate, with the popup opening above the head. A drop-shadow filter lifts it off busy tiles without a second shape to maintain. The cluster is the same palette one step louder, because it stands for several: Dark Green with a white ring, and its count is the accessible name &mdash; markercluster makes the bubble a focusable button. Both take the standard focus ring, offset so it clears the teardrop&rsquo;s point.</p>
+          <p class="ds-group__note">The pin is a <code class="ds-code">divIcon</code> anchored so its <strong>tip</strong> sits on the coordinate, with the popup opening above the head. A drop-shadow filter lifts it off busy tiles without a second shape to maintain. The cluster is the same palette one step louder, because it stands for several: Dark Green with a white ring, and its count is the accessible name &mdash; markercluster makes the bubble a focusable button. Both take the standard focus ring, offset so it clears the teardrop&rsquo;s point. The third mark is the reader: a brand-blue DOT, deliberately not a second teardrop &mdash; pins mean generators here, and one symbol must not carry two jobs (the rule that gave the view toggle a folded map instead of a pin).</p>
 
           <div class="ds-demo">
             <div class="ds-map-marks">
               <span class="generator-directory__pin"><svg viewBox="0 0 24 32" aria-hidden="true" focusable="false"><path d="M12 0C5.373 0 0 5.373 0 12c0 8.5 12 20 12 20s12-11.5 12-20c0-6.627-5.373-12-12-12z" fill="currentColor"/><circle cx="12" cy="12" r="4.5" fill="#fff"/></svg></span>
               <span class="generator-directory__cluster">7</span>
+              <span class="generator-directory__you"></span>
             </div>
           </div>
         </div>
@@ -1837,6 +1838,12 @@
           <p class="ds-group__note">A native <code class="ds-code">&lt;details&gt;</code>, like the accordion: the browser owns the toggling, the keyboard operation and the state it reports, and with no JS the panel is simply open rather than broken. Closed by default, because the popup is a <em>glance</em> at a record &mdash; the description is the one field that can run to a paragraph, and inlining it made every balloon tall enough to cover the map it is pinned to.</p>
           <p class="ds-group__note">Two behaviours worth keeping on the port. <strong>Leaflet must be told when it resizes:</strong> it measures a popup on open and anchors its BOTTOM edge to the pin, so a panel expanding afterwards grows the balloon upward &mdash; measured, 150px of extra content put its top 68px above the map&rsquo;s. The script calls <code class="ds-code">popup.update()</code> on <code class="ds-code">toggle</code>, which re-anchors and lets autoPan bring the map to fit; there is deliberately no max-height, so the balloon grows to its content. <strong>And it collapses on close:</strong> Leaflet builds each popup&rsquo;s content once and reuses it, so without a reset an expanded panel would reopen expanded while a different pin opened collapsed &mdash; two popups in different states for no reason the reader chose.</p>
           <p class="ds-group__note">Omitted entirely when a record has neither a description nor a website &mdash; the empty-record case both directory pages carry as card 2. A control that expands onto nothing is worse than no control.</p>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">&ldquo;Find my location&rdquo; &mdash; the reader on the map</p>
+          <p class="ds-group__note">The control sits with the <a href="#filter-multi">filters</a>, after them, because it is the third way to narrow the question &mdash; &ldquo;near me&rdquo;. It acts on the <em>map</em> though: it pans the view and lets the clusters and the pin&rarr;card link do the rest. Nothing is filtered, nothing is reordered, the count does not move. Below <code class="ds-code">lg</code> it brings the map view up first.</p>
+          <p class="ds-group__note">The script REVEALS it &mdash; the markup ships it <code class="ds-code">hidden</code>. Geolocation needs JS and a secure context, and Leaflet may be blocked entirely; a control that cannot work is worse than none, the same rule the view toggle and the scroller arrows follow. Both refusals (no API, or permission denied) land in the band&rsquo;s <code class="ds-code">role="status"</code> line, announced without stealing focus and visible to everyone else. The reader&rsquo;s dot is shown with the other map marks above.</p>
         </div>
 
         <div class="ds-group">
@@ -1891,6 +1898,22 @@
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-group">
+          <p class="ds-group__title">&ldquo;Find my location&rdquo;, after the filters</p>
+          <p class="ds-group__note">An ACTION in a row of controls, so it is built to the trigger&rsquo;s own recipe &mdash; same pill, same 3em height, same white ground and boundary border &mdash; and bottom-aligned in its field, since the others stack a label over a control and this one has no label to stack. It pans the map; it never filters the list. See <a href="#generator-map">Map panel</a> for what it does and why it ships hidden.</p>
+
+          <div class="ds-demo ds-demo--band">
+            <div class="tool-filter">
+              <div class="tool-filter__fields">
+                <div class="tool-filter__field tool-filter__field--action">
+                  <button class="tool-filter__locate" type="button"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="2.2" fill="currentColor"/><circle cx="8" cy="8" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 .5v2.2M8 13.3v2.2M.5 8h2.2M13.3 8h2.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Find my location</button>
+                </div>
+              </div>
+              <p class="tool-filter__note" role="status">Map centred on your location.</p>
             </div>
           </div>
         </div>

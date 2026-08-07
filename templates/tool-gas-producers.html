@@ -430,6 +430,27 @@
                this shape — the <details> wrapper is the theme's. -->
           <div class="tool-filter__fields">
             <div class="tool-filter__field">
+              <p class="tool-filter__label" id="gen-type-label">Renewable gas type</p>
+              <div class="tool-filter__multi" data-gen-multi="type">
+                <button class="tool-filter__multi-toggle" type="button" popovertarget="gen-type-panel" aria-expanded="false">
+                  <span class="visually-hidden">Renewable gas type: </span>
+                  <span data-gen-multi-label>All gas types</span>
+                </button>
+                <fieldset class="tool-filter__multi-panel" id="gen-type-panel" popover>
+                  <legend class="visually-hidden">Renewable gas type</legend>
+                  <!-- BEST GUESS at the gas taxonomy: the feedstocks GreenPower's
+                       renewable gas certification covers (biomethane, landfill,
+                       wastewater and agricultural biogas) plus green hydrogen.
+                       Confirm the real vocabulary before build. -->
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="biomethane"><span data-option-label>Biomethane</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="landfill-gas"><span data-option-label>Landfill gas</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="wastewater-biogas"><span data-option-label>Wastewater biogas</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="agricultural-biogas"><span data-option-label>Agricultural biogas</span></label>
+                  <label class="tool-filter__option"><input type="checkbox" name="type" value="green-hydrogen"><span data-option-label>Green hydrogen</span></label>
+                </fieldset>
+              </div>
+            </div>
+            <div class="tool-filter__field">
               <p class="tool-filter__label" id="gen-state-label">State or territory</p>
               <!-- The panel is a [popover]: it renders in the TOP LAYER, so
                    the band's overflow clip cannot cut it off and it cannot
@@ -458,28 +479,20 @@
                 </fieldset>
               </div>
             </div>
-            <div class="tool-filter__field">
-              <p class="tool-filter__label" id="gen-type-label">Renewable gas type</p>
-              <div class="tool-filter__multi" data-gen-multi="type">
-                <button class="tool-filter__multi-toggle" type="button" popovertarget="gen-type-panel" aria-expanded="false">
-                  <span class="visually-hidden">Renewable gas type: </span>
-                  <span data-gen-multi-label>All gas types</span>
-                </button>
-                <fieldset class="tool-filter__multi-panel" id="gen-type-panel" popover>
-                  <legend class="visually-hidden">Renewable gas type</legend>
-                  <!-- BEST GUESS at the gas taxonomy: the feedstocks GreenPower's
-                       renewable gas certification covers (biomethane, landfill,
-                       wastewater and agricultural biogas) plus green hydrogen.
-                       Confirm the real vocabulary before build. -->
-                  <label class="tool-filter__option"><input type="checkbox" name="type" value="biomethane"><span data-option-label>Biomethane</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="type" value="landfill-gas"><span data-option-label>Landfill gas</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="type" value="wastewater-biogas"><span data-option-label>Wastewater biogas</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="type" value="agricultural-biogas"><span data-option-label>Agricultural biogas</span></label>
-                  <label class="tool-filter__option"><input type="checkbox" name="type" value="green-hydrogen"><span data-option-label>Green hydrogen</span></label>
-                </fieldset>
-              </div>
+            <!-- "Find my location" sits with the FILTERS, after them: it is
+                 the third way to narrow the question ("near me"), so it reads
+                 as one of the controls rather than as map chrome. It acts on
+                 the MAP though — panning the view, never filtering or
+                 reordering the list — which is why it is a button here and not
+                 another exposed filter. Below lg it brings the map view up
+                 first; without JS it never renders, because the script builds
+                 nothing it cannot honour. -->
+            <div class="tool-filter__field tool-filter__field--action">
+              <button class="tool-filter__locate" type="button" data-gen-locate hidden>
+                <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="2.2" fill="currentColor"/><circle cx="8" cy="8" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 .5v2.2M8 13.3v2.2M.5 8h2.2M13.3 8h2.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Find my location</button>
             </div>
           </div>
+          <p class="tool-filter__note" data-gen-locate-note role="status" hidden></p>
         </form>
         <!-- Imageless header variant: the green block + brand angle stand in
              where field_header_image is empty (see _page-header.scss). -->
@@ -1669,6 +1682,7 @@
           }
         });
         map.addLayer(cluster);
+
         // THE RING FOLLOWS THE POPUP, not the click that caused it.
         //
         // Setting it on the click and clearing it on popupclose looked
@@ -2019,6 +2033,81 @@
           return;
         }
         glideFrame = window.requestAnimationFrame(step);
+      }
+
+      // --- "Find my location" — the third control in the filter band ---
+      //
+      // It acts on the MAP, never on the list: pans the view to the reader and
+      // lets the clusters and the pin-to-card link do the rest. Nothing is
+      // filtered, nothing is reordered, and the count does not move — so it is
+      // a button beside the filters rather than another exposed filter.
+      //
+      // REVEALED BY THE SCRIPT (hidden in the markup): geolocation needs JS and
+      // a secure context, and a control that cannot work is worse than none —
+      // the same rule the view toggle and the scroller arrows follow. Leaflet
+      // being blocked leaves it hidden too, since there would be no map to pan.
+      //
+      // Both refusals — no API, or permission denied — land in the band's own
+      // role="status" line, announced without stealing focus and visible to
+      // everyone else. The dot goes straight on the MAP, never into the cluster
+      // group (it would cluster with the generators), and is non-interactive:
+      // it marks, it opens nothing.
+      //
+      // Drupal: part of the same map behavior as the markers. No server piece.
+      var youMarker = null;
+      // From the DOCUMENT, not from `root`: the filter band is rendered inside
+      // the page header, above and outside [data-generator-directory]. Scoping
+      // these to the directory found nothing and left the button hidden.
+      var locateBtn = document.querySelector('[data-gen-locate]');
+      var locateNote = document.querySelector('[data-gen-locate-note]');
+
+      function sayLocation(text) {
+        if (!locateNote) return;
+        locateNote.textContent = text || '';
+        locateNote.hidden = !text;
+      }
+
+      if (locateBtn && window.L && 'geolocation' in navigator) {
+        locateBtn.hidden = false;
+        var locating = false;
+
+        locateBtn.addEventListener('click', function () {
+          if (locating) return;
+          locating = true;
+          locateBtn.setAttribute('aria-busy', 'true');
+          sayLocation('Finding your location\u2026');
+
+          if (!wide.matches) setView('map'); // it pans the map — show the map
+          initMap();
+
+          navigator.geolocation.getCurrentPosition(
+            function (pos) {
+              locating = false;
+              locateBtn.removeAttribute('aria-busy');
+              if (!map) { sayLocation('The map is unavailable.'); return; }
+
+              var here = [pos.coords.latitude, pos.coords.longitude];
+              if (youMarker) {
+                youMarker.setLatLng(here);
+              } else {
+                youMarker = L.marker(here, {
+                  icon: L.divIcon({ className: 'generator-directory__you', iconSize: [16, 16] }),
+                  interactive: false,
+                  keyboard: false
+                }).addTo(map);
+              }
+              map.invalidateSize();
+              map.setView(here, 9, { animate: !reduced.matches });
+              sayLocation('Map centred on your location.');
+            },
+            function () {
+              locating = false;
+              locateBtn.removeAttribute('aria-busy');
+              sayLocation('Location unavailable \u2014 check your browser\u2019s location permission.');
+            },
+            { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
+          );
+        });
       }
 
       // --- "View on map" on each card ---

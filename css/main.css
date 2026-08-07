@@ -4143,6 +4143,52 @@ body:has(.modal[open]) {
   gap: var(--space-2xs);
   max-width: 21rem;
 }
+.tool-filter__field--action {
+  flex: 0 0 auto;
+  align-self: flex-end;
+  max-width: none;
+}
+.tool-filter__locate {
+  appearance: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  gap: var(--space-2xs);
+  align-items: center;
+  height: 3em;
+  padding: 0 var(--space-s);
+  font-size: max(var(--step--1), 1rem);
+  font-weight: 500;
+  color: #006341;
+  cursor: pointer;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 38, 62, 0.5);
+  border-radius: 100em;
+  transition: background-color 0.2s ease-in-out;
+}
+.tool-filter__locate svg {
+  flex-shrink: 0;
+  width: 1.15em;
+  height: 1.15em;
+}
+.tool-filter__locate:hover {
+  background-color: #f3efe5;
+}
+.tool-filter__locate:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+.tool-filter__locate[aria-busy=true] {
+  cursor: progress;
+}
+.tool-filter__locate[hidden] {
+  display: none;
+}
 .tool-filter__label {
   font-size: var(--step--1);
   font-weight: 500;
@@ -4807,6 +4853,12 @@ body:has(.modal[open]) {
   outline: 3px solid #009f4d;
   outline-offset: 2px;
   outline-offset: 2px;
+}
+.generator-directory__you {
+  background-color: #00263e;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 }
 .generator-directory .leaflet-container {
   font-family: "tt-commons-pro", -apple-system, blinkmacsystemfont, "Segoe UI", arial, sans-serif;
@@ -6773,6 +6825,10 @@ body:has(.modal[open]) {
 .ds-map-marks .generator-directory__cluster {
   width: 40px;
   height: 40px;
+}
+.ds-map-marks .generator-directory__you {
+  width: 16px;
+  height: 16px;
 }
 
 .ds-map-popup {

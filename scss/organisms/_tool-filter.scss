@@ -118,6 +118,61 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     max-width: 21rem;
   }
 
+  // A field holding an ACTION rather than a control: "Find my location". The
+  // others are a label stacked over a control, so this one is bottom-aligned
+  // to land the button on the control row rather than up on the label line.
+  &__field--action {
+    flex: 0 0 auto;
+    align-self: flex-end;
+    max-width: none;
+  }
+
+  // The button itself, built to the same recipe as the multi-select trigger
+  // beside it: the pill, the height, the white ground, the boundary border
+  // (WCAG 1.4.11) — one control row, one look. Dark Green label and glyph, per
+  // the row's own rule that every word in it is Dark Green.
+  //
+  // hidden until the script proves geolocation and Leaflet are both there;
+  // the attribute is in the markup, so it never flashes.
+  &__locate {
+    @include button-reset;
+    display: inline-flex;
+    gap: var(--space-2xs);
+    align-items: center;
+    height: 3em; // the search input / trigger height
+    padding: 0 var(--space-s);
+    font-size: max(#{$font-size-sm}, 1rem); // the row's iOS-zoom floor
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    cursor: pointer;
+    background-color: $color-white;
+    border: 1px solid $color-ui-border-strong;
+    border-radius: $radius-pill;
+    @include transition(background-color);
+
+    svg {
+      flex-shrink: 0;
+      width: 1.15em;
+      height: 1.15em;
+    }
+
+    &:hover {
+      background-color: $color-tint-taupe;
+    }
+
+    &:focus-visible {
+      @include focus-ring($color-white);
+    }
+
+    &[aria-busy='true'] {
+      cursor: progress;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
   &__label {
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;

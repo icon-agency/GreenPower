@@ -1023,6 +1023,11 @@ $ds-swatches-alpha: (
     width: 40px;
     height: 40px;
   }
+
+  .generator-directory__you {
+    width: 16px; // divIcon iconSize, like the pin's
+    height: 16px;
+  }
 }
 
 // The popup, shown as flat markup rather than inside a Leaflet balloon. Leaflet

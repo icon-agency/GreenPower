@@ -555,6 +555,7 @@
             'Popup renders the compact view mode: image (if any), name, company, place line, type/capacity/CER, website (if any) — never the description',
             'Clicking a pin rings its card (<code>.is-highlighted</code>) and brings it level with the map\u2019s top; the ring follows the POPUP lifecycle, not the click, so opening a second pin swaps the ring rather than clearing it',
             'View on map opens the pin\u2019s popup and rings the card WITHOUT scrolling the list — that card is already under the reader\u2019s cursor',
+            '"Find my location": a button in the exposed filter row, AFTER the two filters — geolocates with the reader\u2019s permission and pans the map to them, dropping a non-interactive brand-blue dot OUTSIDE the cluster group. Refusal or failure lands in a visible role="status" message; the list is never narrowed or reordered by it. Needs a secure context',
             'Leaflet 1.9.4 + markercluster 1.5.3 self-hosted as a theme library — GovCMS commonly blocks third-party CDNs',
             'Production tile provider decided and licensed — OSM\u2019s tile policy covers development traffic only — and the attribution control is never removed',
             'Below lg the map is a toggled view; from lg it is a sticky column beside the list and the toggle is gone'
