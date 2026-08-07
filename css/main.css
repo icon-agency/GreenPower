@@ -4020,8 +4020,10 @@ body:has(.modal[open]) {
 }
 .contact-info__item {
   display: flex;
-  gap: var(--space-s);
+  flex-direction: column;
+  gap: var(--space-2xs);
   align-items: flex-start;
+  min-width: 0;
 }
 .contact-info__icon {
   display: grid;
@@ -4044,6 +4046,7 @@ body:has(.modal[open]) {
 }
 .contact-info__value {
   margin-top: var(--space-3xs);
+  overflow-wrap: anywhere;
 }
 .contact-info__value a {
   color: #006341;

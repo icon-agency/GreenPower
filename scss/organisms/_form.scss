@@ -285,10 +285,24 @@
   gap: var(--space-m);
   margin-top: var(--space-l);
 
+  // STACKED, not a row. The rail is the narrow half of the split, and beside
+  // the icon there was about 200px left for the value — less than the natural
+  // width of an address like greenpower.admin@planning.nsw.gov.au, so the item
+  // pushed past the rail and ran under the form panel next to it (measured: a
+  // 297px value in a 263px rail).
+  //
+  // Stacking hands the value the rail's full width. It is not the whole fix on
+  // its own — see __value — but it is the half that keeps the glyph from
+  // taking a third of the line it has to share.
   &__item {
     display: flex;
-    gap: var(--space-s);
+    flex-direction: column;
+    // A tighter step than the row's --space-s: that gap sat between a circle
+    // and a word reading across; this one sits under the circle, where the
+    // same distance reads as a break between two things rather than a join.
+    gap: var(--space-2xs);
     align-items: flex-start;
+    min-width: 0; // a flex item will not shrink past its content without this
   }
 
   &__icon {
@@ -315,6 +329,11 @@
 
   &__value {
     margin-top: var(--space-3xs);
+    // An email address is one unbreakable token, so it sets a min-content
+    // width the column cannot honour and overflows however much room it is
+    // given. Same treatment, and the same reason, as the CER codes in the
+    // generator card.
+    overflow-wrap: anywhere;
 
     // The design system's inline link, not a bare colour — same resting
     // underline and hover bar as prose (abstracts/_mixins.scss).
