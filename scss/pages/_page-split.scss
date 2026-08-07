@@ -220,25 +220,40 @@
 }
 
 .page-split__heading {
-  // ~24 characters of ITS OWN size (see the measure note above). Chosen with
-  // real margin: the wrap boundaries drift ~2ch across rendering scales
-  // (glyph-advance rounding — measured: "Renewable Electricity" needed >19ch
-  // at a 29px font but fit 18ch at 38px), so the narrow 3-line band can sit
-  // safely at one scale and flip at another. The 2-line break's band is wide
-  // open above ~21ch, so 24ch holds the same break at every size; the
-  // site-wide text-wrap: pretty guards the last line from orphaning.
-  max-width: 24ch;
   // Dark green like the other section-level headings (base h2 colour is the
   // blue $color-ui-heading; sections carry the brand green).
   color: $color-brand-dark-green;
+
+  // FROM sm, where the rail is a column of its own. ~24 characters of ITS OWN
+  // size (see the measure note above), chosen with real margin: the wrap
+  // boundaries drift ~2ch across rendering scales (glyph-advance rounding —
+  // measured: "Renewable Electricity" needed >19ch at a 29px font but fit 18ch
+  // at 38px), so the narrow 3-line band can sit safely at one scale and flip at
+  // another. The 2-line break's band is wide open above ~21ch, so 24ch holds
+  // the same break at every size; the site-wide text-wrap: pretty guards the
+  // last line from orphaning.
+  //
+  // Below sm there is no rail: the layout is stacked and .page-split has
+  // already capped the whole column at --measure. A second, narrower cap there
+  // only wraps the heading early and leaves the rest of the column empty beside
+  // it — the intro should read at the same width as the body under it, because
+  // stacked they are one column.
+  @include respond-to('sm') {
+    max-width: 24ch;
+  }
 }
 
 .page-split__lede {
-  // Its own font is the intro's body step, so this is the same measure the
-  // old rail cap gave it — now stated where it belongs.
-  max-width: 36ch;
   margin-top: var(--space-s);
   color: $color-ui-text;
+
+  // Same story as the heading: its own font is the intro's body step, so this
+  // is the measure the old rail cap gave it — but only once there IS a rail.
+  // Stacked, --measure is already the column's cap and this one just left a
+  // third of the line empty.
+  @include respond-to('sm') {
+    max-width: 36ch;
+  }
 }
 
 // The scrolling half: same section-scale rhythm as .page-content, so a block

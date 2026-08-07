@@ -5874,14 +5874,22 @@ body:has(.modal[open]) {
 }
 
 .page-split__heading {
-  max-width: 24ch;
   color: #006341;
+}
+@media (min-width: 640px) {
+  .page-split__heading {
+    max-width: 24ch;
+  }
 }
 
 .page-split__lede {
-  max-width: 36ch;
   margin-top: var(--space-s);
   color: #00263e;
+}
+@media (min-width: 640px) {
+  .page-split__lede {
+    max-width: 36ch;
+  }
 }
 
 .page-split__body {
