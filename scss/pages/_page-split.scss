@@ -256,16 +256,35 @@
   }
 }
 
+// Where the leftover track space goes once the body is capped at the measure.
+//
+// A stretched grid item with a max size start-aligns, so the slack used to sit
+// at the body's RIGHT — against the page edge, which read as the column having
+// stopped short rather than as a measure being held. End-aligned, the same
+// slack falls BETWEEN the two columns, where a gap already is: the rail keeps
+// its place, the body closes up to the container's right edge, and the measure
+// is unchanged.
+//
+// NOT on the article variant, and that exclusion is load-bearing. Its body is
+// aligned to the header band's copy edge by the track width itself
+// (calc(34cqi + --space-l), measured equal at 624.08), and that alignment is
+// only true while the body starts where its track does. Ending it there would
+// slide the article's prose out from under its own H1.
+@include respond-to('sm') {
+  .page-split:not(.page-split--article) > .page-split__body {
+    justify-self: end;
+  }
+}
+
 // The scrolling half: same section-scale rhythm as .page-content, so a block
 // reads identically in either layout.
 .page-split__body {
   // The single column's optimal-readability cap, applied to the same blocks.
   // Once the track outgrows the measure (from roughly ~940px viewport, which is
   // what the two-thirds ratio buys) the content holds at the measure and the
-  // leftover track space stays to its right — a stretched grid item with a max
-  // size start-aligns, no justify-self needed. On narrower screens the track is
-  // under the measure and this is inert; below sm the stacked .page-split is
-  // already capped at the measure.
+  // leftover track space has to go somewhere — see the justify-self rule below.
+  // On narrower screens the track is under the measure and this is inert; below
+  // sm the stacked .page-split is already capped at the measure.
   max-width: var(--measure);
 
   > * + * {
