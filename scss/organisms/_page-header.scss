@@ -271,7 +271,12 @@
   }
 
   &__intro {
-    max-width: 52ch;
+    // 72ch, matching the single reading column (pages/_content.scss). The band
+    // intro is a short summary rather than a passage, and it is capped again by
+    // the media reserve beside it from sm — so the cap only bites on the widest
+    // bands, where the shorter measure was leaving the summary narrower than the
+    // page it introduces.
+    max-width: 72ch;
     margin-top: var(--space-s);
     font-size: $font-size-base; // --step-0
 
