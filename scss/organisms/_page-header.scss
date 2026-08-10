@@ -361,6 +361,61 @@
     }
   }
 
+  // Seam cover — a 2px strip of the band colour straddling the media's INNER
+  // edge, painted above the media.
+  //
+  // The angle overlay paints the band colour over the photo's corner, and both
+  // are clipped by the media box — whose inner edge lands on a fractional
+  // device pixel at most widths (measured 548.297 at a 1597px viewport, dpr 2:
+  // 1096.59 device pixels). The photo is its own compositing layer — the
+  // parallax writes `translate` and the entrance a `scale` — so the two are
+  // rasterised separately and their antialiased edges do not cancel: green at
+  // 59% coverage over photo at 59% still leaves 59% × 41% ≈ a quarter of the
+  // photo showing. On a bright photo that reads as a hairline of the IMAGE
+  // down the seam, present at some widths and gone at others — the
+  // fractional-pixel signature.
+  //
+  // Nothing inside the media can fix it. Every child shares the media's clip,
+  // so any cover ends on the same fractional edge and blends the same way; the
+  // cover has to be a SIBLING of the media, wide enough that its own edges sit
+  // clear of the seam. 1px either side is past it at any device pixel ratio.
+  //
+  // It costs 1px of the media's inner edge, and that is invisible by
+  // construction: the strip is the colour of the panel it abuts, so the media
+  // simply reads 1px narrower — over a photo, over the imageless variant's
+  // flat shape, or over nothing at all (dark green on dark green).
+  //
+  // Paint order does the rest without a z-index: ::after is the inner's last
+  // child, so it sits over the media, while the news filter's pill list (which
+  // cancels the reserve and runs over the shape) carries z-index 1 and stays
+  // over the strip.
+  //
+  // The other half of this story is --media's own background-color above: that
+  // one stops the same clip edge blending image-to-nothing on the outside.
+  &__inner::after {
+    @include respond-to('sm') {
+      position: absolute;
+      inset-block: 0;
+      // The media is anchored to the band's right edge and is
+      // (--media-reserve − --space-l) wide, so its inner edge is that far in;
+      // back off 1px and cover 2.
+      right: calc(var(--media-reserve) - var(--space-l) - 1px);
+      width: 2px;
+      content: '';
+      background-color: $color-brand-dark-green;
+      pointer-events: none;
+    }
+  }
+
+  // Mirrored variant: the media is anchored left from md, so the inner edge —
+  // and the seam — is measured from the other side.
+  &--media-left &__inner::after {
+    @include respond-to('md') {
+      right: auto;
+      left: calc(var(--media-reserve) - var(--space-l) - 1px);
+    }
+  }
+
   // Imageless variant (field_header_image empty): the band keeps its angled
   // right-hand shape, filled flat in Primary Green instead of a photo — the
   // hero panel's shape colour, so it reads as a soft tonal step off the Dark

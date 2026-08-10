@@ -2845,6 +2845,23 @@ a:focus-visible {
     will-change: transform;
   }
 }
+@media (min-width: 640px) {
+  .page-header__inner::after {
+    position: absolute;
+    inset-block: 0;
+    right: calc(var(--media-reserve) - var(--space-l) - 1px);
+    width: 2px;
+    content: "";
+    background-color: #006341;
+    pointer-events: none;
+  }
+}
+@media (min-width: 960px) {
+  .page-header--media-left .page-header__inner::after {
+    right: auto;
+    left: calc(var(--media-reserve) - var(--space-l) - 1px);
+  }
+}
 .page-header__media--empty {
   display: none;
   background-color: #009f4d;
