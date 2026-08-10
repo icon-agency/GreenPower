@@ -53,7 +53,16 @@
 
   &__label {
     display: block;
-    margin-bottom: var(--space-2xs);
+    // The same step the filter's labels take above their controls — one rule
+    // in the system for "a label sits this far above the thing it names", so
+    // a form field and a filter field read alike. --space-2xs measured ~9px at
+    // every width, which held up on a desktop screen and crowded on a dense
+    // one (reported from an iPad).
+    //
+    // NOT the same as __help below, which keeps the tighter step on purpose:
+    // help text belongs TO its control and sits under it, so the pair should
+    // read as one unit rather than as two things needing separating.
+    margin-bottom: var(--space-xs);
     font-weight: $font-weight-medium;
   }
 

@@ -3833,7 +3833,7 @@ body:has(.modal[open]) {
 }
 .form__label {
   display: block;
-  margin-bottom: var(--space-2xs);
+  margin-bottom: var(--space-xs);
   font-weight: 500;
 }
 .form__input, .form__select, .form__textarea {
