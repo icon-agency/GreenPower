@@ -44,7 +44,16 @@
     // Tight frame so the tiles run close to the section edges (the same snug
     // image-to-edge feel as the feature banner); the heading keeps the
     // standard container gutter via its own padding below.
-    padding-block: var(--space-3xl);
+    //
+    // The block padding is .card-section's own top step (--space-xl), not the
+    // 3xl this band used to carry: on the home page the bento sits between two
+    // card sections, and at 3xl the space above "Our vital impact" was twice
+    // the space above the headings either side of it — the band read as though
+    // it had been pushed away from the page rather than set into it. Even at
+    // both ends, because unlike a card section this one has a BACKGROUND: its
+    // bottom edge is visible, so the space under the last tile is a frame the
+    // reader can see rather than the gap before the next section.
+    padding-block: var(--space-xl);
     padding-inline: var(--space-xs);
   }
 

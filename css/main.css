@@ -2248,7 +2248,7 @@ a:focus-visible {
 .bento-grid__inner {
   max-width: 1700px;
   margin-inline: auto;
-  padding-block: var(--space-3xl);
+  padding-block: var(--space-xl);
   padding-inline: var(--space-xs);
 }
 .bento-grid__heading {
