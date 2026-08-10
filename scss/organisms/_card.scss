@@ -857,6 +857,13 @@
   &__meta {
     @include flex-row(var(--space-s), center, space-between);
     position: relative; // hosts the divider highlight below
+    // …and being positioned, it paints ABOVE the title-link's ::after overlay,
+    // which made the one row that invites the click the one row that did not
+    // take it. The row is passive by design — a date, or "Read impact story",
+    // and an arrow — so it has no use for pointer events, and giving them up
+    // lets the card-wide link have the whole card. The hover highlight below
+    // is driven from the CARD's hover, not this row's, so it is unaffected.
+    pointer-events: none;
     // Above the rule the gap is the card's flex gap (--space-xs) whenever the
     // copy fills the card; below it, match that exactly so the rule sits even
     // between the body and the date. --space-2xs here left the date visibly
