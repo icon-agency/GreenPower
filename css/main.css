@@ -4506,6 +4506,9 @@ body:has(.modal[open]) {
 .generator-card.is-highlighted {
   box-shadow: inset 0 0 0 2px #006341;
 }
+.generator-card {
+  scroll-margin-top: calc(var(--header-height, 4.5rem) + var(--space-s));
+}
 .generator-card__head {
   display: flex;
   gap: var(--space-m);

@@ -2008,7 +2008,26 @@
 
       toggleButtons.forEach(function (b) {
         b.addEventListener('click', function () {
-          setView(b.getAttribute('data-gen-view'));
+          var view = b.getAttribute('data-gen-view');
+          setView(view);
+
+          // Coming BACK to the list, land on the row the map was about rather
+          // than at the top of it. Stacked, the two views occupy the same
+          // space, so switching swaps what is under the toolbar and leaves the
+          // page wherever the map had put it — which, for a reader who came
+          // from the ninth card, means starting again from the first.
+          //
+          // Only when there is a card to go back to: a reader who simply
+          // pressed Map, looked around and pressed List never chose a row, and
+          // the top of the list is the honest place for them.
+          //
+          // Next frame, because setView has just swapped which pane is in the
+          // flow and the list's geometry is not final until it has.
+          if (view === 'list' && !wide.matches && lastMapCard) {
+            window.requestAnimationFrame(function () {
+              anchorBelowBar(lastMapCard);
+            });
+          }
         });
       });
 
@@ -2043,9 +2062,17 @@
       // to them; VIEW ON MAP comes from the card itself, which is already
       // under their cursor -- scrolling it there would move the page out from
       // under the thing they just clicked.
+      // The card the map is currently ABOUT — set wherever a ring is, so it
+      // covers both routes onto the map (a card's own button and a pin click).
+      // Outlives the ring on purpose: the ring is the popup's state and clears
+      // with it, but "the row I was looking at" is still the right answer when
+      // the reader switches back to the list afterwards.
+      var lastMapCard = null;
+
       function ringCard(card) {
         cards.forEach(function (c) { c.classList.remove('is-highlighted'); });
         card.classList.add('is-highlighted');
+        lastMapCard = card;
       }
 
       // Bring the toolbar to the top so the toggles sit above the map — the
@@ -2069,7 +2096,7 @@
       // end) stops rather than loops. Each pass runs on scrollend, so it reads
       // as one continuous movement rather than a visible correction.
       var anchoring = false;
-      function anchorToolbar(toolbar, tries) {
+      function anchorBelowBar(target, tries) {
         if (tries === undefined) tries = 3;
 
         var landed = function () {
@@ -2077,11 +2104,11 @@
           var clear = bar && window.getComputedStyle(bar).position === 'fixed'
             ? bar.getBoundingClientRect().bottom
             : 0;
-          return toolbar.getBoundingClientRect().top >= clear - 1;
+          return target.getBoundingClientRect().top >= clear - 1;
         };
 
         var before = window.scrollY;
-        toolbar.scrollIntoView({
+        target.scrollIntoView({
           block: 'start',
           behavior: reduced.matches ? 'auto' : 'smooth'
         });
@@ -2093,7 +2120,7 @@
           anchoring = false;
           if (landed()) return;                    // the bar is clear of it
           if (window.scrollY === before) return;   // nothing moved — cannot do better
-          anchorToolbar(toolbar, tries - 1);
+          anchorBelowBar(target, tries - 1);
         };
         if ('onscrollend' in window) {
           window.addEventListener('scrollend', function () {
@@ -2305,7 +2332,7 @@
               // nothing new to look at, and moving the page would be the one
               // thing worse than not finding you.
               var toolbar = root.querySelector('.generator-directory__toolbar');
-              if (toolbar) anchorToolbar(toolbar);
+              if (toolbar) anchorBelowBar(toolbar);
             },
             function () {
               locating = false;
@@ -2368,7 +2395,7 @@
           // glide to the pin does the work instead.
           if (stacked) {
             var toolbar = root.querySelector('.generator-directory__toolbar');
-            if (toolbar) anchorToolbar(toolbar);
+            if (toolbar) anchorBelowBar(toolbar);
           }
         });
       });

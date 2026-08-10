@@ -52,6 +52,15 @@
     box-shadow: inset 0 0 0 2px $color-brand-dark-green;
   }
 
+  // Where a card comes to rest when the script scrolls to it — returning to
+  // the list from the map below lg, which lands on the row the map was about
+  // rather than at the top. The same clearance the directory's toolbar uses:
+  // the masthead's height plus a step, so the card is not tucked under a bar
+  // that reveals on the way. The script verifies the landing and re-reads this
+  // if the bar moved (see anchorBelowBar), which is what makes a fixed value
+  // safe here.
+  scroll-margin-top: calc(var(--header-height, 4.5rem) + var(--space-s));
+
   &__head {
     display: flex;
     gap: var(--space-m);
