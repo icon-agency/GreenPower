@@ -1785,6 +1785,22 @@ a:focus-visible {
   }
 }
 
+@media (min-width: 640px) {
+  .card-section--scroll-wide .card-section__grid {
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+    grid-template-columns: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin-inline: calc(-1 * var(--space-s-l));
+    padding-inline: var(--space-s-l);
+    scroll-padding-inline: var(--space-s-l);
+  }
+}
+.card-section--scroll-wide .card-section__grid > .card {
+  grid-column: auto;
+}
+
 .card {
   position: relative;
 }

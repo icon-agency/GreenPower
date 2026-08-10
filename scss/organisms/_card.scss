@@ -744,6 +744,58 @@
 }
 
 // -----------------------------------------------------------------------------
+// Wide swipe scroller — one long card per slide, at every width
+//
+// The impact rail. Same three stories, but each one the LONG story card the
+// impact listing uses (--featured --story: photograph beside the copy), filling
+// the scrollport one at a time rather than sharing it three ways. Three columns
+// gave each story a thumbnail and two lines of a paragraph written to be read;
+// one card at a time gives it the photograph and the whole paragraph, and the
+// arrows already in the section head do the paging.
+//
+// The plain --scroll row trades swiping for a 3-up grid at md. This one never
+// does: the card IS the row, so there is nothing to reflow into columns, and
+// the scrolling has to be re-stated here because the base modifier retires it.
+// Equal specificity, so this block wins on SOURCE ORDER — keep it after
+// .card-section--scroll.
+//
+// Below sm nothing here applies and the phone keeps exactly the row it had:
+// cards stacked (that is --featured's own rule) and swiped one at a time with
+// the next peeking past the edge.
+//
+// Composes with --scroll rather than replacing it — the section carries both,
+// so the arrows script, the scroll-region promotion and the entrance opt-outs
+// all keep matching on the one selector they already use.
+//
+// Drupal: the view's row style is unchanged; this is the wrapper class the
+// display adds when the rail is configured to lead with full-width stories.
+// -----------------------------------------------------------------------------
+.card-section--scroll-wide .card-section__grid {
+  @include respond-to('sm') {
+    grid-auto-flow: column;
+    grid-auto-columns: 100%; // one card, the full scrollport
+    grid-template-columns: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    // The bleed stays with the scrolling: at 100% a slide is the section's own
+    // content width, so it lines up under the heading, and the card arriving
+    // behind it crosses the gutter instead of appearing out of a hard edge.
+    margin-inline: calc(-1 * var(--space-s-l));
+    padding-inline: var(--space-s-l);
+    scroll-padding-inline: var(--space-s-l);
+  }
+
+  // The horizontal mixin spans its card across the row — right in a column
+  // grid, wrong in this one. With no explicit columns, `1 / -1` resolves back
+  // to line 1, which places every card in the SAME column, one per row: the
+  // scroller silently becomes a stack. The slides size themselves from
+  // grid-auto-columns; nothing here needs to span anything.
+  > .card {
+    grid-column: auto;
+  }
+}
+
+// -----------------------------------------------------------------------------
 // News pieces — optional card elements for listing pages (news landing)
 //
 // A news card IS a card: same tile, media bleed, hover lift and grid — these

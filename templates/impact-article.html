@@ -539,11 +539,12 @@
     </section>
 
     <!-- Impact stories — a 3-item view of other stories, excluding this node -->
-    <!-- Below md the row swipes instead of stacking: three columns will not fit,
-         and a card-by-card scroller keeps each teaser readable with the next
-         peeking past the edge. Inert from md, where the grid is the ordinary
-         count-adaptive one. -->
-    <section class="card-section card-section--scroll card-section--tight-top" aria-labelledby="impact-stories-title">
+    <!-- A swipe row at EVERY width (--scroll-wide), one long story card per
+         slide: the listing's card, photograph beside copy, rather than three
+         cropped teasers sharing the row. Below sm the long card stacks like
+         any card and the row keeps its peek-and-swipe, so the phone is
+         unchanged. The arrows in the head page it card by card. -->
+    <section class="card-section card-section--scroll card-section--scroll-wide card-section--tight-top" aria-labelledby="impact-stories-title">
       <div class="card-section__head">
         <h2 class="card-section__heading" id="impact-stories-title">Impact stories</h2>
         <div class="card-section__actions">
@@ -565,55 +566,55 @@
       </div>
       <div class="card-section__grid" data-animate-stagger>
 
-        <!-- Three other stories — the reference's closing rail. Same teaser
-             card as the news row, but filed by PRODUCT: the tag pill says what
-             the section is, the eyebrow names the product, and there is no
-             date row — an impact story is not dated news. "Impact story" is
-             the link row, as drawn.
+        <!-- Three other stories — the reference's closing rail, each the same
+             long card the impact listing uses (card--featured card--story: a
+             square photograph beside the copy). Filed by PRODUCT: the eyebrow
+             names the product and there is no date row — an impact story is
+             not dated news. No tag pill either: the section heading above
+             already says what these are, and the listing's card carries none.
+             The whole card is the link (the title carries it, stretched over
+             the tile), so the "Read impact story" row is passive.
              WIREFRAME FILLER: the reference reuses the White Whale photograph
              on the Laing O'Rourke card; the Laing photograph is used instead. -->
-        <article class="card card--news" data-animate>
+        <article class="card card--news card--featured card--story" data-animate>
           <div class="card__media">
             <img src="../assets/impact-stories/White-Whale-Coffee-Roasters.png" alt="A barista steaming milk at the espresso machine in a busy coffee roastery" width="900" height="900" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Impact stories</span>
           </div>
           <div class="card__content">
             <p class="card__eyebrow"><svg class="card__eyebrow-mark" viewBox="0 0 55 55" aria-hidden="true" focusable="false"><path d="M39.776 20.4735L27.0027 33.1287L18.5871 24.7908C16.5518 26.8072 16.5518 30.0855 18.5871 32.1019L27.0027 40.4397L41.6863 25.8918C42.1608 29.8257 40.8872 33.9204 37.8406 36.9388L27.0027 47.6766L16.1648 36.9388C10.8957 31.7184 10.8957 23.2692 16.1648 18.0488L27.0027 7.31107L37.4286 17.6406C39.4638 15.6242 39.4638 12.3459 37.4286 10.3295L27.0027 0L12.4689 14.3995C5.17703 21.6239 5.17703 33.3761 12.4689 40.6005L27.0027 55L41.5365 40.6005C48.0792 34.1183 48.741 23.9867 43.5468 16.7623L39.7884 20.4858L39.776 20.4735Z" fill="currentColor"/></svg> GreenPower</p>
-            <h3 class="card__title">White Whale Coffee Roasters</h3>
+            <h3 class="card__title"><a class="card__title-link" href="impact-article.html">White Whale Coffee Roasters</a></h3>
             <p class="card__body">White Whale Coffee Roasters switched to GreenPower to match its electricity use with renewable electricity and keep building on its sustainability work.</p>
-            <ul class="card__links">
-              <li><a class="card__link" href="#">Impact story <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            </ul>
+            <!-- PASSIVE, not a link: the title's stretched overlay already
+                 covers the tile, and a second anchor here would sit dead under
+                 it. Same anatomy as the news card's date row. -->
+            <p class="card__meta">Read impact story
+              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
         </article>
 
-        <article class="card card--news" data-animate>
+        <article class="card card--news card--featured card--story" data-animate>
           <div class="card__media">
             <img src="../assets/images/impact-Jemena-Malabar-Biomethane-Project.png" alt="Workers in high-visibility vests and hard hats walking through the Malabar biomethane facility" width="1200" height="1300" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Impact stories</span>
           </div>
           <div class="card__content">
             <p class="card__eyebrow"><svg class="card__eyebrow-mark" viewBox="0 0 55 55" aria-hidden="true" focusable="false"><path d="M39.776 20.4735L27.0027 33.1287L18.5871 24.7908C16.5518 26.8072 16.5518 30.0855 18.5871 32.1019L27.0027 40.4397L41.6863 25.8918C42.1608 29.8257 40.8872 33.9204 37.8406 36.9388L27.0027 47.6766L16.1648 36.9388C10.8957 31.7184 10.8957 23.2692 16.1648 18.0488L27.0027 7.31107L37.4286 17.6406C39.4638 15.6242 39.4638 12.3459 37.4286 10.3295L27.0027 0L12.4689 14.3995C5.17703 21.6239 5.17703 33.3761 12.4689 40.6005L27.0027 55L41.5365 40.6005C48.0792 34.1183 48.741 23.9867 43.5468 16.7623L39.7884 20.4858L39.776 20.4735Z" fill="currentColor"/></svg> GreenPower Renewable Gas Certification</p>
-            <h3 class="card__title">Jemena Malabar Biomethane Project</h3>
+            <h3 class="card__title"><a class="card__title-link" href="impact-article.html">Jemena Malabar Biomethane Project</a></h3>
             <p class="card__body">Jemena&rsquo;s Malabar Biomethane Project is helping build Australia&rsquo;s renewable gas market by producing biomethane and injecting it into the Sydney gas network.</p>
-            <ul class="card__links">
-              <li><a class="card__link" href="#">Impact story <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            </ul>
+            <p class="card__meta">Read impact story
+              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
         </article>
 
-        <article class="card card--news" data-animate>
+        <article class="card card--news card--featured card--story" data-animate>
           <div class="card__media">
             <img src="../assets/impact-stories/Laing-ORourke.png" alt="Aerial view of solar panels covering the roofs of a construction site&rsquo;s buildings" width="900" height="900" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Impact stories</span>
           </div>
           <div class="card__content">
             <p class="card__eyebrow"><svg class="card__eyebrow-mark" viewBox="0 0 55 55" aria-hidden="true" focusable="false"><path d="M39.776 20.4735L27.0027 33.1287L18.5871 24.7908C16.5518 26.8072 16.5518 30.0855 18.5871 32.1019L27.0027 40.4397L41.6863 25.8918C42.1608 29.8257 40.8872 33.9204 37.8406 36.9388L27.0027 47.6766L16.1648 36.9388C10.8957 31.7184 10.8957 23.2692 16.1648 18.0488L27.0027 7.31107L37.4286 17.6406C39.4638 15.6242 39.4638 12.3459 37.4286 10.3295L27.0027 0L12.4689 14.3995C5.17703 21.6239 5.17703 33.3761 12.4689 40.6005L27.0027 55L41.5365 40.6005C48.0792 34.1183 48.741 23.9867 43.5468 16.7623L39.7884 20.4858L39.776 20.4735Z" fill="currentColor"/></svg> GreenPower Decoupled</p>
-            <h3 class="card__title">Laing O&rsquo;Rourke</h3>
+            <h3 class="card__title"><a class="card__title-link" href="impact-article.html">Laing O&rsquo;Rourke</a></h3>
             <p class="card__body">Laing O&rsquo;Rourke uses GreenPower Decoupled to match electricity use across changing construction sites, offices and warehouses.</p>
-            <ul class="card__links">
-              <li><a class="card__link" href="#">Impact story <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            </ul>
+            <p class="card__meta">Read impact story
+              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
         </article>
       </div>
