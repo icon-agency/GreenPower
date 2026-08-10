@@ -5635,6 +5635,7 @@ body:has(.modal[open]) {
 }
 
 .page-content {
+  --measure: 72ch;
   max-width: var(--measure);
   margin-inline: auto;
 }

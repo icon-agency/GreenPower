@@ -43,6 +43,14 @@
 }
 
 .page-content {
+  // A WIDER column than the shared token: 72ch against the :root 52ch, set
+  // here so it applies to the single reading column only. Everything else that
+  // consumes --measure — the stacked page-split, the card's horizontal band,
+  // the contact prompt — keeps the 52ch above, which is the number the header
+  // note measured. A ch length resolves at the point of use, so this one is
+  // measured against .page-content's own body font.
+  --measure: 72ch;
+
   max-width: var(--measure);
   margin-inline: auto;
 
