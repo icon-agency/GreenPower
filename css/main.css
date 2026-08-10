@@ -3073,7 +3073,7 @@ a:focus-visible {
 }
 
 .accordion__panel {
-  padding: 0 var(--space-s) var(--space-s);
+  padding: var(--space-s);
 }
 
 .accordion__item::details-content {

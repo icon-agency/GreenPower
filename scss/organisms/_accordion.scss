@@ -152,7 +152,12 @@
 // body text colour (12.4:1 on the taupe pill), so an answer reads exactly like
 // prose anywhere else and its green links stay distinct from the copy.
 .accordion__panel {
-  padding: 0 var(--space-s) var(--space-s);
+  // Even on all four sides. The top used to be 0 because the bar and the panel
+  // shared one flat surface, so the bar's own bottom padding was the gap and a
+  // second one would have doubled it. Now the two have different fills and a
+  // hard edge between them, and the panel has to hold its own copy off that
+  // edge the way it holds it off the other three.
+  padding: var(--space-s);
 }
 
 // The open/close animation. ::details-content is the browser's own wrapper
