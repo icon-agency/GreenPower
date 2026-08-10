@@ -4985,76 +4985,50 @@ body:has(.modal[open]) {
   font-weight: 500;
   color: #006341;
 }
-.generator-popup__details {
+.generator-popup__action-row {
+  padding-top: var(--space-2xs);
   margin-top: var(--space-2xs);
   border-top: 1px solid rgba(0, 99, 65, 0.15);
 }
-.generator-popup__summary {
-  padding-top: var(--space-2xs);
-  font-weight: 500;
-  color: #006341;
+@media (min-width: 960px) {
+  .generator-popup__action-row {
+    display: none;
+  }
+}
+.generator-popup__action {
+  appearance: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
   cursor: pointer;
-  list-style: none;
-}
-.generator-popup__summary::-webkit-details-marker {
-  display: none;
-}
-.generator-popup__summary::before {
-  display: inline-block;
-  width: 0.4em;
-  height: 0.4em;
-  margin-right: var(--space-2xs);
-  vertical-align: 0.15em;
-  content: "";
-  border-right: 1.5px solid currentcolor;
-  border-bottom: 1.5px solid currentcolor;
-  transform: rotate(45deg);
-  transition: transform 0.2s ease-out;
-}
-.generator-popup__summary:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-}
-.generator-popup__summary:focus-visible {
-  outline: 3px solid #009f4d;
-  outline-offset: 2px;
-}
-.generator-popup__details[open] .generator-popup__summary::before {
-  transform: rotate(-135deg);
-}
-.generator-popup p.generator-popup__desc {
-  margin: var(--space-2xs) 0 0;
-  color: #00263e;
-}
-.generator-popup p.generator-popup__link {
-  margin: var(--space-2xs) 0 0;
-}
-.generator-popup p.generator-popup__link a {
   display: inline-flex;
   gap: var(--space-3xs);
   align-items: center;
+  font-size: inherit;
   font-weight: 500;
   color: #006341;
-  text-decoration: none;
+  transition: color 0.2s ease-in-out;
 }
-.generator-popup p.generator-popup__link a svg {
+.generator-popup__action svg {
   flex-shrink: 0;
-  width: 0.75em;
-  height: 0.75em;
-  opacity: 0.6;
+  width: 0.7em;
+  height: 0.7em;
   transition: transform 0.2s ease-out;
 }
-.generator-popup p.generator-popup__link a span {
+.generator-popup__action span {
   text-decoration: underline;
   text-underline-offset: 0.15em;
 }
-.generator-popup p.generator-popup__link a:hover {
+.generator-popup__action:hover {
   color: #00263e;
 }
-.generator-popup p.generator-popup__link a:hover svg {
-  transform: translate(var(--space-3xs), calc(-1 * var(--space-3xs)));
+.generator-popup__action:hover svg {
+  transform: translateX(var(--space-3xs));
 }
-.generator-popup p.generator-popup__link a:focus-visible {
+.generator-popup__action:focus-visible {
   outline: 3px solid #009f4d;
   outline-offset: 2px;
 }

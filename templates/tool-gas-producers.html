@@ -1590,61 +1590,43 @@
         });
         body.appendChild(meta);
 
-        // The rest of the record, behind a disclosure. The popup is a glance at
-        // a generator, and the description is the one field that can run to a
-        // paragraph — inlining it made every balloon tall enough to cover the
-        // map it is pinned to, whether or not the reader wanted the detail.
+        // The way from the pin to the record's own card. The description and
+        // the website used to sit here behind a disclosure, which made the
+        // balloon a second, smaller card; they belong to the card, and this
+        // takes the reader to it — filtered to this one generator, in the list
+        // view.
         //
-        // Native <details>, like the accordion: the browser owns the toggling,
-        // the keyboard operation and the expanded/collapsed state it reports,
-        // and with no JS at all the panel is simply open rather than broken.
-        //
-        // Omitted ENTIRELY when a record has neither a description nor a
-        // website, which is the empty-record case the listing already handles
-        // (card 2 on both directory pages) — a control that expands onto
-        // nothing is worse than no control.
-        var desc = card.querySelector('.generator-card__desc');
-        var site = card.querySelector('[data-gen-website]');
+        // Stacked widths only (CSS hides it from md, where the card is already
+        // beside the map and a pin click rings and scrolls it). A button, not a
+        // link: it acts on this page rather than navigating, the same call the
+        // card's own "View on map" makes in the other direction.
+        var actionRow = document.createElement('div');
+        actionRow.className = 'generator-popup__action-row';
 
-        if (desc || site) {
-          var details = document.createElement('details');
-          details.className = 'generator-popup__details';
+        var action = document.createElement('button');
+        action.type = 'button';
+        action.className = 'generator-popup__action';
 
-          var summary = document.createElement('summary');
-          summary.className = 'generator-popup__summary';
-          summary.textContent = 'View details';
-          details.appendChild(summary);
+        // The label in its own span so the underline sits under the WORDS —
+        // on the button it would run under the glyph too.
+        var actionLabel = document.createElement('span');
+        actionLabel.textContent = 'View details';
+        action.appendChild(actionLabel);
 
-          if (desc) {
-            details.appendChild(p('generator-popup__desc', desc.textContent.trim()));
-          }
+        // …and the name after it, for a screen reader's control list, where
+        // twenty identical "View details" buttons say nothing (WCAG 2.4.4).
+        var actionFor = document.createElement('span');
+        actionFor.className = 'visually-hidden';
+        actionFor.textContent = ' — ' + text('.generator-card__title');
+        action.appendChild(actionFor);
 
-          if (site) {
-            var wrap = document.createElement('p');
-            wrap.className = 'generator-popup__link';
-            var a = document.createElement('a');
-            a.href = site.getAttribute('href');
+        action.insertAdjacentHTML('beforeend',
+          '<svg viewBox="0 0 14 10" aria-hidden="true" focusable="false">' +
+          '<path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
 
-            // The label in its own span so the underline sits under the WORDS.
-            // On the anchor it would run under the glyph too, which reads as a
-            // box with a line through it rather than a link with a mark beside
-            // it.
-            var label = document.createElement('span');
-            label.textContent = 'Visit website';
-            a.appendChild(label);
-
-            // The card's own leaves-this-page glyph, CLONED rather than
-            // authored again: the popup is built from the card, and a second
-            // copy of the path data is a second thing to keep in step.
-            var glyph = site.querySelector('svg');
-            if (glyph) a.appendChild(glyph.cloneNode(true));
-
-            wrap.appendChild(a);
-            details.appendChild(wrap);
-          }
-
-          body.appendChild(details);
-        }
+        action.addEventListener('click', function () { showRecord(card); });
+        actionRow.appendChild(action);
+        body.appendChild(actionRow);
 
         root.appendChild(body);
         return root;
@@ -1711,17 +1693,6 @@
           if (entry && entry.card.classList.contains('is-highlighted')) {
             entry.card.classList.remove('is-highlighted');
           }
-
-          // Collapse the disclosure behind it. Leaflet builds each popup's
-          // content ONCE and reuses that element every time the popup opens,
-          // so an expanded panel would still be expanded on the next open --
-          // while a different pin, with its own element, opened collapsed. Two
-          // popups in different states for no reason the reader chose. Every
-          // popup now opens the same way.
-          var details = event.popup.getElement()
-            ? event.popup.getElement().querySelector('.generator-popup__details')
-            : null;
-          if (details) details.open = false;
         });
 
         entries = cards.map(function (card) {
@@ -1740,26 +1711,10 @@
             }
           );
 
-          // Leaflet measures a popup when it OPENS and anchors its bottom edge
-          // to the pin, so a disclosure that expands afterwards grows the
-          // balloon UPWARD off the top of the map — measured at -68px against a
-          // map top of 29px with only 150px of extra content. update() re-runs
-          // the layout, re-anchors, and (autoPan being on) pans the map so the
-          // opened popup fits.
-          //
-          // Bound here, once per marker, rather than in the popupopen handler:
-          // the content element is built once and reused for the life of the
-          // marker, so a listener added on every open would stack up.
-          var popupContent = popupFor(card);
-          var popupDetails = popupContent.querySelector('.generator-popup__details');
-          if (popupDetails) {
-            popupDetails.addEventListener('toggle', function () {
-              var popup = marker.getPopup();
-              if (popup && popup.isOpen()) popup.update();
-            });
-          }
-
-          marker.bindPopup(popupContent, {
+          // Built once per marker and reused for the life of it — Leaflet keeps
+          // the element rather than re-rendering, so the click handler inside
+          // it is bound once too.
+          marker.bindPopup(popupFor(card), {
             // A fixed width so the photo's height is deterministic — the
             // close button is stepped past it in CSS (--popup-media-h).
             minWidth: 252,
@@ -2363,6 +2318,22 @@
         return li;
       }
 
+      // The record chosen from the MAP, or null. A filter like any other — it
+      // narrows the same listing, draws its own chip and clears with the rest —
+      // but it filters on IDENTITY rather than on text: the popup's "View
+      // details" hands over the card itself.
+      //
+      // Deliberately not a search string. The search box matches a substring of
+      // name + company + place, so filtering by the name would also return
+      // "Ararat Solar Farm 2" for "Ararat Solar Farm", and any record whose
+      // company or place happened to contain the words. "Showing 1" has to be
+      // true by construction, not by luck.
+      //
+      // Drupal: the view's exposed filter on the node id (the CER code is the
+      // stable public identifier if the URL should carry it), NOT a title
+      // search — same reason.
+      var pinnedCard = null;
+
       function apply() {
         var q = (search.value || '').trim().toLowerCase();
         // One array of ticked values per group, in the DOM order of the
@@ -2392,7 +2363,8 @@
             return p.boxes.some(function (b) {
               return card.getAttribute('data-' + p.group.key) === b.value;
             });
-          }) && (!q || haystack.indexOf(q) !== -1);
+          }) && (!q || haystack.indexOf(q) !== -1) &&
+            (!pinnedCard || card === pinnedCard);
           card.style.display = match ? '' : 'none';
           if (match) shown += 1;
         });
@@ -2401,7 +2373,20 @@
         // "Victoria + New South Wales + Solar" is three removable chips, and
         // each one unticks its own box.
         chipsEl.textContent = '';
-        var any = !!q;
+        var any = !!q || !!pinnedCard;
+
+        // First, because it is the reason the listing is down to one row —
+        // the reader should meet the explanation before the filters they set
+        // themselves. Removing it drops them back into exactly the search and
+        // tick-boxes they had before the pin, which are untouched.
+        if (pinnedCard) {
+          var name = pinnedCard.querySelector('.generator-card__title').textContent.trim();
+          chipsEl.appendChild(chip(name, name + ', selected from the map', function () {
+            pinnedCard = null;
+            apply();
+          }));
+        }
+
         picked.forEach(function (p) {
           p.boxes.forEach(function (box) {
             any = true;
@@ -2427,6 +2412,7 @@
           clear.textContent = 'Clear all';
           clear.addEventListener('click', function () {
             search.value = '';
+            pinnedCard = null;
             groups.forEach(function (group) {
               group.boxes.forEach(function (box) { box.checked = false; });
             });
@@ -2444,6 +2430,51 @@
         emptyEl.hidden = shown > 0;
         root.classList.toggle('is-empty', shown === 0); // hides the pager (CSS)
         syncMarkers();
+      }
+
+      // --- Map pin -> the record, in the list ---
+      //
+      // What the popup's "View details" does, in one place: narrow the listing
+      // to this generator, show the list, and put the reader on the card.
+      //
+      // The order matters. apply() first, while the marker is still in the
+      // cluster; then close the balloon — we are leaving the map, and a popup
+      // left open over a pane that is about to be hidden is state nobody chose.
+      // The ring goes on AFTER the close, because popupclose clears the ring of
+      // the card its popup owned and would otherwise wipe the one just set.
+      //
+      // Focus follows the view: the pane under the reader changes, so a
+      // keyboard or screen-reader user has to arrive somewhere, and the card is
+      // the thing they asked for. tabindex is added for the move and taken off
+      // again on blur, so the listing does not collect twenty tab stops that
+      // only ever mattered once. preventScroll because the anchoring below owns
+      // the scrolling — the two would fight, and the retry loop would win late
+      // and visibly.
+      function showRecord(card) {
+        pinnedCard = card;
+        apply();
+
+        if (map) map.closePopup();
+        ringCard(card);
+
+        // Stacked only: from md the list is already beside the map, the pin
+        // click has rung and scrolled the card, and there is no view to swap.
+        if (!wide.matches) {
+          setView('list');
+          // Next frame — setView has just swapped which pane is in the flow,
+          // and the toolbar's geometry is not final until it has.
+          window.requestAnimationFrame(function () {
+            var toolbar = root.querySelector('.generator-directory__toolbar');
+            if (toolbar) anchorBelowBar(toolbar);
+          });
+        }
+
+        card.setAttribute('tabindex', '-1');
+        card.addEventListener('blur', function drop() {
+          card.removeAttribute('tabindex');
+          card.removeEventListener('blur', drop);
+        });
+        card.focus({ preventScroll: true });
       }
 
       // Ticking a box filters IMMEDIATELY — a checkbox is a committed choice,

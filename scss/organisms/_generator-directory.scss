@@ -409,11 +409,16 @@
 }
 
 // -----------------------------------------------------------------------------
-// Marker popup — a miniature of the card it stands for
+// Marker popup — a label on a pin, not a copy of the card
 //
-// Photo across the top, then the same record the card carries: name, operator,
-// place, the three facts, and the website link. Built by the directory script
-// FROM the card, so the two can never disagree.
+// Photo across the top, then enough of the record to recognise it: name,
+// operator, place and the three facts. Built by the directory script FROM the
+// card, so the two can never disagree.
+//
+// The description and the website used to sit here behind a "View details"
+// disclosure, which made the balloon a second, smaller card. They live on the
+// card alone now, and stacked widths get a control that goes there — see
+// __action.
 //
 // Its own block rather than directory elements: it renders inside Leaflet's
 // own popup DOM, and its pieces belong to the popup, not to the page layout.
@@ -424,15 +429,15 @@
   // It sat a step lower for a while, because the balloon is a fixed 252px and
   // the DESCRIPTION was inline: at the card's size a long record cost three
   // lines for a facility name and two for an address. That constraint is gone —
-  // the description now sits behind "View details", so the collapsed balloon is
-  // a name, an address and three facts. At --step--2 that read as fine print
-  // rather than as the record it is.
+  // the description is the card's now — so the balloon is a name, an address
+  // and three facts. At --step--2 that read as fine print rather than as the
+  // record it is.
   //
   // There is no step between the two: the scale is a generated Utopia ramp
   // (see tokens/_typography.scss) and --step--2 to --step--1 is one rung. Rather
   // than deviate the token — it is shared with the tag pills, the design system
-  // and the backlog page — the popup takes the rung and lets the disclosure keep
-  // the height down.
+  // and the backlog page — the popup takes the rung, which the shorter content
+  // now affords.
   font-size: $font-size-sm;
 
   &__media {
@@ -501,131 +506,78 @@
     }
   }
 
-  // --- The disclosure: description and website, behind "View details" ---
+  // --- "View details": the way from a pin to the record's own card ---
   //
-  // The popup is a glance at a record; this is where the rest of it lives.
+  // The popup used to carry the description and the website behind a
+  // disclosure, which made it a second, smaller copy of the card. It is a
+  // LABEL ON A PIN now — name, address, three facts — and the card remains the
+  // record. This control is the crossing: it filters the listing to this one
+  // generator and shows the list.
   //
-  // On the popup's OWN rhythm: --space-2xs above the rule, matching the step
-  // between the title and the address and between the address and the facts,
-  // and the same again below it from the summary's padding — so the rule sits
-  // centred in a gap the balloon already uses rather than opening a hole. It
-  // inherited --space-m from the lone website link this replaced, which put
-  // 47.5px between the facts and the control against a 12px rhythm either
-  // side of it.
+  // A button, not a link: it acts on this page (switches the view and applies a
+  // filter) rather than navigating, which is the same call the card's own
+  // "View on map" makes in the other direction. Styled at link weight all the
+  // same — a 252px balloon has no room for a second button shape beside the
+  // close.
   //
-  // No max-height, deliberately: the balloon grows to its content and the map
-  // pans to fit (the script calls popup.update() on toggle, which re-anchors
-  // and triggers Leaflet's autoPan). A cap with an inner scrollbar was the
-  // alternative and was rejected — a scroll region inside a 252px balloon that
-  // is itself inside a scrolling map is two nested scrollers a reader has to
-  // tell apart.
-  &__details {
+  // Stacked widths only. From md the list sits beside the map and clicking a
+  // pin already rings and scrolls its card, so the control would be a button
+  // whose work is already done; hidden in CSS rather than built conditionally,
+  // so a resize across the split is right without rebuilding every popup.
+  //
+  // On the popup's OWN rhythm: --space-2xs above the rule and the same again
+  // below it, matching the step between the title and the address and between
+  // the address and the facts — the rule sits centred in a gap the balloon
+  // already uses rather than opening a hole.
+  // The rule belongs to the row, not to the control: the button is inline-flex
+  // (it has a glyph to align), so a border on it would draw only as wide as
+  // "View details". A <div>, like __meta — Leaflet's own
+  // `.leaflet-popup-content p { margin: 18px 0 }` never reaches one.
+  &__action-row {
+    padding-top: var(--space-2xs);
     margin-top: var(--space-2xs);
     border-top: 1px solid rgba($color-brand-dark-green, 0.15);
-  }
 
-  // The control. Styled as the link it replaces rather than as a button: it
-  // reveals text in place, which is what an in-page link does, and the popup
-  // has no room for a second button weight beside the close.
-  &__summary {
-    padding-top: var(--space-2xs);
-    font-weight: $font-weight-medium;
-    color: $color-brand-dark-green;
-    cursor: pointer;
-    // Drops the default disclosure triangle everywhere but WebKit…
-    list-style: none;
-
-    // …which needs its own reset (the accordion's pairing).
-    &::-webkit-details-marker {
+    @include respond-to('md') {
       display: none;
     }
+  }
 
-    // The affordance the triangle carried, in the system's own vocabulary: a
-    // chevron that turns to point down once the panel is open, matching the
-    // multi-select trigger in the filter bar above the map.
-    //
-    // LEADING the label, where the native marker it replaces sat — so the
-    // control keeps the shape a disclosure has everywhere else, and the label
-    // starts on the same line as the text above it rather than after a glyph.
-    &::before {
-      display: inline-block;
-      width: 0.4em;
-      height: 0.4em;
-      margin-right: var(--space-2xs);
-      vertical-align: 0.15em;
-      content: '';
-      border-right: 1.5px solid currentcolor;
-      border-bottom: 1.5px solid currentcolor;
-      transform: rotate(45deg);
+  &__action {
+    @include button-reset;
+    display: inline-flex;
+    gap: var(--space-3xs);
+    align-items: center;
+    font-size: inherit;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    @include transition(color);
+
+    // The arrow the card links carry, at the label's own text step and the
+    // --space-3xs an icon wants beside words. It points the way the control
+    // goes; the hover nudge is the card-link convention.
+    svg {
+      flex-shrink: 0;
+      width: 0.7em;
+      height: 0.7em;
       @include transition(transform, 0.2s, ease-out);
     }
 
-    &:hover {
+    span {
       text-decoration: underline;
       text-underline-offset: 0.15em;
     }
 
+    &:hover {
+      color: $color-brand-blue; // green text on this tint fails AA
+
+      svg {
+        transform: translateX(var(--space-3xs));
+      }
+    }
+
     &:focus-visible {
       @include focus-ring;
-    }
-  }
-
-  &__details[open] &__summary::before {
-    transform: rotate(-135deg);
-  }
-
-  // The description, which the card carries and the collapsed popup does not.
-  // Element-qualified like every other row here, to outrank Leaflet's own
-  // `.leaflet-popup-content p { margin: 18px 0 }`.
-  p#{&}__desc {
-    margin: var(--space-2xs) 0 0;
-    color: $color-ui-text;
-  }
-
-  // Inside the disclosure now. Keeps its step off whatever precedes it —
-  // the description when there is one, the summary when there is not.
-  p#{&}__link {
-    margin: var(--space-2xs) 0 0;
-
-    a {
-      display: inline-flex;
-      gap: var(--space-3xs);
-      align-items: center;
-      font-weight: $font-weight-medium;
-      color: $color-brand-dark-green;
-      // The rule moves to the LABEL below — on the anchor it would run under
-      // the glyph as well.
-      text-decoration: none;
-
-      // The card's external-link treatment, restated for this surface: the
-      // glyph rides the label's own text step, sits at the same --space-3xs
-      // an icon wants beside words (an icon carries whitespace inside its own
-      // box, so the gap that suits two runs of text leaves a hole beside one),
-      // and nudges up-and-right on hover — the direction it already points.
-      svg {
-        flex-shrink: 0;
-        width: 0.75em;
-        height: 0.75em;
-        opacity: 0.6;
-        @include transition(transform, 0.2s, ease-out);
-      }
-
-      span {
-        text-decoration: underline;
-        text-underline-offset: 0.15em;
-      }
-
-      &:hover {
-        color: $color-brand-blue;
-
-        svg {
-          transform: translate(var(--space-3xs), calc(-1 * var(--space-3xs)));
-        }
-      }
-
-      &:focus-visible {
-        @include focus-ring;
-      }
     }
   }
 }

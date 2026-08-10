@@ -1807,7 +1807,8 @@
 
         <div class="ds-group">
           <p class="ds-group__title">Marker popup</p>
-          <p class="ds-group__note">Built from the card, not authored twice: the same title, company, place and meta rows, the optional photo, and &mdash; behind <strong>View details</strong> &mdash; the description and website link. Leaflet fixes the balloon at 252px so the photo&rsquo;s height is deterministic, and the title reserves room at its right for the close button that sits on that line. Every text row is a <code class="ds-code">&lt;p&gt;</code> qualified by element as well as class &mdash; Leaflet ships <code class="ds-code">.leaflet-popup-content p { margin: 18px 0 }</code>, which outranks a plain class, so the rhythm has to win on specificity rather than by resetting broadly.</p>
+          <p class="ds-group__note">A label on a pin, not a second copy of the card: built from the card, so the same title, company, place, meta rows and optional photo &mdash; and nothing else. The description and website live on the card alone. Leaflet fixes the balloon at 252px so the photo&rsquo;s height is deterministic, and the title reserves room at its right for the close button that sits on that line. Every text row is a <code class="ds-code">&lt;p&gt;</code> qualified by element as well as class &mdash; Leaflet ships <code class="ds-code">.leaflet-popup-content p { margin: 18px 0 }</code>, which outranks a plain class, so the rhythm has to win on specificity rather than by resetting broadly.</p>
+          <p class="ds-group__note"><strong>View details</strong> is the crossing to the record: it filters the listing to that one generator, shows the list view and puts focus on the card. It filters on the record&rsquo;s IDENTITY, not on its name &mdash; the search box matches a substring of name, company and place, so a name filter would return &ldquo;Ararat Solar Farm 2&rdquo; for &ldquo;Ararat Solar Farm&rdquo;. The chip it draws sits alongside whatever the reader had already filtered by, and removing it puts them back exactly where they were. Stacked widths only: from <code class="ds-code">md</code> the card is already beside the map and a pin click rings it, so the control is hidden. Drupal: an exposed filter on the node id, not a title search.</p>
 
           <div class="ds-demo">
             <div class="ds-map-popup">
@@ -1822,11 +1823,13 @@
                     <p class="generator-popup__meta-row"><strong>Capacity:</strong> 000 MW</p>
                     <p class="generator-popup__meta-row"><strong>CER code:</strong> field_cer_code</p>
                   </div>
-                  <details class="generator-popup__details">
-                    <summary class="generator-popup__summary">View details</summary>
-                    <p class="generator-popup__desc">Description &mdash; field_gen_summary, optional. The one field that can run to a paragraph, which is why it sits behind the disclosure rather than in the balloon by default.</p>
-                    <p class="generator-popup__link"><a href="#generator-map"><span>Visit website</span><svg viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
-                  </details>
+                  <!-- Hidden from md by the component's own rule, so this
+                       specimen shows it only in a narrow pane — which is
+                       honest: the control exists where the list and map are
+                       separate views. -->
+                  <div class="generator-popup__action-row">
+                    <button class="generator-popup__action" type="button"><span>View details</span><span class="visually-hidden"> &mdash; generator name</span><svg viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1834,10 +1837,11 @@
         </div>
 
         <div class="ds-group">
-          <p class="ds-group__title">&ldquo;View details&rdquo; &mdash; the rest of the record</p>
-          <p class="ds-group__note">A native <code class="ds-code">&lt;details&gt;</code>, like the accordion: the browser owns the toggling, the keyboard operation and the state it reports, and with no JS the panel is simply open rather than broken. Closed by default, because the popup is a <em>glance</em> at a record &mdash; the description is the one field that can run to a paragraph, and inlining it made every balloon tall enough to cover the map it is pinned to.</p>
-          <p class="ds-group__note">Two behaviours worth keeping on the port. <strong>Leaflet must be told when it resizes:</strong> it measures a popup on open and anchors its BOTTOM edge to the pin, so a panel expanding afterwards grows the balloon upward &mdash; measured, 150px of extra content put its top 68px above the map&rsquo;s. The script calls <code class="ds-code">popup.update()</code> on <code class="ds-code">toggle</code>, which re-anchors and lets autoPan bring the map to fit; there is deliberately no max-height, so the balloon grows to its content. <strong>And it collapses on close:</strong> Leaflet builds each popup&rsquo;s content once and reuses it, so without a reset an expanded panel would reopen expanded while a different pin opened collapsed &mdash; two popups in different states for no reason the reader chose.</p>
-          <p class="ds-group__note">Omitted entirely when a record has neither a description nor a website &mdash; the empty-record case both directory pages carry as card 2. A control that expands onto nothing is worse than no control.</p>
+          <p class="ds-group__title">&ldquo;View details&rdquo; &mdash; the pin&rsquo;s way back to the record</p>
+          <p class="ds-group__note">This was a native <code class="ds-code">&lt;details&gt;</code> holding the description and the website, and it worked &mdash; but it made the balloon a second, smaller card, with the same copy in two places and a paragraph of prose to read at 252px over the map it was pinned to. The record has one home now. The control crosses to it: it applies a record filter, switches to the list and moves focus to the card, where the description, the website and everything else already live.</p>
+          <p class="ds-group__note"><strong>A filter, not a search.</strong> The chip carries the generator&rsquo;s name, but the filter behind it is the record&rsquo;s identity &mdash; the search box matches a substring of name, company and place, so filtering by the words would also return &ldquo;Ararat Solar Farm 2&rdquo; for &ldquo;Ararat Solar Farm&rdquo;, and this listing carries both an Ararat Wind Farm and an Ararat Solar Farm. &ldquo;Showing 1&rdquo; has to be true by construction. In Drupal that is an exposed filter on the node id, with the CER code as the stable identifier if the URL should carry it.</p>
+          <p class="ds-group__note"><strong>It adds to the reader&rsquo;s filters rather than replacing them.</strong> Someone who has narrowed to Victoria and tapped a pin gets the record chip <em>beside</em> their VIC chip; removing it drops them back into the two results they had, with the tick-boxes and the search box untouched. <strong>Clear all</strong> takes it with everything else.</p>
+          <p class="ds-group__note">Three things the port should keep. The popup <strong>closes</strong> on activation &mdash; a balloon left open over a pane about to be hidden is state nobody chose. The ring goes on <em>after</em> that close, because <code class="ds-code">popupclose</code> clears the ring belonging to its own card and would otherwise wipe the one just set. And <strong>focus moves to the card</strong> (a temporary <code class="ds-code">tabindex="-1"</code>, removed on blur) because the pane under the reader changes: a keyboard or screen-reader user has to arrive somewhere, and the count region announces the new total on its own.</p>
         </div>
 
         <div class="ds-group">
