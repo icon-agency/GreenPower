@@ -4140,7 +4140,7 @@ body:has(.modal[open]) {
   display: flex;
   flex: 1 1 14rem;
   flex-direction: column;
-  gap: var(--space-2xs);
+  gap: var(--space-xs);
   max-width: 21rem;
 }
 .tool-filter__field--action {

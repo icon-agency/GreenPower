@@ -114,7 +114,18 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     display: flex;
     flex: 1 1 14rem;
     flex-direction: column;
-    gap: var(--space-2xs);
+    // The label's separation from its control. --space-xs, not --space-2xs:
+    // the smaller step measured 9.2px at iPad width, and at that size it
+    // stopped reading as separation and started reading as crowding — the
+    // label sat on top of the pills. Reported from a real iPad, and reproduced
+    // locally at 1024x1366.
+    //
+    // The token barely moves with the viewport (9.22px at 1024 against 9.52px
+    // at 1183), so this was never a fluid-scaling artefact or a stale build —
+    // the published CSS was byte-identical on the rules involved. It was the
+    // value itself, tight at every width and merely most obvious on a dense
+    // screen.
+    gap: var(--space-xs);
     max-width: 21rem;
   }
 
