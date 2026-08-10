@@ -1755,6 +1755,10 @@ a:focus-visible {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+}
+.card-section--scroll .card-section__grid::-webkit-scrollbar {
+  display: none;
 }
 .card-section--scroll .card-section__grid > .card {
   scroll-snap-align: start;

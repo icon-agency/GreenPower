@@ -696,6 +696,27 @@
   // page's back/forward gesture (the logo scroller's rule).
   overscroll-behavior-inline: contain;
 
+  // Hide the BAR, not the scrolling. Nothing here depends on it: the next
+  // card's visible slice is the affordance (that is what the bleed above is
+  // for), the arrows page it, touch and trackpad scroll it, and the shared
+  // script promotes the row to a focusable region so the keyboard can too.
+  //
+  // Worth doing rather than cosmetic: macOS shows an overlay bar that fades,
+  // but on Windows and Linux this is a permanent grey rail sitting across the
+  // foot of every card and taking real layout width from the row. The bar was
+  // also landing ON the card's own surface, under the ruled "Read impact
+  // story" line, which read as part of the card rather than as chrome.
+  //
+  // Both properties: scrollbar-width is the standard one (Firefox, Chromium
+  // 121+), the pseudo-element covers Safari and older Chromium. Neither
+  // affects scrollWidth/clientWidth, so the overflow tests in the arrow and
+  // scroll-region scripts are unchanged.
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   > .card {
     scroll-snap-align: start;
   }
