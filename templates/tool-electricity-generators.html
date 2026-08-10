@@ -1688,7 +1688,13 @@
       var paneEl = root.querySelector('.generator-directory__map-pane');
       var layoutEl = root.querySelector('.generator-directory__layout');
       var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-      var wide = window.matchMedia('(min-width: 1200px)'); // respond-to('lg')
+      // MUST track the directory's own split (respond-to('md') in
+      // _generator-directory.scss). Everything the script does about layout
+      // hangs off this: whether the toggle means anything, whether "View on
+      // map" has to switch views first, and whether a pin click scrolls the
+      // list. If the two drift apart the script reasons about a layout the
+      // page is not in.
+      var wide = window.matchMedia('(min-width: 960px)'); // respond-to('md')
       var map = null;
       var cluster = null; // the markercluster group every marker lives in
       var entries = []; // { card, marker } pairs, built once at init

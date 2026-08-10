@@ -96,7 +96,7 @@
     display: inline-flex;
     gap: var(--space-2xs);
 
-    @include respond-to('lg') {
+    @include respond-to('md') {
       display: none; // both columns fit — nothing to toggle
     }
   }
@@ -151,10 +151,19 @@
     gap: var(--directory-gutter);
     align-items: start; // load-bearing for the sticky map (page-split's rule)
 
-    // Equal halves from lg: the list and the map are peers here — neither is
-    // the subordinate of the other — and the card column reads comfortably at
-    // half a capped page. minmax(0,…) per LESSONS.md.
-    @include respond-to('lg') {
+    // Equal halves from md: the list and the map are peers here — neither is
+    // the subordinate of the other.
+    //
+    // md, not lg. The split used to wait for 1200px on the assumption that a
+    // half column could not carry a card below it. Measured, that was not the
+    // column's fault: at 960 a half column is 453px, which is ample — what did
+    // not fit was the card's THUMBNAIL, which steps up to 12.5rem at md for a
+    // full-width card and left the name, operator and place 171px to share.
+    // Returning the photo to its 10rem floor inside the split (see
+    // _generator-card.scss) buys that back, so the map now arrives 240px of
+    // viewport earlier — where readers plainly have the room for it.
+    // minmax(0,…) per LESSONS.md.
+    @include respond-to('md') {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
@@ -216,7 +225,7 @@
   // the class may still be set when the viewport crosses up, and its
   // display:none on __results would otherwise outrank these (three classes
   // against two).
-  @include respond-to('lg') {
+  @include respond-to('md') {
     &__results,
     &.is-map-view &__results {
       display: block;
@@ -623,7 +632,7 @@
 // the top takes, so the bottom inset holds; a ResizeObserver in the template
 // script has Leaflet re-measure through the ease.
 .site-header.is-pinned.is-shown ~ main .generator-directory__map-pane {
-  @include respond-to('lg') {
+  @include respond-to('md') {
     top: calc(var(--header-height, 4.5rem) + var(--space-xs));
     height: calc(100dvh - var(--header-height, 4.5rem) - 2 * var(--space-xs));
   }

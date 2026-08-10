@@ -147,6 +147,27 @@
     @include respond-to('md') {
       width: 12.5rem;
     }
+
+    // …but back to the floor through the NARROW half of the directory's split.
+    //
+    // The split starts at md, where a half column is 453px — and the 12.5rem
+    // photo left the name, operator and place 171px between them, wrapping all
+    // three onto two lines. At 10rem they each fit. Same floor the sm band
+    // uses, for the same reason: the smallest the photo can be and still read
+    // as a photograph.
+    //
+    // Bounded at lg, not left open: by 1200 the half column is 670px and has
+    // room for the full 12.5rem again, so an unbounded rule would shrink the
+    // photo on exactly the screens that can afford it.
+    //
+    // Scoped to the split's own class rather than a modifier on the card: the
+    // card does not need to know where it is, and the layout that squeezed it
+    // is the thing that should say so.
+    .generator-directory__layout & {
+      @include respond-between('md', 'lg') {
+        width: 10rem;
+      }
+    }
   }
 
   // The record's facts. A real <dl>: these are label/value pairs, and the
