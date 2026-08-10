@@ -47,11 +47,21 @@
   gap: var(--space-xs); // the card-stack gap, so the pills read as that family
 }
 
-// Each item is a card-family pill, and the surface pair FLIPS with the state:
-// closed rests on full Taupe and the bar's hover lightens to the 60% tint —
-// "this will open"; open rests on the tint (an opened pill holding white
-// content must not sit darker than its neighbours) and the bar's hover
-// deepens back to Taupe — "this will close". Each state previews the other.
+// Each item is a card-family pill, and the surface says what it is:
+//
+//   CLOSED — the whole pill is full Taupe. There is only a bar, so the bar is
+//   the pill.
+//   OPEN — the pill SPLITS. The bar keeps full Taupe and the panel below it
+//   drops to the 60% tint, so the thing you press stays distinct from the
+//   content it revealed, and the answer sits on the lighter ground its prose
+//   and downloads want.
+//
+// The bar's hover LIGHTENS in both states, which is the one rule to remember:
+// closed it previews the tint the panel will bring, open it separates the bar
+// from itself. (It used to flip the whole pill dark-to-light and back, on the
+// reasoning that each state previewed the other — a neat idea that left an
+// opened pill with no visible bar at all, just one flat tint from question to
+// answer.)
 //
 // Hover fires from the TRIGGER BAR only: an open panel holds content of its
 // own (downloads, prose), and hovering that content lighting the whole pill
@@ -72,10 +82,20 @@
   }
 
   &[open] {
+    // The PANEL's ground — the bar paints over it below.
     background-color: $color-tint-taupe;
 
-    &:has(> .accordion__trigger:hover) {
+    > .accordion__trigger {
       background-color: $color-brand-taupe;
+      // The bar is the pill's top edge now that it carries its own fill, so it
+      // has to wear the pill's radius there or its square corners would show
+      // through the rounded item behind it. Bottom corners stay square: the
+      // panel continues directly beneath.
+      border-radius: $radius-md $radius-md 0 0;
+    }
+
+    &:has(> .accordion__trigger:hover) > .accordion__trigger {
+      background-color: $color-tint-taupe;
     }
   }
 }
@@ -86,6 +106,10 @@
 .accordion__trigger {
   padding: var(--space-s);
   cursor: pointer;
+  // The bar carries its own fill once the item is open (see the split above),
+  // so it needs its own transition — the item's covers the panel's ground, not
+  // this.
+  @include transition(background-color);
   // Drops the default disclosure triangle everywhere but WebKit…
   list-style: none;
 

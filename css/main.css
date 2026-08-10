@@ -3028,13 +3028,18 @@ a:focus-visible {
 .accordion__item[open] {
   background-color: #f3efe5;
 }
-.accordion__item[open]:has(> .accordion__trigger:hover) {
+.accordion__item[open] > .accordion__trigger {
   background-color: #ebe5d3;
+  border-radius: 8px 8px 0 0;
+}
+.accordion__item[open]:has(> .accordion__trigger:hover) > .accordion__trigger {
+  background-color: #f3efe5;
 }
 
 .accordion__trigger {
   padding: var(--space-s);
   cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
   list-style: none;
 }
 .accordion__trigger::-webkit-details-marker {
