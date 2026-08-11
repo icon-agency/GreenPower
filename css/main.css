@@ -5918,21 +5918,12 @@ body:has(.modal[open]) {
   }
 }
 
-@media (min-width: 640px) {
-  .page-split:not(.page-split--article) > .page-split__body {
-    justify-self: end;
-  }
-}
-.page-split__body {
-  max-width: var(--measure);
-}
 .page-split__body > * + * {
   margin-top: var(--space-2xl);
 }
 
-.page-split:not(.page-split--article) > .page-split__body:has(> .form, > .download) {
-  max-width: none;
-  justify-self: stretch;
+.page-split--article > .page-split__body {
+  max-width: var(--measure);
 }
 
 .article-lead {

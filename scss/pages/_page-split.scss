@@ -256,90 +256,60 @@
   }
 }
 
-// Where the leftover track space goes once the body is capped at the measure.
-//
-// A stretched grid item with a max size start-aligns, so the slack used to sit
-// at the body's RIGHT — against the page edge, which read as the column having
-// stopped short rather than as a measure being held. End-aligned, the same
-// slack falls BETWEEN the two columns, where a gap already is: the rail keeps
-// its place, the body closes up to the container's right edge, and the measure
-// is unchanged.
-//
-// NOT on the article variant, and that exclusion is load-bearing. Its body is
-// aligned to the header band's copy edge by the track width itself
-// (calc(34cqi + --space-l), measured equal at 624.08), and that alignment is
-// only true while the body starts where its track does. Ending it there would
-// slide the article's prose out from under its own H1.
-@include respond-to('sm') {
-  .page-split:not(.page-split--article) > .page-split__body {
-    justify-self: end;
-  }
-}
-
 // The scrolling half: same section-scale rhythm as .page-content, so a block
 // reads identically in either layout.
+//
+// NO max-width. The body fills its track, and everything in it — prose, a card
+// stack, an accordion, a form, a download card — is the width of the column it
+// was given.
+//
+// It used to cap at --measure (52ch) and end-align, so the slack fell in the
+// gap rather than against the page edge. Two things were wrong with that. The
+// visible one: a panel that is not prose — a form, a download card — has no
+// line length to protect, so the cap only made it stop short of its own
+// column, and where two of them shared a column (the brand-and-marketing page)
+// they stopped short by different amounts and their left edges went ragged.
+//
+// The one that took measuring: the cap was not protecting the prose either.
+// The container stops at 1700px, so the body track tops out at 758px whatever
+// the viewport does — and the single reading column already runs at 72ch
+// (.page-content, pages/_content.scss). Measured at that ceiling: 61ch for
+// body-size prose (the master template, the campaign page) and 71ch where a
+// panel sets smaller type and 758px therefore buys more characters (the
+// download list and the accordion on the quarterly reports page). Both are
+// inside the measure the system reads at every day, so the 52ch cap was
+// leaving 107px of the column unused to defend a limit that was never in
+// danger.
+//
+// 71ch is close to the ceiling, though, and that is the number to watch: a
+// panel set a step smaller AGAIN would cross 72ch here. If one appears, cap
+// that component's own prose rather than putting the column's cap back —
+// the component knows its type size and the column does not.
+//
+// The article variant keeps the cap (below) — it is a genuine reading column,
+// and in the sm–md band the space the cap leaves is where the rail's Copy link
+// sits.
 .page-split__body {
-  // The single column's optimal-readability cap, applied to the same blocks.
-  // Once the track outgrows the measure (from roughly ~940px viewport, which is
-  // what the two-thirds ratio buys) the content holds at the measure and the
-  // leftover track space has to go somewhere — see the justify-self rule below.
-  // On narrower screens the track is under the measure and this is inert; below
-  // sm the stacked .page-split is already capped at the measure.
-  max-width: var(--measure);
-
   > * + * {
     margin-top: var(--space-2xl);
   }
 }
 
-// …except where the column carries a PANEL rather than prose.
+// The article's body is the exception, and both declarations matter.
 //
-// The measure is a reading cap: it holds a comfortable line length for
-// paragraphs. A form has no lines to hold — the labels are a few words and the
-// fields are boxes — and a download card holds its own copy at its own 60ch.
-// All the cap did was stop the panel short of its own track. Measured at
-// 1578px: a 701px track holding a 620px form, with the 81px of slack sitting
-// between the panel and the rail, which reads as a panel that failed to fill
-// its column rather than as text being measured.
+// The cap is the article's reading measure, and in the sm–md band it is also
+// structural: the rail collapses to a single Copy link placed on row 1 in
+// column 2, in exactly the space the cap leaves open, so it costs no vertical
+// space at all (see the --article block above).
 //
-// The two are listed together because on the brand-and-marketing page they
-// share a column, one above the other. Releasing only the form left the
-// download card 81px narrower directly above it — two panels in one column
-// with ragged left edges, which is worse than either width on its own.
-//
-// NOT extended to every non-prose block, and the accordion is why. Its panels
-// hold .page-content__section prose that has no cap of ITS own — it inherits
-// the panel's width — so filling the column would hand it ~700px lines, which
-// is the exact thing the measure exists to prevent. Same caution for the card
-// stack and the download list: each is alone in its column today, so nothing
-// reads as inconsistent, and widening them is a design call rather than a
-// correction. Add to this list deliberately, not by pattern-matching.
-//
-// :has() rather than a modifier class, so the templates keep no layout
-// knowledge: the pages get this by carrying what they carry. Where :has() is
-// missing the body simply keeps the cap — the fallback is the previous
-// rendering, not a broken one.
-//
-// Exact by construction: every .page-split__body carrying one of these carries
-// ONLY it (checked across every body on every page that uses the split), so
-// nothing measured is being un-measured. The direct-child combinator keeps it
-// that way — a form nested inside a prose block would not match.
-//
-// Both declarations are needed, and the second is the one that is easy to
-// miss. Dropping the cap alone left the form at 625px in a 701px track,
-// because justify-self: end (above) takes the item off `stretch` — and a grid
-// item that is not stretched is sized by its CONTENT, so the form fell back to
-// its max-content width. The alignment exists to place the slack a capped body
-// leaves over; with no cap there is no slack, so stretch is the honest value.
-//
-// The selector is the end-alignment rule's own, plus :has() — that is
-// deliberate, not decoration. That rule is (0,3,0) and a bare
-// .page-split__body:has(> .form) is (0,2,0), so the shorter selector released
-// the cap and then lost the alignment, which is how the 625px measurement
-// above happened. Matching its shape and adding one wins by construction
-// rather than by source order.
-.page-split:not(.page-split--article)
-  > .page-split__body:has(> .form, > .download) {
-  max-width: none;
-  justify-self: stretch;
+// It start-aligns, unlike the old shared rule, which end-aligned the body so
+// its leftover track space fell in the gap. That was never applied to the
+// article for a load-bearing reason: its body is aligned to the header band's
+// copy edge by the track width itself (calc(34cqi + --space-l), measured equal
+// at 624.08), and that only holds while the body starts where its track does.
+// Ending it there would slide the article's prose out from under its own H1.
+// The default is start, so this is stated as a comment rather than a
+// declaration — there is nothing left to override now the shared rule is gone.
+.page-split--article > .page-split__body {
+  max-width: var(--measure);
 }
