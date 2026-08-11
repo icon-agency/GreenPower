@@ -116,6 +116,109 @@
     border-radius: $radius-md;
   }
 
+  // --- Two offers: each one a disclosure -----------------------------------
+  //
+  // A provider that sells both electricity and gas states each offer as a
+  // <details>, so a reader who filtered for one type is not made to scroll
+  // past the other to reach the next provider. The script closes whichever
+  // does not match the filter; both are authored open, so with no JavaScript
+  // the card is the whole record exactly as it reads today.
+  //
+  // Native <details>, like the accordion: the browser owns the toggling, the
+  // keyboard operation and the expanded state it reports. Only the two-offer
+  // card uses it — a single-offer card stays a plain div, because a control
+  // that can only ever be open is worse than no control.
+  //
+  // display: flex on a <details> is doing real work here: it puts the summary
+  // and ::details-content in the same column layout the div version has, so
+  // the panel's gap and alignment carry over unchanged.
+  &__offer-summary {
+    display: flex;
+    gap: var(--space-s);
+    align-items: center;
+    justify-content: space-between;
+    align-self: stretch; // the row spans the panel, so the chevron sits at its edge
+    cursor: pointer;
+    // Drops the default disclosure triangle everywhere but WebKit…
+    list-style: none;
+
+    // …which needs its own reset (the accordion's pairing).
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    // The badge already carries the gap under itself for the rows below; on a
+    // summary that margin would sit INSIDE the clickable row and push the
+    // chevron off-centre against the pill. The details' own column gap does
+    // that spacing here.
+    .provider-card__offer-badge {
+      margin-bottom: 0;
+    }
+  }
+
+  // Chevron, in em so it tracks the badge's own fluid size — the accordion's
+  // treatment, including the rotation on open.
+  &__offer-icon {
+    flex-shrink: 0;
+    width: 0.9em;
+    height: 0.9em;
+    color: $color-brand-dark-green;
+    @include transition(transform);
+  }
+
+  &__offer[open] &__offer-icon {
+    transform: rotate(180deg);
+  }
+
+  // The open/close animation — the accordion's exact mechanism, so the two
+  // disclosures on this site behave alike. ::details-content is the browser's
+  // own wrapper around everything after the <summary>, and the only thing that
+  // can be animated; interpolate-size is what lets `auto` be a transition
+  // endpoint. Where either is unsupported the panel simply opens instantly,
+  // which is why there is no fallback script.
+  //
+  // gap: 0, and the space moves INSIDE the animated box. The panel's column
+  // gap is between flex items, and ::details-content is still an item when the
+  // disclosure is closed — a zero-height one, but the gap before it paints all
+  // the same. Measured on the closed panel: 23px above the badge against 46px
+  // below it (the padding plus a gap with nothing after it), which is the hole
+  // the design review picked up. Stated as the rows' own top margin, the space
+  // belongs to the content that needs it: it is inside the box whose height
+  // animates, so it grows and shrinks with the panel instead of standing
+  // there when the panel is shut.
+  //
+  // --offer-row-gap, not --space-s, so the open panel keeps the SAME
+  // badge-to-rows step the plain div version has (measured 29px): that token
+  // is the column gap plus the badge's own trailing nudge, which the summary
+  // above drops.
+  &__offer {
+    interpolate-size: allow-keywords;
+
+    &::details-content {
+      overflow: hidden;
+      block-size: 0;
+      transition:
+        block-size 0.3s ease-out,
+        content-visibility 0.3s ease-out allow-discrete;
+    }
+
+    &[open]::details-content {
+      block-size: auto;
+    }
+  }
+
+  details#{&}__offer {
+    gap: 0;
+
+    .provider-card__rows {
+      margin-top: var(--offer-row-gap);
+    }
+  }
+
   // The shared tag pill with the energy-type glyph — the generator badge's
   // exact overrides (tight gap, tucked leading edge) for the same
   // glyph-optics reasons.

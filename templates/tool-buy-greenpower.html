@@ -519,14 +519,20 @@
            give the contract filter something to act on. Real values come from
            the provider record.
 
-           OPEN QUESTION — the Gas filter is now business-only
-           (data-unavailable-when on the Gas pill), but two providers below
-           still advertise a gas offer to households: Red Energy and the VIC/SA
-           trader both carry data-buyer="household business" on a gas ptype,
-           and their cards say "Available for: Household, Business" under the
-           Gas trader badge. Either the rule or the data is wrong. Left as-is
-           on purpose so the contradiction is visible at review rather than
-           quietly resolved in the prototype's favour. -->
+           RESOLVED (was an open question at review): GreenPower gas is
+           BUSINESS ONLY at this stage. The Gas filter already said so
+           (data-unavailable-when on the Gas pill) while two providers still
+           advertised a gas offer to households; the rule was right and the
+           data was wrong. So no gas offer carries a Household pill, and the
+           VIC/SA trader's card is data-buyer="business" rather than
+           "household business".
+           Red Energy keeps data-buyer="household business" and that is not an
+           oversight — its ELECTRICITY offer serves households. The attribute
+           describes the provider, not any one offer, which is why the gas
+           block below can be business-only on a card that is not.
+           Drupal: the buyer values belong on the OFFER paragraph, and the
+           node's value is the union of its offers' — worth stating in the
+           content model so this cannot drift again. -->
       <div class="provider-directory__list" data-animate-stagger>
           <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="electricity gas" data-contract="bundled decoupled" data-states="all">
             <span class="provider-card__logo">
@@ -534,8 +540,19 @@
             </span>
             <div class="provider-card__content">
               <h3 class="provider-card__name">Red Energy</h3>
-            <div class="provider-card__offer">
-              <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
+            <!-- A provider with TWO offers states each one as a disclosure, so
+                 a reader who filtered for one energy type is not made to scroll
+                 past the other to reach the next provider. Both are authored
+                 OPEN: with no JavaScript that is the whole record, exactly as
+                 it reads today, and the script closes the offer that does not
+                 match the filter (see the disclosure sync in the tail).
+                 Single-offer cards stay plain divs — a control that can only
+                 ever be open is worse than no control. -->
+            <details class="provider-card__offer" data-offer="electricity" open>
+              <summary class="provider-card__offer-summary">
+                <span class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</span>
+                <svg class="provider-card__offer-icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
               <dl class="provider-card__rows">
                 <div class="provider-card__row">
                   <dt>Available for</dt>
@@ -550,13 +567,18 @@
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
                 </div>
               </dl>
-            </div>
-            <div class="provider-card__offer">
-              <p class="provider-card__offer-badge"><img src="../assets/icons/gas.svg" alt="" width="55" height="55" loading="lazy">Gas trader</p>
+            </details>
+            <details class="provider-card__offer" data-offer="gas" open>
+              <summary class="provider-card__offer-summary">
+                <span class="provider-card__offer-badge"><img src="../assets/icons/gas.svg" alt="" width="55" height="55" loading="lazy">Gas trader</span>
+                <svg class="provider-card__offer-icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
               <dl class="provider-card__rows">
                 <div class="provider-card__row">
                   <dt>Available for</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                  <!-- Business only — GreenPower gas is not sold to households
+                       at this stage (see the note above the list). -->
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Business</li></ul></dd>
                 </div>
                 <div class="provider-card__row">
                   <dt>Available in</dt>
@@ -567,7 +589,7 @@
                   <dd><ul class="provider-card__pills"><li class="provider-card__pill">Coupled certificates</li><li class="provider-card__pill">Decoupled certificates</li></ul></dd>
                 </div>
               </dl>
-            </div>
+            </details>
             </div>
             <div class="provider-card__aside">
               <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Red Energy</span></a>
@@ -833,7 +855,7 @@
             </div>
           </article>
 
-          <article class="provider-card" data-animate data-buy-item data-buyer="household business" data-ptype="gas" data-states="vic sa">
+          <article class="provider-card" data-animate data-buy-item data-buyer="business" data-ptype="gas" data-states="vic sa">
             <span class="provider-card__logo">
               <img src="../assets/logos/014-australian-gas-infrastructure-group.jpg" alt="Australian Gas Infrastructure Group" width="240" height="120" loading="lazy">
             </span>
@@ -844,7 +866,9 @@
               <dl class="provider-card__rows">
                 <div class="provider-card__row">
                   <dt>Available for</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                  <!-- Business only — GreenPower gas is not sold to households
+                       at this stage (see the note above the list). -->
+                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Business</li></ul></dd>
                 </div>
                 <div class="provider-card__row">
                   <dt>Available in</dt>
@@ -1994,6 +2018,26 @@
           // UA's [hidden] rule (LESSONS.md).
           card.style.display = match ? '' : 'none';
           if (match) shown += 1;
+
+          // A provider with two offers collapses the one the reader did not
+          // ask for. Filter by Electricity and Red Energy's gas half folds to
+          // its badge row — still there, still says the provider trades gas,
+          // but it no longer stands between the answer and the next provider.
+          //
+          // Driven by the SAME picked values as the filter above, so the card
+          // can never disagree with the pills: whatever the type group holds,
+          // the offer matching it is open and the rest are closed. With the
+          // group empty (no type chosen) every offer opens — nothing has been
+          // asked for, so nothing is secondary.
+          //
+          // Only ever touches cards that HAVE these disclosures; a single-offer
+          // card is a plain div and this loop finds nothing on it.
+          var type = picked.filter(function (p) { return p.group.key === 'ptype'; })[0];
+          var wanted = type ? type.boxes.map(function (b) { return b.value; }) : [];
+          [].forEach.call(card.querySelectorAll('[data-offer]'), function (offer) {
+            offer.open = !wanted.length ||
+              wanted.indexOf(offer.getAttribute('data-offer')) !== -1;
+          });
         });
 
         chipsEl.textContent = '';
