@@ -811,6 +811,7 @@
       <section class="ds-section" id="header-article" aria-labelledby="ha-title">
         <h3 class="ds-section__title" id="ha-title">Article header</h3>
         <p class="ds-section__intro">The article band: <code class="ds-code">--media-left</code> mirrors the image to the left, and an <code class="ds-code">.article-meta</code> row states the type and dates (or, on an impact story, the product line). The rail below the band repeats that meta and reveals it once the band scrolls away &mdash; the repeat is <code class="ds-code">aria-hidden</code>, since this copy comes first and carries the labels. The media box paints the band colour behind the image so its clipped edge cannot show a hairline at fractional widths.</p>
+        <p class="ds-section__intro"><strong>Two kinds of date, one of them marked.</strong> A news item about an event states the EVENT dates first, with the calendar glyph, then its published date with no glyph &mdash; the mark is what tells the two apart at a glance when a card carries both, so it belongs to the event row and never to the published one. Most articles have no event and show the published date alone (see the consultation and rules-and-legislation templates); the specimen below shows both so the pairing is on the record. Each label (&ldquo;Event dates&rdquo;, &ldquo;Published&rdquo;) is visually hidden, because on screen the glyph and the position carry the distinction while a screen reader needs it said. Drupal: field_event_start / field_event_end drive the first item and the glyph with it; omit the whole <code class="ds-code">&lt;li&gt;</code> when they are empty rather than rendering an empty row.</p>
 
         <div class="ds-demo">
           <p class="ds-demo__label">page_header &middot; .page-header--media-left + .article-meta--on-dark</p>
@@ -829,6 +830,16 @@
                 <div class="article-meta article-meta--on-dark">
                   <span class="article-meta__tag">Type</span>
                   <ul class="article-meta__dates">
+                    <!-- EVENT dates lead and carry the calendar glyph; the
+                         published date follows with none. The mark is what
+                         tells the two apart at a glance when a news item has
+                         both, which is why it is on this row and not on that
+                         one — see the note above. An article with no event
+                         simply omits this item (most of them do). -->
+                    <li class="article-meta__date">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                      <span><span class="visually-hidden">Event dates: </span><time datetime="2025-03-19">19 Mar 2025</time> &ndash; <time datetime="2025-03-20">20 Mar 2025</time></span>
+                    </li>
                     <li class="article-meta__date">
                       <span><span class="visually-hidden">Published </span><time datetime="2025-08-12">12 Aug 2025</time></span>
                     </li>
