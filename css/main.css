@@ -5930,7 +5930,7 @@ body:has(.modal[open]) {
   margin-top: var(--space-2xl);
 }
 
-.page-split:not(.page-split--article) > .page-split__body:has(> .form) {
+.page-split:not(.page-split--article) > .page-split__body:has(> .form, > .download) {
   max-width: none;
   justify-self: stretch;
 }

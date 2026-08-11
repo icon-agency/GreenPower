@@ -292,25 +292,38 @@
   }
 }
 
-// …except where the column carries a FORM, which is not prose.
+// …except where the column carries a PANEL rather than prose.
 //
 // The measure is a reading cap: it holds a comfortable line length for
-// paragraphs. A column of labelled controls has no lines to hold — the labels
-// are a few words and the fields are boxes — so the cap only made the panel
-// stop short of its own track. Measured at 1578px: a 701px track holding a
-// 620px form, with the 81px of slack sitting between the form and the rail,
-// which reads as a panel that failed to fill its column rather than as text
-// being measured.
+// paragraphs. A form has no lines to hold — the labels are a few words and the
+// fields are boxes — and a download card holds its own copy at its own 60ch.
+// All the cap did was stop the panel short of its own track. Measured at
+// 1578px: a 701px track holding a 620px form, with the 81px of slack sitting
+// between the panel and the rail, which reads as a panel that failed to fill
+// its column rather than as text being measured.
+//
+// The two are listed together because on the brand-and-marketing page they
+// share a column, one above the other. Releasing only the form left the
+// download card 81px narrower directly above it — two panels in one column
+// with ragged left edges, which is worse than either width on its own.
+//
+// NOT extended to every non-prose block, and the accordion is why. Its panels
+// hold .page-content__section prose that has no cap of ITS own — it inherits
+// the panel's width — so filling the column would hand it ~700px lines, which
+// is the exact thing the measure exists to prevent. Same caution for the card
+// stack and the download list: each is alone in its column today, so nothing
+// reads as inconsistent, and widening them is a design call rather than a
+// correction. Add to this list deliberately, not by pattern-matching.
 //
 // :has() rather than a modifier class, so the templates keep no layout
-// knowledge: the three form pages get this by being what they are, and so does
-// the next one. Where :has() is missing the body simply keeps the cap — the
-// fallback is the previous rendering, not a broken one.
+// knowledge: the pages get this by carrying what they carry. Where :has() is
+// missing the body simply keeps the cap — the fallback is the previous
+// rendering, not a broken one.
 //
-// Exact by construction: every .page-split__body that carries a form carries
-// ONLY the form (checked across all four bodies on the three form pages), so
-// nothing measured is being un-measured here. The direct-child combinator
-// keeps it that way — a form nested inside a prose block would not match.
+// Exact by construction: every .page-split__body carrying one of these carries
+// ONLY it (checked across every body on every page that uses the split), so
+// nothing measured is being un-measured. The direct-child combinator keeps it
+// that way — a form nested inside a prose block would not match.
 //
 // Both declarations are needed, and the second is the one that is easy to
 // miss. Dropping the cap alone left the form at 625px in a 701px track,
@@ -325,7 +338,8 @@
 // the cap and then lost the alignment, which is how the 625px measurement
 // above happened. Matching its shape and adding one wins by construction
 // rather than by source order.
-.page-split:not(.page-split--article) > .page-split__body:has(> .form) {
+.page-split:not(.page-split--article)
+  > .page-split__body:has(> .form, > .download) {
   max-width: none;
   justify-self: stretch;
 }
