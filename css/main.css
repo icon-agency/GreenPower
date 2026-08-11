@@ -5150,6 +5150,13 @@ body:has(.modal[open]) {
 }
 .provider-card details.provider-card__offer {
   gap: 0;
+  transition: background-color 0.2s ease-in-out;
+}
+.provider-card details.provider-card__offer:not([open]) {
+  background-color: #ebe5d3;
+}
+.provider-card details.provider-card__offer:not([open]):hover {
+  background-color: #ffffff;
 }
 .provider-card details.provider-card__offer .provider-card__rows {
   margin-top: var(--offer-row-gap);

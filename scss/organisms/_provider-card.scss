@@ -213,6 +213,32 @@
 
   details#{&}__offer {
     gap: 0;
+    @include transition(background-color);
+
+    // Closed, the panel is a CONTROL, and it should look like one. It takes
+    // the card family's resting surface (brand taupe) rather than staying the
+    // white of an open panel, so a folded offer reads as a bar to press
+    // instead of an empty white box, and it lightens on hover — the
+    // accordion's pair of states, and the same one rule to remember.
+    //
+    // …with one substitution the surface underneath forces. The accordion
+    // lightens to tint taupe, but THIS card is tint taupe (rgb(243,239,229),
+    // measured), so hovering to it would dissolve the panel into the card at
+    // the exact moment the reader is pointing at it — a hover state that
+    // hides the thing being hovered. White instead: still lighter, still a
+    // token, and it is the colour the panel becomes when it OPENS, so the
+    // hover previews the result rather than inventing a third surface.
+    //
+    // Only the closed state is painted. An open panel is white already, and
+    // hovering it must not shift — the reader is pointing at the content, not
+    // at a control.
+    &:not([open]) {
+      background-color: $color-brand-taupe;
+
+      &:hover {
+        background-color: $color-white;
+      }
+    }
 
     .provider-card__rows {
       margin-top: var(--offer-row-gap);
