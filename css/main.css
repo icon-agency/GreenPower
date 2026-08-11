@@ -5930,6 +5930,11 @@ body:has(.modal[open]) {
   margin-top: var(--space-2xl);
 }
 
+.page-split:not(.page-split--article) > .page-split__body:has(> .form) {
+  max-width: none;
+  justify-self: stretch;
+}
+
 .article-lead {
   max-width: 1700px;
   padding-inline: var(--space-xs);
