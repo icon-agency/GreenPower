@@ -3461,11 +3461,13 @@ body:has(.modal[open]) {
 }
 
 .client-logos__item {
+  position: relative;
   display: flex;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
   height: 3.25rem;
+  background-color: #ffffff;
 }
 @media (min-width: 640px) {
   .client-logos__item {
@@ -3473,12 +3475,23 @@ body:has(.modal[open]) {
   }
 }
 
+@supports (mix-blend-mode: screen) {
+  .client-logos__item::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    pointer-events: none;
+    background-color: #00263e;
+    mix-blend-mode: screen;
+  }
+}
 .client-logos__logo {
   width: auto;
   max-width: 7rem;
   height: auto;
   max-height: 100%;
   object-fit: contain;
+  filter: grayscale(1);
 }
 @media (min-width: 640px) {
   .client-logos__logo {
