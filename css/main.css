@@ -3084,6 +3084,12 @@ a:focus-visible {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
+  margin-inline: calc(-1 * var(--space-s-l));
+}
+@media (min-width: 640px) {
+  .accordion {
+    margin-inline: 0;
+  }
 }
 
 .accordion__item {
@@ -3290,6 +3296,16 @@ body:has(.modal[open]) {
   align-items: start;
   gap: var(--space-2xs) var(--space-m);
   padding: var(--space-m);
+  padding-inline: var(--space-s-l);
+  margin-inline: calc(-1 * var(--space-s-l));
+}
+@media (min-width: 640px) {
+  .download {
+    padding-inline: var(--space-m);
+    margin-inline: 0;
+  }
+}
+.download {
   background-color: var(--download-surface);
   border-radius: 8px;
   transition: background-color 0.2s ease-in-out;
@@ -3385,6 +3401,21 @@ body:has(.modal[open]) {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
+  margin-inline: calc(-1 * var(--space-s-l));
+}
+@media (min-width: 640px) {
+  .download-list {
+    margin-inline: 0;
+  }
+}
+
+.accordion .download-list {
+  margin-inline: 0;
+}
+
+.download-list .download,
+.accordion .download {
+  margin-inline: 0;
 }
 
 .accordion__panel .download {
@@ -6102,24 +6133,6 @@ body:has(.modal[open]) {
 @media (min-width: 640px) and (max-width: 1199.98px) {
   .page-split--downloads {
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-  }
-}
-.page-split--downloads > .page-split__body > .download-list,
-.page-split--downloads > .page-split__body > .accordion {
-  margin-inline: calc(-1 * var(--space-s-l));
-}
-@media (min-width: 640px) {
-  .page-split--downloads > .page-split__body > .download-list,
-  .page-split--downloads > .page-split__body > .accordion {
-    margin-inline: 0;
-  }
-}
-.page-split--downloads .download {
-  padding-inline: var(--space-s-l);
-}
-@media (min-width: 640px) {
-  .page-split--downloads .download {
-    padding-inline: var(--space-m);
   }
 }
 

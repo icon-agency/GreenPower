@@ -45,6 +45,20 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-xs); // the card-stack gap, so the pills read as that family
+
+  // Phones: the pills reach the band's --space-xs edge, like every panel
+  // family (the card grids, the card stack, the download list). The pull is
+  // the page gutter — the container the accordion sits in carries the
+  // band-copy frame — and the pill's own --space-s inset sits within a pixel
+  // of the band inset at phone widths, so the question text stays on the
+  // reading line without a padding change. First shipped scoped to the
+  // quarterly reports page; promoted when the FAQ accordion showed the same
+  // misalignment on the how-it-works page.
+  margin-inline: calc(-1 * var(--space-s-l));
+
+  @include respond-to('sm') {
+    margin-inline: 0;
+  }
 }
 
 // Each item is a card-family pill, and the surface says what it is:

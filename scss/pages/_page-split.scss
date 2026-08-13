@@ -274,36 +274,10 @@
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
   }
 
-  // Phones: the file panels reach the BAND's own edge, and their text lands on
-  // the band-copy line — two alignments from two moves that must agree. The
-  // negative margin is the page gutter, pulling the panel box from the text
-  // line out to the band's --space-xs frame; the padding then restates the
-  // band's own inset (--space-s-l is --edge-inset below the container cap), so
-  // panel text = band edge + band inset = the same line the H1, the prose and
-  // the band copy all sit on. Box aligned with box, text aligned with text,
-  // by the same construction the band itself uses.
-  //
-  // Direct children only: the "Previous years" accordion nests download lists
-  // INSIDE its pills, and those must stay in their pill's own frame rather
-  // than poking out of it. The accordion needs no padding change — its
-  // trigger and panel already sit at --space-s, within a pixel of the band
-  // inset at phone widths.
-  > .page-split__body > .download-list,
-  > .page-split__body > .accordion {
-    margin-inline: calc(-1 * var(--space-s-l));
-
-    @include respond-to('sm') {
-      margin-inline: 0;
-    }
-  }
-
-  .download {
-    padding-inline: var(--space-s-l);
-
-    @include respond-to('sm') {
-      padding-inline: var(--space-m);
-    }
-  }
+  // The phone band-edge pull that debuted here is component-wide now — the
+  // accordion and the download list carry it themselves (_accordion.scss,
+  // _download.scss, with the nested-in-a-pill exemption preserved there), so
+  // this modifier is only the tablet ratio above.
 }
 
 // The scrolling half: same section-scale rhythm as .page-content, so a block
