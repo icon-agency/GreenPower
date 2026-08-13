@@ -2459,6 +2459,12 @@
         if (pinnedCard) {
           var name = pinnedCard.querySelector('.generator-card__title').textContent.trim();
           chipsEl.appendChild(chip(name, name + ', selected from the map', function () {
+            // The ring rode in with the crossing, and the crossing closed the
+            // popup that would otherwise clear it on close — so releasing the
+            // record filter is the ring's exit too. Without this the card
+            // stayed ringed in the full list after Clear all or removing the
+            // chip, announcing a selection that no longer exists.
+            pinnedCard.classList.remove('is-highlighted');
             pinnedCard = null;
             apply();
           }));
@@ -2489,6 +2495,7 @@
           clear.textContent = 'Clear all';
           clear.addEventListener('click', function () {
             search.value = '';
+            if (pinnedCard) pinnedCard.classList.remove('is-highlighted'); // the chip handler's rule
             pinnedCard = null;
             groups.forEach(function (group) {
               group.boxes.forEach(function (box) { box.checked = false; });

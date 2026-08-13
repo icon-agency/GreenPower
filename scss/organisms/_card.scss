@@ -160,26 +160,40 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    // Exactly 2 — never more than two columns
-    &:has(> .card:nth-child(2):last-child) {
-      @include respond-to('md') {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    // Exactly 4 — 2×2 through the md band (four across would be slivers
-    // there), 4-up once lg gives the room
-    &:has(> .card:nth-child(4):last-child) {
-      @include respond-to('md') {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      @include respond-to('lg') {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-    }
   }
 
+}
+
+// The exact-count overrides, OUTSIDE the block for one reason: the guard.
+// A scroll row must never take an explicit template — auto-flow columns size
+// its slides — and these rules are the strongest template-setters in the file:
+// a :has() argument counts toward specificity, so the 2-card rule lands at
+// (0,4,0), past both scroll modifiers' plain (0,2,0). Ungated, TWO story
+// cards in the wide rail matched the 2-card rule and rendered side by side
+// as a static 2-up — found by the design system's own specimen, which
+// carries two slides where every page rail happens to carry three. The
+// :not() is the same exemption the count-1 and trailing-odd span rules
+// already carry, for the same reason.
+
+// Exactly 2 — never more than two columns
+.card-section:not(.card-section--scroll)
+  .card-section__grid:has(> .card:nth-child(2):last-child) {
+  @include respond-to('md') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+// Exactly 4 — 2×2 through the md band (four across would be slivers
+// there), 4-up once lg gives the room
+.card-section:not(.card-section--scroll)
+  .card-section__grid:has(> .card:nth-child(4):last-child) {
+  @include respond-to('md') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-to('lg') {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 // -----------------------------------------------------------------------------

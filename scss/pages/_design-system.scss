@@ -689,7 +689,12 @@
 
 // The card-section carries its own page container; strip only its side padding
 // when embedded in a doc column so it fills the column (spacing, not restyle).
-.ds-demo .card-section {
+//
+// DIRECT child only. The feed specimens wrap their sections in .ds-bleed to
+// span the pane, and those need the section's own gutter intact: the scroll
+// row's bleed is built on it (margin-inline −s-l, padding back), so stripping
+// it ran the row and the head's button to the pane's raw edge.
+.ds-demo > .card-section {
   padding-block: var(--space-m) 0;
   padding-inline: 0;
 }
