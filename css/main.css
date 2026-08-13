@@ -4689,15 +4689,15 @@ body:has(.modal[open]) {
 .generator-card__more-summary::-webkit-details-marker {
   display: none;
 }
-.generator-card__more-summary::before {
+.generator-card__more-summary::after {
   display: inline-block;
   width: 0.4em;
   height: 0.4em;
-  margin-right: var(--space-2xs);
+  margin-left: var(--space-2xs);
   content: "";
   border-right: 1.5px solid currentcolor;
   border-bottom: 1.5px solid currentcolor;
-  transform: rotate(-45deg);
+  transform: rotate(45deg);
   transition: transform 0.2s ease-out;
 }
 .generator-card__more-summary:hover {
@@ -4708,8 +4708,8 @@ body:has(.modal[open]) {
   outline: 3px solid #009f4d;
   outline-offset: 2px;
 }
-.generator-card__more[open] .generator-card__more-summary::before {
-  transform: rotate(45deg);
+.generator-card__more[open] .generator-card__more-summary::after {
+  transform: rotate(225deg);
 }
 .generator-card__more-close {
   display: none;

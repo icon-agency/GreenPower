@@ -308,18 +308,20 @@
     }
 
     // The affordance the triangle carried, in the system's own vocabulary: a
-    // chevron pointing right, turning down once open — the old popup
-    // disclosure's exact anatomy, leading the label where the native marker
-    // it replaces sat.
-    &::before {
+    // chevron TRAILING the label and pointing DOWN — down because that is
+    // where the panel goes, trailing because the control is pinned to the
+    // card's right edge and the glyph belongs on the outside of it, like the
+    // arrows on the meta rows and the accordion's own trailing chevron. Half
+    // a turn to UP once open, the accordion's exact flip.
+    &::after {
       display: inline-block;
       width: 0.4em;
       height: 0.4em;
-      margin-right: var(--space-2xs);
+      margin-left: var(--space-2xs);
       content: '';
       border-right: 1.5px solid currentcolor;
       border-bottom: 1.5px solid currentcolor;
-      transform: rotate(-45deg);
+      transform: rotate(45deg);
       @include transition(transform, 0.2s, ease-out);
     }
 
@@ -333,8 +335,8 @@
     }
   }
 
-  &__more[open] &__more-summary::before {
-    transform: rotate(45deg);
+  &__more[open] &__more-summary::after {
+    transform: rotate(225deg);
   }
 
   // "More details" / "Less" — the label states the action, and the swap is
