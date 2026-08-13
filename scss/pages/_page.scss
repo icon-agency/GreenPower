@@ -3,6 +3,18 @@
 
 .page-body {
   @include container;
+  // …one frame (--space-xs) INSIDE the container gutter, at every width. The
+  // band's copy above starts a frame inside the page gutter — deliberately,
+  // so the H1 is not left hugging the band's green edge — and page content
+  // that stops at the bare gutter sat 12–19px left of the H1 on every
+  // breakpoint. The frame lives HERE, on the body, so every layout dropped
+  // into it — the single reading column, the split, a card stack — sits on
+  // the H1's line by inheritance rather than each re-implementing the offset
+  // (the split carried its own copy of this for a day; that is exactly the
+  // drift a pattern library exists to prevent). The article variant below
+  // overrides with its own tighter frame, which is already the band-aligned
+  // one.
+  padding-inline: calc(var(--space-s-l) + var(--space-xs));
   // Symmetric section padding from sm. The top used to match the nav's gap
   // ABOVE the header band (--space-m), which set the band nicely but left the
   // content starting tight under it — a page break needs more air than a
@@ -36,8 +48,22 @@
 // IS the band's copy edge up there, by construction rather than by tuning —
 // see .page-split--article.
 .page-body--article {
-  padding-inline: var(--space-xs);
+  // BELOW md the article is a stacked single column, so its left edge comes
+  // from this frame — and the frame is the band's own sum: --space-xs (the
+  // band frame) + --space-s-l (the header's --edge-inset below the cap),
+  // which puts the prose directly under the header copy. One rule for phone
+  // and tablet alike; it used to compensate only through sm–md, which left
+  // the PHONE article 16px left of its own H1 — found the day the body-wide
+  // frame made every other layout align (--space-s-l, NOT --space-l: close
+  // enough to look right, different enough to measure — 8px adrift at 900px).
+  // From md the two-column track takes over and the tight band frame returns:
+  // the cqi construction needs the band's own content box.
+  padding-inline: calc(var(--space-xs) + var(--space-s-l));
   container-type: inline-size;
+
+  @include respond-to('md') {
+    padding-inline: var(--space-xs);
+  }
 
   // Two steps down from the section-scale top (--space-3xl, 138px here → 69px).
   // The band above is a closed, rounded panel that already reads as a break, so
@@ -46,15 +72,4 @@
   // which brings no such panel of its own.
   padding-block-start: var(--space-xl);
 
-  // Tablet band: the split collapses to one column here, so the body no longer
-  // gets its left edge from a grid track — it has to come from this frame. The
-  // band's copy sits at its own --space-xs frame PLUS --space-s-l (the header's
-  // --edge-inset below the container cap, which is the page's standard text
-  // gutter), so matching that sum puts the article directly under the header
-  // text. --space-s-l, NOT --space-l: they are close enough to look right and
-  // different enough to measure — it was 8px adrift at 900px. Above md the
-  // two-column track takes over and this reverts to the tight frame.
-  @include respond-between('sm', 'md') {
-    padding-inline: calc(var(--space-xs) + var(--space-s-l));
-  }
 }
