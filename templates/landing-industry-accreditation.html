@@ -639,19 +639,70 @@
          horizontally — image column beside the content — which is the
          wireframe's layout, from the card component with no variant needed.
          The section carries no heading: the card titles itself. -->
-    <section class="card-section" data-animate-stagger aria-labelledby="impact-title">
+    <!-- Impact stories — the same long-card rail as the home page (see
+         .card-section--scroll-wide): one full-width story per slide, paged by
+         the arrows, swiped below sm with the peek. Replaces a lone White
+         Whale card that repeated the home page's story as a single tile.
+         Drupal: the same impact_story teaser view as the home rail, placed in
+         this landing's layout. -->
+    <section class="card-section card-section--scroll card-section--scroll-wide" aria-labelledby="accreditation-impact-title">
+      <div class="card-section__head">
+        <h2 class="card-section__heading" id="accreditation-impact-title">Impact stories</h2>
+        <div class="card-section__actions">
+          <!-- Arrows stay hidden until the script confirms the row overflows —
+               a control that scrolls nothing is worse than no control. -->
+          <button class="card-section__arrow" type="button" data-scroll-prev hidden>
+            <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M13 5H2M6 1 2 5l4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="visually-hidden">Previous stories</span>
+          </button>
+          <button class="card-section__arrow" type="button" data-scroll-next hidden>
+            <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="visually-hidden">More stories</span>
+          </button>
+          <a class="btn btn--tint" href="impact-stories.html">All stories
+            <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
       <div class="card-section__grid" data-animate-stagger>
-        <article class="card" data-animate>
-          <!-- STAND-IN IMAGE: there is no coffee-roastery photo in assets/.
-               Swap for the real White Whale shot before this goes anywhere. -->
-          <div class="card__media"><img src="../assets/images/business-man-office.png" alt="" width="900" height="600" loading="lazy"></div>
+        <!-- The listing's card, unchanged: eyebrow naming the PRODUCT, no tag
+             pill and no date row, and the whole tile is one link (the title
+             carries it), so the "Read impact story" row is passive. -->
+        <article class="card card--news card--featured card--story" data-animate>
+          <div class="card__media">
+            <img src="../assets/impact-stories/White-Whale-Coffee-Roasters.png" alt="A barista steaming milk at the espresso machine in a busy coffee roastery" width="900" height="900" loading="lazy">
+          </div>
           <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/greenpower.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h2 class="card__title" id="impact-title">White Whale Coffee Roasters</h2>
+            <p class="card__eyebrow"><svg class="card__eyebrow-mark" viewBox="0 0 55 55" aria-hidden="true" focusable="false"><path d="M39.776 20.4735L27.0027 33.1287L18.5871 24.7908C16.5518 26.8072 16.5518 30.0855 18.5871 32.1019L27.0027 40.4397L41.6863 25.8918C42.1608 29.8257 40.8872 33.9204 37.8406 36.9388L27.0027 47.6766L16.1648 36.9388C10.8957 31.7184 10.8957 23.2692 16.1648 18.0488L27.0027 7.31107L37.4286 17.6406C39.4638 15.6242 39.4638 12.3459 37.4286 10.3295L27.0027 0L12.4689 14.3995C5.17703 21.6239 5.17703 33.3761 12.4689 40.6005L27.0027 55L41.5365 40.6005C48.0792 34.1183 48.741 23.9867 43.5468 16.7623L39.7884 20.4858L39.776 20.4735Z" fill="currentColor"/></svg> GreenPower</p>
+            <h3 class="card__title"><a class="card__title-link" href="impact-article.html">White Whale Coffee Roasters</a></h3>
             <p class="card__body">White Whale Coffee Roasters switched to GreenPower to match its electricity use with renewable electricity and keep building on its sustainability work.</p>
-            <ul class="card__links">
-              <li><a class="card__link" href="#">Read impact story <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            </ul>
+            <p class="card__meta">Read impact story
+              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+          </div>
+        </article>
+
+        <article class="card card--news card--featured card--story" data-animate>
+          <div class="card__media">
+            <img src="../assets/images/impact-Jemena-Malabar-Biomethane-Project.png" alt="Workers in high-visibility vests and hard hats walking through the Malabar biomethane facility" width="1200" height="1300" loading="lazy">
+          </div>
+          <div class="card__content">
+            <p class="card__eyebrow"><svg class="card__eyebrow-mark" viewBox="0 0 55 55" aria-hidden="true" focusable="false"><path d="M39.776 20.4735L27.0027 33.1287L18.5871 24.7908C16.5518 26.8072 16.5518 30.0855 18.5871 32.1019L27.0027 40.4397L41.6863 25.8918C42.1608 29.8257 40.8872 33.9204 37.8406 36.9388L27.0027 47.6766L16.1648 36.9388C10.8957 31.7184 10.8957 23.2692 16.1648 18.0488L27.0027 7.31107L37.4286 17.6406C39.4638 15.6242 39.4638 12.3459 37.4286 10.3295L27.0027 0L12.4689 14.3995C5.17703 21.6239 5.17703 33.3761 12.4689 40.6005L27.0027 55L41.5365 40.6005C48.0792 34.1183 48.741 23.9867 43.5468 16.7623L39.7884 20.4858L39.776 20.4735Z" fill="currentColor"/></svg> GreenPower Renewable Gas Certification</p>
+            <h3 class="card__title"><a class="card__title-link" href="impact-article.html">Jemena Malabar Biomethane Project</a></h3>
+            <p class="card__body">Jemena&rsquo;s Malabar Biomethane Project is helping build Australia&rsquo;s renewable gas market by producing biomethane and injecting it into the Sydney gas network.</p>
+            <p class="card__meta">Read impact story
+              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+          </div>
+        </article>
+
+        <article class="card card--news card--featured card--story" data-animate>
+          <div class="card__media">
+            <img src="../assets/impact-stories/Laing-ORourke.png" alt="Aerial view of solar panels covering the roofs of a construction site&rsquo;s buildings" width="900" height="900" loading="lazy">
+          </div>
+          <div class="card__content">
+            <p class="card__eyebrow"><svg class="card__eyebrow-mark" viewBox="0 0 55 55" aria-hidden="true" focusable="false"><path d="M39.776 20.4735L27.0027 33.1287L18.5871 24.7908C16.5518 26.8072 16.5518 30.0855 18.5871 32.1019L27.0027 40.4397L41.6863 25.8918C42.1608 29.8257 40.8872 33.9204 37.8406 36.9388L27.0027 47.6766L16.1648 36.9388C10.8957 31.7184 10.8957 23.2692 16.1648 18.0488L27.0027 7.31107L37.4286 17.6406C39.4638 15.6242 39.4638 12.3459 37.4286 10.3295L27.0027 0L12.4689 14.3995C5.17703 21.6239 5.17703 33.3761 12.4689 40.6005L27.0027 55L41.5365 40.6005C48.0792 34.1183 48.741 23.9867 43.5468 16.7623L39.7884 20.4858L39.776 20.4735Z" fill="currentColor"/></svg> GreenPower Decoupled</p>
+            <h3 class="card__title"><a class="card__title-link" href="impact-article.html">Laing O&rsquo;Rourke</a></h3>
+            <p class="card__body">Laing O&rsquo;Rourke uses GreenPower Decoupled to match electricity use across changing construction sites, offices and warehouses.</p>
+            <p class="card__meta">Read impact story
+              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
         </article>
       </div>
@@ -1284,13 +1335,20 @@
   <script>
     (function () {
       var wrappers = [].slice.call(document.querySelectorAll(
-        '.page-content__section figure.table, .page-content__section pre, .client-logos__scroller'
+        '.page-content__section figure.table, .page-content__section pre, .client-logos__scroller, .card-section--scroll .card-section__grid'
       ));
       if (!wrappers.length) return;
 
       function labelFor(el) {
         if (el.matches('pre')) return 'Scrollable code block';
         if (el.matches('.client-logos__scroller')) return 'Client logos, scrollable';
+        if (el.matches('.card-section__grid')) {
+          // The label comes from the section's OWN heading, as on the home
+          // page, so a second scroll row can never produce a duplicate name.
+          var head = el.closest('.card-section');
+          head = head && head.querySelector('.card-section__heading');
+          return (head ? head.textContent.trim() : 'Cards') + ', scrollable';
+        }
         return 'Scrollable table';
       }
 
@@ -1324,5 +1382,56 @@
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
     })();
   </script>
+    <!-- Scroller arrows. Revealed only while the row actually overflows, and
+         each is disabled at its end — so the pair never lies about what it can
+         do. Everything they offer is already available without them (swipe,
+         the focusable scroll region, the cards' own links), which is why they
+         can be JS-only. Drupal: one once()-guarded behavior. -->
+    <script>
+      // Every scroll row on the page, not just the first: this one carries two
+      // (Impact stories, Latest news), and a querySelector left the second pair
+      // of arrows hidden for good.
+      [].slice.call(document.querySelectorAll('.card-section--scroll')).forEach(function (section) {
+        var row = section.querySelector('.card-section__grid');
+        var prev = section.querySelector('[data-scroll-prev]');
+        var next = section.querySelector('[data-scroll-next]');
+        if (!row || !prev || !next) return;
+
+        function scrollable() {
+          // Same test the shared scroll-region script uses: a clipped box
+          // (overflow-x other than auto/scroll) reports a wide scrollWidth but
+          // cannot be moved. +1 absorbs sub-pixel rounding on fluid columns.
+          var ox = getComputedStyle(row).overflowX;
+          return (ox === 'auto' || ox === 'scroll') && row.scrollWidth > row.clientWidth + 1;
+        }
+
+        function step() {
+          // One card plus the gap, read from the DOM rather than assumed, so
+          // the card-width formula can change without this going stale.
+          var card = row.querySelector('.card');
+          if (!card) return row.clientWidth;
+          return card.getBoundingClientRect().width + parseFloat(getComputedStyle(row).columnGap || 0);
+        }
+
+        function sync() {
+          var on = scrollable();
+          prev.hidden = !on;
+          next.hidden = !on;
+          if (!on) return;
+          var max = row.scrollWidth - row.clientWidth;
+          // 1px tolerance: fractional widths mean scrollLeft rarely lands on
+          // exactly 0 or exactly max.
+          prev.disabled = row.scrollLeft <= 1;
+          next.disabled = row.scrollLeft >= max - 1;
+        }
+
+        prev.addEventListener('click', function () { row.scrollBy({ left: -step(), behavior: 'smooth' }); });
+        next.addEventListener('click', function () { row.scrollBy({ left: step(), behavior: 'smooth' }); });
+        row.addEventListener('scroll', sync, { passive: true });
+        window.addEventListener('resize', sync);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+        sync();
+      });
+    </script>
 </body>
 </html>

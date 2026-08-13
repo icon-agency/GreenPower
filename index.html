@@ -163,6 +163,14 @@
             <li><a class="ds-nav__link" href="#directory-empty">Empty results</a></li>
           </ul>
         </div>
+
+        <div class="ds-nav__group">
+          <p class="ds-nav__group-title">Feeds</p>
+          <ul class="ds-nav__list">
+            <li><a class="ds-nav__link" href="#feed-articles">Article feed</a></li>
+            <li><a class="ds-nav__link" href="#feed-impact">Impact story feed</a></li>
+          </ul>
+        </div>
         <div class="ds-nav__group">
           <p class="ds-nav__group-title">Forms</p>
           <ul class="ds-nav__list">
@@ -1988,6 +1996,133 @@
       </section>
 
       <div class="ds-category">
+        <h2 class="ds-category__title">Feeds</h2>
+        <p class="ds-category__note">The two carousels: rows of teaser cards that SCROLL rather than wrap, fed by a view. Both are the multi-card section with a scroll modifier &mdash; same head row (heading, paging arrows, an action), same grid, same cards as everywhere else &mdash; so a feed is configuration, not a new component. The arrows are revealed by the shared script only while the row actually overflows, and are never the only way in: touch swipes, the row is a focusable scroll region labelled from the section&rsquo;s own heading (so two feeds on one page cannot collide), and the cards keep their own tab order. Live on the <a href="templates/home.html">home page</a>, which carries both.</p>
+      </div>
+
+      <section class="ds-section" id="feed-articles" aria-labelledby="feed-articles-title">
+        <h3 class="ds-section__title" id="feed-articles-title">Article feed</h3>
+        <p class="ds-section__intro"><code class="ds-code">.card-section--scroll</code> &mdash; the news rail. Below <code class="ds-code">md</code> the grid trades columns for card-by-card swiping: every card keeps a readable width and the next one peeks past the edge, which is the affordance. From <code class="ds-code">md</code> the modifier is INERT and the row is the ordinary 3-up grid &mdash; nothing scrolls, so the arrows hide themselves. The row bleeds out of the section&rsquo;s gutters and puts them back as its own padding, so the first card lines up under the heading while the next runs beneath the page edge; scroll-snap lands cards back on that line, and the scrollbar is hidden &mdash; the peek, the arrows and the keyboard region carry the affordance.</p>
+        <p class="ds-section__intro">Drupal: a view of news teasers (the news landing&rsquo;s card), 3&ndash;6 items newest first; the head&rsquo;s button links to the landing. Used as &ldquo;Latest news&rdquo; on the home page and &ldquo;Next up&rdquo; on articles.</p>
+
+        <div class="ds-demo">
+          <p class="ds-demo__label">card_section &middot; .card-section--scroll &middot; swipes below md, 3-up from md</p>
+          <div class="ds-bleed">
+            <section class="card-section card-section--scroll" aria-labelledby="ds-feed-news-title">
+              <div class="card-section__head">
+                <h2 class="card-section__heading" id="ds-feed-news-title">Latest news</h2>
+                <div class="card-section__actions">
+                  <button class="card-section__arrow" type="button" data-scroll-prev hidden>
+                    <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M13 5H2M6 1 2 5l4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="visually-hidden">Previous articles</span>
+                  </button>
+                  <button class="card-section__arrow" type="button" data-scroll-next hidden>
+                    <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="visually-hidden">More articles</span>
+                  </button>
+                  <a class="btn btn--tint" href="templates/news-landing.html">More<span class="visually-hidden"> news</span>
+                    <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                </div>
+              </div>
+              <div class="card-section__grid">
+                <article class="card card--news">
+                  <div class="card__media">
+                    <img src="assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy">
+                    <span class="card__tag" aria-hidden="true">News</span>
+                  </div>
+                  <div class="card__content">
+                    <h3 class="card__title"><a class="card__title-link" href="templates/news-article.html">Article title &mdash; the node&rsquo;s H1</a></h3>
+                    <p class="card__body">Teaser summary &mdash; field_summary, a line or two.</p>
+                    <p class="card__meta"><time datetime="2026-08-13">13 Aug 2026</time>
+                      <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+                  </div>
+                </article>
+                <article class="card card--news">
+                  <div class="card__media">
+                    <img src="assets/images/gas.png" alt="" width="900" height="600" loading="lazy">
+                    <span class="card__tag" aria-hidden="true">Announcement</span>
+                  </div>
+                  <div class="card__content">
+                    <h3 class="card__title"><a class="card__title-link" href="templates/news-article.html">A second teaser</a></h3>
+                    <p class="card__body">The whole card is one link &mdash; the title carries it, stretched over the tile.</p>
+                    <p class="card__meta"><time datetime="2026-08-01">1 Aug 2026</time>
+                      <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+                  </div>
+                </article>
+                <article class="card card--news">
+                  <div class="card__media">
+                    <img src="assets/images/wind.png" alt="" width="900" height="600" loading="lazy">
+                    <span class="card__tag" aria-hidden="true">News</span>
+                  </div>
+                  <div class="card__content">
+                    <h3 class="card__title"><a class="card__title-link" href="templates/news-article.html">A third teaser</a></h3>
+                    <p class="card__body">Below md this row swipes, with the next card peeking past the edge.</p>
+                    <p class="card__meta"><time datetime="2026-07-20">20 Jul 2026</time>
+                      <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+                  </div>
+                </article>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="ds-section" id="feed-impact" aria-labelledby="feed-impact-title">
+        <h3 class="ds-section__title" id="feed-impact-title">Impact story feed</h3>
+        <p class="ds-section__intro"><code class="ds-code">.card-section--scroll-wide</code>, composed WITH <code class="ds-code">--scroll</code> &mdash; the impact rail. One long story card per slide at every width from <code class="ds-code">sm</code>: the listing&rsquo;s own card (<code class="ds-code">card--featured card--story</code>, photograph beside the copy) fills the scrollport and the arrows page it. Unlike the article feed it never becomes a static grid &mdash; the card IS the row. At rest there is NO peek: the slide stride is <code class="ds-code">2 &times; --space-s-l</code>, which parks the resting neighbour exactly one padding past the clip edge &mdash; at this scale an orphan sliver at the screen edge reads as a cropped bug, not an invitation, and the arrows and the head&rsquo;s action already say there are more. Below <code class="ds-code">sm</code> the long card stacks like any card and the narrow row&rsquo;s peek-and-swipe returns.</p>
+        <p class="ds-section__intro">Drupal: a view of impact_story teasers (3 items) &mdash; the same rail on the <a href="templates/home.html">home page</a>, the <a href="templates/landing-industry-accreditation.html">industry accreditation landing</a> and the <a href="templates/impact-article.html">impact article</a>&rsquo;s closing row.</p>
+
+        <div class="ds-demo">
+          <p class="ds-demo__label">card_section &middot; .card-section--scroll.card-section--scroll-wide &middot; one slide per story</p>
+          <div class="ds-bleed">
+            <section class="card-section card-section--scroll card-section--scroll-wide" aria-labelledby="ds-feed-impact-title">
+              <div class="card-section__head">
+                <h2 class="card-section__heading" id="ds-feed-impact-title">Impact stories</h2>
+                <div class="card-section__actions">
+                  <button class="card-section__arrow" type="button" data-scroll-prev hidden>
+                    <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M13 5H2M6 1 2 5l4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="visually-hidden">Previous stories</span>
+                  </button>
+                  <button class="card-section__arrow" type="button" data-scroll-next hidden>
+                    <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span class="visually-hidden">More stories</span>
+                  </button>
+                  <a class="btn btn--tint" href="templates/impact-stories.html">All stories
+                    <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                </div>
+              </div>
+              <div class="card-section__grid">
+                <article class="card card--news card--featured card--story">
+                  <div class="card__media">
+                    <img src="assets/impact-stories/White-Whale-Coffee-Roasters.png" alt="" width="900" height="900" loading="lazy">
+                  </div>
+                  <div class="card__content">
+                    <p class="card__eyebrow"><svg class="card__eyebrow-mark" viewBox="0 0 55 55" aria-hidden="true" focusable="false"><path d="M39.776 20.4735L27.0027 33.1287L18.5871 24.7908C16.5518 26.8072 16.5518 30.0855 18.5871 32.1019L27.0027 40.4397L41.6863 25.8918C42.1608 29.8257 40.8872 33.9204 37.8406 36.9388L27.0027 47.6766L16.1648 36.9388C10.8957 31.7184 10.8957 23.2692 16.1648 18.0488L27.0027 7.31107L37.4286 17.6406C39.4638 15.6242 39.4638 12.3459 37.4286 10.3295L27.0027 0L12.4689 14.3995C5.17703 21.6239 5.17703 33.3761 12.4689 40.6005L27.0027 55L41.5365 40.6005C48.0792 34.1183 48.741 23.9867 43.5468 16.7623L39.7884 20.4858L39.776 20.4735Z" fill="currentColor"/></svg> Product line &mdash; field_story_product</p>
+                    <h3 class="card__title"><a class="card__title-link" href="templates/impact-article.html">Story title &mdash; the node&rsquo;s H1</a></h3>
+                    <p class="card__body">Story summary &mdash; field_story_summary. The whole card is one link; the passive row below is the news date row&rsquo;s anatomy with a label instead of a date.</p>
+                    <p class="card__meta">Read impact story
+                      <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+                  </div>
+                </article>
+                <article class="card card--news card--featured card--story">
+                  <div class="card__media">
+                    <img src="assets/impact-stories/Laing-ORourke.png" alt="" width="900" height="900" loading="lazy">
+                  </div>
+                  <div class="card__content">
+                    <p class="card__eyebrow"><svg class="card__eyebrow-mark" viewBox="0 0 55 55" aria-hidden="true" focusable="false"><path d="M39.776 20.4735L27.0027 33.1287L18.5871 24.7908C16.5518 26.8072 16.5518 30.0855 18.5871 32.1019L27.0027 40.4397L41.6863 25.8918C42.1608 29.8257 40.8872 33.9204 37.8406 36.9388L27.0027 47.6766L16.1648 36.9388C10.8957 31.7184 10.8957 23.2692 16.1648 18.0488L27.0027 7.31107L37.4286 17.6406C39.4638 15.6242 39.4638 12.3459 37.4286 10.3295L27.0027 0L12.4689 14.3995C5.17703 21.6239 5.17703 33.3761 12.4689 40.6005L27.0027 55L41.5365 40.6005C48.0792 34.1183 48.741 23.9867 43.5468 16.7623L39.7884 20.4858L39.776 20.4735Z" fill="currentColor"/></svg> A second product line</p>
+                    <h3 class="card__title"><a class="card__title-link" href="templates/impact-article.html">One slide per story</a></h3>
+                    <p class="card__body">The arrows page one card at a time; at rest the neighbour sits exactly off-screen, and mid-swipe both cards cross the gutter together.</p>
+                    <p class="card__meta">Read impact story
+                      <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+                  </div>
+                </article>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <div class="ds-category">
         <h2 class="ds-category__title">Forms</h2>
         <p class="ds-category__note">The form styles: a taupe panel of labelled controls, introduced by the Contact page and extended by the Logo request application. In GovCMS these are webforms &mdash; the classes map in the webform UI or a form_alter, and the reCAPTCHA placeholder is replaced by the real element.</p>
       </div>
@@ -3261,5 +3396,56 @@
     })();
   </script>
 
+    <!-- Scroller arrows. Revealed only while the row actually overflows, and
+         each is disabled at its end — so the pair never lies about what it can
+         do. Everything they offer is already available without them (swipe,
+         the focusable scroll region, the cards' own links), which is why they
+         can be JS-only. Drupal: one once()-guarded behavior. -->
+    <script>
+      // Every scroll row on the page, not just the first: this one carries two
+      // (Impact stories, Latest news), and a querySelector left the second pair
+      // of arrows hidden for good.
+      [].slice.call(document.querySelectorAll('.card-section--scroll')).forEach(function (section) {
+        var row = section.querySelector('.card-section__grid');
+        var prev = section.querySelector('[data-scroll-prev]');
+        var next = section.querySelector('[data-scroll-next]');
+        if (!row || !prev || !next) return;
+
+        function scrollable() {
+          // Same test the shared scroll-region script uses: a clipped box
+          // (overflow-x other than auto/scroll) reports a wide scrollWidth but
+          // cannot be moved. +1 absorbs sub-pixel rounding on fluid columns.
+          var ox = getComputedStyle(row).overflowX;
+          return (ox === 'auto' || ox === 'scroll') && row.scrollWidth > row.clientWidth + 1;
+        }
+
+        function step() {
+          // One card plus the gap, read from the DOM rather than assumed, so
+          // the card-width formula can change without this going stale.
+          var card = row.querySelector('.card');
+          if (!card) return row.clientWidth;
+          return card.getBoundingClientRect().width + parseFloat(getComputedStyle(row).columnGap || 0);
+        }
+
+        function sync() {
+          var on = scrollable();
+          prev.hidden = !on;
+          next.hidden = !on;
+          if (!on) return;
+          var max = row.scrollWidth - row.clientWidth;
+          // 1px tolerance: fractional widths mean scrollLeft rarely lands on
+          // exactly 0 or exactly max.
+          prev.disabled = row.scrollLeft <= 1;
+          next.disabled = row.scrollLeft >= max - 1;
+        }
+
+        prev.addEventListener('click', function () { row.scrollBy({ left: -step(), behavior: 'smooth' }); });
+        next.addEventListener('click', function () { row.scrollBy({ left: step(), behavior: 'smooth' }); });
+        row.addEventListener('scroll', sync, { passive: true });
+        window.addEventListener('resize', sync);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+        sync();
+      });
+    </script>
 </body>
 </html>
