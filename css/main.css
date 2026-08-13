@@ -4566,6 +4566,7 @@ body:has(.modal[open]) {
 }
 .generator-card__head {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-m);
   align-items: flex-start;
   justify-content: space-between;
@@ -4609,16 +4610,19 @@ body:has(.modal[open]) {
   color: #00263e;
 }
 .generator-card__media {
-  display: none;
+  display: block;
+  order: -1;
+  width: 100%;
+  aspect-ratio: 2/1;
+  object-fit: cover;
+  border-radius: 8px;
 }
 @media (min-width: 640px) {
   .generator-card__media {
-    display: block;
     flex-shrink: 0;
+    order: 0;
     width: 10rem;
     aspect-ratio: 4/3;
-    object-fit: cover;
-    border-radius: 8px;
   }
 }
 @media (min-width: 960px) {

@@ -80,6 +80,11 @@
 
   &__head {
     display: flex;
+    // Lets the phone's full-width photo band take its own row (see __media:
+    // order -1 puts it first, 100% wide, and the wrap drops the intro under
+    // it). Inert from sm, where the 10rem thumbnail and the min-width: 0
+    // intro always fit beside each other.
+    flex-wrap: wrap;
     gap: var(--space-m);
     align-items: flex-start;
     justify-content: space-between;
@@ -149,9 +154,18 @@
     color: $color-ui-text;
   }
 
-  // Identifying photo, top-right. Decorative (alt="") and dropped below sm
-  // exactly as the download cover is: in a phone-width column it taxes the
-  // name's line length and carries no information the text doesn't.
+  // Identifying photo — top-right beside the name from sm, a full-width band
+  // ABOVE the record on phones.
+  //
+  // It used to be display: none below sm on line-length grounds: a side
+  // thumbnail in a phone column taxes exactly the width the name needs. The
+  // client called the photo back — it identifies the facility at the size
+  // where the reader is least likely to know the name — and the answer to the
+  // old objection is position, not absence: full width and shallow (2:1), the
+  // photo costs the card height instead of the name's line length. order: -1
+  // puts it before the intro in the wrapped head row, so the badge and name
+  // sit under the photo the way they do on every teaser card. A record with
+  // no photo simply has no band — the element is optional in the markup.
   //
   // Sized to READ as a photograph rather than as a favicon: at 6.5rem a wind
   // farm was an unidentifiable smudge, which is the one job this image has.
@@ -159,15 +173,18 @@
   // capped page above it, so md is where the surrounding text can afford the
   // width.
   &__media {
-    display: none;
+    display: block;
+    order: -1;
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    border-radius: $radius-md;
 
     @include respond-to('sm') {
-      display: block;
       flex-shrink: 0;
+      order: 0;
       width: 10rem;
       aspect-ratio: 4 / 3;
-      object-fit: cover;
-      border-radius: $radius-md;
     }
 
     @include respond-to('md') {
