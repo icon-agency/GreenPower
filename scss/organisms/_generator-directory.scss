@@ -386,10 +386,13 @@
   // and the button stayed pinned at top: 0 over the photo. Matched shape,
   // one class deeper.
   .leaflet-container a.leaflet-popup-close-button {
-    // Past the media, then down by the body's own inset so the glyph lands on
-    // the TITLE'S line rather than floating above it (measured: centres within
-    // 2px of the title's).
-    top: calc(var(--popup-media-h) + var(--space-xs));
+    // The base position is the IMAGELESS popup's: the title is the first
+    // line, so the button sits beside it at the body's own inset. The
+    // media step-down is a separate, gated rule below — it used to live
+    // here unconditionally, which parked the X mid-popup on the one record
+    // with no photo (Wollert): the offset stepped past a media box that
+    // was not there.
+    top: var(--space-xs);
     right: var(--space-2xs);
     width: 2rem;
     height: 2rem;
@@ -405,6 +408,18 @@
     &:focus-visible {
       @include focus-ring;
     }
+  }
+
+  // With a photo, step past it so the glyph lands on the TITLE'S line rather
+  // than on the image (measured: centres within 2px of the title's).
+  //
+  // :has() on the popup, because the button is a SIBLING of the content
+  // wrapper — nothing about the button's own ancestry says whether a photo
+  // exists. One class deeper than the base rule, so it wins where it
+  // applies. Without :has() support the button sits at the top over the
+  // photo — Leaflet's own placement: visible, functional, just not stepped.
+  .leaflet-container .leaflet-popup:has(.generator-popup__media) a.leaflet-popup-close-button {
+    top: calc(var(--popup-media-h) + var(--space-xs));
   }
 }
 
