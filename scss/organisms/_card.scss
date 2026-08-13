@@ -312,6 +312,20 @@
     margin-top: var(--space-2xs);
   }
 
+  // Optical compensation where the title sits directly under the photo. The
+  // flex gap is the same above and below the heading, but the INK is not: the
+  // heading's tight line box carries almost no leading above its cap, while
+  // the body under it carries half of its own 1.3 leading — so equal box gaps
+  // measured ~6px unequal ink-to-ink, and the title read as clinging to the
+  // image. One 3xs above restores the balance the gap only appears to have.
+  //
+  // :first-child, so a card whose content leads with an icon or an eyebrow is
+  // untouched — those carry their own rhythm and put the title second.
+  &__media + &__content > &__title:first-child,
+  &__media + &__title {
+    margin-top: var(--space-3xs);
+  }
+
   &__title {
     // step-1, matching .bento-grid__title — the two are the same kind of thing,
     // a title sitting inside a tile in a grid, and they now read as one family.
@@ -902,7 +916,11 @@
   // and weight instead of a hue of its own.
   &__eyebrow {
     display: flex;
-    gap: var(--space-2xs);
+    // 3xs, the system's icon-beside-words step (the generator badge, the
+    // popup link): an icon carries whitespace inside its own box, so the 2xs
+    // that suits two runs of text read as a hole between the leaf and the
+    // product name.
+    gap: var(--space-3xs);
     align-items: center;
     font-size: $font-size-base;
     font-weight: $font-weight-demibold;
