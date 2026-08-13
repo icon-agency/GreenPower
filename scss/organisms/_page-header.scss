@@ -350,6 +350,32 @@
     // and any device pixel ratio.
     background-color: $color-brand-dark-green;
 
+    // TOP-edge seam cover, inside the box on purpose. The media's top edge
+    // lands on a fractional device pixel and the angle wedge and the photo are
+    // clipped there on separate compositing layers, so their antialiased edge
+    // rows do not cancel — a hairline of photo showed through the green along
+    // the wedge on the stacked layout. An opaque bar sharing the SAME clip
+    // covers it exactly: its coverage mask at the edge row is identical to the
+    // img's (same box clips both), so the photo's bleed has nowhere to show.
+    // ::after, not ::before — it must paint over the img and the angle span,
+    // and among same-z positioned boxes tree order decides.
+    //
+    // Inside the media rather than a band-level strip, for the reason the
+    // first attempt taught: a strip positioned where the media's top edge
+    // WOULD be painted a 2px green line straight through the H1 on the one
+    // header whose phone layout has no media at all (--empty drops it below
+    // sm). Living inside the media, it exists exactly when the edge does, at
+    // every width — and it costs the photo 2px of its top edge, invisible for
+    // the same reason as the side strip: it is the colour of the panel above.
+    &::after {
+      position: absolute;
+      inset: 0 0 auto;
+      height: 2px;
+      content: '';
+      background-color: $color-brand-dark-green;
+      pointer-events: none;
+    }
+
     img {
       position: absolute;
       inset: 0;
@@ -399,40 +425,18 @@
   //
   // The other half of this story is --media's own background-color above: that
   // one stops the same clip edge blending image-to-nothing on the outside.
-  // One pseudo, two geometries. Below sm the seam is HORIZONTAL: the stacked
-  // media is a full-width block whose TOP edge lands on the same fractional
-  // device pixel, with the angle wedge and the photo clipped there on
-  // separate layers — a hairline of photo showed through the green along the
-  // wedge. The strip straddles that edge instead: its height comes from the
-  // media's own geometry, measured from the inner's bottom, where the media's
-  // negative margin puts its own bottom edge.
-  //
-  // The media is 100cqi wide at 2:1 — EXACTLY 100cqi, because container query
-  // lengths resolve against the container's CONTENT box, and the header's
-  // content box is what the media spans once its margins cancel the inner's
-  // padding (measured: both 351px at a 375px viewport). Subtracting the frame
-  // from cqi here double-counts it and lands the strip 11px low.
-  //
-  // The inline overshoot is deliberate: the inner's overflow clips the strip
-  // to the band, so no inset arithmetic can misalign it.
   &__inner::after {
-    position: absolute;
-    inset-inline: -50cqi;
-    bottom: calc(50cqi - 1px);
-    height: 2px;
-    content: '';
-    background-color: $color-brand-dark-green;
-    pointer-events: none;
-
     @include respond-to('sm') {
+      position: absolute;
       inset-block: 0;
-      inset-inline: auto;
       // The media is anchored to the band's right edge and is
       // (--media-reserve − --space-l) wide, so its inner edge is that far in;
       // back off 1px and cover 2.
       right: calc(var(--media-reserve) - var(--space-l) - 1px);
       width: 2px;
-      height: auto;
+      content: '';
+      background-color: $color-brand-dark-green;
+      pointer-events: none;
     }
   }
 

@@ -2838,6 +2838,14 @@ a:focus-visible {
   overflow: hidden;
   background-color: #006341;
 }
+.page-header__media::after {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  content: "";
+  background-color: #006341;
+  pointer-events: none;
+}
 .page-header__media img {
   position: absolute;
   inset: 0;
@@ -2851,22 +2859,15 @@ a:focus-visible {
     will-change: transform;
   }
 }
-.page-header__inner::after {
-  position: absolute;
-  inset-inline: -50cqi;
-  bottom: calc(50cqi - 1px);
-  height: 2px;
-  content: "";
-  background-color: #006341;
-  pointer-events: none;
-}
 @media (min-width: 640px) {
   .page-header__inner::after {
+    position: absolute;
     inset-block: 0;
-    inset-inline: auto;
     right: calc(var(--media-reserve) - var(--space-l) - 1px);
     width: 2px;
-    height: auto;
+    content: "";
+    background-color: #006341;
+    pointer-events: none;
   }
 }
 @media (min-width: 960px) {
