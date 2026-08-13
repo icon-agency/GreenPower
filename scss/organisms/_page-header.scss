@@ -84,8 +84,15 @@
     // Keep curve ≤ cut / 3.4595 so the curve's 45° end stays on the diagonal
     // inside the media box. Smaller on phones where the image is a shallow
     // full-width block; full scale once the image is a side column (sm+).
-    --angle-cut: 5rem;
-    --angle-curve: 1.4rem;
+    //
+    // The phone pair sat at 5rem / 1.4rem and the curve read POINTIER than
+    // the family — the hero holds its bézier at 2.5rem at every width, so
+    // beside it this one looked like a different, sharper shape. 2rem is as
+    // round as the constraint allows without the cut overwhelming a 2:1
+    // image: curve ≤ cut / 3.4595 means 2rem needs a 7rem cut (112px of a
+    // ~170px-tall block — already most of the photo's right edge).
+    --angle-cut: 7rem;
+    --angle-curve: 2rem;
 
     @include respond-to('sm') {
       --angle-cut: 9rem;
@@ -392,18 +399,40 @@
   //
   // The other half of this story is --media's own background-color above: that
   // one stops the same clip edge blending image-to-nothing on the outside.
+  // One pseudo, two geometries. Below sm the seam is HORIZONTAL: the stacked
+  // media is a full-width block whose TOP edge lands on the same fractional
+  // device pixel, with the angle wedge and the photo clipped there on
+  // separate layers — a hairline of photo showed through the green along the
+  // wedge. The strip straddles that edge instead: its height comes from the
+  // media's own geometry, measured from the inner's bottom, where the media's
+  // negative margin puts its own bottom edge.
+  //
+  // The media is 100cqi wide at 2:1 — EXACTLY 100cqi, because container query
+  // lengths resolve against the container's CONTENT box, and the header's
+  // content box is what the media spans once its margins cancel the inner's
+  // padding (measured: both 351px at a 375px viewport). Subtracting the frame
+  // from cqi here double-counts it and lands the strip 11px low.
+  //
+  // The inline overshoot is deliberate: the inner's overflow clips the strip
+  // to the band, so no inset arithmetic can misalign it.
   &__inner::after {
+    position: absolute;
+    inset-inline: -50cqi;
+    bottom: calc(50cqi - 1px);
+    height: 2px;
+    content: '';
+    background-color: $color-brand-dark-green;
+    pointer-events: none;
+
     @include respond-to('sm') {
-      position: absolute;
       inset-block: 0;
+      inset-inline: auto;
       // The media is anchored to the band's right edge and is
       // (--media-reserve − --space-l) wide, so its inner edge is that far in;
       // back off 1px and cover 2.
       right: calc(var(--media-reserve) - var(--space-l) - 1px);
       width: 2px;
-      content: '';
-      background-color: $color-brand-dark-green;
-      pointer-events: none;
+      height: auto;
     }
   }
 
