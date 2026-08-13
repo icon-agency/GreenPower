@@ -168,21 +168,23 @@
 // the meaning — so it always ships alt="". Portrait A4-ish; the ratio is held
 // here so a mis-cropped upload cannot change the card's proportions.
 //
-// DROPPED below sm. In a phone-width reading column the cover plus its gap took
-// ~96px of a ~263px card, leaving the body 167px: the title broke to four
-// lines and "Download 1.42 MB · PDF" wrapped mid-label. Nothing is lost by
-// removing it — it carries no information (alt=""), and every fact about the
-// file stays in the title, summary and link.
+// On phones it steps DOWN rather than out (it was display: none below sm for
+// a while; the client called it back — the generator card's ruling). The
+// measured objection was real: at 5.5rem the cover plus its gap took ~96px of
+// a ~263px card and the title broke to four lines. 4.5rem returns ~20px of
+// that and keeps the cover a recognisable document; unlike the generator's
+// photo it cannot go full-width above the text, because a portrait A4 cover
+// cropped to a landscape band stops being a document cover at all.
 .download__cover {
-  display: none;
+  display: block;
+  flex-shrink: 0;
+  width: 4.5rem;
+  aspect-ratio: 600 / 845;
+  object-fit: cover;
+  border-radius: $radius-sm;
 
   @include respond-to('sm') {
-    display: block;
-    flex-shrink: 0;
     width: 5.5rem;
-    aspect-ratio: 600 / 845;
-    object-fit: cover;
-    border-radius: $radius-sm;
   }
 }
 

@@ -37,6 +37,23 @@
   max-width: var(--measure);
   margin-inline: auto;
 
+  // ALIGNED WITH THE BAND COPY, at every width. The page-header's text starts
+  // one frame (--space-xs) inside the page gutter — deliberately, so the copy
+  // is not left hugging the band's green edge — while the page container
+  // stops at the gutter. That put every split's text a frame LEFT of the H1
+  // above it, a small step visible on every breakpoint once you see it
+  // (flagged on the quarterly reports page, measured 12–19px). The split
+  // carries the same frame as padding, so its columns — text and cards — sit
+  // on the H1's own line, and the construction matches on both sides of the
+  // container cap because band and container centre the same way.
+  //
+  // NOT on the article variant: its body is aligned to the band copy already,
+  // by the track math (calc(34cqi + --space-l) mirrors --media-reserve), and
+  // a second frame here would shift it off the very line that work bought.
+  &:not(#{&}--article) {
+    padding-inline: var(--space-xs);
+  }
+
   @include respond-to('sm') {
     display: grid;
     // A third / two-thirds through the MID band, 50/50 from lg (below).
@@ -253,6 +270,18 @@
   // third of the line empty.
   @include respond-to('sm') {
     max-width: 36ch;
+  }
+}
+
+// The downloads listing (quarterly reports): the intro rail is not a 24ch
+// heading but real prose — a paragraph explaining what the reports are — and
+// the base third/two-thirds squeezed it to six-word lines through the tablet
+// band while the file cards sat comfortable. Two-fifths gives the words room;
+// the base 50/50 returns from lg exactly as it does everywhere else, so this
+// is one band's correction, not a new layout.
+.page-split--downloads {
+  @include respond-between('sm', 'lg') {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
   }
 }
 
