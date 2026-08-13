@@ -2,9 +2,10 @@
 // Client logos — a centred heading over a band of customer logos
 //
 // THE WHOLE PROBLEM IS OPTICAL BALANCE. The pack runs from Uniqlo (square, 0.98)
-// to Envato (a wordmark at 5.24) — a 5.3x spread of aspect ratios. Match them on
-// WIDTH and the square marks become giant tiles beside hairline wordmarks; match
-// them on HEIGHT alone and Envato renders ~3x wider than Uniqlo and owns the row.
+// to the DHL wordmark (7.18 since its vector arrived — the widest was Envato's
+// 5.24 before that) — a 7.3x spread of aspect ratios. Match them on WIDTH and
+// the square marks become giant tiles beside hairline wordmarks; match them on
+// HEIGHT alone and the wide wordmarks own the row.
 //
 // So: a fixed height AND a max width, with object-fit: contain between them.
 // Every logo up to ~3.1:1 is height-matched and sits on one optical line; only
