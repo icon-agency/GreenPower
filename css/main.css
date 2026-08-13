@@ -3482,7 +3482,7 @@ body:has(.modal[open]) {
     inset: 0;
     content: "";
     pointer-events: none;
-    background-color: #00263e;
+    background-color: #006341;
     mix-blend-mode: screen;
   }
 }

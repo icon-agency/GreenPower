@@ -14,9 +14,11 @@
 // supposed to read. Tuned against the real files — re-check the caps if the
 // pack gains a logo more extreme than those.
 //
-// The marks render as a DUOTONE — greyscaled, then mapped black → Primary
-// Blue, white → white (see __item below for the mechanism) — so the band
-// reads as one quiet navy row instead of twenty competing brand palettes.
+// The marks render as a DUOTONE — greyscaled, then mapped black → Dark
+// Green, white → white (see __item below for the mechanism) — so the band
+// reads as one quiet green row instead of twenty competing brand palettes.
+// (It launched as Primary Blue and moved to Dark Green the same day — the
+// plate colour is the one dial, and everything else here is hue-agnostic.)
 // Client decision, Aug 2026, reversing this file's earlier full-colour rule.
 // The source files are untouched and the treatment is two declarations, so
 // full colour is one deletion away.
@@ -266,8 +268,8 @@
   // The duotone's white ground. The transformed track is a stacking context,
   // so the plate's blend can only see what is painted INSIDE it — over a
   // transparent gap (a short wordmark centred in this fixed-height box) the
-  // plate would composite against nothing and paint itself as a solid navy
-  // tile. With white underneath, every non-mark pixel is screen(white, blue)
+  // plate would composite against nothing and paint itself as a solid green
+  // tile. With white underneath, every non-mark pixel is screen(white, green)
   // = white. Invisible on the band's white; if this section ever moves onto a
   // tinted surface these become white chips — repaint this ground to match,
   // or drop the treatment there.
@@ -279,13 +281,13 @@
 }
 
 // The duotone plate — the colour half of the treatment described in the
-// header. `screen` computes, per channel, c + g(1 − c): black → Primary Blue
-// exactly, white → white, greys → the blue-tinted ramp between. A true
-// white↔blue mapping, where a filter chain (sepia + hue-rotate) would also
+// header. `screen` computes, per channel, c + g(1 − c): black → Dark Green
+// exactly, white → white, greys → the green-tinted ramp between. A true
+// white↔green mapping, where a filter chain (sepia + hue-rotate) would also
 // stain the JPGs' white tiles and show them as boxes on the band.
 //
 // @supports, because the fallback matters: without blend support this plate
-// would paint as an opaque navy rectangle over every logo. Ungated, the
+// would paint as an opaque green rectangle over every logo. Ungated, the
 // greyscale on the img below still applies, so old engines get the plain
 // grey band — the ask's baseline — rather than something broken.
 @supports (mix-blend-mode: screen) {
@@ -294,7 +296,7 @@
     inset: 0;
     content: '';
     pointer-events: none;
-    background-color: $color-brand-blue;
+    background-color: $color-brand-dark-green;
     mix-blend-mode: screen;
   }
 }
