@@ -266,8 +266,17 @@
   // The control, at the same link weight as the actions row below it — it
   // reveals text in place, which is what an in-page link does, and the card
   // has no room for a button weight between the facts and the rule.
+  //
+  // Pinned RIGHT, like "View on map" in the actions row below: the card's
+  // left edge is where the DATA lives, and this label — the same green, the
+  // same weight as the dl's terms — read as a stray row fragment sitting in
+  // that column. On the right it joins the card's control edge instead. The
+  // auto margin needs a real flex box to act on, so fit-content stands in for
+  // the inline-flex shrink-wrap.
   &__more-summary {
-    display: inline-flex;
+    display: flex;
+    width: fit-content;
+    margin-left: auto;
     align-items: center;
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
