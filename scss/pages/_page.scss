@@ -20,16 +20,18 @@
   // content starting tight under it — a page break needs more air than a
   // component gap.
   //
-  // PHONES take the top two steps down (the article variant's own rationale,
-  // at the width where it bites hardest): the band above is a closed, rounded
-  // panel that already reads as a break, and on a phone screen the full
-  // --space-3xl pushed the first heading the best part of a viewport away
-  // from the band it belongs to. The bottom keeps the section scale — below
-  // the body is the footer, which brings no panel of its own.
-  padding-block: var(--space-xl) var(--space-3xl);
+  // PHONES take both ends down (the article variant's own rationale, at the
+  // width where it bites hardest): the band above is a closed, rounded panel
+  // that already reads as a break, so the top drops to --space-xl — and the
+  // BOTTOM drops further, to --space-m, because whatever follows a body
+  // brings its own section-scale top (a card section's --space-xl, another
+  // body's own top). At --space-3xl the two stacked into most of a phone
+  // viewport of empty page between a paragraph and the next heading. The
+  // full symmetric scale returns from sm.
+  padding-block: var(--space-xl) var(--space-m);
 
   @include respond-to('sm') {
-    padding-block-start: var(--space-3xl);
+    padding-block: var(--space-3xl);
   }
 
   // Layout blocks (.page-content, .page-split) stack as siblings in here;
