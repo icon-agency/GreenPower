@@ -4660,6 +4660,66 @@ body:has(.modal[open]) {
   font-size: var(--step--1);
   color: #00263e;
 }
+.generator-card__more {
+  interpolate-size: allow-keywords;
+}
+.generator-card__more::details-content {
+  overflow: hidden;
+  block-size: 0;
+  transition: block-size 0.3s ease-out, content-visibility 0.3s ease-out allow-discrete;
+}
+.generator-card__more[open]::details-content {
+  block-size: auto;
+}
+.generator-card__more-summary {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: #006341;
+  cursor: pointer;
+  list-style: none;
+}
+.generator-card__more-summary::-webkit-details-marker {
+  display: none;
+}
+.generator-card__more-summary::before {
+  display: inline-block;
+  width: 0.4em;
+  height: 0.4em;
+  margin-right: var(--space-2xs);
+  content: "";
+  border-right: 1.5px solid currentcolor;
+  border-bottom: 1.5px solid currentcolor;
+  transform: rotate(-45deg);
+  transition: transform 0.2s ease-out;
+}
+.generator-card__more-summary:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.generator-card__more-summary:focus-visible {
+  outline: 3px solid #009f4d;
+  outline-offset: 2px;
+}
+.generator-card__more[open] .generator-card__more-summary::before {
+  transform: rotate(45deg);
+}
+.generator-card__more-close {
+  display: none;
+}
+.generator-card__more[open] .generator-card__more-summary .generator-card__more-open {
+  display: none;
+}
+.generator-card__more[open] .generator-card__more-summary .generator-card__more-close {
+  display: inline;
+}
+.generator-card__more-body {
+  padding-top: var(--space-xs);
+}
+.generator-card__more-body > * + * {
+  margin-top: var(--space-xs);
+}
 .generator-card__actions {
   display: flex;
   flex-wrap: wrap;
@@ -4731,6 +4791,12 @@ body:has(.modal[open]) {
   display: none;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .generator-card__more::details-content,
+  .provider-card__offer::details-content {
+    transition-duration: 0.01ms;
+  }
+}
 .generator-directory {
   --directory-gutter: var(--space-s);
   --popup-media-h: 9.5rem;

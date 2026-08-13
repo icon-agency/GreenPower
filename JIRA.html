@@ -521,14 +521,20 @@
         },
         {
           ref: 'V6', summary: 'Gas producers tool',
-          why: 'Same view shape as the generators tool, gas taxonomy — "Gas producers" in the design system\u2019s Tools group.',
-          see: [['Template', 'templates/tool-gas-producers.html']],
+          why: 'Same view shape as the generators tool, gas taxonomy — "Gas producers" in the design system\u2019s Tools group. Reviewed against the client ticket (Aug 2026): the deltas are four registry fields and a second tier on the card.',
+          see: [['Template', 'templates/tool-gas-producers.html'], ['DS', 'index.html#generator-card']],
           ac: [
             'Same view configuration as V5 with the renewable gas type filter',
+            'Teaser adds the registry fields: feedstock, GHG LCA emissions (excl. combustion), full lifecycle emission reduction, expected completion (future projects only — operational plants omit the row)',
+            'The card is TWO TIERS: name, company, place, gas type, capacity and CER code at a glance; the four fields above and the description behind a native &ldquo;More details&rdquo; disclosure. This REPLACES the ticket\u2019s pending expanded/modal view — the card expands in place, so there is no third surface, no focus trap and no close-on-outside-click machinery',
+            'The map popup renders the glance tier only, and the map\u2019s &ldquo;View details&rdquo; crossing opens the card WITH its disclosure expanded',
+            'Capacity unit per D16 — the prototype renders TJ/yr, the ticket\u2019s example is GJ',
+            '&ldquo;TBD&rdquo; is an editorial VALUE on an announced project, distinct from an empty field (omitted row) — semantics per D16',
+            'AMENDS the client ticket: no pagination (V5\u2019s rule — the full list is the map\u2019s data); search commits on submit, not per keystroke (L1\u2019s rule); both filters are multi-selects, not single dropdowns; the popup carries neither description nor website (client decision, Aug 2026); the search examples name electricity projects and need gas ones',
             'H1 and intro copy confirmed with the client'
           ],
-          notes: 'Duplicated from the generators tool in the prototype — share the view display if practical. Whether gas SHARES the generator content type (and so needs its vocabulary on the same reference field) is part of D14.',
-          depends: 'V5, D14'
+          notes: 'Duplicated from the generators tool in the prototype — share the view display if practical. Whether gas SHARES the generator content type is part of D14, and the four gas-only fields make that call more consequential.',
+          depends: 'V5, D14, D16, D17'
         },
         {
           ref: 'V7', summary: 'Buy GreenPower tool',
@@ -897,6 +903,32 @@
           ],
           notes: 'Recorded here so the recommendation survives the JIRA comment thread it was asked in.',
           depends: ''
+        },
+        {
+          ref: 'D16', summary: 'DECISION: gas registry fields — capacity unit, emission formats, and what &ldquo;TBD&rdquo; means',
+          why: 'The gas ticket\u2019s field list and the prototype disagree on units, and three fields use &ldquo;TBD&rdquo; as their example value without saying whether that is data or absence.',
+          see: [['Template', 'templates/tool-gas-producers.html']],
+          ac: [
+            'Capacity unit settled against the registry: the prototype renders TJ/yr, the ticket\u2019s example is &ldquo;160,000 GJ&rdquo; — one of them is wrong, and the number format (thousands separators, per-annum wording) follows',
+            'Formats for GHG LCA emissions (excl. combustion) and full lifecycle emission reduction — unit, precision, and whether the registry supplies numbers or free text',
+            '&ldquo;TBD&rdquo; defined: an editorial value on an announced-but-unbuilt project (renders as text) is different from an empty field (row omitted — the directory\u2019s standing convention). The import needs to know which it is receiving',
+            'Field names for config — field_feedstock, field_ghg_lca, field_lifecycle_reduction, field_completion — reconciled with D11\u2019s authoritative list before anything is created'
+          ],
+          notes: 'Every one of these is invisible until an import runs against real registry data — which is why it is a decision ticket and not part of V6.',
+          depends: 'Blocks V6'
+        },
+        {
+          ref: 'D17', summary: 'DECISION: future projects — what does the Accredited badge mean on an unbuilt plant?',
+          why: '&ldquo;Expected completion&rdquo; means the gas directory lists plants that do not exist yet — unlike the electricity tool, which is operational-only. The card\u2019s Accredited badge is STRUCTURAL (everything in the directory is accredited), and a project with completion &ldquo;TBD&rdquo; may not be.',
+          see: [['DS', 'index.html#generator-card'], ['Template', 'templates/tool-gas-producers.html']],
+          ac: [
+            'Whether announced and under-construction projects sit in the accredited registry at all, or in a separate pipeline list',
+            'If they are listed: whether the badge stays structural or a status treatment distinguishes operational from expected — extends D13\u2019s status question along a second axis',
+            'Whether future projects appear on the map (they have sites) and in the type and state filters',
+            'The electricity tool confirmed as unaffected, or brought into scope deliberately'
+          ],
+          notes: 'D13 asked accredited-vs-suspended; this is accredited-vs-not-yet-real. Same badge, different lie if unstated.',
+          depends: 'Blocks V6'
         }
       ]
     }

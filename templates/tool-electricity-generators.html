@@ -1750,7 +1750,9 @@
 
         var meta = document.createElement('div');
         meta.className = 'generator-popup__meta';
-        [].slice.call(card.querySelectorAll('.generator-card__meta-row')).forEach(function (row) {
+        // The GLANCE tier only — the card's FIRST <dl> (kept in step with the
+        // gas tool, whose cards carry a second dl inside "More details").
+        [].slice.call(card.querySelector('.generator-card__meta').querySelectorAll('.generator-card__meta-row')).forEach(function (row) {
           var line = document.createElement('p');
           line.className = 'generator-popup__meta-row';
           var label = document.createElement('strong');
@@ -2628,6 +2630,11 @@
 
         if (map) map.closePopup();
         ringCard(card);
+
+        // Mirrors the gas tool: if this card ever gains a "More details"
+        // disclosure, the crossing arrives with it open. No-op today.
+        var more = card.querySelector('.generator-card__more');
+        if (more) more.open = true;
 
         // Stacked only: from md the list is already beside the map, the pin
         // click has rung and scrolled the card, and there is no view to swap.

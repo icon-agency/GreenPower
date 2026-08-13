@@ -13,6 +13,15 @@
 // row with a side thumbnail, dl meta, action row) shares none of the card's
 // structure — only its surface conventions, which are tokens anyway.
 //
+// The card is TWO TIERS. Name, company, place and the primary meta (type,
+// capacity, CER code) are the glance; feedstock, the two emissions figures,
+// expected completion and the DESCRIPTION sit behind a native "More details"
+// disclosure (__more). This replaces the gas ticket's pending expanded/modal
+// view — the card expands in place, so there is no third surface, no focus
+// trap and no close-on-outside-click machinery (JIRA V6). The map popup
+// renders the glance tier only, and the map's "View details" crossing opens
+// the card with its disclosure expanded.
+//
 // Drupal mapping: a node TEASER view mode of accredited_generator, rendered
 //   as the rows of the generators view (see _generator-directory.scss):
 //   title, field_company (text), field_place (text), field_state (taxonomy),
@@ -21,6 +30,14 @@
 //   (link), field_image (media), field_location (geofield — the template
 //   writes it to data-lat/data-lng for the map markers; a missing value drops
 //   the marker, never the row).
+//   Gas producers add the second-tier registry fields (units and semantics
+//   pending JIRA D16): field_feedstock (text), field_ghg_lca (text — "TBD"
+//   can be an editorial value, see D16), field_lifecycle_reduction (text),
+//   field_completion (text; FUTURE projects only — operational plants omit
+//   the row, and what the Accredited badge means on an unbuilt plant is
+//   JIRA D17). An empty field omits its row; a record with no second-tier
+//   fields and no description omits the whole disclosure — a control that
+//   expands onto nothing is worse than no control.
 //   The Accredited badge is structural — everything in this directory is
 //   accredited — so it is template markup, not a field.
 // -----------------------------------------------------------------------------
@@ -218,6 +235,108 @@
     color: $color-ui-text;
   }
 
+  // --- "More details" — the record's second tier ------------------------------
+  //
+  // Feedstock, the emissions figures, expected completion and the description,
+  // folded behind a native <details>. The glance tier above answers "which
+  // producer is this"; this tier answers "tell me about it", and folding it
+  // keeps six records scannable where five open descriptions were not.
+  //
+  // Native details, like the accordion and the provider card's offers: the
+  // browser owns the toggling, the keyboard operation and the expanded state
+  // it reports, and without JS the disclosure still opens — nothing here needs
+  // a script to be functional. Same ::details-content + interpolate-size
+  // animation as both of those, so every disclosure on the site behaves alike.
+  &__more {
+    interpolate-size: allow-keywords;
+
+    &::details-content {
+      overflow: hidden;
+      block-size: 0;
+      transition:
+        block-size 0.3s ease-out,
+        content-visibility 0.3s ease-out allow-discrete;
+    }
+
+    &[open]::details-content {
+      block-size: auto;
+    }
+  }
+
+  // The control, at the same link weight as the actions row below it — it
+  // reveals text in place, which is what an in-page link does, and the card
+  // has no room for a button weight between the facts and the rule.
+  &__more-summary {
+    display: inline-flex;
+    align-items: center;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-brand-dark-green;
+    cursor: pointer;
+    // Drops the default disclosure triangle everywhere but WebKit…
+    list-style: none;
+
+    // …which needs its own reset (the accordion's pairing).
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    // The affordance the triangle carried, in the system's own vocabulary: a
+    // chevron pointing right, turning down once open — the old popup
+    // disclosure's exact anatomy, leading the label where the native marker
+    // it replaces sat.
+    &::before {
+      display: inline-block;
+      width: 0.4em;
+      height: 0.4em;
+      margin-right: var(--space-2xs);
+      content: '';
+      border-right: 1.5px solid currentcolor;
+      border-bottom: 1.5px solid currentcolor;
+      transform: rotate(-45deg);
+      @include transition(transform, 0.2s, ease-out);
+    }
+
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  &__more[open] &__more-summary::before {
+    transform: rotate(45deg);
+  }
+
+  // "More details" / "Less" — the label states the action, and the swap is
+  // pure CSS off the [open] state the browser already maintains, so the two
+  // can never disagree with the panel.
+  &__more-close {
+    display: none;
+  }
+
+  &__more[open] &__more-summary &__more-open {
+    display: none;
+  }
+
+  &__more[open] &__more-summary &__more-close {
+    display: inline;
+  }
+
+  // The tier's own column: the card's flex gap stops at the details boundary,
+  // so the body restates the same rhythm inside it — one step under the
+  // summary, one between the facts and the description.
+  &__more-body {
+    padding-top: var(--space-xs);
+
+    > * + * {
+      margin-top: var(--space-xs);
+    }
+  }
+
   // Action row closing the card, ruled above — the news teaser's meta-row
   // anatomy with two controls in it.
   &__actions {
@@ -309,5 +428,20 @@
     .no-js & {
       display: none;
     }
+  }
+}
+
+// Reduced motion needs its own rule: the global kill in base/_reset.scss
+// targets `*, *::before, *::after`, and a universal selector does NOT reach
+// other pseudo-elements — the height animation would run regardless (the
+// accordion's note). Standalone for the same reason as the accordion's:
+// adding ::details-content to the reset's shared selector list would
+// invalidate that entire list in browsers that don't recognise it. The
+// provider card's offer disclosure shipped without this and is covered here
+// rather than growing a third copy.
+@media (prefers-reduced-motion: reduce) {
+  .generator-card__more::details-content,
+  .provider-card__offer::details-content {
+    transition-duration: 0.01ms;
   }
 }
