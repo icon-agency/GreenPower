@@ -1514,6 +1514,12 @@ a:focus-visible {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-xs);
+  margin-inline: calc(-1 * var(--space-s-l));
+}
+@media (min-width: 640px) {
+  .card-stack {
+    margin-inline: 0;
+  }
 }
 
 .card {

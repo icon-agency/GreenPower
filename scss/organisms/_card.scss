@@ -248,6 +248,17 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr); // minmax(0,…) per the LESSONS.md note below
   gap: var(--space-xs);
+
+  // Phones: the same pull the section grids carry — the card boxes reach the
+  // band's --space-xs edge and, with the card's phone padding being the band
+  // inset, their text lands back on the reading column's own line beside the
+  // heading above. The stack sits INSIDE the body's frame (page gutter +
+  // band frame), so the pull is the page gutter alone, exactly as the grids'.
+  margin-inline: calc(-1 * var(--space-s-l));
+
+  @include respond-to('sm') {
+    margin-inline: 0;
+  }
 }
 
 .card {
