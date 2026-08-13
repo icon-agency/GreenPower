@@ -56,10 +56,17 @@
   // system's document to 21,000px). The link itself must stay unpositioned or
   // its cover would shrink to the link's own box.
   position: relative;
-  display: flex;
-  gap: var(--space-m);
-  align-items: flex-start;
-  justify-content: space-between;
+  // A GRID, not the flex row it was: body and cover share the first row, and
+  // the download row spans the full card beneath both (grid-column on __link).
+  // It used to live inside __body, which capped it — and its divider — at the
+  // text column, so the row wrapped against empty space that sat under the
+  // cover ("bunched up", flagged on the quarterly reports page at 375px).
+  // auto for the cover track: with no cover the track is zero and the body
+  // spans the card, exactly as the flex version behaved.
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--space-2xs) var(--space-m);
   padding: var(--space-m);
   background-color: var(--download-surface);
   border-radius: $radius-md;
@@ -117,13 +124,13 @@
 // to .download above.
 .download__link {
   @include flex-row(var(--space-2xs));
-  // Pinned to the card's foot so a list of files levels its download rows
-  // (the card __links/__meta/__cta device); in a content-height card the flex
-  // gap spaces it as before. The row spans the body column and carries the
-  // card__link divider treatment: resting hairline, and the centre-out bar —
-  // the background-gradient build from link-inline, because a positioned
-  // ::after here would break the click cover's anchoring.
-  margin-top: auto;
+  // Spans the card under BOTH columns — the whole point of the grid above —
+  // and self-aligns to the foot so a levelled list keeps its rows level. The
+  // divider carries the card__link treatment: resting hairline, and the
+  // centre-out bar — the background-gradient build from link-inline, because
+  // a positioned ::after here would break the click cover's anchoring.
+  grid-column: 1 / -1;
+  align-self: end;
   padding-bottom: var(--space-2xs);
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;

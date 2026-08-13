@@ -3267,10 +3267,10 @@ body:has(.modal[open]) {
   --download-surface: #ebe5d3;
   --download-surface-hover: #f3efe5;
   position: relative;
-  display: flex;
-  gap: var(--space-m);
-  align-items: flex-start;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--space-2xs) var(--space-m);
   padding: var(--space-m);
   background-color: var(--download-surface);
   border-radius: 8px;
@@ -3313,7 +3313,8 @@ body:has(.modal[open]) {
   align-items: center;
   justify-content: flex-start;
   gap: var(--space-2xs);
-  margin-top: auto;
+  grid-column: 1/-1;
+  align-self: end;
   padding-bottom: var(--space-2xs);
   font-size: var(--step--1);
   font-weight: 500;
@@ -6083,6 +6084,24 @@ body:has(.modal[open]) {
 @media (min-width: 640px) and (max-width: 1199.98px) {
   .page-split--downloads {
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  }
+}
+.page-split--downloads > .page-split__body > .download-list,
+.page-split--downloads > .page-split__body > .accordion {
+  margin-inline: calc(-1 * var(--space-s-l));
+}
+@media (min-width: 640px) {
+  .page-split--downloads > .page-split__body > .download-list,
+  .page-split--downloads > .page-split__body > .accordion {
+    margin-inline: 0;
+  }
+}
+.page-split--downloads .download {
+  padding-inline: var(--space-s-l);
+}
+@media (min-width: 640px) {
+  .page-split--downloads .download {
+    padding-inline: var(--space-m);
   }
 }
 
