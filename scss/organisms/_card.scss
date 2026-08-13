@@ -27,6 +27,18 @@
 .card-section {
   @include container;
 
+  // The section's gutter IS the band-copy line: the container's --space-s-l
+  // plus the band's --space-xs frame, stated once and consumed by everything
+  // below — the heading, the intro, the scroll rows' bleed and the wide
+  // rail's stride — so the pieces cannot drift apart. Same construction as
+  // .page-body's frame (_page.scss): a section heading now sits on the same
+  // line as the H1 in the band above it and the prose beside it, on every
+  // page and at every width, which is what makes the pattern library's parts
+  // interchangeable.
+  --section-gutter: calc(var(--space-s-l) + var(--space-xs));
+
+  padding-inline: var(--section-gutter);
+
   // Asymmetric by design. The TOP is half the old --space-3xl break, which is
   // --space-xl exactly — the space scale's 3× and 6× multipliers share both
   // endpoints (3rem→3.75rem against 6rem→7.5rem), so this is the real token
@@ -152,8 +164,19 @@
     gap: var(--space-xs);
     margin-top: var(--space-xl);
 
+    // Phones: the card BOXES reach the band's own --space-xs edge, and their
+    // text lands back on the band-copy line — the quarterly-reports pattern
+    // promoted to every card section. Two moves that must agree: this margin
+    // is the page gutter (box from the text line out to the band frame), and
+    // the card's phone padding below restates the band's inset (--space-s-l),
+    // so card text = band edge + band inset = the H1's line. Scroll rows are
+    // excluded — their bleed already spans the full gutter and their snapped
+    // card sits ON the line by construction.
+    margin-inline: calc(-1 * var(--space-s-l));
+
     @include respond-to('sm') {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-inline: 0;
     }
 
     @include respond-to('md') {
@@ -230,7 +253,16 @@
 .card {
   // Single source for the card padding so the image bleed (the negative
   // margins below) always tracks it — variants retune padding via this one var.
-  --card-padding: var(--space-m);
+  //
+  // On phones it is the band's own inset (--space-s-l), not --space-m: the
+  // grid above pulls the card box to the band's edge, and this padding is the
+  // second half of that construction — box edge + band inset puts the card's
+  // text on the band-copy line. One var, so the image bleed follows along.
+  --card-padding: var(--space-s-l);
+
+  @include respond-to('sm') {
+    --card-padding: var(--space-m);
+  }
 
   // The surface PAIR, as one decision. Hover and the focus lift below both
   // read --card-surface-hover, so a variant retunes the state by swapping two
@@ -707,9 +739,9 @@
   // scroll-padding matches, so snapping lands cards on the heading's edge
   // rather than flush against the viewport, and so keyboard scrolling into a
   // card never parks it half under the edge.
-  margin-inline: calc(-1 * var(--space-s-l));
-  padding-inline: var(--space-s-l);
-  scroll-padding-inline: var(--space-s-l);
+  margin-inline: calc(-1 * var(--section-gutter));
+  padding-inline: var(--section-gutter);
+  scroll-padding-inline: var(--section-gutter);
 
   display: grid;
   grid-auto-flow: column;
@@ -829,9 +861,9 @@
     // The bleed stays with the scrolling: at 100% a slide is the section's own
     // content width, so it lines up under the heading, and the card arriving
     // behind it crosses the gutter instead of appearing out of a hard edge.
-    margin-inline: calc(-1 * var(--space-s-l));
-    padding-inline: var(--space-s-l);
-    scroll-padding-inline: var(--space-s-l);
+    margin-inline: calc(-1 * var(--section-gutter));
+    padding-inline: var(--section-gutter);
+    scroll-padding-inline: var(--section-gutter);
 
     // NO PEEK at rest — unlike the narrow row, where the next card's visible
     // slice is the affordance. A snapped slide sits between the padding
@@ -848,7 +880,7 @@
     // widths shimmer it in and out. Mid-swipe both cards still travel
     // through the gutter together, so the motion keeps its honesty; and
     // step() reads the computed gap, so the arrows stride one slide exactly.
-    column-gap: calc(2 * var(--space-s-l));
+    column-gap: calc(2 * var(--section-gutter));
   }
 
   // The horizontal mixin spans its card across the row — right in a column
