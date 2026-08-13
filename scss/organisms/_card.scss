@@ -964,11 +964,14 @@
     // a gap, not a rhythm.
     padding-block: var(--space-xs) var(--space-2xs);
     margin-top: auto;
-    // xs, matching the __tag: the two are the same kind of thing — small
-    // metadata orbiting the card's real text — and sm let the date compete
-    // with the body copy. Dark Green on the tint surfaces stays far past AA
-    // at this size (contrast is a colour ratio; size only picks the 4.5 bar).
-    font-size: $font-size-xs;
+    // sm — the bento tile's "Read impact story" link step, matched on purpose:
+    // the two rows are the same gesture (a quiet action line closing a tile),
+    // and at xs this one read as a different, smaller kind of thing on the
+    // page directly above or below the bento. It sat at xs for a while to
+    // match the __tag pill; the client weighed the two pairings and chose the
+    // bento's. The arrow is a fixed $arrow-icon-width in both places, so only
+    // the text steps up.
+    font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     color: $color-brand-dark-green;
     border-top: 1px solid $color-ui-border;
