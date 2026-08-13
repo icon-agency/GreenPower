@@ -5874,6 +5874,9 @@ body:has(.modal[open]) {
 .page-content > * + * {
   margin-top: var(--space-2xl);
 }
+.page-content > .page-content__section:has(> :is(h2, h3):last-child) + :is(.accordion, .card-stack, .download-list) {
+  margin-top: var(--space-l);
+}
 
 .page-content__section > * + * {
   margin-top: var(--space-m);
