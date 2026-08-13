@@ -804,6 +804,23 @@
     margin-inline: calc(-1 * var(--space-s-l));
     padding-inline: var(--space-s-l);
     scroll-padding-inline: var(--space-s-l);
+
+    // NO PEEK at rest — unlike the narrow row, where the next card's visible
+    // slice is the affordance. A snapped slide sits between the padding
+    // zones, and a neighbour whose gap is smaller than that padding shows
+    // through them: with the base --space-xs gap that was a ~25px orphan
+    // strip of the next card hugging the viewport edge, which at THIS scale
+    // reads as a cropped rendering bug, not an invitation — one long card is
+    // the whole scrollport, so the arrows and the count already say "there
+    // are more". The stride does the hiding: at twice the padding, a resting
+    // neighbour's near edge sits exactly one padding past the box edge —
+    // clear of the viewport with a full padding of slack, so the ±1px a
+    // mandatory snap can settle off never surfaces a hairline of card. Twice,
+    // not once: once parks the edge AT the box edge, where fractional track
+    // widths shimmer it in and out. Mid-swipe both cards still travel
+    // through the gutter together, so the motion keeps its honesty; and
+    // step() reads the computed gap, so the arrows stride one slide exactly.
+    column-gap: calc(2 * var(--space-s-l));
   }
 
   // The horizontal mixin spans its card across the row — right in a column

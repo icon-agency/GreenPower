@@ -1799,6 +1799,7 @@ a:focus-visible {
     margin-inline: calc(-1 * var(--space-s-l));
     padding-inline: var(--space-s-l);
     scroll-padding-inline: var(--space-s-l);
+    column-gap: calc(2 * var(--space-s-l));
   }
 }
 .card-section--scroll-wide .card-section__grid > .card {
