@@ -1859,6 +1859,61 @@
         fitVisible(false);
       }
 
+      // --- One result: open its balloon ---
+      //
+      // A search that lands on a single producer has already answered the
+      // question — "2036", "Malabar" and "Jemena" all leave one card and one
+      // pin — so the map opens that pin rather than making the reader find
+      // the lone marker and click it to learn the same thing again.
+      //
+      // Three guards, each earning its keep:
+      //
+      // · Only when the READER narrowed it (a query, or a ticked box). The
+      //   map's own "View details" crossing also leaves exactly one row, and
+      //   showRecord deliberately CLOSES the balloon on its way to the card —
+      //   re-opening it here would undo that and pull the reader back to the
+      //   map they just left. Hence the pinnedCard check.
+      // · Only a popup THIS opened is closed again when the count rises. One
+      //   the reader opened by clicking a pin is theirs, and a filter change
+      //   is no reason to take it away.
+      // · Re-opening the same marker is skipped, so a reader who closes the
+      //   balloon and keeps typing does not have it spring back at every
+      //   keystroke that leaves the result standing.
+      //
+      // Called AFTER syncMarkers so fitVisible has already framed the marker
+      // and the popup's own autoPan has nothing left to fight. A marker inside
+      // a cluster bubble cannot open a popup, so the same zoomToShowLayer
+      // handoff the crossing uses breaks the cluster open first.
+      // State, not arguments: apply() records what the filter left, and the
+      // stacked view's Map switch replays it — the map does not exist while a
+      // stacked reader types, so the balloon has to be able to open late.
+      var autoOpened = null;
+      var lastShown = 0;
+      var lastNarrowed = false;
+
+      function revealSingle() {
+        if (!map || !cluster) return;
+
+        if (lastShown !== 1 || !lastNarrowed || pinnedCard) {
+          if (autoOpened) {
+            autoOpened.closePopup();
+            autoOpened = null;
+          }
+          return;
+        }
+
+        var entry = null;
+        entries.forEach(function (e) { if (!hidden(e.card)) entry = e; });
+        if (!entry || entry.marker === autoOpened) return;
+
+        autoOpened = entry.marker;
+        if (!map.hasLayer(entry.marker)) {
+          cluster.zoomToShowLayer(entry.marker, function () { entry.marker.openPopup(); });
+        } else {
+          entry.marker.openPopup();
+        }
+      }
+
       // --- List / map view toggle (below the lg split) ---
 
       var toggleButtons = [].slice.call(root.querySelectorAll('[data-gen-view]'));
@@ -1870,7 +1925,10 @@
         });
         if (view === 'map') {
           initMap(); // first switch is the first time the pane has a size
-          if (map) map.invalidateSize();
+          if (map) {
+            map.invalidateSize();
+            revealSingle(); // a search already down to one result opens its pin
+          }
         }
       }
 
@@ -2521,6 +2579,11 @@
         emptyEl.hidden = shown > 0;
         root.classList.toggle('is-empty', shown === 0); // hides the pager (CSS)
         syncMarkers();
+        lastShown = shown;
+        // "Narrowed" means the READER did it — a query or a ticked box, not
+        // the map crossing's pin (see revealSingle).
+        lastNarrowed = !!q || picked.some(function (p) { return p.boxes.length > 0; });
+        revealSingle();
       }
 
       // --- Map pin -> the record, in the list ---
