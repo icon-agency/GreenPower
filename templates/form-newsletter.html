@@ -472,7 +472,13 @@
             <fieldset class="form__group">
               <legend class="form__legend visually-hidden">Privacy and permission</legend>
               <div class="form__choices">
-                <label class="form__choice"><input type="checkbox" name="privacy_permission" required> I have read the <a href="#">privacy statement</a> and give permission for GreenPower to contact me with news and updates *</label>
+                <!-- The sentence is ONE <span>: the label is a flex row, and
+                     bare text around the inline link becomes three separate
+                     flex items — the sentence rendered as three narrow
+                     stacked columns. One span, one flex item, normal prose
+                     flow. Only needed where a label carries a mid-text link;
+                     plain-text choices are a single text node already. -->
+                <label class="form__choice"><input type="checkbox" name="privacy_permission" required> <span>I have read the <a href="#">privacy statement</a> and give permission for GreenPower to contact me with news and updates *</span></label>
               </div>
             </fieldset>
 
