@@ -388,15 +388,6 @@
          the body is one CKEditor field flowing through the split pattern's
          scrolling column, and "Next up" is a 3-item view of the latest news
          excluding the current node. -->
-    <!-- Mirrored header variant: the article's field_image anchors LEFT and
-         the breadcrumb/title/summary sit beside it (page-header--media-left).
-         alt="" here — the rail below repeats this image WITH its description,
-         so the hero copy is decorative scene-setting, not the content. -->
-
-    <!-- --article variants: the frame matches the header band's, so the rail
-         sits under the band's image column and the body under its copy (see
-         _page.scss / _page-split.scss). No rail thumbnail — the header hero
-         already carries the article image. -->
     <!-- The panelled lead: image and copy panel as two cells of ONE grid row,
          so their heights always match (the panel's content drives the row and
          the image stretches to it). No angle mask — a real gap instead. The
@@ -435,6 +426,12 @@
     </header>
 
     <section class="page-body page-body--article">
+      <!-- --article variants: the frame matches the lead's, so the rail and
+           body sit under the header's two halves (_page.scss /
+           _page-split.scss). Unlike the plain news article, this rail DOES
+           carry a thumbnail — the miniature of the panelled lead that reveals
+           once the header scrolls away — and the lead's hero carries the real
+           alt text, since nothing below repeats it with a description. -->
       <!-- The split pattern: the article-meta rail sticks while the body
            scrolls. Same .page-split the section layout uses — the rail simply
            holds a meta card instead of a heading + lede. -->
