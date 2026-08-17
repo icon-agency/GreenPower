@@ -164,6 +164,15 @@
     gap: var(--space-xs);
     margin-top: var(--space-xl);
 
+    // A section can open ON its grid (landing-simple's 3-up has no heading
+    // row — the cards carry their own h2s). With nothing above it the
+    // under-heading step has nothing to hold apart and read as a slab between
+    // the band and the first row — the same observation the --listing variant
+    // records for its visually-hidden heading, made structural here.
+    &:first-child {
+      margin-top: 0;
+    }
+
     // Phones: the card BOXES reach the band's own --space-xs edge, and their
     // text lands back on the band-copy line — the quarterly-reports pattern
     // promoted to every card section. Two moves that must agree: this margin

@@ -1479,6 +1479,11 @@ a:focus-visible {
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-xs);
   margin-top: var(--space-xl);
+}
+.card-section__grid:first-child {
+  margin-top: 0;
+}
+.card-section__grid {
   margin-inline: calc(-1 * var(--space-s-l));
 }
 @media (min-width: 640px) {
@@ -3426,7 +3431,7 @@ body:has(.modal[open]) {
 .client-logos__inner {
   max-width: 1700px;
   margin-inline: auto;
-  padding-block: var(--space-3xl);
+  padding-block: var(--space-xl) var(--space-s-l);
 }
 
 .client-logos__heading {
@@ -3549,7 +3554,7 @@ body:has(.modal[open]) {
 .pathway-section {
   max-width: 1700px;
   margin-inline: auto;
-  padding: var(--space-3xl) var(--space-xs) var(--space-xs);
+  padding: var(--space-xl) var(--space-xs) var(--space-xs);
 }
 
 .pathway-section__heading {
@@ -5826,11 +5831,11 @@ body:has(.modal[open]) {
 }
 @media (min-width: 640px) {
   .page-body {
-    padding-block: var(--space-3xl);
+    padding-block-end: var(--space-s-l);
   }
 }
 .page-body > * + * {
-  margin-top: var(--space-3xl);
+  margin-top: var(--space-2xl);
 }
 
 .page-body--article {
@@ -5841,9 +5846,6 @@ body:has(.modal[open]) {
   .page-body--article {
     padding-inline: var(--space-xs);
   }
-}
-.page-body--article {
-  padding-block-start: var(--space-xl);
 }
 
 :root {

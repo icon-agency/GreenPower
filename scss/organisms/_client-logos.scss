@@ -44,10 +44,17 @@
 // No inline padding: the logo band runs edge to edge, so logos travel off the
 // edges rather than stopping inside a gutter. The heading brings its own gutter
 // (below) so it never touches the edge.
+// Block padding is .card-section's asymmetric frame (open at --space-xl, close
+// at the --space-s-l gutter) rather than the symmetric 3xl this band carried:
+// the band paints no ground of its own, so the 3xl was pure whitespace — 116px
+// above the heading at 1280, and 131px down to the footer band, on a page
+// whose sections meet at ~94 (docs/content-rhythm.md). The closed green
+// footer panel below provides its own break, exactly as the pathway's panels
+// close snugly over a tight gutter.
 .client-logos__inner {
   max-width: $container-max-width;
   margin-inline: auto;
-  padding-block: var(--space-3xl);
+  padding-block: var(--space-xl) var(--space-s-l);
 }
 
 // No font-size of its own: it takes the base h2 step, so it is the same size as
