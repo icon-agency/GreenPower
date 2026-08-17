@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LCLF and Biogenic CO2 Certification announcement &mdash; GreenPower Renewable Energy</title>
+  <title>GreenPower Sponsors GBCA Transform 2025 &mdash; GreenPower Renewable Energy</title>
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
   <link rel="preconnect" href="https://use.typekit.net" crossorigin>
   <link rel="stylesheet" href="https://use.typekit.net/nxc8sxb.css">
@@ -382,12 +382,22 @@
   </header>
 
   <main id="main-content">
-    <!-- News article. In Drupal this is the news node's full view mode: the
-         header band carries the title + field_summary, the sticky rail is a
-         node--news--meta view mode of the SAME node (see _article-meta.scss),
-         the body is one CKEditor field flowing through the split pattern's
-         scrolling column, and "Next up" is a 3-item view of the latest news
-         excluding the current node. -->
+    <!-- Event article — the news article template with the EVENT display of
+         the same meta block. In Drupal this is the news/event node's full view
+         mode: the header band carries the title + field_summary, the sticky
+         rail is a node--event--meta view mode of the SAME node (see
+         _article-meta.scss), the body is one CKEditor field flowing through
+         the split pattern's scrolling column, and "Next up" is a 3-item view
+         of the latest news excluding the current node.
+         EVENT DIFFERENCES, both markup-only (no CSS variant):
+         · article-meta__tag reads "Event" (the node's type/term).
+         · The published-date <li> is OMITTED in the band meta and the rail
+           repeat — the publish date is a NEWS-only display; events show only
+           field_event_date_start/field_event_date_end. In Drupal this is the
+           event view mode simply not rendering the published field, not a
+           conditional in Twig. Flag for the Drupal dev: confirm whether
+           news + events share one content type (a type term + optional event
+           dates) or are two types; the field naming follows either way. -->
     <!-- Mirrored header variant: the article's field_image anchors LEFT and
          the breadcrumb/title/summary sit beside it (page-header--media-left).
          alt="" here — the rail below repeats this image WITH its description,
@@ -399,27 +409,27 @@
             <li class="page-header__crumb"><a href="../index.html">Home</a></li>
             <li class="page-header__crumb"><a href="#">What is GreenPower</a></li>
             <li class="page-header__crumb"><a href="news-landing.html">News and events</a></li>
-            <li class="page-header__crumb" aria-current="page">LCLF and Biogenic CO2 Certification announcement</li>
+            <li class="page-header__crumb" aria-current="page">GreenPower Sponsors GBCA Transform 2025</li>
           </ol>
         </nav>
-        <h1 class="page-header__title" data-animate>LCLF and Biogenic CO2 Certification announcement</h1>
-        <p class="page-header__intro" data-animate>We&rsquo;re excited to share that GreenPower is developing two new certification schemes to accelerate the transition to cleaner fuels in Australia.</p>
+        <h1 class="page-header__title" data-animate>GreenPower Sponsors GBCA Transform 2025</h1>
+        <p class="page-header__intro" data-animate>GreenPower is the official renewable electricity sponsor for GBCA Transform 2025, the Green Building Council of Australia&rsquo;s annual flagship conference.</p>
         <!-- Type + dates, stated here AND in the sticky rail below. This copy
              is the accessible one — it comes first in DOM order and carries
              the labels; the rail's repeat is aria-hidden.
-             NEWS display: the published date only — event dates are the EVENT
-             article's display (see event-article.html; each view mode renders
-             its own date field, not a conditional in Twig). -->
+             EVENT display: the event date range only — no published <li>
+             (see the header comment above). -->
         <div class="article-meta article-meta--on-dark" data-animate>
-          <span class="article-meta__tag">News</span>
+          <span class="article-meta__tag">Event</span>
           <ul class="article-meta__dates">
             <li class="article-meta__date">
-              <span><span class="visually-hidden">Published </span><time datetime="2025-08-12">12 Aug 2025</time></span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              <span><span class="visually-hidden">Event dates: </span><time datetime="2025-03-19">19 Mar 2025</time> &ndash; <time datetime="2025-03-20">20 Mar 2025</time></span>
             </li>
           </ul>
         </div>
         <div class="page-header__media" data-animate>
-          <img src="../assets/images/emerging.png" alt="" width="1500" height="1500">
+          <img src="../assets/news-events/Transform-2026-103.jpg" alt="" width="1772" height="1182">
           <span class="page-header__angle" aria-hidden="true">
             <svg class="page-header__angle-curve page-header__angle-curve--top" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L299.02 0Z" fill="currentColor"/></svg>
             <svg class="page-header__angle-curve page-header__angle-curve--side" viewBox="0 0 210.3 299.02" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 299.02C0.001 209.1 13.03 197.18 60.79 149.51L210.3 0L0 0Z" fill="currentColor"/></svg>
@@ -450,11 +460,12 @@
                  aria-hidden: the band above states all of it, first and
                  labelled. This is the visible sticky repeat only. -->
             <div class="article-meta__summary">
-              <span class="article-meta__tag" aria-hidden="true">News</span>
-              <p class="article-meta__title">LCLF and Biogenic CO2 Certification announcement</p>
+              <span class="article-meta__tag" aria-hidden="true">Event</span>
+              <p class="article-meta__title">GreenPower Sponsors GBCA Transform 2025</p>
               <ul class="article-meta__dates" aria-hidden="true">
                 <li class="article-meta__date">
-                  <span><time datetime="2025-08-12">12 Aug 2025</time></span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                  <span><time datetime="2025-03-19">19 Mar 2025</time> &ndash; <time datetime="2025-03-20">20 Mar 2025</time></span>
                 </li>
               </ul>
             </div>
@@ -469,27 +480,28 @@
           <!-- One CKEditor body field — everything below is prose the wrapper
                styles (see the CKEditor WYSIWYG section of the design system). -->
           <div class="page-content__section" data-animate>
-            <p>These certifications will aim to support emerging renewable fuels production and help hard-to-abate sectors decarbonise, such as heavy transport, aviation, mining, agriculture, maritime and industrial processes.</p>
+            <p>We are excited to share that GreenPower is the official renewable electricity sponsor for GBCA Transform 2025!</p>
+
+            <h2>Event details</h2>
             <ul>
-              <li><strong>Low Carbon Liquid Fuels Certification</strong> &mdash; covering sustainable aviation fuel (SAF), renewable diesel, biodiesel, renewable LPG and bioLPG.</li>
-              <li><strong>Biogenic CO<sub>2</sub> Certification</strong> &mdash; covering captured carbon dioxide that originates from natural biological sources.</li>
+              <li><strong>Main conference</strong> &mdash; 19&ndash;20 March 2025 | Hilton Sydney + virtual</li>
+              <li><strong>Pre-conference Innovation Forum</strong> &mdash; 18 March 2025 | Hilton Sydney</li>
             </ul>
 
-            <h2>Low Carbon Liquid Fuels</h2>
-            <p>Australian hard-to-abate sectors have a high reliance on liquid fuels, and this is projected to increase significantly by 2050, even with continued progress in electrification.</p>
-            <p>Low Carbon Liquid Fuels (LCLF) produce substantially lower, and in some cases near-zero, lifecycle CO<sub>2</sub> emissions compared to equivalent fossil fuels. LCLFs can be used as drop-in fuel or blended alternatives within current infrastructure, equipment, engines and vehicles. This compatibility enables emissions reduction using existing infrastructure. Compatible LCLFs prevent early asset decommissioning, allowing liquid fuel-dependent systems to operate for their full intended operational lifespan.</p>
-            <p>The development of a domestic LCLF industry will lower emissions and enhance Australia&rsquo;s fuel security. A domestic LCLF industry will provide economic opportunities by driving local job creation, regional economic growth and offering new income sources for farmers providing feedstocks for biofuel production.</p>
+            <h2>About GBCA Transform</h2>
+            <p>GBCA Transform is the Green Building Council of Australia&rsquo;s annual flagship conference, pioneering thought leadership on sustainability. This year, the event will feature a full in-person, two-day conference with livestreaming options, as well as a pre-conference Innovation Forum.</p>
 
-            <h2>Biogenic carbon dioxide (CO2)</h2>
-            <p>Biogenic CO<sub>2</sub> is carbon dioxide that originates from natural biological sources, primarily through the combustion, fermentation or decomposition of biomass. It is part of the short-term natural carbon cycle, meaning the carbon released was recently absorbed from the atmosphere by plants during photosynthesis.</p>
-            <p>Sources of biogenic CO<sub>2</sub> include biomethane production, ethanol production, biogas to electricity cogeneration, landfill gas operations and waste management facilities. Biogenic CO<sub>2</sub> demand includes the food and beverage industry, agriculture, industrial applications, chemicals manufacturing, water treatment, renewable fuel production, and carbon capture and storage (CCS) operations.</p>
-            <p>A certification scheme for biogenic CO<sub>2</sub> supports the biofuel industry by encouraging the use of biogenic CO<sub>2</sub> instead of fossil CO<sub>2</sub>, ensuring the biofuel end-product is low carbon. Certified biogenic CO<sub>2</sub> provides end-users a verified biogenic CO<sub>2</sub> product they can use to make low-carbon products for sustainability-conscious customers.</p>
-            <p>If you&rsquo;re working on renewable fuels or biogenic CO<sub>2</sub> solutions &mdash; we&rsquo;d love to hear from you.</p>
-            <ol>
-              <li><a href="#">EFC and ARENA Biofuels and Transport &ndash; An Australian Opportunity</a></li>
-              <li><a href="#">CSIRO Sustainable Aviation Fuel Roadmap</a></li>
-              <li><a href="#">Frontier Economics (2023) Pathway to zero emissions for LPG</a></li>
-            </ol>
+            <h2>Why attend?</h2>
+            <ul>
+              <li><strong>Plenary program</strong> &mdash; featuring international speakers bringing global learnings and experiences.</li>
+              <li><strong>Breakout sessions</strong> &mdash; dive deep into topics with actionable insights.</li>
+              <li><strong>Innovation Forum</strong> &mdash; explore emerging technologies like data analytics, AI and automation driving sustainability.</li>
+              <li><strong>Networking opportunities</strong> &mdash; connect with industry leaders and innovators.</li>
+              <li><strong>Workshops and exhibitions</strong> &mdash; discover industry-leading technologies and services.</li>
+            </ul>
+
+            <p>Through this sponsorship, GreenPower is matching GBCA Transform&rsquo;s electricity usage with 100% renewable electricity. This collaboration underscores our commitment to sustainability and a greener future.</p>
+            <p>Learn more about GBCA Transform and book your tickets here: <a href="https://gbcatransform.org.au/">GBCA Transform 2025</a></p>
           </div>
 
           <!-- Quote COMPONENT (field_quote paragraph) — portrait + real media
@@ -567,7 +579,7 @@
             <span class="card__tag" aria-hidden="true">Announcement</span>
           </div>
           <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="#">LCLF and Biogenic CO2 Certification announcement<span class="visually-hidden"> &mdash; Announcement</span></a></h3>
+            <h3 class="card__title"><a class="card__title-link" href="news-article.html">LCLF and Biogenic CO2 Certification announcement<span class="visually-hidden"> &mdash; Announcement</span></a></h3>
             <p class="card__body">GreenPower is developing two new certification schemes to accelerate the transition to cleaner fuels in Australia.</p>
             <p class="card__meta"><time datetime="2025-08-12">12 Aug 2025</time>
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
