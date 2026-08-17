@@ -427,11 +427,13 @@
         <div class="page-split__body">
           <!-- GovCMS: a webform, like the contact and logo-request forms — the
                same .form classes, mapped in the webform UI or a form_alter.
-               Static demo: no action, and the field set is transcribed from
-               the live form at greenpower.gov.au/newsletter. Confirm the
-               subscription types and whether the country list is really
-               needed before build; every one of them is a field an author
-               has to maintain. -->
+               Static demo: no action. The field set is the CLIENT-CONFIRMED
+               one (Aug 2026): email, name, an "About you" audience select and
+               the privacy/permission consent — replacing the longer set
+               transcribed from the live form (first/last name, phone,
+               organisation, subscription type, state, postcode, country,
+               current-customer). One name field, not first/last: the confirmed
+               list says Name, and autocomplete="name" fills it in one go. -->
           <form class="form" data-animate action="#" method="post">
             <h2 class="form__title">Join our newsletter</h2>
             <p class="form__intro">An asterisk (*) indicates a required field.</p>
@@ -442,81 +444,35 @@
             </div>
 
             <div class="form__field">
-              <label class="form__label" for="nl-first">First name *</label>
-              <input class="form__input" id="nl-first" name="first_name" type="text" autocomplete="given-name" required>
+              <label class="form__label" for="nl-name">Name *</label>
+              <input class="form__input" id="nl-name" name="name" type="text" autocomplete="name" required>
             </div>
 
             <div class="form__field">
-              <label class="form__label" for="nl-last">Last name *</label>
-              <input class="form__input" id="nl-last" name="last_name" type="text" autocomplete="family-name" required>
-            </div>
-
-            <div class="form__field">
-              <label class="form__label" for="nl-phone">Phone number</label>
-              <input class="form__input" id="nl-phone" name="phone" type="tel" autocomplete="tel">
-            </div>
-
-            <div class="form__field">
-              <label class="form__label" for="nl-org">Company or organisation</label>
-              <input class="form__input" id="nl-org" name="organisation" type="text" autocomplete="organization">
-            </div>
-
-            <fieldset class="form__group">
-              <legend class="form__legend">Subscription type *</legend>
-              <div class="form__choices">
-                <label class="form__choice"><input type="radio" name="subscription_type" value="household" required> Household</label>
-                <label class="form__choice"><input type="radio" name="subscription_type" value="business"> Business</label>
-                <label class="form__choice"><input type="radio" name="subscription_type" value="retailer"> Retailer / Provider</label>
-                <label class="form__choice"><input type="radio" name="subscription_type" value="generator"> Generator</label>
-                <label class="form__choice"><input type="radio" name="subscription_type" value="events"> Events</label>
-                <label class="form__choice"><input type="radio" name="subscription_type" value="other"> Other</label>
-              </div>
-            </fieldset>
-
-            <div class="form__field">
-              <label class="form__label" for="nl-state">State *</label>
+              <label class="form__label" for="nl-about">About you *</label>
               <div class="form__select-wrap">
-                <select class="form__select" id="nl-state" name="state" required>
+                <select class="form__select" id="nl-about" name="about_you" required>
                   <option value="" selected>Select</option>
-                  <option>ACT</option>
-                  <option>NSW</option>
-                  <option>NT</option>
-                  <option>QLD</option>
-                  <option>SA</option>
-                  <option>TAS</option>
-                  <option>VIC</option>
-                  <option>WA</option>
+                  <option>Resident</option>
+                  <option>Small business</option>
+                  <option>Mid-sized business</option>
+                  <option>Large business</option>
+                  <option>Electricity provider</option>
+                  <option>Electricity generator</option>
+                  <option>Gas trader</option>
+                  <option>Gas producer</option>
                 </select>
               </div>
             </div>
 
-            <div class="form__field">
-              <label class="form__label" for="nl-postcode">Postcode</label>
-              <input class="form__input" id="nl-postcode" name="postcode" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="4">
-            </div>
-
-            <!-- WIREFRAME FILLER: the live form carries a full country list.
-                 Four entries stand in for it here — a 200-option select is
-                 the real element's job, not something to transcribe by hand.
-                 Worth asking whether an Australian programme needs it at
-                 all (see the JIRA ticket). -->
-            <div class="form__field">
-              <label class="form__label" for="nl-country">Country</label>
-              <div class="form__select-wrap">
-                <select class="form__select" id="nl-country" name="country">
-                  <option value="au" selected>Australia</option>
-                  <option>New Zealand</option>
-                  <option>United Kingdom</option>
-                  <option>United States</option>
-                </select>
-              </div>
-            </div>
-
+            <!-- The consent pattern from the logo-request form: a single
+                 required checkbox in its own group, the legend hidden (the
+                 checkbox's own label carries the full statement). The privacy
+                 link is a placeholder route. -->
             <fieldset class="form__group">
-              <legend class="form__legend">Are you a current GreenPower customer?</legend>
+              <legend class="form__legend visually-hidden">Privacy and permission</legend>
               <div class="form__choices">
-                <label class="form__choice"><input type="radio" name="current_customer" value="yes"> Yes</label>
-                <label class="form__choice"><input type="radio" name="current_customer" value="no"> No</label>
+                <label class="form__choice"><input type="checkbox" name="privacy_permission" required> I have read the <a href="#">privacy statement</a> and give permission for GreenPower to contact me with news and updates *</label>
               </div>
             </fieldset>
 
