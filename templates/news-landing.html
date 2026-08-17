@@ -442,15 +442,21 @@
           </div>
         </article>
 
-        <article class="card card--news" data-animate data-news-type="news">
+        <!-- The EVENT teaser — same card, one field swapped: the meta line
+             carries the event date range (field_event_dates) instead of the
+             published date, exactly as the event article's own meta block
+             does. Also the "Sponsored events" pill's demonstration record —
+             the pill existed with no card carrying its type. Links to the
+             event article. -->
+        <article class="card card--news" data-animate data-news-type="sponsored-event">
           <div class="card__media">
-            <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
-            <span class="card__tag" aria-hidden="true">News</span>
+            <img src="../assets/news-events/Transform-2026-103.jpg" alt="A speaker presenting to a conference audience at GBCA Transform" width="1772" height="1182" loading="lazy">
+            <span class="card__tag" aria-hidden="true">Event</span>
           </div>
           <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="news-article.html">GreenPower Program Rules Version 11.3 &ndash; What&rsquo;s changed and why<span class="visually-hidden"> &mdash; News</span></a></h3>
-            <p class="card__body">GreenPower has published Version 11.3 of the National GreenPower Accreditation Program Rules.</p>
-            <p class="card__meta"><time datetime="2026-04-15">15 Apr 2026</time>
+            <h3 class="card__title"><a class="card__title-link" href="event-article.html">GreenPower Sponsors GBCA Transform 2025<span class="visually-hidden"> &mdash; Event</span></a></h3>
+            <p class="card__body">GreenPower is the official renewable electricity sponsor for GBCA Transform 2025, the Green Building Council of Australia&rsquo;s annual flagship conference.</p>
+            <p class="card__meta"><span><time datetime="2025-03-19">19 Mar 2025</time> &ndash; <time datetime="2025-03-20">20 Mar 2025</time></span>
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
         </article>
