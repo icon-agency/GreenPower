@@ -79,6 +79,13 @@ About-you options are client-confirmed (Aug 2026).
   Drupal both come from the file entity, never editorial fields.
 - The video embed's `data-oembed-url` records the editor's pasted watch URL;
   the iframe is derived output (core Media oEmbed proxies its own).
+- Producer descriptions on the gas tool are wireframe filler EXCEPT Malabar,
+  which carries real supplied copy — and doubles as the field's worked
+  length example (953 characters). Configure `field_description` with
+  `maxlength` 1,200 on the widget (aim under 1,000; one sentence to two
+  short paragraphs) — the limit is editorial, enforced at entry; the card's
+  disclosure never truncates. Full note in `_generator-card.scss` and the
+  design system's Generator card section.
 
 ## 5. Open decisions (deliberate, not oversights)
 

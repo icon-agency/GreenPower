@@ -39,7 +39,12 @@
 //   electricity page, TJ/yr on gas; the unit is display formatting),
 //   field_cer_code (text — rendered on the electricity card only; the gas
 //   card dropped it at review, but the field stays on the node as the
-//   stable public identifier), field_description (text long), field_website
+//   stable public identifier), field_description (text long — one sentence
+//   to two short paragraphs; aim under 1,000 characters, HARD LIMIT 1,200 as
+//   maxlength on the widget, never truncated in display: the disclosure
+//   absorbs length, so the limit is editorial. Malabar is the worked example
+//   of the ceiling at 953 chars / 13 lines at the 60ch measure. Paragraph
+//   breaks are respected — __more-body spaces siblings), field_website
 //   (link), field_image (media), field_location (geofield — the template
 //   writes it to data-lat/data-lng for the map markers; a missing value drops
 //   the marker, never the row).

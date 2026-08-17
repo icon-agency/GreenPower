@@ -141,6 +141,7 @@
           <ul class="ds-nav__list">
             <li><a class="ds-nav__link" href="#wysiwyg">CKEditor WYSIWYG</a></li>
             <li><a class="ds-nav__link" href="#card">Card</a></li>
+            <li><a class="ds-nav__link" href="#article-card">Article card</a></li>
             <li><a class="ds-nav__link" href="#feature-banner">Feature banner</a></li>
             <li><a class="ds-nav__link" href="#bento-grid">Bento grid</a></li>
             <li><a class="ds-nav__link" href="#full-width-image-caption">Full width image caption</a></li>
@@ -1053,6 +1054,47 @@
         </div>
       </section>
 
+      <section class="ds-section" id="article-card" aria-labelledby="article-card-title">
+        <h3 class="ds-section__title" id="article-card-title">Article card</h3>
+        <p class="ds-section__intro">The news/event teaser &mdash; <code class="ds-code">.card--news</code> on the shared card anatomy: a 3:2 media crop with the type tag floating over it, the title carrying the whole-card link (stretched over the tile, with a visually-hidden type suffix so the link name stands alone in a screen-reader list), a line or two of <code class="ds-code">field_summary</code>, and the meta row &mdash; a date on the left, the arrow on the right.</p>
+        <p class="ds-section__intro">THE RULES, in one place. <strong>Type terms</strong>: News, Announcement, Sponsored event &mdash; the tag carries the singular term, the news landing&rsquo;s filter pill the plural (&ldquo;Announcements&rdquo;, &ldquo;Sponsored events&rdquo;), and <code class="ds-code">data-news-type</code> carries the machine name the filter matches. <strong>Dates</strong>: news and announcements show the published date; a <strong>Sponsored event</strong> swaps in <code class="ds-code">field_event_dates</code> &mdash; the range with the calendar glyph in front, one flex item via <code class="ds-code">.card__meta-date</code> (the meta row is space-between; loose children would scatter), with a visually-hidden &ldquo;Event dates:&rdquo; label. <strong>Featured</strong> (<code class="ds-code">.card--featured</code>): the landing&rsquo;s lead card takes the identical date swap unchanged &mdash; <code class="ds-code">__meta-date</code> lives on the card block, so every variant inherits it. <strong>Drupal</strong>: one teaser view mode with a conditional date field, not a template per type; the featured view mode renders the same field rule.</p>
+        <p class="ds-section__intro">Worked pair: the news landing&rsquo;s event card &rarr; the event article (publish date suppressed there too &mdash; the same split, article-scale). The scroll-row composition these cards sit in is the Article feed section below.</p>
+
+        <div class="ds-demo">
+          <p class="ds-demo__label">card &middot; .card--news &middot; published date vs event range</p>
+          <div class="ds-bleed">
+            <section class="card-section" aria-label="Article card date rules demo">
+              <div class="card-section__grid">
+                <article class="card card--news">
+                  <div class="card__media">
+                    <img src="assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy">
+                    <span class="card__tag" aria-hidden="true">News</span>
+                  </div>
+                  <div class="card__content">
+                    <h3 class="card__title"><a class="card__title-link" href="templates/news-article.html">A news record</a></h3>
+                    <p class="card__body">The meta line is the published date.</p>
+                    <p class="card__meta"><time datetime="2026-08-13">13 Aug 2026</time>
+                      <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+                  </div>
+                </article>
+                <article class="card card--news">
+                  <div class="card__media">
+                    <img src="assets/news-events/Transform-2026-103.jpg" alt="" width="1772" height="1182" loading="lazy">
+                    <span class="card__tag" aria-hidden="true">Sponsored event</span>
+                  </div>
+                  <div class="card__content">
+                    <h3 class="card__title"><a class="card__title-link" href="templates/event-article.html">An event record</a></h3>
+                    <p class="card__body">The meta line is the event range, calendar in front.</p>
+                    <p class="card__meta"><span class="card__meta-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span><span class="visually-hidden">Event dates: </span><time datetime="2025-03-19">19 Mar 2025</time> &ndash; <time datetime="2025-03-20">20 Mar 2025</time></span></span>
+                      <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+                  </div>
+                </article>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
       <section class="ds-section" id="feature-banner" aria-labelledby="fb-title">
         <h3 class="ds-section__title" id="fb-title">Feature banner</h3>
         <p class="ds-section__intro">A full-bleed split promo on Dark Green: icon eyebrow, title, intro and a white link list beside a media panel that sits tight to the section edges (the same snug image-to-edge spacing as the card images). Hovering or focusing a link crossfades to that link's image and zooms it (Ken Burns drift underneath), and swaps the location pin. The image also drifts on scroll (parallax, on the live page). The badge is the hero's angle shape, flipped and scaled. The link list is repeatable &mdash; an editor adds as many as they need and each carries its own image and location. Content enters with the shared <code class="ds-code">data-animate</code> stagger.</p>
@@ -1693,7 +1735,8 @@
         <div class="ds-group">
           <p class="ds-group__title">The full record</p>
           <p class="ds-group__note">Ten fields, four of them optional. The place line carries suburb, state <em>and</em> postcode as one string, which is also what the search reads &mdash; so what matches is always what is displayed, with no second copy to fall out of step. Capacity keeps its unit. The two actions differ by element on purpose: <strong>Visit website is a link</strong> (navigation, and it leaves the site, hence the external glyph) while <strong>View on map is a button</strong> (an action &mdash; it pans the map beside it). That distinction is the one in <code class="ds-code">docs/frontend-rules.md</code>, not a styling preference.</p>
-          <p class="ds-group__note"><strong>Two tiers on the gas producers tool.</strong> Name, company, place and the primary meta are the glance; feedstock, GHG LCA emissions (excl. combustion), full lifecycle emission reduction, expected completion and the description fold behind a native <strong>More details</strong> disclosure &mdash; the accordion&rsquo;s mechanism, with the label swapping to <strong>Less</strong> off the <code class="ds-code">[open]</code> state the browser maintains. This replaces the ticket&rsquo;s pending expanded/modal view: the card expands in place, so there is no third surface, no focus trap and no close-on-outside-click machinery. The map popup renders the glance tier only (its builder reads the card&rsquo;s first <code class="ds-code">dl</code>), and the map&rsquo;s &ldquo;View details&rdquo; crossing opens the card <em>with</em> its disclosure expanded. Expected completion appears on future projects only &mdash; an omitted row is an empty field, while &ldquo;TBD&rdquo; is an editorial value on an announced project (units and semantics: JIRA D16; what &ldquo;Accredited&rdquo; means on an unbuilt plant: D17).</p>
+          <p class="ds-group__note"><strong>Two tiers on the gas producers tool.</strong> The glance is the full spec row set (client card-content-hierarchy review, Aug 2026): renewable gas type, capacity, production pathway, feedstock and both emissions figures &mdash; CER code dropped from the card, though the field stays on the node. Behind a native <strong>More details</strong> disclosure sits the <em>description</em> alone, plus expected completion on future projects &mdash; the accordion&rsquo;s mechanism, with the label swapping to <strong>Less</strong> off the <code class="ds-code">[open]</code> state the browser maintains. This replaces the ticket&rsquo;s pending expanded/modal view: the card expands in place, so there is no third surface, no focus trap and no close-on-outside-click machinery. The map popup summarises rather than mirrors (its builder reads the first <em>two</em> glance rows), and the map&rsquo;s &ldquo;View details&rdquo; crossing opens the card <em>with</em> its disclosure expanded. Expected completion appears on future projects only &mdash; an omitted row is an empty field, while &ldquo;TBD&rdquo; is an editorial value on an announced project (units and semantics: JIRA D16; what &ldquo;Accredited&rdquo; means on an unbuilt plant: D17). A record with no description and no completion date omits the disclosure entirely.</p>
+          <p class="ds-group__note"><strong>Description length.</strong> One sentence to two short paragraphs: aim under 1,000 characters, hard limit 1,200 on the field widget &mdash; enforced at entry, never truncated in display (the disclosure absorbs length; the limit is editorial). Malabar&rsquo;s real copy is the worked example of the upper end: 953 characters, 13 lines at the card&rsquo;s 60ch measure. Paragraph breaks are respected &mdash; the disclosure body spaces sibling paragraphs itself.</p>
 
           <div class="ds-demo">
             <article class="generator-card">
