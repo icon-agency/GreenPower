@@ -3,9 +3,9 @@ rank,organisation,filename,source_image_url
 2,Volkswagen Group Australia,02-volkswagen-group-australia.jpg,https://www.greenpower.gov.au/sites/default/files/styles/medium/public/2023-05/vwga_.jpg?itok=xW1DejvC
 3,DHL Supply Chain Australia,03-dhl-supply-chain-australia.svg,https://www.greenpower.gov.au/sites/default/files/styles/medium/public/2023-07/dhl_logo_rgb.png?itok=nRvlOUd8
 4,Uniqlo,04-uniqlo.jpg,https://www.greenpower.gov.au/sites/default/files/styles/medium/public/2022-10/logo_uniqlo_square_295x300px.jpg?itok=yso7xjGQ
-5,Xero,05-xero.png,https://www.greenpower.gov.au/sites/default/files/business_directory/Logo%20-%20Blue%20-%20RGB.png
+5,Xero,05-xero.svg,https://www.greenpower.gov.au/sites/default/files/business_directory/Logo%20-%20Blue%20-%20RGB.png
 6,EPSON,06-epson.jpg,https://www.greenpower.gov.au/sites/default/files/styles/medium/public/2023-02/corporate_logo.jpg?itok=c6L8_CbV
-7,Goodman Group,07-goodman-group.png,https://www.greenpower.gov.au/sites/default/files/styles/medium/public/2021-09/goodman_logo.png?itok=Yozw7RZm
+7,Goodman Group,07-goodman-group.svg,https://www.greenpower.gov.au/sites/default/files/styles/medium/public/2021-09/goodman_logo.png?itok=Yozw7RZm
 8,Gilead Sciences,08-gilead-sciences.png,https://www.greenpower.gov.au/sites/default/files/styles/medium/public/2024-05/gilead_cp_logo_rgb_012022_0.png?itok=KeVqVfvB
 9,Ansell Limited,09-ansell-limited.png,https://www.greenpower.gov.au/sites/default/files/business_directory/ansell_rgb%201.png
 10,Techtronic Industries,10-techtronic-industries.png,https://www.greenpower.gov.au/sites/default/files/styles/medium/public/2023-12/techtronic_industries_logo.png?itok=_FcQV2UY
@@ -16,6 +16,6 @@ rank,organisation,filename,source_image_url
 15,Ambulance Victoria,15-ambulance-victoria.jpg,https://www.greenpower.gov.au/sites/default/files/styles/medium/public/2020-10/av_bmark_stack_hori_lr_f.jpg?itok=oV6MQWpT
 16,Adore Beauty,16-adore-beauty.jpg,https://www.greenpower.gov.au/sites/default/files/styles/medium/public/2020-08/ab-logo_2000x1000-11.jpg?itok=knK30Auu
 17,oOh!media,17-ooh-media.png,https://www.greenpower.gov.au/sites/default/files/business_directory/oOh%20unmissable%20stacked%20orange.png
-18,BMG,18-bmg.jpg,https://www.greenpower.gov.au/sites/default/files/styles/medium/public/2022-02/bmg_rectange_logo_red_cmyk.jpg?itok=rrAj4iPW
+18,BMG,18-bmg.png,https://www.greenpower.gov.au/sites/default/files/styles/medium/public/2022-02/bmg_rectange_logo_red_cmyk.jpg?itok=rrAj4iPW
 19,Great Barrier Reef Marine Park Authority,19-great-barrier-reef-marine-park-authority.png,https://www.greenpower.gov.au/sites/default/files/business_directory/Reef_Authority_RGB_Primary_Full.png
 20,Envato,20-envato.png,https://www.greenpower.gov.au/sites/default/files/styles/medium/public/2020-08/envato-master-dark.png?itok=CICw4SBP

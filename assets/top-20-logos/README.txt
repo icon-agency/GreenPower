@@ -14,3 +14,6 @@ Files are the versions currently served by the GreenPower website. Many are medi
 Vector upgrades (replacing the rasters above as real brand assets arrive):
 - 01-disney-studios-australia.svg (Aug 2026) supersedes the .jpg; logo-index.csv tracks the current filename per organisation.
 - 03-dhl-supply-chain-australia.svg (Aug 2026) supersedes the .png.
+- 07-goodman-group.svg (Aug 2026) supersedes the .png.
+- 18-bmg.png (Aug 2026, transparent 960x320) supersedes the white-boxed .jpg.
+- 05-xero.svg (Aug 2026) supersedes the .png.
