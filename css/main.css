@@ -1479,6 +1479,11 @@ a:focus-visible {
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-xs);
   margin-top: var(--space-xl);
+}
+.card-section__grid:first-child {
+  margin-top: 0;
+}
+.card-section__grid {
   margin-inline: calc(-1 * var(--space-s-l));
 }
 @media (min-width: 640px) {
@@ -2863,6 +2868,11 @@ a:focus-visible {
   background-color: #006341;
   pointer-events: none;
 }
+@media (min-width: 640px) {
+  .page-header__media::after {
+    content: none;
+  }
+}
 .page-header__media img {
   position: absolute;
   inset: 0;
@@ -2976,6 +2986,11 @@ a:focus-visible {
   }
   .js-animations .page-header__media[data-animate].is-visible img {
     scale: 1.14;
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 640px) {
+  .js-animations .page-header__media[data-animate] {
+    transform: none;
   }
 }
 .page-nav {
@@ -3426,7 +3441,7 @@ body:has(.modal[open]) {
 .client-logos__inner {
   max-width: 1700px;
   margin-inline: auto;
-  padding-block: var(--space-3xl);
+  padding-block: var(--space-xl) var(--space-s-l);
 }
 
 .client-logos__heading {
@@ -3549,7 +3564,7 @@ body:has(.modal[open]) {
 .pathway-section {
   max-width: 1700px;
   margin-inline: auto;
-  padding: var(--space-3xl) var(--space-xs) var(--space-xs);
+  padding: var(--space-xl) var(--space-xs) var(--space-xs);
 }
 
 .pathway-section__heading {
@@ -5826,11 +5841,11 @@ body:has(.modal[open]) {
 }
 @media (min-width: 640px) {
   .page-body {
-    padding-block: var(--space-3xl);
+    padding-block-end: var(--space-s-l);
   }
 }
 .page-body > * + * {
-  margin-top: var(--space-3xl);
+  margin-top: var(--space-2xl);
 }
 
 .page-body--article {
@@ -5841,9 +5856,6 @@ body:has(.modal[open]) {
   .page-body--article {
     padding-inline: var(--space-xs);
   }
-}
-.page-body--article {
-  padding-block-start: var(--space-xl);
 }
 
 :root {
@@ -6113,7 +6125,7 @@ body:has(.modal[open]) {
 }
 @media (min-width: 640px) {
   .page-split__lede {
-    max-width: 36ch;
+    max-width: var(--measure);
   }
 }
 
@@ -6126,8 +6138,12 @@ body:has(.modal[open]) {
 .page-split__body > * + * {
   margin-top: var(--space-2xl);
 }
+.page-split__body > .page-content__section:has(> :is(h2, h3):last-child) + :is(.accordion, .card-stack, .download-list) {
+  margin-top: var(--space-l);
+}
 
 .page-split--article > .page-split__body {
+  --measure: 72ch;
   max-width: var(--measure);
 }
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Join our newsletter &mdash; GreenPower Renewable Energy</title>
+  <title>GreenPower Sponsors GBCA Transform 2025 &mdash; GreenPower Renewable Energy</title>
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
   <link rel="preconnect" href="https://use.typekit.net" crossorigin>
   <link rel="stylesheet" href="https://use.typekit.net/nxc8sxb.css">
@@ -382,21 +382,54 @@
   </header>
 
   <main id="main-content">
-    <!-- The master header, image variant. The wireframe's band carries another
-         page's copy ("How GreenPower works") — real page copy used instead. -->
-    <header class="page-header">
+    <!-- Event article — the news article template with the EVENT display of
+         the same meta block. In Drupal this is the news/event node's full view
+         mode: the header band carries the title + field_summary, the sticky
+         rail is a node--event--meta view mode of the SAME node (see
+         _article-meta.scss), the body is one CKEditor field flowing through
+         the split pattern's scrolling column, and "Next up" is a 3-item view
+         of the latest news excluding the current node.
+         EVENT DIFFERENCES, both markup-only (no CSS variant):
+         · article-meta__tag reads "Event" (the node's type/term).
+         · The published-date <li> is OMITTED in the band meta and the rail
+           repeat — the publish date is a NEWS-only display; events show only
+           field_event_date_start/field_event_date_end. In Drupal this is the
+           event view mode simply not rendering the published field, not a
+           conditional in Twig. Flag for the Drupal dev: confirm whether
+           news + events share one content type (a type term + optional event
+           dates) or are two types; the field naming follows either way. -->
+    <!-- Mirrored header variant: the article's field_image anchors LEFT and
+         the breadcrumb/title/summary sit beside it (page-header--media-left).
+         alt="" here — the rail below repeats this image WITH its description,
+         so the hero copy is decorative scene-setting, not the content. -->
+    <header class="page-header page-header--media-left">
       <div class="page-header__inner" data-animate-stagger>
         <nav aria-label="Breadcrumb" data-animate>
           <ol class="page-header__crumbs">
             <li class="page-header__crumb"><a href="../index.html">Home</a></li>
-            <li class="page-header__crumb"><a href="#">News and events</a></li>
-            <li class="page-header__crumb" aria-current="page">Join our newsletter</li>
+            <li class="page-header__crumb"><a href="#">What is GreenPower</a></li>
+            <li class="page-header__crumb"><a href="news-landing.html">News and events</a></li>
+            <li class="page-header__crumb" aria-current="page">GreenPower Sponsors GBCA Transform 2025</li>
           </ol>
         </nav>
-        <h1 class="page-header__title" data-animate>Join our newsletter</h1>
-        <p class="page-header__intro" data-animate>Get the latest GreenPower news, updates and events delivered to your inbox.</p>
+        <h1 class="page-header__title" data-animate>GreenPower Sponsors GBCA Transform 2025</h1>
+        <p class="page-header__intro" data-animate>GreenPower is the official renewable electricity sponsor for GBCA Transform 2025, the Green Building Council of Australia&rsquo;s annual flagship conference.</p>
+        <!-- Type + dates, stated here AND in the sticky rail below. This copy
+             is the accessible one — it comes first in DOM order and carries
+             the labels; the rail's repeat is aria-hidden.
+             EVENT display: the event date range only — no published <li>
+             (see the header comment above). -->
+        <div class="article-meta article-meta--on-dark" data-animate>
+          <span class="article-meta__tag">Event</span>
+          <ul class="article-meta__dates">
+            <li class="article-meta__date">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              <span><span class="visually-hidden">Event dates: </span><time datetime="2025-03-19">19 Mar 2025</time> &ndash; <time datetime="2025-03-20">20 Mar 2025</time></span>
+            </li>
+          </ul>
+        </div>
         <div class="page-header__media" data-animate>
-          <img src="../assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy">
+          <img src="../assets/news-events/Transform-2026-103.jpg" alt="" width="1772" height="1182">
           <span class="page-header__angle" aria-hidden="true">
             <svg class="page-header__angle-curve page-header__angle-curve--top" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L299.02 0Z" fill="currentColor"/></svg>
             <svg class="page-header__angle-curve page-header__angle-curve--side" viewBox="0 0 210.3 299.02" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 299.02C0.001 209.1 13.03 197.18 60.79 149.51L210.3 0L0 0Z" fill="currentColor"/></svg>
@@ -405,89 +438,307 @@
       </div>
     </header>
 
-    <section class="page-body">
-      <!-- The split pattern: contact details in the sticky rail, the form in
-           the scrolling column. -->
-      <div class="page-split">
+    <!-- --article variants: the frame matches the header band's, so the rail
+         sits under the band's image column and the body under its copy (see
+         _page.scss / _page-split.scss). No rail thumbnail — the header hero
+         already carries the article image. -->
+    <section class="page-body page-body--article">
+      <!-- The split pattern: the article-meta rail sticks while the body
+           scrolls. Same .page-split the section layout uses — the rail simply
+           holds a meta card instead of a heading + lede. -->
+      <div class="page-split page-split--article">
         <div class="page-split__intro" data-animate>
-          <h2 class="page-split__heading">Stay in the know</h2>
-          <p class="page-split__lede">News, programme updates and event invitations, a few times a year. We do not share your details.</p>
-          <div class="contact-info">
-            <div class="contact-info__item">
-              <span class="contact-info__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
-              </span>
-              <div>
-                <p class="contact-info__label">Questions about the newsletter</p>
-                <p class="contact-info__value"><a href="mailto:greenpower.admin@planning.nsw.gov.au">greenpower.admin@planning.nsw.gov.au</a></p>
-              </div>
+          <!-- --reveal: stays hidden while the header band is on screen (it
+               states all of this already) and fades in once the band scrolls
+               away. Visible by default; only the script's .js-reveal enables
+               the hidden state. -->
+          <div class="article-meta article-meta--reveal" data-reveal-after=".page-header">
+            <!-- The REPEAT of the header band — and so the part that waits.
+                 Wrapped so the reveal has one box to open: the Copy link below
+                 is its sibling, not its child, which is what keeps the action
+                 on screen from load while only this group animates in.
+                 aria-hidden: the band above states all of it, first and
+                 labelled. This is the visible sticky repeat only. -->
+            <div class="article-meta__summary">
+              <span class="article-meta__tag" aria-hidden="true">Event</span>
+              <p class="article-meta__title">GreenPower Sponsors GBCA Transform 2025</p>
+              <ul class="article-meta__dates" aria-hidden="true">
+                <li class="article-meta__date">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                  <span><time datetime="2025-03-19">19 Mar 2025</time> &ndash; <time datetime="2025-03-20">20 Mar 2025</time></span>
+                </li>
+              </ul>
             </div>
+            <button class="btn btn--outline" type="button" data-copy-link>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              <span data-copy-label>Copy link</span>
+            </button>
+            <p class="visually-hidden" aria-live="polite" data-copy-status></p>
           </div>
         </div>
         <div class="page-split__body">
-          <!-- GovCMS: a webform, like the contact and logo-request forms — the
-               same .form classes, mapped in the webform UI or a form_alter.
-               Static demo: no action. The field set is the CLIENT-CONFIRMED
-               one (Aug 2026): email, name, an "About you" audience select and
-               the privacy/permission consent — replacing the longer set
-               transcribed from the live form (first/last name, phone,
-               organisation, subscription type, state, postcode, country,
-               current-customer). One name field, not first/last: the confirmed
-               list says Name, and autocomplete="name" fills it in one go. -->
-          <form class="form" data-animate action="#" method="post">
-            <h2 class="form__title">Join our newsletter</h2>
-            <p class="form__intro">An asterisk (*) indicates a required field.</p>
+          <!-- One CKEditor body field — everything below is prose the wrapper
+               styles (see the CKEditor WYSIWYG section of the design system). -->
+          <div class="page-content__section" data-animate>
+            <p>We are excited to share that GreenPower is the official renewable electricity sponsor for GBCA Transform 2025!</p>
 
-            <div class="form__field">
-              <label class="form__label" for="nl-email">Email address *</label>
-              <input class="form__input" id="nl-email" name="email" type="email" autocomplete="email" required>
-            </div>
+            <h2>Event details</h2>
+            <ul>
+              <li><strong>Main conference</strong> &mdash; 19&ndash;20 March 2025 | Hilton Sydney + virtual</li>
+              <li><strong>Pre-conference Innovation Forum</strong> &mdash; 18 March 2025 | Hilton Sydney</li>
+            </ul>
 
-            <div class="form__field">
-              <label class="form__label" for="nl-name">Name *</label>
-              <input class="form__input" id="nl-name" name="name" type="text" autocomplete="name" required>
-            </div>
+            <h2>About GBCA Transform</h2>
+            <p>GBCA Transform is the Green Building Council of Australia&rsquo;s annual flagship conference, pioneering thought leadership on sustainability. This year, the event will feature a full in-person, two-day conference with livestreaming options, as well as a pre-conference Innovation Forum.</p>
 
-            <div class="form__field">
-              <label class="form__label" for="nl-about">About you *</label>
-              <div class="form__select-wrap">
-                <select class="form__select" id="nl-about" name="about_you" required>
-                  <option value="" selected>Select</option>
-                  <option>Resident</option>
-                  <option>Small business</option>
-                  <option>Mid-sized business</option>
-                  <option>Large business</option>
-                  <option>Electricity provider</option>
-                  <option>Electricity generator</option>
-                  <option>Gas trader</option>
-                  <option>Gas producer</option>
-                </select>
-              </div>
-            </div>
+            <h2>Why attend?</h2>
+            <ul>
+              <li><strong>Plenary program</strong> &mdash; featuring international speakers bringing global learnings and experiences.</li>
+              <li><strong>Breakout sessions</strong> &mdash; dive deep into topics with actionable insights.</li>
+              <li><strong>Innovation Forum</strong> &mdash; explore emerging technologies like data analytics, AI and automation driving sustainability.</li>
+              <li><strong>Networking opportunities</strong> &mdash; connect with industry leaders and innovators.</li>
+              <li><strong>Workshops and exhibitions</strong> &mdash; discover industry-leading technologies and services.</li>
+            </ul>
 
-            <!-- The consent pattern from the logo-request form: a single
-                 required checkbox in its own group, the legend hidden (the
-                 checkbox's own label carries the full statement). The privacy
-                 link is a placeholder route. -->
-            <fieldset class="form__group">
-              <legend class="form__legend visually-hidden">Privacy and permission</legend>
-              <div class="form__choices">
-                <label class="form__choice"><input type="checkbox" name="privacy_permission" required> I have read the <a href="#">privacy statement</a> and give permission for GreenPower to contact me with news and updates *</label>
-              </div>
-            </fieldset>
+            <p>Through this sponsorship, GreenPower is matching GBCA Transform&rsquo;s electricity usage with 100% renewable electricity. This collaboration underscores our commitment to sustainability and a greener future.</p>
+            <p>Learn more about GBCA Transform and book your tickets here: <a href="https://gbcatransform.org.au/">GBCA Transform 2025</a></p>
+          </div>
 
-            <div class="form__captcha" role="img" aria-label="reCAPTCHA placeholder">
-              <span class="form__captcha-box"></span>
-              <span>I&rsquo;m not a robot<br><small>reCAPTCHA &mdash; placeholder</small></span>
-            </div>
+          <!-- Quote COMPONENT (field_quote paragraph) — portrait + real media
+               reference, distinct from a prose pull-quote. -->
+          <figure class="quote" data-animate>
+            <blockquote class="quote__text">
+              <p>&ldquo;Each accredited generator goes through a rigorous review process so that GreenPower customers can trust their electricity choices are driving real change in the energy mix.&rdquo;</p>
+            </blockquote>
+            <figcaption class="quote__author">
+              <span class="quote__avatar"><img src="../assets/images/profile.png" alt="" width="400" height="400" loading="lazy"></span>
+              <span class="quote__meta">
+                <span class="quote__name">Persons Name</span>
+                <span class="quote__role">GreenPower, Program Manager</span>
+              </span>
+            </figcaption>
+          </figure>
 
-            <div class="form__actions">
-              <button class="btn btn--primary" type="submit">Subscribe</button>
-            </div>
-          </form>
+          <!-- Closing image — CKEditor's own figure, from the body field -->
+          <div class="page-content__section" data-animate>
+            <figure>
+              <img src="../assets/images/wind.png" alt="Technician with a laptop working beneath wind turbines" width="1500" height="1500" loading="lazy">
+            </figure>
+          </div>
         </div>
       </div>
     </section>
+
+    <!-- Next up — a 3-item view of the latest news, excluding this node -->
+    <!-- Below md the row swipes instead of stacking: three columns will not fit,
+         and a card-by-card scroller keeps each teaser readable with the next
+         peeking past the edge. Inert from md, where the grid is the ordinary
+         count-adaptive one. -->
+    <section class="card-section card-section--scroll card-section--tight-top" aria-labelledby="next-up-title">
+      <div class="card-section__head">
+        <h2 class="card-section__heading" id="next-up-title">Next up</h2>
+        <div class="card-section__actions">
+          <!-- Arrows are hidden until the script confirms the row overflows —
+               a control that scrolls nothing is worse than no control. They
+               are a convenience on top of touch swipe, the keyboard scroll
+               region, and the cards' own tab order; never the only way in. -->
+          <button class="card-section__arrow" type="button" data-scroll-prev hidden>
+            <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M13 5H2M6 1 2 5l4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="visually-hidden">Previous articles</span>
+          </button>
+          <button class="card-section__arrow" type="button" data-scroll-next hidden>
+            <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="visually-hidden">More articles</span>
+          </button>
+          <!-- "More" reads fine beside the heading, but a link's accessible
+               name has to stand alone in a screen reader's link list (WCAG
+               2.4.4) — the hidden word supplies the destination without
+               changing what is on screen. -->
+          <a class="btn btn--tint" href="news-landing.html">More<span class="visually-hidden"> news</span>
+            <svg width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <div class="card-section__grid" data-animate-stagger>
+
+        <article class="card card--news" data-animate data-news-type="news">
+          <div class="card__media">
+            <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
+            <span class="card__tag" aria-hidden="true">News</span>
+          </div>
+          <div class="card__content">
+            <h3 class="card__title"><a class="card__title-link" href="#">GreenPower Program Rules Version 11.3 &ndash; What&rsquo;s changed and why<span class="visually-hidden"> &mdash; News</span></a></h3>
+            <p class="card__body">GreenPower has published Version 11.3 of the National GreenPower Accreditation Program Rules.</p>
+            <p class="card__meta"><time datetime="2026-04-15">15 Apr 2026</time>
+              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+          </div>
+        </article>
+
+        <article class="card card--news" data-animate data-news-type="announcement">
+          <div class="card__media">
+            <img src="../assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
+            <span class="card__tag" aria-hidden="true">Announcement</span>
+          </div>
+          <div class="card__content">
+            <h3 class="card__title"><a class="card__title-link" href="news-article.html">LCLF and Biogenic CO2 Certification announcement<span class="visually-hidden"> &mdash; Announcement</span></a></h3>
+            <p class="card__body">GreenPower is developing two new certification schemes to accelerate the transition to cleaner fuels in Australia.</p>
+            <p class="card__meta"><time datetime="2025-08-12">12 Aug 2025</time>
+              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+          </div>
+        </article>
+
+        <article class="card card--news" data-animate data-news-type="news">
+          <div class="card__media">
+            <img src="../assets/images/gas.png" alt="Aerial view of a biogas facility among green fields" width="1500" height="1500" loading="lazy">
+            <span class="card__tag" aria-hidden="true">News</span>
+          </div>
+          <div class="card__content">
+            <h3 class="card__title"><a class="card__title-link" href="#">Renewable Gas Certification Rules &ndash; version 3.0<span class="visually-hidden"> &mdash; News</span></a></h3>
+            <p class="card__body">The updated rules set out how renewable gas is certified and audited under the GreenPower program.</p>
+            <p class="card__meta"><time datetime="2026-04-15">15 Apr 2026</time>
+              <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Scroller arrows. Revealed only while the row actually overflows, and
+         each is disabled at its end — so the pair never lies about what it can
+         do. Everything they offer is already available without them (swipe,
+         the focusable scroll region, the cards' own links), which is why they
+         can be JS-only. Drupal: one once()-guarded behavior. -->
+    <script>
+      (function () {
+        var section = document.querySelector('.card-section--scroll');
+        if (!section) return;
+        var row = section.querySelector('.card-section__grid');
+        var prev = section.querySelector('[data-scroll-prev]');
+        var next = section.querySelector('[data-scroll-next]');
+        if (!row || !prev || !next) return;
+
+        function scrollable() {
+          // Same test the shared scroll-region script uses: a clipped box
+          // (overflow-x other than auto/scroll) reports a wide scrollWidth but
+          // cannot be moved. +1 absorbs sub-pixel rounding on fluid columns.
+          var ox = getComputedStyle(row).overflowX;
+          return (ox === 'auto' || ox === 'scroll') && row.scrollWidth > row.clientWidth + 1;
+        }
+
+        function step() {
+          // One card plus the gap, read from the DOM rather than assumed, so
+          // the card-width formula can change without this going stale.
+          var card = row.querySelector('.card');
+          if (!card) return row.clientWidth;
+          return card.getBoundingClientRect().width + parseFloat(getComputedStyle(row).columnGap || 0);
+        }
+
+        function sync() {
+          var on = scrollable();
+          prev.hidden = !on;
+          next.hidden = !on;
+          if (!on) return;
+          var max = row.scrollWidth - row.clientWidth;
+          // 1px tolerance: fractional widths mean scrollLeft rarely lands on
+          // exactly 0 or exactly max.
+          prev.disabled = row.scrollLeft <= 1;
+          next.disabled = row.scrollLeft >= max - 1;
+        }
+
+        prev.addEventListener('click', function () { row.scrollBy({ left: -step(), behavior: 'smooth' }); });
+        next.addEventListener('click', function () { row.scrollBy({ left: step(), behavior: 'smooth' }); });
+        row.addEventListener('scroll', sync, { passive: true });
+        window.addEventListener('resize', sync);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+        sync();
+      })();
+    </script>
+
+    <!-- Reveal-after: hold an element hidden until the element it names has
+         scrolled fully out of view. Used by the sticky article rail, which
+         repeats what the header band states — so it waits for the band to
+         leave before taking over.
+
+         Progressive enhancement: .js-reveal (which turns the hidden state ON
+         in CSS) is added only here, once the observer exists. No JS, no
+         IntersectionObserver, or a script error before this point, and the
+         element stays plainly visible rather than stranded at opacity 0.
+         Drupal: one once()-guarded behavior. -->
+    <script>
+      (function () {
+        var targets = [].slice.call(document.querySelectorAll('[data-reveal-after]'));
+        if (!targets.length || !('IntersectionObserver' in window)) return;
+
+        var wired = targets.filter(function (el) {
+          return document.querySelector(el.getAttribute('data-reveal-after'));
+        });
+        if (!wired.length) return;
+
+        document.documentElement.classList.add('js-reveal');
+
+        wired.forEach(function (el) {
+          var watched = document.querySelector(el.getAttribute('data-reveal-after'));
+          // threshold 0: revealed once the watched element is FULLY out of
+          // view, not as it starts to leave.
+          new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              el.classList.toggle('is-revealed', !entry.isIntersecting);
+            });
+          }, { threshold: 0 }).observe(watched);
+        });
+      })();
+    </script>
+
+    <!-- REFERENCE CHROME — copy-link enhancement. In Drupal this is a small
+         once()-guarded behavior over the node's canonical URL. -->
+    <script>
+      (function () {
+        var btn = document.querySelector('[data-copy-link]');
+        var status = document.querySelector('[data-copy-status]');
+        if (!btn) return;
+        var label = btn.querySelector('[data-copy-label]');
+
+        function say(text, announce) {
+          if (label) label.textContent = text;
+          if (status) status.textContent = announce;
+          setTimeout(function () {
+            if (label) label.textContent = 'Copy link';
+            if (status) status.textContent = '';
+          }, 2000);
+        }
+
+        // execCommand fallback for contexts where the async Clipboard API is
+        // permission-denied (embedded webviews). Deprecated but harmless: it
+        // is only ever reached after the modern path has already refused.
+        function legacyCopy() {
+          var field = document.createElement('input');
+          field.value = location.href;
+          field.setAttribute('readonly', '');
+          field.style.position = 'absolute';
+          field.style.left = '-9999px';
+          document.body.appendChild(field);
+          field.select();
+          var ok = false;
+          try { ok = document.execCommand('copy'); } catch (e) { /* fall through */ }
+          field.remove();
+          return ok;
+        }
+
+        btn.addEventListener('click', function () {
+          var modern = navigator.clipboard
+            ? navigator.clipboard.writeText(location.href)
+            : Promise.reject();
+          modern.then(
+            function () { say('Link copied', 'Link copied to clipboard'); },
+            function () {
+              // NEVER fail silently: a copy button that does nothing reads as
+              // broken. Fall back, and if that refuses too, say so.
+              if (legacyCopy()) say('Link copied', 'Link copied to clipboard');
+              else say('Copy blocked', 'Copying was blocked — copy the address bar URL instead');
+            }
+          );
+        });
+      })();
+    </script>
   </main>
 
   <footer class="site-footer">
@@ -567,7 +818,6 @@
       </div>
     </div>
   </footer>
-
 
   <script>
     // Main navigation: hamburger, dropdown disclosure, morphing backdrop
@@ -893,7 +1143,6 @@
     })();
   </script>
 
-
   <!-- Image parallax — the shared drift (see templates/home.html): each photo
        frame's images ease a few px against the scroll. Selector lists every
        parallax frame so future sections on this template opt in for free.
@@ -956,6 +1205,94 @@
     })();
   </script>
 
+  <!-- Feature banner: hovering/focusing a link crossfades the media to that
+       link's image and swaps the location pin. Same script as home.html and the
+       design system — Drupal: one once()-guarded behavior shared across pages. -->
+  <script>
+    (function () {
+      var banners = [].slice.call(document.querySelectorAll('[data-feature-banner]'));
+      banners.forEach(function (banner) {
+        var links = [].slice.call(banner.querySelectorAll('[data-feature-image]'));
+        var images = [].slice.call(banner.querySelectorAll('[data-feature-key]'));
+        var locationText = banner.querySelector('[data-feature-location-text]');
+        var locationEl = banner.querySelector('.feature-banner__location');
+        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (!links.length || !images.length) return;
+
+        var current = null;
+        images.forEach(function (img) {
+          if (img.classList.contains('is-active')) current = img.getAttribute('data-feature-key');
+        });
+
+        // Swap the location label and animate the badge from its current width
+        // to the new one. Auto widths can't transition, so measure both ends and
+        // hand CSS two explicit px values; reset to auto once it settles so the
+        // badge stays responsive. Reduced motion just swaps the text.
+        function setLocation(text) {
+          if (!locationText) return;
+          if (!locationEl || reduceMotion.matches) { locationText.textContent = text; return; }
+          var startW = locationEl.getBoundingClientRect().width;
+          locationEl.style.width = 'auto';
+          locationText.textContent = text;
+          var endW = locationEl.getBoundingClientRect().width;
+          locationEl.style.width = startW + 'px';
+          locationEl.getBoundingClientRect(); // force reflow so the next set animates
+          locationEl.style.width = endW + 'px';
+          var done = function (e) {
+            if (e.propertyName !== 'width') return;
+            locationEl.style.width = '';
+            locationEl.removeEventListener('transitionend', done);
+          };
+          locationEl.addEventListener('transitionend', done);
+        }
+
+        function activate(key) {
+          if (key === current) return;
+          var found = false, loc = '';
+          images.forEach(function (img) {
+            var match = img.getAttribute('data-feature-key') === key;
+            if (match) { found = true; loc = img.getAttribute('data-feature-location') || ''; }
+            img.classList.toggle('is-active', match);
+          });
+          if (found) { current = key; setLocation(loc); }
+        }
+
+        // Auto-cycle on the hero's cadence; hover/focus takes over and pauses,
+        // leaving the links resumes. Reduced motion opts out entirely.
+        var keys = images.map(function (img) { return img.getAttribute('data-feature-key'); });
+        var HOLD_MS = 5250;
+        var FADE_MS = 500;
+        var autoTimer = null;
+
+        function stopAuto() { clearTimeout(autoTimer); autoTimer = null; }
+        function scheduleAuto() {
+          stopAuto();
+          if (reduceMotion.matches || keys.length < 2) return;
+          autoTimer = setTimeout(function () {
+            activate(keys[(keys.indexOf(current) + 1) % keys.length]);
+            scheduleAuto();
+          }, HOLD_MS + FADE_MS);
+        }
+
+        links.forEach(function (link) {
+          var key = link.getAttribute('data-feature-image');
+          link.addEventListener('mouseenter', function () { activate(key); });
+          link.addEventListener('focus', function () { activate(key); });
+        });
+
+        var linksList = banner.querySelector('.feature-banner__links');
+        if (linksList) {
+          linksList.addEventListener('mouseenter', stopAuto);
+          linksList.addEventListener('mouseleave', scheduleAuto);
+        }
+        banner.addEventListener('focusin', stopAuto);
+        banner.addEventListener('focusout', scheduleAuto);
+
+        scheduleAuto();
+      });
+    })();
+  </script>
+
   <!-- Scroll-entrance animations: the shared [data-animate] system (see
        docs/animation.md rule 1 and scss/utilities/_scroll-animations.scss).
        ONE IntersectionObserver for the whole page. Progressive enhancement —
@@ -1009,6 +1346,147 @@
       // state. If anything above threw, this never runs and the page stays
       // fully visible.
       document.documentElement.classList.add('js-animations');
+    })();
+  </script>
+
+  <!-- Client logo marquee. A PROGRESSIVE ENHANCEMENT: the band is a plain
+       horizontal scroller in the markup, and this only mounts the continuous
+       scroll when JS runs and motion is welcome. Without either it stays
+       manually scrollable, so nothing is ever unreachable.
+       Seamless loop: clone the list, hide the copy from assistive tech (it is
+       the same twenty logos — nobody should hear them twice), and translate the
+       track exactly -50%, which lands the copy where the original started.
+       Speed is constant rather than duration being fixed: the duration is
+       derived from the measured list width, so adding logos in Drupal makes the
+       band longer, not faster.
+       Drupal: a once()-guarded behavior. -->
+  <script>
+    (function () {
+      var scroller = document.querySelector('.client-logos__scroller');
+      if (!scroller) return;
+      var track = scroller.querySelector('.client-logos__track');
+      var list = track && track.querySelector('.client-logos__list');
+      if (!track || !list) return;
+
+      var SPEED = 40; // px per second — the band's travel, not its cycle time
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      // WCAG 2.2.2: the control that stops the motion. Hidden until the marquee
+      // actually mounts — with no JS or under reduced motion nothing moves, and
+      // a button that paused nothing would be worse than no button at all.
+      var playback = document.querySelector('[data-logos-playback]');
+      var pauseIcon = playback && playback.querySelector('[data-logos-pause]');
+      var playIcon = playback && playback.querySelector('[data-logos-play]');
+      var label = playback && playback.querySelector('[data-logos-label]');
+
+      function setPaused(paused) {
+        scroller.classList.toggle('is-paused', paused);
+        if (!playback) return;
+        // toggleAttribute, not .hidden — SVG elements lack the hidden IDL
+        // property (the hero's playback control carries the same note).
+        pauseIcon.toggleAttribute('hidden', paused);
+        playIcon.toggleAttribute('hidden', !paused);
+        label.textContent = paused ? 'Play' : 'Pause';
+      }
+
+      function setDuration() {
+        var w = list.getBoundingClientRect().width;
+        if (w > 0) scroller.style.setProperty('--marquee-duration', (w / SPEED).toFixed(2) + 's');
+      }
+
+      function mount() {
+        if (reduce.matches || scroller.classList.contains('is-marquee')) return;
+        var copy = list.cloneNode(true);
+        copy.setAttribute('aria-hidden', 'true');
+        // Nothing inside is focusable, but be explicit: a cloned tab stop would
+        // be a duplicate the user cannot see the point of.
+        copy.querySelectorAll('[tabindex]').forEach(function (el) { el.setAttribute('tabindex', '-1'); });
+        track.appendChild(copy);
+        scroller.classList.add('is-marquee');
+        setDuration();
+        if (playback) {
+          playback.hidden = false;
+          setPaused(false);
+        }
+      }
+
+      function unmount() {
+        if (!scroller.classList.contains('is-marquee')) return;
+        var copy = track.querySelector('.client-logos__list[aria-hidden="true"]');
+        if (copy) copy.remove();
+        scroller.classList.remove('is-marquee');
+        scroller.classList.remove('is-paused');
+        scroller.style.removeProperty('--marquee-duration');
+        if (playback) playback.hidden = true;
+      }
+
+      if (playback) {
+        playback.addEventListener('click', function () {
+          setPaused(!scroller.classList.contains('is-paused'));
+        });
+      }
+
+      function apply() { reduce.matches ? unmount() : mount(); }
+
+      apply();
+      // Images settle after load and the gap is fluid, so re-measure rather than
+      // trusting the first reading.
+      window.addEventListener('load', setDuration);
+      window.addEventListener('resize', setDuration);
+      if (reduce.addEventListener) reduce.addEventListener('change', apply);
+    })();
+  </script>
+
+  <!-- Scroll regions: a table scrolls inside its figure.table wrapper, a code
+       block inside its own pre (CSS, pages/_content.scss), and the client logo
+       band inside its scroller. A scroll box that holds nothing focusable
+       cannot be scrolled from the keyboard (WCAG 2.1.1), so promote ONLY the
+       boxes that actually overflow to a focusable, labelled region — one that
+       fits adds no tab stop and no landmark. Re-checked on resize and once
+       webfonts settle, because the column and the type scale are both fluid.
+       Drupal: one once()-guarded behavior, labels through t(). -->
+  <script>
+    (function () {
+      var wrappers = [].slice.call(document.querySelectorAll(
+        '.page-content__section figure.table, .page-content__section pre, .client-logos__scroller, .card-section--scroll .card-section__grid'
+      ));
+      if (!wrappers.length) return;
+
+      function labelFor(el) {
+        if (el.matches('pre')) return 'Scrollable code block';
+        if (el.matches('.client-logos__scroller')) return 'Client logos, scrollable';
+        if (el.matches('.card-section__grid')) return 'More articles, scrollable';
+        return 'Scrollable table';
+      }
+
+      function sync() {
+        wrappers.forEach(function (el) {
+          // Only a box the user can actually scroll earns a tab stop. A clipped
+          // box (overflow: hidden — e.g. the logo band once its marquee mounts)
+          // still reports scrollWidth > clientWidth, but no key press will move
+          // it, so promoting it would add a tab stop that does nothing.
+          var ox = getComputedStyle(el).overflowX;
+          var scrollable = (ox === 'auto' || ox === 'scroll');
+          // +1 absorbs sub-pixel rounding: a fluid column routinely resolves to
+          // a fractional width, where scrollWidth reads a pixel over
+          // clientWidth with nothing actually clipped.
+          if (scrollable && el.scrollWidth > el.clientWidth + 1) {
+            el.setAttribute('tabindex', '0');
+            el.setAttribute('role', 'region');
+            el.setAttribute('aria-label', labelFor(el));
+          } else if (el !== document.activeElement) {
+            // Never strip the attributes off the element currently holding
+            // focus — that would drop the user's focus to <body> mid-resize.
+            el.removeAttribute('tabindex');
+            el.removeAttribute('role');
+            el.removeAttribute('aria-label');
+          }
+        });
+      }
+
+      sync();
+      window.addEventListener('resize', sync);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
     })();
   </script>
 </body>

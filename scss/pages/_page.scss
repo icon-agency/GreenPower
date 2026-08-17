@@ -15,29 +15,32 @@
   // overrides with its own tighter frame, which is already the band-aligned
   // one.
   padding-inline: calc(var(--space-s-l) + var(--space-xs));
-  // Symmetric section padding from sm. The top used to match the nav's gap
-  // ABOVE the header band (--space-m), which set the band nicely but left the
-  // content starting tight under it — a page break needs more air than a
-  // component gap.
+  // .card-section's frame, adopted (see _card.scss for the original
+  // rationale): the section OPENS at --space-xl and CLOSES at the container's
+  // own --space-s-l gutter, so consecutive sections meet on --space-s-l +
+  // --space-xl (~94px at 1280) rather than a doubled 3xl — the stack that had
+  // this body and the next section sitting 175px apart while two card
+  // sections met at 94. The TOP is xl at every width for the same reason the
+  // article variant always used it: the band above is a closed, rounded panel
+  // that already reads as a break, and whatever else precedes a body brings
+  // its own s-l closure.
   //
-  // PHONES take both ends down (the article variant's own rationale, at the
-  // width where it bites hardest): the band above is a closed, rounded panel
-  // that already reads as a break, so the top drops to --space-xl — and the
-  // BOTTOM drops further, to --space-m, because whatever follows a body
-  // brings its own section-scale top (a card section's --space-xl, another
-  // body's own top). At --space-3xl the two stacked into most of a phone
-  // viewport of empty page between a paragraph and the next heading. The
-  // full symmetric scale returns from sm.
+  // PHONES keep the bottom at --space-m — at 375 the s-l gutter (16px) is a
+  // hair tighter than the m the phone band was tuned on (24px), and the two
+  // hand over smoothly at sm (25.5 → 22).
   padding-block: var(--space-xl) var(--space-m);
 
   @include respond-to('sm') {
-    padding-block: var(--space-3xl);
+    padding-block-end: var(--space-s-l);
   }
 
-  // Layout blocks (.page-content, .page-split) stack as siblings in here;
-  // full section-scale air between them.
+  // Layout blocks (.page-content, .page-split) stack as siblings in here, on
+  // the same --space-2xl step the reading column gives its own blocks
+  // (_content.scss) — one block rhythm inside a body, whichever wrapper owns
+  // the block. The old --space-3xl made a layout seam read a full section
+  // apart on a page whose sections now meet closer than that.
   > * + * {
-    margin-top: var(--space-3xl);
+    margin-top: var(--space-2xl);
   }
 }
 
@@ -67,11 +70,7 @@
     padding-inline: var(--space-xs);
   }
 
-  // Two steps down from the section-scale top (--space-3xl, 138px here → 69px).
-  // The band above is a closed, rounded panel that already reads as a break, so
-  // a full section gap on top of it separated the article from its own header.
-  // The CLOSING padding keeps --space-3xl: below the body is the next section,
-  // which brings no such panel of its own.
-  padding-block-start: var(--space-xl);
-
+  // No padding-block override: the base body now opens at --space-xl under
+  // the band — the value this variant carried alone (with the same closed-
+  // panel rationale) before the section scale came down to meet it.
 }

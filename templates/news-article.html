@@ -406,14 +406,13 @@
         <p class="page-header__intro" data-animate>We&rsquo;re excited to share that GreenPower is developing two new certification schemes to accelerate the transition to cleaner fuels in Australia.</p>
         <!-- Type + dates, stated here AND in the sticky rail below. This copy
              is the accessible one — it comes first in DOM order and carries
-             the labels; the rail's repeat is aria-hidden. -->
+             the labels; the rail's repeat is aria-hidden.
+             NEWS display: the published date only — event dates are the EVENT
+             article's display (see event-article.html; each view mode renders
+             its own date field, not a conditional in Twig). -->
         <div class="article-meta article-meta--on-dark" data-animate>
           <span class="article-meta__tag">News</span>
           <ul class="article-meta__dates">
-            <li class="article-meta__date">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-              <span><span class="visually-hidden">Event dates: </span><time datetime="2025-03-19">19 Mar 2025</time> &ndash; <time datetime="2025-03-20">20 Mar 2025</time></span>
-            </li>
             <li class="article-meta__date">
               <span><span class="visually-hidden">Published </span><time datetime="2025-08-12">12 Aug 2025</time></span>
             </li>
@@ -454,10 +453,6 @@
               <span class="article-meta__tag" aria-hidden="true">News</span>
               <p class="article-meta__title">LCLF and Biogenic CO2 Certification announcement</p>
               <ul class="article-meta__dates" aria-hidden="true">
-                <li class="article-meta__date">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                  <span><time datetime="2025-03-19">19 Mar 2025</time> &ndash; <time datetime="2025-03-20">20 Mar 2025</time></span>
-                </li>
                 <li class="article-meta__date">
                   <span><time datetime="2025-08-12">12 Aug 2025</time></span>
                 </li>

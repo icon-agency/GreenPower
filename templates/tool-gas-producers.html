@@ -538,30 +538,32 @@
                 </div>
                 <img class="generator-card__media" src="../assets/images/gas.png" alt="" width="1500" height="1500" loading="lazy">
               </div>
+              <!-- The GLANCE tier — the client's card-content-hierarchy review
+                   (Aug 2026) put the full spec row set on the card by default:
+                   type, capacity, pathway, feedstock and both emissions
+                   figures, with CER code kept as the closing row. Behind
+                   "More details" sits the DESCRIPTION only — plus expected
+                   completion on FUTURE projects (Bundaberg, Whyalla); an
+                   omitted row is an empty field, while "TBD" is an editorial
+                   value on an announced project (JIRA D16). The disclosure
+                   replaces the client ticket's pending expanded/modal view —
+                   the card expands in place (SCSS header, JIRA V6).
+                   WIREFRAME FILLER: pathway, feedstock and emissions values
+                   are invented pending registry data.
+                   The map popup summarises, not mirrors — its builder reads
+                   the first TWO rows of this <dl>. -->
               <dl class="generator-card__meta">
-                <div class="generator-card__meta-row"><dt>Gas type</dt><dd>Biomethane</dd></div>
+                <div class="generator-card__meta-row"><dt>Renewable gas type</dt><dd>Biomethane</dd></div>
                 <div class="generator-card__meta-row"><dt>Capacity</dt><dd>95 TJ/yr</dd></div>
+                <div class="generator-card__meta-row"><dt>Production pathway</dt><dd>Anaerobic digestion with biogas upgrading</dd></div>
+                <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Wastewater biosolids</dd></div>
+                <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>11 g CO2-e/MJ</dd></div>
+                <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>77% vs natural gas</dd></div>
                 <div class="generator-card__meta-row"><dt>CER code</dt><dd>BM00NS01</dd></div>
               </dl>
-              <!-- The record's SECOND TIER, behind "More details": feedstock, the
-                   emissions figures, expected completion and the description.
-                   Replaces the client ticket's pending expanded/modal view —
-                   the card expands in place (SCSS header, JIRA V6). Expected
-                   completion appears on FUTURE projects only (Bundaberg,
-                   Whyalla); an omitted row is an empty field, while "TBD" is
-                   an editorial value on an announced project (JIRA D16).
-                   WIREFRAME FILLER: feedstock and emissions values are
-                   invented pending registry data.
-                   The map popup mirrors the GLANCE tier only — its builder
-                   reads the card's first <dl>. -->
               <details class="generator-card__more">
                 <summary class="generator-card__more-summary"><span class="generator-card__more-open">More details</span><span class="generator-card__more-close">Less</span></summary>
                 <div class="generator-card__more-body">
-                  <dl class="generator-card__meta">
-                    <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Wastewater biosolids</dd></div>
-                    <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>11 g CO2-e/MJ</dd></div>
-                    <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>77% vs natural gas</dd></div>
-                  </dl>
                   <p class="generator-card__desc">Jemena&rsquo;s Malabar Biomethane Injection Plant is Australia&rsquo;s first project to inject biomethane produced from wastewater into a gas distribution network, supplying renewable gas to homes and businesses across Sydney.</p>
                 </div>
               </details>
@@ -602,20 +604,19 @@
                 </div>
               </div>
               <dl class="generator-card__meta">
-                <div class="generator-card__meta-row"><dt>Gas type</dt><dd>Landfill gas</dd></div>
+                <div class="generator-card__meta-row"><dt>Renewable gas type</dt><dd>Landfill gas</dd></div>
                 <div class="generator-card__meta-row"><dt>Capacity</dt><dd>41 TJ/yr</dd></div>
+                <div class="generator-card__meta-row"><dt>Production pathway</dt><dd>Landfill gas capture and cleaning</dd></div>
+                <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Municipal landfill gas</dd></div>
+                <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>TBD</dd></div>
+                <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>TBD</dd></div>
                 <div class="generator-card__meta-row"><dt>CER code</dt><dd>LG02VC08</dd></div>
               </dl>
-              <details class="generator-card__more">
-                <summary class="generator-card__more-summary"><span class="generator-card__more-open">More details</span><span class="generator-card__more-close">Less</span></summary>
-                <div class="generator-card__more-body">
-                  <dl class="generator-card__meta">
-                    <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Municipal landfill gas</dd></div>
-                    <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>TBD</dd></div>
-                    <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>TBD</dd></div>
-                  </dl>
-                </div>
-              </details>
+              <!-- No "More details" AT ALL on this record: the disclosure now
+                   holds the description (and expected completion on future
+                   projects), and this record has neither — an empty disclosure
+                   is worse than none. Drupal: wrap the whole <details> in the
+                   same {% if %} the other optional wrappers use. -->
               <div class="generator-card__actions">
                 <button class="generator-card__map-link" type="button" data-gen-map-focus>
                   <svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M7 1.2a4.3 4.3 0 0 0-4.3 4.3C2.7 8.7 7 12.8 7 12.8s4.3-4.1 4.3-7.3A4.3 4.3 0 0 0 7 1.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7" cy="5.5" r="1.7" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
@@ -634,18 +635,17 @@
                 <img class="generator-card__media" src="../assets/video/Glenrowan.png" alt="" width="1500" height="1500" loading="lazy">
               </div>
               <dl class="generator-card__meta">
-                <div class="generator-card__meta-row"><dt>Gas type</dt><dd>Agricultural biogas</dd></div>
+                <div class="generator-card__meta-row"><dt>Renewable gas type</dt><dd>Agricultural biogas</dd></div>
                 <div class="generator-card__meta-row"><dt>Capacity</dt><dd>28 TJ/yr</dd></div>
+                <div class="generator-card__meta-row"><dt>Production pathway</dt><dd>Anaerobic digestion</dd></div>
+                <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Agricultural residues and food-processing waste</dd></div>
+                <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>14 g CO2-e/MJ</dd></div>
+                <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>72% vs natural gas</dd></div>
                 <div class="generator-card__meta-row"><dt>CER code</dt><dd>AB07VC11</dd></div>
               </dl>
               <details class="generator-card__more">
                 <summary class="generator-card__more-summary"><span class="generator-card__more-open">More details</span><span class="generator-card__more-close">Less</span></summary>
                 <div class="generator-card__more-body">
-                  <dl class="generator-card__meta">
-                    <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Agricultural residues and food-processing waste</dd></div>
-                    <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>14 g CO2-e/MJ</dd></div>
-                    <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>72% vs natural gas</dd></div>
-                  </dl>
                   <p class="generator-card__desc">Glenrowan digests agricultural residues from surrounding farms, producing renewable gas for regional industry and returning digestate to growers as fertiliser.</p>
                 </div>
               </details>
@@ -669,18 +669,17 @@
                 <img class="generator-card__media" src="../assets/images/gas.png" alt="" width="1500" height="1500" loading="lazy">
               </div>
               <dl class="generator-card__meta">
-                <div class="generator-card__meta-row"><dt>Gas type</dt><dd>Wastewater biogas</dd></div>
+                <div class="generator-card__meta-row"><dt>Renewable gas type</dt><dd>Wastewater biogas</dd></div>
                 <div class="generator-card__meta-row"><dt>Capacity</dt><dd>33 TJ/yr</dd></div>
+                <div class="generator-card__meta-row"><dt>Production pathway</dt><dd>Anaerobic digestion with biogas upgrading</dd></div>
+                <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Wastewater sludge</dd></div>
+                <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>12 g CO2-e/MJ</dd></div>
+                <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>75% vs natural gas</dd></div>
                 <div class="generator-card__meta-row"><dt>CER code</dt><dd>WB03WA04</dd></div>
               </dl>
               <details class="generator-card__more">
                 <summary class="generator-card__more-summary"><span class="generator-card__more-open">More details</span><span class="generator-card__more-close">Less</span></summary>
                 <div class="generator-card__more-body">
-                  <dl class="generator-card__meta">
-                    <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Wastewater sludge</dd></div>
-                    <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>12 g CO2-e/MJ</dd></div>
-                    <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>75% vs natural gas</dd></div>
-                  </dl>
                   <p class="generator-card__desc">Woodman Point recovers biogas from wastewater treatment and upgrades it for injection, displacing fossil gas across the Perth metropolitan network.</p>
                 </div>
               </details>
@@ -704,17 +703,18 @@
                 <img class="generator-card__media" src="../assets/video/green-gas.png" alt="" width="1500" height="1500" loading="lazy">
               </div>
               <dl class="generator-card__meta">
-                <div class="generator-card__meta-row"><dt>Gas type</dt><dd>Biomethane</dd></div>
+                <div class="generator-card__meta-row"><dt>Renewable gas type</dt><dd>Biomethane</dd></div>
                 <div class="generator-card__meta-row"><dt>Capacity</dt><dd>52 TJ/yr</dd></div>
+                <div class="generator-card__meta-row"><dt>Production pathway</dt><dd>Anaerobic digestion with biogas upgrading</dd></div>
+                <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Sugarcane processing residues</dd></div>
+                <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>TBD</dd></div>
+                <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>TBD</dd></div>
                 <div class="generator-card__meta-row"><dt>CER code</dt><dd>BM09QD02</dd></div>
               </dl>
               <details class="generator-card__more">
                 <summary class="generator-card__more-summary"><span class="generator-card__more-open">More details</span><span class="generator-card__more-close">Less</span></summary>
                 <div class="generator-card__more-body">
                   <dl class="generator-card__meta">
-                    <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Sugarcane processing residues</dd></div>
-                    <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>TBD</dd></div>
-                    <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>TBD</dd></div>
                     <div class="generator-card__meta-row"><dt>Expected completion</dt><dd>Late 2027</dd></div>
                   </dl>
                   <p class="generator-card__desc">The Bundaberg hub upgrades biogas from sugarcane processing residues into certified renewable gas, supplying local food manufacturing under long-term agreements.</p>
@@ -740,17 +740,18 @@
                 <img class="generator-card__media" src="../assets/video/green-energy.png" alt="" width="1500" height="1500" loading="lazy">
               </div>
               <dl class="generator-card__meta">
-                <div class="generator-card__meta-row"><dt>Gas type</dt><dd>Green hydrogen</dd></div>
+                <div class="generator-card__meta-row"><dt>Renewable gas type</dt><dd>Green hydrogen</dd></div>
                 <div class="generator-card__meta-row"><dt>Capacity</dt><dd>18 TJ/yr</dd></div>
+                <div class="generator-card__meta-row"><dt>Production pathway</dt><dd>Renewable-powered electrolysis</dd></div>
+                <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Water</dd></div>
+                <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>3 g CO2-e/MJ</dd></div>
+                <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>94% vs natural gas</dd></div>
                 <div class="generator-card__meta-row"><dt>CER code</dt><dd>GH01SA05</dd></div>
               </dl>
               <details class="generator-card__more">
                 <summary class="generator-card__more-summary"><span class="generator-card__more-open">More details</span><span class="generator-card__more-close">Less</span></summary>
                 <div class="generator-card__more-body">
                   <dl class="generator-card__meta">
-                    <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Water (renewable-powered electrolysis)</dd></div>
-                    <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>3 g CO2-e/MJ</dd></div>
-                    <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>94% vs natural gas</dd></div>
                     <div class="generator-card__meta-row"><dt>Expected completion</dt><dd>TBD</dd></div>
                   </dl>
                   <p class="generator-card__desc">Whyalla produces hydrogen by electrolysis powered entirely by accredited renewable electricity, blended into the local network and supplied to industrial offtakers.</p>
@@ -1652,11 +1653,12 @@
 
         var meta = document.createElement('div');
         meta.className = 'generator-popup__meta';
-        // The GLANCE tier only — the card's FIRST <dl>. The "More details"
-        // disclosure holds a second dl of the same row class, and reading the
-        // whole card would bloat every balloon with the tier the popup exists
-        // to summarise.
-        [].slice.call(card.querySelector('.generator-card__meta').querySelectorAll('.generator-card__meta-row')).forEach(function (row) {
+        // The first TWO rows of the card's first <dl> — type and capacity.
+        // The glance tier grew to the full spec row set (client card-content-
+        // hierarchy review), so mirroring it would bloat every balloon with
+        // exactly what the popup exists to summarise; the balloon is a
+        // signpost, and its "View details" crossing opens the full card.
+        [].slice.call(card.querySelector('.generator-card__meta').querySelectorAll('.generator-card__meta-row'), 0, 2).forEach(function (row) {
           var line = document.createElement('p');
           line.className = 'generator-popup__meta-row';
           var label = document.createElement('strong');

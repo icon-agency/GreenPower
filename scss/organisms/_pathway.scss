@@ -41,14 +41,15 @@
 // page's outer box.
 // The CLOSING padding matches that same tight frame, so the section's box is
 // even on three sides and the panels close snugly under the last route rather
-// than trailing a section-scale slab. Only the TOP keeps --space-3xl: it is
-// the break from whatever precedes the section, which the bottom is not —
-// what follows brings its own opening space. (.card-section is the same
-// shape: full break above, gutter below.)
+// than trailing a section-scale slab. The TOP opens at --space-xl —
+// .card-section's own opener, and the section-rhythm rule since the 3xl scale
+// came down (docs/content-rhythm.md): what precedes this section provides its
+// own closure (the header band's closed panel on every current placement),
+// and 3xl also never stepped down on phones, leaving 96px of band gap at 375.
 .pathway-section {
   max-width: $container-max-width;
   margin-inline: auto;
-  padding: var(--space-3xl) var(--space-xs) var(--space-xs);
+  padding: var(--space-xl) var(--space-xs) var(--space-xs);
 }
 
 // Matches .card-section__heading, centred — this is a section heading like any
