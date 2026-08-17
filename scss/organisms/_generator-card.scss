@@ -4,7 +4,8 @@
 // The card family's conventions (tinted tile, brand radius, gap-spaced
 // children) carrying a directory RECORD rather than editorial teaser copy:
 // accreditation badge, name, operator and place beside a small photo, a meta
-// list (type / capacity / CER code), a description, and two actions — Visit
+// list (the spec rows — see the tier note below), a description, and two
+// actions — Visit
 // website (a link: navigation) and View on map (a button: an action — it pans
 // the map; docs/frontend-rules.md element choice).
 //
@@ -19,9 +20,11 @@
 //   open); the __more machinery below is exercised by the gas page only.
 // · Gas producers: the client's card-content-hierarchy review (Aug 2026) put
 //   the full spec row set on the glance — renewable gas type, capacity,
-//   production pathway, feedstock, both emissions figures — with CER code
-//   kept as the closing row; the DESCRIPTION (and expected completion, on
-//   future projects) sits behind the disclosure.
+//   production pathway, feedstock, both emissions figures — and dropped the
+//   CER code from the card entirely (registry admin data, not something a
+//   visitor reads a producer by; the field stays on the node). The
+//   DESCRIPTION (and expected completion, on future projects) sits behind
+//   the disclosure.
 // The "More details" disclosure (__more) replaces the gas ticket's pending
 // expanded/modal view — the card expands in place, so there is no third
 // surface, no focus trap and no close-on-outside-click machinery (JIRA V6).
@@ -34,7 +37,9 @@
 //   title, field_company (text), field_place (text), field_state (taxonomy),
 //   field_generator_type (taxonomy), field_capacity (decimal — MW on the
 //   electricity page, TJ/yr on gas; the unit is display formatting),
-//   field_cer_code (text), field_description (text long), field_website
+//   field_cer_code (text — rendered on the electricity card only; the gas
+//   card dropped it at review, but the field stays on the node as the
+//   stable public identifier), field_description (text long), field_website
 //   (link), field_image (media), field_location (geofield — the template
 //   writes it to data-lat/data-lng for the map markers; a missing value drops
 //   the marker, never the row).

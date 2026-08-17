@@ -541,8 +541,11 @@
               <!-- The GLANCE tier — the client's card-content-hierarchy review
                    (Aug 2026) put the full spec row set on the card by default:
                    type, capacity, pathway, feedstock and both emissions
-                   figures, with CER code kept as the closing row. Behind
-                   "More details" sits the DESCRIPTION only — plus expected
+                   figures. CER code is NOT shown: it is registry admin data,
+                   not something a visitor reads a producer by (it remains
+                   field_cer_code on the node, and the search/filter note
+                   below still treats it as the stable public identifier).
+                   Behind "More details" sits the DESCRIPTION only — plus expected
                    completion on FUTURE projects (Bundaberg, Whyalla); an
                    omitted row is an empty field, while "TBD" is an editorial
                    value on an announced project (JIRA D16). The disclosure
@@ -559,12 +562,18 @@
                 <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Wastewater biosolids</dd></div>
                 <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>11 g CO2-e/MJ</dd></div>
                 <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>77% vs natural gas</dd></div>
-                <div class="generator-card__meta-row"><dt>CER code</dt><dd>BM00NS01</dd></div>
               </dl>
               <details class="generator-card__more">
                 <summary class="generator-card__more-summary"><span class="generator-card__more-open">More details</span><span class="generator-card__more-close">Less</span></summary>
                 <div class="generator-card__more-body">
-                  <p class="generator-card__desc">Jemena&rsquo;s Malabar Biomethane Injection Plant is Australia&rsquo;s first project to inject biomethane produced from wastewater into a gas distribution network, supplying renewable gas to homes and businesses across Sydney.</p>
+                  <!-- Real supplied copy (the only record with it — the other
+                       five descriptions are still wireframe filler). Two
+                       paragraphs: the disclosure body spaces siblings itself,
+                       so a multi-paragraph description needs no wrapper. In
+                       Drupal this is field_description, a text-long field, so
+                       an editor's paragraph breaks arrive the same way. -->
+                  <p class="generator-card__desc">Located on Sydney&rsquo;s southeast coast, the Malabar Biomethane Injection Plant has an annual capacity of approximately 95 terajoules of biomethane, which it injects into the New South Wales gas network. Jemena developed the project in partnership with Sydney Water and with support from the Australian Renewable Energy Agency (ARENA). It upgrades biogas produced from wastewater at the Malabar Water Resource Recovery Facility into mains-grade biomethane.</p>
+                  <p class="generator-card__desc">At Malabar, organic waste within the wastewater stream is treated through anaerobic digestion, where microorganisms break down material to produce biogas. This biogas is then upgraded by removing contaminants to meet gas network specifications, allowing safe injection into the existing distribution network. By converting wastewater-derived biogas into renewable gas and utilising existing infrastructure, the project reduces waste and supports the transition toward lower-emissions energy systems.</p>
                 </div>
               </details>
               <div class="generator-card__actions">
@@ -611,7 +620,6 @@
                 <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Municipal landfill gas</dd></div>
                 <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>TBD</dd></div>
                 <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>TBD</dd></div>
-                <div class="generator-card__meta-row"><dt>CER code</dt><dd>LG02VC08</dd></div>
               </dl>
               <!-- No "More details" AT ALL on this record: the disclosure now
                    holds the description (and expected completion on future
@@ -642,7 +650,6 @@
                 <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Agricultural residues and food-processing waste</dd></div>
                 <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>14 g CO2-e/MJ</dd></div>
                 <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>72% vs natural gas</dd></div>
-                <div class="generator-card__meta-row"><dt>CER code</dt><dd>AB07VC11</dd></div>
               </dl>
               <details class="generator-card__more">
                 <summary class="generator-card__more-summary"><span class="generator-card__more-open">More details</span><span class="generator-card__more-close">Less</span></summary>
@@ -676,7 +683,6 @@
                 <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Wastewater sludge</dd></div>
                 <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>12 g CO2-e/MJ</dd></div>
                 <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>75% vs natural gas</dd></div>
-                <div class="generator-card__meta-row"><dt>CER code</dt><dd>WB03WA04</dd></div>
               </dl>
               <details class="generator-card__more">
                 <summary class="generator-card__more-summary"><span class="generator-card__more-open">More details</span><span class="generator-card__more-close">Less</span></summary>
@@ -710,7 +716,6 @@
                 <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Sugarcane processing residues</dd></div>
                 <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>TBD</dd></div>
                 <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>TBD</dd></div>
-                <div class="generator-card__meta-row"><dt>CER code</dt><dd>BM09QD02</dd></div>
               </dl>
               <details class="generator-card__more">
                 <summary class="generator-card__more-summary"><span class="generator-card__more-open">More details</span><span class="generator-card__more-close">Less</span></summary>
@@ -747,7 +752,6 @@
                 <div class="generator-card__meta-row"><dt>Feedstock</dt><dd>Water</dd></div>
                 <div class="generator-card__meta-row"><dt>GHG LCA emissions (excl. combustion)</dt><dd>3 g CO2-e/MJ</dd></div>
                 <div class="generator-card__meta-row"><dt>Full lifecycle emission reduction</dt><dd>94% vs natural gas</dd></div>
-                <div class="generator-card__meta-row"><dt>CER code</dt><dd>GH01SA05</dd></div>
               </dl>
               <details class="generator-card__more">
                 <summary class="generator-card__more-summary"><span class="generator-card__more-open">More details</span><span class="generator-card__more-close">Less</span></summary>
