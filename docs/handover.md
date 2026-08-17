@@ -36,19 +36,19 @@ the NEWEST copy and delete the rest. Copies at handover:
 
 | Inline script (grep marker) | Copies | Behavior |
 |---|---|---|
-| Main nav — hamburger, panels, backdrop (`Main navigation: hamburger`) | 16 | `gp/nav` |
-| Auto-hiding header (`Auto-hiding header`) | 16 | `gp/nav` (same file) |
-| Photo-frame parallax (`data-parallax` selector list) | 17 | `gp/parallax` |
-| Scroll-entrance observer (`STAGGER_MS`) | 17 | `gp/animate` |
-| Scroll regions — tables, pre, scrollers (`function labelFor`) | 12 | `gp/scroll-regions` — labels through `t()` |
-| Client-logos marquee (`data-logos-playback`) | 11 | `gp/logos` |
-| Feature banner crossfade (`data-feature-banner`) | 10 | `gp/feature-banner` |
-| Card-row scroller arrows (`data-scroll-prev`) | 4 | `gp/card-scroller` |
-| Copy link (`data-copy-link`) | 3 | `gp/copy-link` |
-| Explainer modals (`data-modal`) | 2 | NOT ported as-is — in Drupal the trigger is a link to the explainer node with core's `use-ajax` modal (see `_modal.scss` header); only the `.modal` skin carries over |
-| Reveal-after (`data-reveal-after`) | 3 | `gp/reveal-after` |
-| News filter pills (`data-news-filter`) | 2 | NOT ported — reference chrome standing in for the view's AJAX round-trip |
-| GSAP SplitText hero (`SplitText`) | 1 (home) | self-hosted library + behavior; GovCMS commonly blocks CDNs |
+| Main nav — hamburger, panels, backdrop (`Main navigation: hamburger`) | 23 | `gp/nav` |
+| Auto-hiding header (`Auto-hiding header`) | 23 | `gp/nav` (same file) |
+| Photo-frame parallax (`function setShift`) | 24 | `gp/parallax` |
+| Scroll-entrance observer (`var STAGGER_MS`) | 24 | `gp/animate` |
+| Scroll regions — tables, pre, scrollers (`function labelFor`) | 18 | `gp/scroll-regions` — labels through `t()` |
+| Client-logos marquee (`querySelector('[data-logos-playback]')`) | 17 | `gp/logos` |
+| Feature banner crossfade (`querySelectorAll('[data-feature-banner]')`) | 16 | `gp/feature-banner` |
+| Card-row scroller arrows (`querySelector('[data-scroll-prev]')`) | 8 | `gp/card-scroller` |
+| Copy link (`querySelector('[data-copy-link]')`) | 5 | `gp/copy-link` |
+| Explainer modals (`querySelectorAll('[data-modal]')`) | 2 | NOT ported as-is — in Drupal the trigger is a link to the explainer node with core's `use-ajax` modal (see `_modal.scss` header); only the `.modal` skin carries over |
+| Reveal-after (`querySelectorAll('[data-reveal-after]')`) | 5 | `gp/reveal-after` |
+| News filter pills (`querySelector('[data-news-filter]')`) | 4 | NOT ported — reference chrome standing in for the view's AJAX round-trip |
+| GSAP SplitText hero (`registerPlugin(SplitText)`) | 1 (home) | self-hosted library + behavior; GovCMS commonly blocks CDNs |
 
 ## 3. Forms are webforms
 
