@@ -317,14 +317,37 @@
   > * + * {
     margin-top: var(--space-2xl);
   }
+
+  // …except a heading that INTRODUCES the panel after it — the same
+  // :has()-gated step-down the reading column applies (_content.scss, "a
+  // heading that introduces a panel binds to it"). The campaign page's
+  // "Common questions" h3 sits in this column, and the 2xl rhythm above put
+  // its accordion 64px below it at 375 while the identical composition in
+  // .page-content bound at --space-l's 32 — the exact gap the original fix
+  // measured and closed. Same degradation: without :has() the section rhythm
+  // stands.
+  > .page-content__section:has(> :is(h2, h3):last-child) +
+    :is(.accordion, .card-stack, .download-list) {
+    margin-top: var(--space-l);
+  }
 }
 
 // The article's body is the exception, and both declarations matter.
 //
-// The cap is the article's reading measure, and in the sm–md band it is also
-// structural: the rail collapses to a single Copy link placed on row 1 in
-// column 2, in exactly the space the cap leaves open, so it costs no vertical
-// space at all (see the --article block above).
+// The cap is the article's reading measure — the SAME 72ch as the single
+// reading column, stated the way .page-content states it (a --measure
+// override consumed locally; see _content.scss's header for how the number
+// was measured against this face). It ran at the :root 52ch until the event
+// article went up for review beside the master template and the article
+// column read visibly narrower than the centre column for no design reason —
+// same prose, same face, twenty characters shorter. One number, one
+// construction, so the two reading columns cannot drift apart again.
+//
+// The sm–md band survives the wider cap by construction: the Copy link's
+// grid track is `auto` (see the --article block above), so the button is
+// guaranteed its column and the cap only governs how much of the body's own
+// track the prose takes — at these viewports the track runs out before 72ch
+// does anyway.
 //
 // It start-aligns, unlike the old shared rule, which end-aligned the body so
 // its leftover track space fell in the gap. That was never applied to the
@@ -335,5 +358,7 @@
 // The default is start, so this is stated as a comment rather than a
 // declaration — there is nothing left to override now the shared rule is gone.
 .page-split--article > .page-split__body {
+  --measure: 72ch;
+
   max-width: var(--measure);
 }
