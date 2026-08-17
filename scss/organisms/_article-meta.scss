@@ -10,11 +10,18 @@
 // H1 (the rail is a summary card of the article you are already reading), and
 // a second heading with the same text would double it in the outline.
 //
-// Drupal mapping: node fields rendered by a node--news--meta view mode:
-//   field_image (thumbnail), field_news_type (tag), title (compact, plain),
-//   field_event_dates (daterange, OPTIONAL — omit the row when empty),
-//   created (the published row), and the share action is the node's canonical
-//   URL — a plain link that a small behavior upgrades to copy-to-clipboard.
+// Drupal mapping: node fields rendered by a node--news--meta OR
+//   node--event--meta view mode (same block, one view mode per display —
+//   news-article.html and event-article.html are the two references):
+//   field_image (thumbnail), field_news_type (tag: "News" / "Event"),
+//   title (compact, plain),
+//   field_event_dates (daterange — the EVENT display's only date row),
+//   created (the published row — the NEWS display's only date row; the event
+//   view mode simply does not render it, no Twig conditional),
+//   and the share action is the node's canonical URL — a plain link that a
+//   small behavior upgrades to copy-to-clipboard.
+//   Open question for the Drupal dev (also handover.md §5): news + events as
+//   one content type with a type term, or two types sharing these view modes.
 // -----------------------------------------------------------------------------
 
 .article-meta {

@@ -15,10 +15,12 @@ balance. Warnings (not failures) flag the known prototype gaps below.
 
 ## 1. Images: srcset + re-encode — the #1 task
 
-No template ships `srcset`/`sizes`, and the source PNGs are ~1MB at 900×600.
-LESSONS.md requires responsive images because the layout keeps growing past the
-type cap — single-resolution images go soft on large displays and are far too
-heavy for production.
+No template ships `srcset`/`sizes`, and the source PNGs run 0.25–5.4MB — the
+landscape set is ~1MB at 900×600, but the square 1500×1500 heroes are the heavy
+end (gas.png 5.4MB, wind.png 4.4MB, emerging.png 3.1MB). LESSONS.md requires
+responsive images because the layout keeps growing past the type cap —
+single-resolution images go soft on large displays and are far too heavy for
+production.
 
 - Re-encode to WebP/AVIF, target <150KB per image.
 - In Drupal this is image styles + responsive image mappings on the media view
@@ -52,19 +54,25 @@ the NEWEST copy and delete the rest. Copies at handover:
 
 ## 3. Forms are webforms
 
-`form-contact.html` and `form-logo-request.html` are presentational halves of
-webforms, not paragraphs. Classes map in the webform UI or a `form_alter`
-(`.form`, `__field`, `__label`, `__input/__select/__textarea`, `__choice`,
-`__file`, `__help`, `__section`). The reCAPTCHA block is a placeholder the
-real element replaces. Select options (industry, energy provider) are
-placeholder lists — confirm with the client.
+`form-contact.html`, `form-logo-request.html` and `form-newsletter.html` are
+presentational halves of webforms, not paragraphs. Classes map in the webform
+UI or a `form_alter` (`.form`, `__field`, `__label`,
+`__input/__select/__textarea`, `__choice`, `__file`, `__help`, `__section`).
+The reCAPTCHA block is a placeholder the real element replaces. The contact and
+logo-request select options (industry, energy provider) are placeholder lists —
+confirm with the client. The NEWSLETTER form needs no such confirmation: its
+field set (email, name, About-you select, privacy consent) and the eight
+About-you options are client-confirmed (Aug 2026).
 
 ## 4. Known placeholders and wireframe filler
 
-- `href="#"` everywhere a real route doesn't exist yet (~1,600 across pages —
-  `npm run verify` counts them). Real internal routes already wired:
-  news-article, news-landing, impact-stories, downloads-quarterly-reports,
-  landing-audits-reports.
+- `href="#"` everywhere a real route doesn't exist yet — `npm run verify`
+  prints the current count (~2,300 at writing; treat verify's number as the
+  truth, not this one). Where a destination template EXISTS the link is real:
+  the article/landing/form templates cross-link each other (news pair, impact
+  pair, event-article, downloads, audits landing, the newsletter form via
+  every footer Subscribe CTA), so the `#`s that remain are routes with no
+  template — section landings, policy pages, external programme links.
 - `WIREFRAME FILLER` comments mark copy transcribed from wireframes that
   repeats or contradicts itself (grep the phrase — each explains what needs
   real content). The file sizes/dates on downloads are typed examples; in
@@ -79,20 +87,23 @@ placeholder lists — confirm with the client.
   wireframes' "On this page" / "Was this page useful?" patterns, or delete the
   two partials and their imports.
 - `templates/news-article-lead.html` (the panelled article header) is complete
-  but hidden from the design system nav while in review — the commented-out
-  entry sits in `index.html`.
-- The design system's Card demo does not yet show the news/story parts
-  (`card__tag`, `card__eyebrow`, `card__cta`, `--news`, `--featured`,
-  `--story`) or `btn--tint`; they are documented in `_card.scss` and live on
-  the news/impact pages.
+  but hidden from the design system nav while in review — a placeholder
+  comment in `index.html` marks where its entry goes.
+- News + events: one content type or two? The event article
+  (`templates/event-article.html`) is the news template with an "Event" tag,
+  the event date range shown and the publish date suppressed — cleanly one
+  type with a type term and optional event dates, or two types sharing view
+  modes. Confirm before Drupal config; the field naming holds either way
+  (see the template's header comment and `_article-meta.scss`).
 
 ## 6. Build notes
 
 - `css/main.css` is COMMITTED (GitHub Pages serves it). Rebuild with
   `npm run build`; `npm run verify` fails if it is stale.
-- Sass emits `@import` and one global-builtin deprecation — both removed in
-  Dart Sass 3. Migrate to `@use` during the port (mechanical; the layer order
-  in `main.scss` is the dependency graph).
+- Sass emits `@import` deprecations and one global-builtin deprecation
+  (`mix()` → `color.mix`, at three call sites) — both removed in Dart Sass 3.
+  Migrate to `@use` during the port (mechanical; the layer order in
+  `main.scss` is the dependency graph).
 - Webfont kit (Typekit `nxc8sxb`) is linked per-template `<head>`; in Drupal
   it is one library. GovCMS environments that block Typekit need the fonts
   self-hosted.

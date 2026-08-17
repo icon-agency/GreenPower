@@ -2,13 +2,14 @@
 // Page split — the sticky two-column alternative to the single reading column
 //
 // Two columns from sm: the left carries the intro rail (H2 + description) that
-// STICKS while the right scrolls through content — capped at the same reading
-// measure the single column uses, so the prose is equally readable in either
-// layout. The ratio is a third / two-thirds through the mid band and equal
-// halves from lg, because the measure outranks the symmetry: see the
-// grid-template-columns note below. Both halves hold their content at the
-// track's start, each with open space to its right once the tracks outgrow the
-// content caps.
+// STICKS while the right scrolls through content. The base body column is
+// UNCAPPED — it fills its track (see the .page-split__body note below for why
+// the old cap came off); the ARTICLE variant caps its body at the single
+// column's own 72ch. The ratio is a third / two-thirds through the mid band
+// and equal halves from lg, because the reading width outranks the symmetry:
+// see the grid-template-columns note below. Both halves hold their content at
+// the track's start, each with open space to its right once the tracks
+// outgrow the content caps.
 // The right column takes exactly the same blocks the single column does —
 // .page-content__section prose, .card-stack, .caption-image--inline, .quote —
 // on the same rhythm, so the two layouts are interchangeable per section.
