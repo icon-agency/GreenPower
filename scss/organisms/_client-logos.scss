@@ -14,24 +14,17 @@
 // supposed to read. Tuned against the real files — re-check the caps if the
 // pack gains a logo more extreme than those.
 //
-// The marks render as a DUOTONE — greyscaled, then mapped black → Primary
-// Blue, white → white (see __item below for the mechanism) — so the band
-// reads as one quiet near-black row instead of twenty competing palettes.
-// PRIMARY BLUE ON PURPOSE, as the palette's black: third-party guidelines
-// that permit single-colour logo reproduction almost always permit BLACK,
-// and #00263E reads as neutral ink — where a saturated green read as other
-// people's marks wearing GreenPower's identity, the contestable end of the
-// same ladder. (History: shipped blue, moved to green for a day, returned
-// to blue on that reasoning. The plate colour is the one dial; everything
-// else here is hue-agnostic.)
-// Client decision, Aug 2026, reversing this file's earlier full-colour rule.
-// The source files are untouched and the treatment is two declarations, so
-// full colour is one deletion away.
-//
-// CAUTION carried over from that earlier rule: these are other people's brand
-// marks, and many brand guidelines require marks in original colour —
-// confirm brand-usage approval for the monochrome treatment before
-// publication (with the same ask as the vector-asset request below).
+// Logos are third-party brand marks: they render FULL COLOUR on white, and
+// this file applies no recolour, filter or tint to them. Client decision,
+// Aug 2026, closing a short experiment — the band shipped as a single-colour
+// duotone (Dark Green for a day, then Primary Blue as the palette's black)
+// and the client chose the original marks. Original colour also dissolves
+// the brand-guideline question the duotone raised: most third-party
+// guidelines require approved artwork as supplied, and showing it unaltered
+// is the one treatment that never needs that conversation. If the duotone
+// ever returns, its mechanism is in git history (a white ground per item,
+// grayscale(1) on the img, a colour plate under mix-blend-mode: screen —
+// one plate token to pick the hue).
 //
 // Drupal mapping: Paragraph: client_logos
 //   Fields: field_heading (text), field_logos (media: Image, multiple).
@@ -123,10 +116,10 @@
 // whatever is actually behind, so moving this section onto Taupe cannot leave a
 // white smear. It also needs no z-index or pointer-events guard over the band.
 //
-// Note this fades third-party brand marks near the edges — the same
-// brand-usage caution as the duotone treatment (see the header). It is a
-// moving logo mid-exit rather than a resting one, and the alternative is the
-// hard chop, but both belong in the one approval conversation.
+// Note this fades third-party brand marks near the edges, which strict
+// usage rules may not love. It is a moving logo mid-exit rather than a
+// resting one, and the alternative is the hard chop, but it is worth a look
+// before publication.
 @media (min-width: $container-max-width) {
   .client-logos__scroller.is-marquee {
     --logo-fade: var(--space-xl);
@@ -267,7 +260,6 @@
 // are width-bound, the rest height-bound. Raise the crossover and more logos
 // join the height-matched line; lower it and more get width-capped.
 .client-logos__item {
-  position: relative; // anchors the duotone plate below
   display: flex;
   // Load-bearing in a scroller: without it the items compress to fit instead of
   // overflowing, and the row never scrolls — it just squashes every logo.
@@ -275,41 +267,12 @@
   align-items: center;
   justify-content: center;
   height: 3.25rem;
-  // The duotone's white ground. The transformed track is a stacking context,
-  // so the plate's blend can only see what is painted INSIDE it — over a
-  // transparent gap (a short wordmark centred in this fixed-height box) the
-  // plate would composite against nothing and paint itself as a solid navy
-  // tile. With white underneath, every non-mark pixel is screen(white, blue)
-  // = white. Invisible on the band's white; if this section ever moves onto a
-  // tinted surface these become white chips — repaint this ground to match,
-  // or drop the treatment there.
-  background-color: $color-white;
 
   @include respond-to('sm') {
     height: 4.5rem;
   }
 }
 
-// The duotone plate — the colour half of the treatment described in the
-// header. `screen` computes, per channel, c + g(1 − c): black → Primary Blue
-// exactly, white → white, greys → the blue-grey ramp between. A true
-// white↔blue mapping, where a filter chain (sepia + hue-rotate) would also
-// stain the JPGs' white tiles and show them as boxes on the band.
-//
-// @supports, because the fallback matters: without blend support this plate
-// would paint as an opaque navy rectangle over every logo. Ungated, the
-// greyscale on the img below still applies, so old engines get the plain
-// grey band — the ask's baseline — rather than something broken.
-@supports (mix-blend-mode: screen) {
-  .client-logos__item::after {
-    position: absolute;
-    inset: 0;
-    content: '';
-    pointer-events: none;
-    background-color: $color-brand-blue;
-    mix-blend-mode: screen;
-  }
-}
 
 .client-logos__logo {
   width: auto;
@@ -317,7 +280,6 @@
   height: auto;
   max-height: 100%;
   object-fit: contain;
-  filter: grayscale(1); // the tonal half of the duotone — see the header
 
   @include respond-to('sm') {
     max-width: 9.5rem;
