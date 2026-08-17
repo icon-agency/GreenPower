@@ -2868,6 +2868,11 @@ a:focus-visible {
   background-color: #006341;
   pointer-events: none;
 }
+@media (min-width: 640px) {
+  .page-header__media::after {
+    content: none;
+  }
+}
 .page-header__media img {
   position: absolute;
   inset: 0;
@@ -2981,6 +2986,11 @@ a:focus-visible {
   }
   .js-animations .page-header__media[data-animate].is-visible img {
     scale: 1.14;
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 640px) {
+  .js-animations .page-header__media[data-animate] {
+    transform: none;
   }
 }
 .page-nav {

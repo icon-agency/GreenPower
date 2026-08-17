@@ -350,23 +350,32 @@
     // and any device pixel ratio.
     background-color: $color-brand-dark-green;
 
-    // TOP-edge seam cover, inside the box on purpose. The media's top edge
-    // lands on a fractional device pixel and the angle wedge and the photo are
-    // clipped there on separate compositing layers, so their antialiased edge
-    // rows do not cancel — a hairline of photo showed through the green along
-    // the wedge on the stacked layout. An opaque bar sharing the SAME clip
-    // covers it exactly: its coverage mask at the edge row is identical to the
-    // img's (same box clips both), so the photo's bleed has nowhere to show.
-    // ::after, not ::before — it must paint over the img and the angle span,
-    // and among same-z positioned boxes tree order decides.
+    // TOP-edge seam cover, inside the box on purpose — and PHONE-ONLY. The
+    // media's top edge lands on a fractional device pixel and the angle wedge
+    // and the photo are clipped there on separate compositing layers, so their
+    // antialiased edge rows do not cancel — a hairline of photo showed through
+    // the green along the wedge on the stacked layout. An opaque bar sharing
+    // the SAME clip covers it exactly: its coverage mask at the edge row is
+    // identical to the img's (same box clips both), so the photo's bleed has
+    // nowhere to show. ::after, not ::before — it must paint over the img and
+    // the angle span, and among same-z positioned boxes tree order decides.
     //
     // Inside the media rather than a band-level strip, for the reason the
     // first attempt taught: a strip positioned where the media's top edge
     // WOULD be painted a 2px green line straight through the H1 on the one
     // header whose phone layout has no media at all (--empty drops it below
-    // sm). Living inside the media, it exists exactly when the edge does, at
-    // every width — and it costs the photo 2px of its top edge, invisible for
-    // the same reason as the side strip: it is the colour of the panel above.
+    // sm). Living inside the media, it exists exactly when the edge does —
+    // and it costs the photo 2px of its top edge, invisible for the same
+    // reason as the side strip: it is the colour of the panel above.
+    //
+    // "The panel above" is the load-bearing clause, and it is only true on the
+    // stacked layout. From sm the media is a side column, inset 0 — its top
+    // edge IS the band's top edge, with the white page above it, and the same
+    // bar stopped covering a seam and became one: a dark-green hairline
+    // painted across the top of every header photo, plainest on this bright
+    // article image (client-reported). The seam it exists for needs a green
+    // field above the edge to show against; from sm there is none, so the
+    // cover ends where the stacked layout does.
     &::after {
       position: absolute;
       inset: 0 0 auto;
@@ -374,6 +383,10 @@
       content: '';
       background-color: $color-brand-dark-green;
       pointer-events: none;
+
+      @include respond-to('sm') {
+        content: none;
+      }
     }
 
     img {
@@ -596,10 +609,25 @@
 // -----------------------------------------------------------------------------
 // Entrance zoom — matches the card/bento/caption/subscribe images: the photo
 // starts scaled up and eases to its resting overscan as the band enters (rides
-// the media's own [data-animate] visibility). Opacity + slide come from the
-// shared scroll-entrance system; this adds only the `scale`, which composes
-// with the parallax `translate`. Motion-only, and only while the system is
-// live (.js-animations).
+// the media's own [data-animate] visibility). Opacity comes from the shared
+// scroll-entrance system; this adds the `scale`, which composes with the
+// parallax `translate`. Motion-only, and only while the system is live
+// (.js-animations).
+//
+// The shared system's 12px RISE is dropped from sm, and that is the point of
+// this block rather than an incidental detail. From sm the media is not a
+// block in the flow — it is `position: absolute; inset: 0` filling its half of
+// the band (above), so nothing sits behind it but the band's own green. Sliding
+// that panel down uncovers a 12px strip of green along the photo's TOP edge,
+// full width, held for the whole 600ms transition: the photo appears to start
+// detached from the band it is inset into. Every other image this entrance
+// touches is an in-flow figure whose whole box rises, which is the effect the
+// system is for.
+//
+// The fade and the scale settle carry the entrance on their own here — the
+// zoom reads as the rise did, and it cannot expose an edge because it only ever
+// grows the photo. BELOW sm the media is an in-flow block under the copy, so
+// the rise is correct there and is left alone.
 // -----------------------------------------------------------------------------
 @media (prefers-reduced-motion: no-preference) {
   .js-animations .page-header__media[data-animate] img {
@@ -608,5 +636,11 @@
 
   .js-animations .page-header__media[data-animate].is-visible img {
     scale: 1.14; // settle to the resting overscan as the band appears
+  }
+
+  @include respond-to('sm') {
+    .js-animations .page-header__media[data-animate] {
+      transform: none;
+    }
   }
 }
