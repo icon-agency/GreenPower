@@ -36,17 +36,17 @@ the NEWEST copy and delete the rest. Copies at handover:
 
 | Inline script (grep marker) | Copies | Behavior |
 |---|---|---|
-| Main nav — hamburger, panels, backdrop (`Main navigation: hamburger`) | 23 | `gp/nav` |
-| Auto-hiding header (`Auto-hiding header`) | 23 | `gp/nav` (same file) |
-| Photo-frame parallax (`function setShift`) | 24 | `gp/parallax` |
-| Scroll-entrance observer (`var STAGGER_MS`) | 24 | `gp/animate` |
-| Scroll regions — tables, pre, scrollers (`function labelFor`) | 18 | `gp/scroll-regions` — labels through `t()` |
-| Client-logos marquee (`querySelector('[data-logos-playback]')`) | 17 | `gp/logos` |
-| Feature banner crossfade (`querySelectorAll('[data-feature-banner]')`) | 16 | `gp/feature-banner` |
-| Card-row scroller arrows (`querySelector('[data-scroll-prev]')`) | 8 | `gp/card-scroller` |
-| Copy link (`querySelector('[data-copy-link]')`) | 5 | `gp/copy-link` |
+| Main nav — hamburger, panels, backdrop (`Main navigation: hamburger`) | 24 | `gp/nav` |
+| Auto-hiding header (`Auto-hiding header`) | 24 | `gp/nav` (same file) |
+| Photo-frame parallax (`function setShift`) | 25 | `gp/parallax` |
+| Scroll-entrance observer (`var STAGGER_MS`) | 25 | `gp/animate` |
+| Scroll regions — tables, pre, scrollers (`function labelFor`) | 19 | `gp/scroll-regions` — labels through `t()` |
+| Client-logos marquee (`querySelector('[data-logos-playback]')`) | 18 | `gp/logos` |
+| Feature banner crossfade (`querySelectorAll('[data-feature-banner]')`) | 17 | `gp/feature-banner` |
+| Card-row scroller arrows (`querySelector('[data-scroll-prev]')`) | 9 | `gp/card-scroller` |
+| Copy link (`querySelector('[data-copy-link]')`) | 6 | `gp/copy-link` |
 | Explainer modals (`querySelectorAll('[data-modal]')`) | 2 | NOT ported as-is — in Drupal the trigger is a link to the explainer node with core's `use-ajax` modal (see `_modal.scss` header); only the `.modal` skin carries over |
-| Reveal-after (`querySelectorAll('[data-reveal-after]')`) | 5 | `gp/reveal-after` |
+| Reveal-after (`querySelectorAll('[data-reveal-after]')`) | 6 | `gp/reveal-after` |
 | News filter pills (`querySelector('[data-news-filter]')`) | 4 | NOT ported — reference chrome standing in for the view's AJAX round-trip |
 | GSAP SplitText hero (`registerPlugin(SplitText)`) | 1 (home) | self-hosted library + behavior; GovCMS commonly blocks CDNs |
 
