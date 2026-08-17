@@ -14,11 +14,16 @@
 // supposed to read. Tuned against the real files — re-check the caps if the
 // pack gains a logo more extreme than those.
 //
-// The marks render as a DUOTONE — greyscaled, then mapped black → Dark
-// Green, white → white (see __item below for the mechanism) — so the band
-// reads as one quiet green row instead of twenty competing brand palettes.
-// (It launched as Primary Blue and moved to Dark Green the same day — the
-// plate colour is the one dial, and everything else here is hue-agnostic.)
+// The marks render as a DUOTONE — greyscaled, then mapped black → Primary
+// Blue, white → white (see __item below for the mechanism) — so the band
+// reads as one quiet near-black row instead of twenty competing palettes.
+// PRIMARY BLUE ON PURPOSE, as the palette's black: third-party guidelines
+// that permit single-colour logo reproduction almost always permit BLACK,
+// and #00263E reads as neutral ink — where a saturated green read as other
+// people's marks wearing GreenPower's identity, the contestable end of the
+// same ladder. (History: shipped blue, moved to green for a day, returned
+// to blue on that reasoning. The plate colour is the one dial; everything
+// else here is hue-agnostic.)
 // Client decision, Aug 2026, reversing this file's earlier full-colour rule.
 // The source files are untouched and the treatment is two declarations, so
 // full colour is one deletion away.
@@ -169,18 +174,21 @@
 // nothing would be worse than no button.
 .client-logos__playback {
   @include button-reset;
-  display: flex;
-  gap: var(--space-2xs);
-  align-items: center;
-  width: fit-content;
+  // A CIRCLE holding only the glyph — the word moved into the visually-hidden
+  // label (the script still writes Pause/Play there, so the accessible name
+  // "Pause scrolling logos" survives with no script change; WCAG 2.2.2 does
+  // not require a visible text label, only a mechanism). 2.75rem is the
+  // card-section arrow's box: the 44px target size, and the two round
+  // controls now read as one family.
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
   margin: var(--space-m) auto 0;
-  padding: 0.5em 1em;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
   color: $color-brand-dark-green;
   background-color: $color-tint-taupe;
   border-radius: $radius-pill;
-  @include transition(background-color);
+  @include transition((background-color, color));
 
   &:hover {
     color: $color-brand-blue;
@@ -192,8 +200,10 @@
   }
 
   svg {
-    width: 0.7em;
-    height: 0.7em;
+    // Was sized in em against the label's text; with the glyph alone the box
+    // sets the scale.
+    width: 0.875rem;
+    height: 0.875rem;
 
     // Some engines skip the UA [hidden] rule for inline SVG roots (same note as
     // the hero's playback control).
@@ -268,8 +278,8 @@
   // The duotone's white ground. The transformed track is a stacking context,
   // so the plate's blend can only see what is painted INSIDE it — over a
   // transparent gap (a short wordmark centred in this fixed-height box) the
-  // plate would composite against nothing and paint itself as a solid green
-  // tile. With white underneath, every non-mark pixel is screen(white, green)
+  // plate would composite against nothing and paint itself as a solid navy
+  // tile. With white underneath, every non-mark pixel is screen(white, blue)
   // = white. Invisible on the band's white; if this section ever moves onto a
   // tinted surface these become white chips — repaint this ground to match,
   // or drop the treatment there.
@@ -281,13 +291,13 @@
 }
 
 // The duotone plate — the colour half of the treatment described in the
-// header. `screen` computes, per channel, c + g(1 − c): black → Dark Green
-// exactly, white → white, greys → the green-tinted ramp between. A true
-// white↔green mapping, where a filter chain (sepia + hue-rotate) would also
+// header. `screen` computes, per channel, c + g(1 − c): black → Primary Blue
+// exactly, white → white, greys → the blue-grey ramp between. A true
+// white↔blue mapping, where a filter chain (sepia + hue-rotate) would also
 // stain the JPGs' white tiles and show them as boxes on the band.
 //
 // @supports, because the fallback matters: without blend support this plate
-// would paint as an opaque green rectangle over every logo. Ungated, the
+// would paint as an opaque navy rectangle over every logo. Ungated, the
 // greyscale on the img below still applies, so old engines get the plain
 // grey band — the ask's baseline — rather than something broken.
 @supports (mix-blend-mode: screen) {
@@ -296,7 +306,7 @@
     inset: 0;
     content: '';
     pointer-events: none;
-    background-color: $color-brand-dark-green;
+    background-color: $color-brand-blue;
     mix-blend-mode: screen;
   }
 }

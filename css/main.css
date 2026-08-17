@@ -3479,18 +3479,15 @@ body:has(.modal[open]) {
   background: none;
   border: 0;
   cursor: pointer;
-  display: flex;
-  gap: var(--space-2xs);
-  align-items: center;
-  width: fit-content;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
   margin: var(--space-m) auto 0;
-  padding: 0.5em 1em;
-  font-size: var(--step--1);
-  font-weight: 500;
   color: #006341;
   background-color: #f3efe5;
   border-radius: 100em;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 .client-logos__playback:hover {
   color: #00263e;
@@ -3501,8 +3498,8 @@ body:has(.modal[open]) {
   outline-offset: 2px;
 }
 .client-logos__playback svg {
-  width: 0.7em;
-  height: 0.7em;
+  width: 0.875rem;
+  height: 0.875rem;
 }
 .client-logos__playback svg[hidden] {
   display: none;
@@ -3544,7 +3541,7 @@ body:has(.modal[open]) {
     inset: 0;
     content: "";
     pointer-events: none;
-    background-color: #006341;
+    background-color: #00263e;
     mix-blend-mode: screen;
   }
 }
