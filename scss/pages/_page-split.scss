@@ -254,12 +254,17 @@
   margin-top: var(--space-s);
   color: $color-ui-text;
 
-  // Same story as the heading: its own font is the intro's body step, so this
-  // is the measure the old rail cap gave it — but only once there IS a rail.
-  // Stacked, --measure is already the column's cap and this one just left a
+  // The rail's prose reads at the SHARED measure (:root --measure, 52ch),
+  // not a narrower private one — client review: the old 36ch cap left the
+  // rail's text at six-word lines while its track sat two-thirds empty from
+  // lg, on form layouts especially (the same squeeze the --downloads variant
+  // corrects for its band). The track still constrains through the mid band,
+  // where it is narrower than any cap; from lg the measure takes over and the
+  // rail reads like body prose. Only once there IS a rail — stacked, the
+  // column's own --measure cap already governs and a second cap just left a
   // third of the line empty.
   @include respond-to('sm') {
-    max-width: 36ch;
+    max-width: var(--measure);
   }
 }
 
