@@ -1911,6 +1911,17 @@ a:focus-visible {
   height: 0.625rem;
   transition: transform 0.2s ease-in-out;
 }
+.card__meta-date {
+  display: inline-flex;
+  gap: var(--space-2xs);
+  align-items: center;
+}
+.card__meta-date svg {
+  flex-shrink: 0;
+  width: 1.1em;
+  height: 1.1em;
+  color: #006341;
+}
 
 .card:has(.card__title-link):hover .card__meta-arrow,
 .card:has(.card__title-link:focus-visible) .card__meta-arrow {

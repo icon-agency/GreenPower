@@ -1081,6 +1081,26 @@
     height: $arrow-icon-height;
     @include transition(transform);
   }
+
+  // The EVENT teaser's date range — the article-meta__date anatomy at card
+  // scale: a calendar glyph in front of the dates, so a date that is the
+  // event's rather than the article's reads as one at a glance. A flex box
+  // because the reset makes svg display: block, and inline-flex so the span
+  // stays one flex item in the meta row's space-between (two bare <time>s
+  // would be flung to its ends — the consent-label lesson). The glyph rides
+  // the row's own font size, exactly as the rail's does.
+  &__meta-date {
+    display: inline-flex;
+    gap: var(--space-2xs);
+    align-items: center;
+
+    svg {
+      flex-shrink: 0;
+      width: 1.1em;
+      height: 1.1em;
+      color: $color-brand-dark-green;
+    }
+  }
 }
 
 // Hover/focus cues for the card-wide link, gated on the link existing — a
