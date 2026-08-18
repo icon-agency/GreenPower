@@ -2291,7 +2291,7 @@ a:focus-visible {
   padding-inline: var(--space-xs);
 }
 .bento-grid__heading {
-  padding-inline: var(--space-xs);
+  padding-inline: var(--space-s-l);
   font-size: var(--step-3);
   font-weight: 500;
   color: #006341;
@@ -3849,18 +3849,20 @@ body:has(.modal[open]) {
   }
 }
 .article-meta--reveal .article-meta__summary {
-  transition: block-size var(--animate-duration, 600ms) var(--animate-easing, ease-out), opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out);
+  transition: block-size var(--animate-duration, 600ms) var(--animate-easing, ease-out), margin-block-end var(--animate-duration, 600ms) var(--animate-easing, ease-out), opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out);
 }
 @media (min-width: 960px) {
   .js-reveal .article-meta--reveal .article-meta__summary {
     block-size: 0;
     overflow: hidden;
     opacity: 0;
+    margin-block-end: calc(-1 * var(--space-s));
   }
 }
 @media (min-width: 960px) {
   .js-reveal .article-meta--reveal.is-revealed .article-meta__summary {
     block-size: auto;
+    margin-block-end: 0;
     opacity: 1;
   }
 }

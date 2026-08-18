@@ -192,6 +192,8 @@
   &--reveal &__summary {
     transition:
       block-size var(--animate-duration, 600ms) var(--animate-easing, ease-out),
+      margin-block-end var(--animate-duration, 600ms)
+        var(--animate-easing, ease-out),
       opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out);
   }
 
@@ -200,12 +202,20 @@
       block-size: 0;
       overflow: hidden;
       opacity: 0;
+      // A zero-height flex item still takes its gap on both sides, so the
+      // closed summary left the Copy link one --space-s below the rail top —
+      // visibly lower than the body column's first line beside it. Pull the
+      // button up by exactly the gap while closed; the reveal transitions
+      // this back to 0 on the same curve as block-size, so the button makes
+      // one continuous journey down as the summary opens.
+      margin-block-end: calc(-1 * var(--space-s));
     }
   }
 
   .js-reveal &--reveal.is-revealed &__summary {
     @include respond-to('md') {
       block-size: auto;
+      margin-block-end: 0;
       opacity: 1;
     }
   }

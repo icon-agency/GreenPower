@@ -58,11 +58,16 @@
   }
 
   // Matches .card-section__heading — the shared section-heading treatment.
-  // This padding stacks on top of __inner's own --space-xs, so the heading
-  // text sits one tight step INSIDE the tiles' left edge (set 0 to align it
-  // flush with them, or back to --space-s-l for the full container gutter).
+  // This padding stacks on top of __inner's own --space-xs, putting the
+  // heading on the FULL container gutter (--space-s-l + the xs frame) — the
+  // same line every card-section heading and the band copy sit on. It sat one
+  // tight step inside the tiles' edge for a while, and on the home page that
+  // put "Our vital impact" 40px left of "Impact stories" directly above it —
+  // the one heading off the line read as a mistake, not a choice (client
+  // review). The tiles keep their snug xs frame; only the heading takes the
+  // text line.
   &__heading {
-    padding-inline: var(--space-xs);
+    padding-inline: var(--space-s-l);
     font-size: $font-size-2xl;
     font-weight: $font-weight-demibold;
     color: $color-brand-dark-green;
