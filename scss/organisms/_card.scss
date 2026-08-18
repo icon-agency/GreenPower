@@ -1128,6 +1128,14 @@
 // lead story and a lone card can never drift apart. Below sm it stacks like
 // every other card.
 .card--featured {
+  // Stacked (below sm), the base card's --space-xs sat the eyebrow one tight
+  // step under a full-width photo — right for a small grid teaser, cramped
+  // under the lead's larger media (client: "a tad more space"). Row axis
+  // only: one token up for the vertical seam, while the horizontal layout
+  // from sm keeps the base column-gap — a single flex line has no row gap,
+  // so this cannot reach it.
+  row-gap: var(--space-s);
+
   // The lead story carries the type one rung up — it is the page's dominant
   // item, and at half a full row it has the width for it where a 3-up column
   // does not.
