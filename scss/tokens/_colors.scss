@@ -33,6 +33,7 @@ $color-ui-scrim: rgba($color-black, 0.35) !default; // video scrims (design spec
 $color-ui-scrim-wash: rgba($color-black, 0.1) !default; // flat wash over the hero videos — evens out bright footage under white text
 $color-ui-text: $color-brand-blue !default;
 $color-ui-text-muted: rgba($color-brand-blue, 0.65) !default; // an unavailable control's label — 5.0:1 on white, still READ as text, not faded out of legibility
+$color-ui-text-unavailable: rgba($color-brand-blue, 0.62) !default; // disabled-but-focusable option labels (client: brand blue, as light as accessibility allows) — the LIGHTEST brand-blue step that clears AA on white: 4.6:1 composited (#617887); 0.61 lands 4.44 and fails
 $color-ui-heading: $color-brand-blue !default;
 $color-ui-link: $color-brand-dark-green !default;
 $color-ui-background: $color-white !default;

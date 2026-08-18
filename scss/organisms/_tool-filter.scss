@@ -395,29 +395,28 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
     // from contrast the way a truly disabled one would be, hence the muted
     // token rather than a faint grey: 5.0:1, still readable.
     &[aria-disabled='true'] {
-      // A LIFTED DARK GREEN, not the muted navy token: the pill's fill drops
-      // away here, so all that is left to read is the label and the glyph, and
-      // those two have to recede together as one thing. The icon fades with
-      // plain opacity over the white track, which lands it on exactly
-      // mix(white, Dark Green, 20%) — so the label states that mix and the two
-      // are the same colour by construction, not by approximation.
+      // BRAND BLUE, as light as accessibility allows (client direction): the
+      // unavailable option steps off the brand-green hue entirely, so
+      // "different colour" carries the state rather than "same colour,
+      // fainter". The token is the lightest brand-blue step that clears AA on
+      // the white track — 4.6:1 composited (#617887); one step lighter fails
+      // (see tokens/_colors.scss). aria-disabled is NOT the disabled
+      // attribute (see below), so this label is not exempt from contrast.
       //
-      // This replaces a grayscale() on the icon that existed only to chase the
-      // old navy label; with the label on the artwork's own hue there is
-      // nothing left to desaturate towards, and the earlier pairing landed a
-      // warm grey glyph beside a blue-grey word.
-      //
-      // 4.6:1, still AA. aria-disabled is NOT the disabled attribute (see
-      // below), so this label is not exempt from contrast — which is what
-      // fixes the fade at 0.8 rather than something fainter.
-      color: mix($color-white, $color-brand-dark-green, 20%);
+      // The GLYPH is painted the label's exact composited colour by a filter
+      // chain: these are file-referenced <img> marks (hard-coded green fills,
+      // nothing inherits from the label), so the recolour flattens to black
+      // first and rebuilds to the target — solved numerically against the
+      // filter-effects matrices to land on #617887 within a rounding error,
+      // then verified by sampling the rendered pixels. Re-solve BOTH numbers
+      // together if the token ever moves; the chain does not track it.
+      color: $color-ui-text-unavailable;
       cursor: not-allowed;
       background-color: transparent;
 
       img {
-        // A filter, not currentColor: these are file-referenced <img> marks,
-        // so nothing inside them inherits from the label.
-        filter: opacity(0.8);
+        filter: brightness(0) invert(70%) sepia(59%) saturate(596%)
+          hue-rotate(174deg) brightness(56%) contrast(50%);
       }
 
       // No hover reaction — a surface that answers the pointer promises the

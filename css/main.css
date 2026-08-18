@@ -4406,12 +4406,12 @@ body:has(.modal[open]) {
   outline-offset: 2px;
 }
 .tool-filter__check[aria-disabled=true] {
-  color: rgb(51, 130.2, 103);
+  color: rgba(0, 38, 62, 0.62);
   cursor: not-allowed;
   background-color: transparent;
 }
 .tool-filter__check[aria-disabled=true] img {
-  filter: opacity(0.8);
+  filter: brightness(0) invert(70%) sepia(59%) saturate(596%) hue-rotate(174deg) brightness(56%) contrast(50%);
 }
 .tool-filter__check[aria-disabled=true]:hover {
   background-color: transparent;

@@ -431,6 +431,16 @@
                   <label class="tool-filter__check"><input type="radio" name="contract" value="decoupled"><img src="../assets/UI/decoupled.svg" alt="" width="24" height="24"><span data-option-label>Decoupled from your contract</span></label>
                 </div>
               </div>
+              <!-- The written half of an unavailable state, INSIDE the type
+                   fieldset so the sentence sits under the pills it explains
+                   (it used to hang full-width under the whole row, a column
+                   away from the disabled Gas option). role="status" so a
+                   constraint that appears in response to a choice is
+                   announced without taking focus; the script writes the
+                   sentence and unhides it. Never visible at the same time as
+                   the contract subfield above — one needs household, the
+                   other business. -->
+              <p class="tool-filter__note" id="buy-filter-note" role="status" data-buy-note hidden></p>
             </fieldset>
             <div class="tool-filter__field">
               <p class="tool-filter__label" id="buy-state-label">Connection location</p>
@@ -453,11 +463,6 @@
               </div>
             </div>
           </div>
-          <!-- The written half of an unavailable state. role="status" so a
-               constraint that appears in response to a choice is announced
-               without taking focus; the script writes the sentence and
-               unhides it. -->
-          <p class="tool-filter__note" id="buy-filter-note" role="status" data-buy-note hidden></p>
         </form>
         <!-- Imageless header variant: the green block + brand angle stand in
              where field_header_image is empty (see _page-header.scss). -->
