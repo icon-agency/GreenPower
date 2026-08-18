@@ -451,16 +451,19 @@
              dated news, and the reference shows neither. "Read impact story"
              is the card's link row, as drawn.
 
-             Drupal: node teasers of an impact_story type — field_story_product
-             (the eyebrow), field_story_image, title, field_story_summary,
-             field_story_link. data-news-type stands in for the view's exposed
-             type filter, same as the news listing. -->
+             Drupal: node teasers of an impact_story type — the eyebrow renders
+             the impact_story_category TERM (client taxonomy, Aug 2026 — it
+             used to carry field_story_product; the full product name stays on
+             the article's own meta), then field_story_image, title,
+             field_story_summary, field_story_link. data-news-type carries the
+             same term for the view's exposed filter, so the eyebrow and the
+             pill that finds the card can never disagree. -->
         <article class="card card--news card--featured card--story" data-animate data-news-type="corporate-direct">
           <div class="card__media">
             <img src="../assets/impact-stories/Melbourne-Airport.png" alt="A ground crew member walking beside an aircraft on the Melbourne Airport apron" width="900" height="900" loading="lazy">
           </div>
           <div class="card__content">
-            <p class="card__eyebrow"><svg class="card__eyebrow-mark" viewBox="0 0 55 55" aria-hidden="true" focusable="false"><path d="M39.776 20.4735L27.0027 33.1287L18.5871 24.7908C16.5518 26.8072 16.5518 30.0855 18.5871 32.1019L27.0027 40.4397L41.6863 25.8918C42.1608 29.8257 40.8872 33.9204 37.8406 36.9388L27.0027 47.6766L16.1648 36.9388C10.8957 31.7184 10.8957 23.2692 16.1648 18.0488L27.0027 7.31107L37.4286 17.6406C39.4638 15.6242 39.4638 12.3459 37.4286 10.3295L27.0027 0L12.4689 14.3995C5.17703 21.6239 5.17703 33.3761 12.4689 40.6005L27.0027 55L41.5365 40.6005C48.0792 34.1183 48.741 23.9867 43.5468 16.7623L39.7884 20.4858L39.776 20.4735Z" fill="currentColor"/></svg> GreenPower Corporate Direct</p>
+            <p class="card__eyebrow"><svg class="card__eyebrow-mark" viewBox="0 0 55 55" aria-hidden="true" focusable="false"><path d="M39.776 20.4735L27.0027 33.1287L18.5871 24.7908C16.5518 26.8072 16.5518 30.0855 18.5871 32.1019L27.0027 40.4397L41.6863 25.8918C42.1608 29.8257 40.8872 33.9204 37.8406 36.9388L27.0027 47.6766L16.1648 36.9388C10.8957 31.7184 10.8957 23.2692 16.1648 18.0488L27.0027 7.31107L37.4286 17.6406C39.4638 15.6242 39.4638 12.3459 37.4286 10.3295L27.0027 0L12.4689 14.3995C5.17703 21.6239 5.17703 33.3761 12.4689 40.6005L27.0027 55L41.5365 40.6005C48.0792 34.1183 48.741 23.9867 43.5468 16.7623L39.7884 20.4858L39.776 20.4735Z" fill="currentColor"/></svg> Corporate Direct</p>
             <h3 class="card__title"><a class="card__title-link" href="impact-article.html">Melbourne Airport</a></h3>
             <p class="card__body">Melbourne Airport uses GreenPower Corporate Direct to match most of its electricity use with accredited renewable electricity and make renewable electricity available to tenants across the airport precinct.</p>
             <!-- PASSIVE, not a link: the whole card is one link now (the title
@@ -477,7 +480,7 @@
             <img src="../assets/impact-stories/White-Whale-Coffee-Roasters.png" alt="A barista steaming milk at the espresso machine in a busy coffee roastery" width="900" height="900" loading="lazy">
           </div>
           <div class="card__content">
-            <p class="card__eyebrow"><svg class="card__eyebrow-mark" viewBox="0 0 55 55" aria-hidden="true" focusable="false"><path d="M39.776 20.4735L27.0027 33.1287L18.5871 24.7908C16.5518 26.8072 16.5518 30.0855 18.5871 32.1019L27.0027 40.4397L41.6863 25.8918C42.1608 29.8257 40.8872 33.9204 37.8406 36.9388L27.0027 47.6766L16.1648 36.9388C10.8957 31.7184 10.8957 23.2692 16.1648 18.0488L27.0027 7.31107L37.4286 17.6406C39.4638 15.6242 39.4638 12.3459 37.4286 10.3295L27.0027 0L12.4689 14.3995C5.17703 21.6239 5.17703 33.3761 12.4689 40.6005L27.0027 55L41.5365 40.6005C48.0792 34.1183 48.741 23.9867 43.5468 16.7623L39.7884 20.4858L39.776 20.4735Z" fill="currentColor"/></svg> GreenPower electricity</p>
+            <p class="card__eyebrow"><svg class="card__eyebrow-mark" viewBox="0 0 55 55" aria-hidden="true" focusable="false"><path d="M39.776 20.4735L27.0027 33.1287L18.5871 24.7908C16.5518 26.8072 16.5518 30.0855 18.5871 32.1019L27.0027 40.4397L41.6863 25.8918C42.1608 29.8257 40.8872 33.9204 37.8406 36.9388L27.0027 47.6766L16.1648 36.9388C10.8957 31.7184 10.8957 23.2692 16.1648 18.0488L27.0027 7.31107L37.4286 17.6406C39.4638 15.6242 39.4638 12.3459 37.4286 10.3295L27.0027 0L12.4689 14.3995C5.17703 21.6239 5.17703 33.3761 12.4689 40.6005L27.0027 55L41.5365 40.6005C48.0792 34.1183 48.741 23.9867 43.5468 16.7623L39.7884 20.4858L39.776 20.4735Z" fill="currentColor"/></svg> Renewable Electricity</p>
             <h3 class="card__title"><a class="card__title-link" href="impact-article.html">White Whale Coffee Roasters</a></h3>
             <p class="card__body">White Whale Coffee Roasters switched to GreenPower to match its electricity use with renewable electricity and keep building on its sustainability work.</p>
             <!-- PASSIVE, not a link: the whole card is one link now (the title
@@ -504,7 +507,7 @@
             <img src="../assets/images/impact-Jemena-Malabar-Biomethane-Project.png" alt="Workers in high-visibility vests and hard hats walking through the Malabar biomethane facility" width="1200" height="1300" loading="lazy">
           </div>
           <div class="card__content">
-            <p class="card__eyebrow"><svg class="card__eyebrow-mark" viewBox="0 0 55 55" aria-hidden="true" focusable="false"><path d="M39.776 20.4735L27.0027 33.1287L18.5871 24.7908C16.5518 26.8072 16.5518 30.0855 18.5871 32.1019L27.0027 40.4397L41.6863 25.8918C42.1608 29.8257 40.8872 33.9204 37.8406 36.9388L27.0027 47.6766L16.1648 36.9388C10.8957 31.7184 10.8957 23.2692 16.1648 18.0488L27.0027 7.31107L37.4286 17.6406C39.4638 15.6242 39.4638 12.3459 37.4286 10.3295L27.0027 0L12.4689 14.3995C5.17703 21.6239 5.17703 33.3761 12.4689 40.6005L27.0027 55L41.5365 40.6005C48.0792 34.1183 48.741 23.9867 43.5468 16.7623L39.7884 20.4858L39.776 20.4735Z" fill="currentColor"/></svg> GreenPower Renewable Gas Certification</p>
+            <p class="card__eyebrow"><svg class="card__eyebrow-mark" viewBox="0 0 55 55" aria-hidden="true" focusable="false"><path d="M39.776 20.4735L27.0027 33.1287L18.5871 24.7908C16.5518 26.8072 16.5518 30.0855 18.5871 32.1019L27.0027 40.4397L41.6863 25.8918C42.1608 29.8257 40.8872 33.9204 37.8406 36.9388L27.0027 47.6766L16.1648 36.9388C10.8957 31.7184 10.8957 23.2692 16.1648 18.0488L27.0027 7.31107L37.4286 17.6406C39.4638 15.6242 39.4638 12.3459 37.4286 10.3295L27.0027 0L12.4689 14.3995C5.17703 21.6239 5.17703 33.3761 12.4689 40.6005L27.0027 55L41.5365 40.6005C48.0792 34.1183 48.741 23.9867 43.5468 16.7623L39.7884 20.4858L39.776 20.4735Z" fill="currentColor"/></svg> Renewable Gas</p>
             <h3 class="card__title"><a class="card__title-link" href="impact-article.html">Melbourne Airport</a></h3>
             <p class="card__body">Jemena&rsquo;s Malabar Biomethane Project is helping build Australia&rsquo;s renewable gas market by producing biomethane and injecting it into the Sydney gas network.</p>
             <!-- PASSIVE, not a link: the whole card is one link now (the title
@@ -521,7 +524,7 @@
             <img src="../assets/impact-stories/Laing-ORourke.png" alt="Aerial view of solar panels covering the roofs of a construction site's buildings" width="900" height="900" loading="lazy">
           </div>
           <div class="card__content">
-            <p class="card__eyebrow"><svg class="card__eyebrow-mark" viewBox="0 0 55 55" aria-hidden="true" focusable="false"><path d="M39.776 20.4735L27.0027 33.1287L18.5871 24.7908C16.5518 26.8072 16.5518 30.0855 18.5871 32.1019L27.0027 40.4397L41.6863 25.8918C42.1608 29.8257 40.8872 33.9204 37.8406 36.9388L27.0027 47.6766L16.1648 36.9388C10.8957 31.7184 10.8957 23.2692 16.1648 18.0488L27.0027 7.31107L37.4286 17.6406C39.4638 15.6242 39.4638 12.3459 37.4286 10.3295L27.0027 0L12.4689 14.3995C5.17703 21.6239 5.17703 33.3761 12.4689 40.6005L27.0027 55L41.5365 40.6005C48.0792 34.1183 48.741 23.9867 43.5468 16.7623L39.7884 20.4858L39.776 20.4735Z" fill="currentColor"/></svg> GreenPower Decoupled electricity</p>
+            <p class="card__eyebrow"><svg class="card__eyebrow-mark" viewBox="0 0 55 55" aria-hidden="true" focusable="false"><path d="M39.776 20.4735L27.0027 33.1287L18.5871 24.7908C16.5518 26.8072 16.5518 30.0855 18.5871 32.1019L27.0027 40.4397L41.6863 25.8918C42.1608 29.8257 40.8872 33.9204 37.8406 36.9388L27.0027 47.6766L16.1648 36.9388C10.8957 31.7184 10.8957 23.2692 16.1648 18.0488L27.0027 7.31107L37.4286 17.6406C39.4638 15.6242 39.4638 12.3459 37.4286 10.3295L27.0027 0L12.4689 14.3995C5.17703 21.6239 5.17703 33.3761 12.4689 40.6005L27.0027 55L41.5365 40.6005C48.0792 34.1183 48.741 23.9867 43.5468 16.7623L39.7884 20.4858L39.776 20.4735Z" fill="currentColor"/></svg> Renewable Electricity</p>
             <h3 class="card__title"><a class="card__title-link" href="impact-article.html">Laing O&rsquo;Rourke</a></h3>
             <p class="card__body">Laing O&rsquo;Rourke uses GreenPower Decoupled to match electricity use across changing construction sites, offices and warehouses.</p>
             <!-- PASSIVE, not a link: the whole card is one link now (the title

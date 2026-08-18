@@ -71,8 +71,10 @@
   // the component icon (2.5), sized to the sm label beside it; fixed for the
   // usual reason (one size wherever it appears), rem so it honours the root.
   //
-  // Drupal: field_story_product on the impact_story type, rendered here and in
-  // the teaser card's eyebrow.
+  // Drupal: field_story_product on the impact_story type — the ARTICLE keeps
+  // the full product name here; the teaser card's eyebrow renders the
+  // impact_story_category term instead (client taxonomy, Aug 2026), so the
+  // two are related but no longer mirrors.
   &__product {
     display: flex;
     gap: var(--space-2xs);
