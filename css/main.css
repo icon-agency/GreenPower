@@ -4443,6 +4443,8 @@ body:has(.modal[open]) {
   border-radius: var(--stack-option-radius);
 }
 .tool-filter__note {
+  width: 0;
+  min-width: 100%;
   font-size: var(--step--1);
   color: #ffffff;
 }

@@ -503,6 +503,14 @@ $chevron-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
   // on the element in markup, so a constraint that appears after a choice is
   // announced without stealing focus.
   &__note {
+    // The sentence must not SIZE its column. The note now lives inside the
+    // type fieldset, whose --auto track takes max-content — and a one-line
+    // sentence is wider than the pill pair, so the note was quietly widening
+    // "GreenPower type". Zero intrinsic width keeps it out of the
+    // measurement; min-width 100% then lays it out at whatever width the
+    // pills won, wrapping as needed.
+    width: 0;
+    min-width: 100%;
     font-size: $font-size-sm;
     color: $color-white;
 
