@@ -27,6 +27,12 @@
 // -----------------------------------------------------------------------------
 
 .provider-card {
+  // The logo plate's size and padding, on the CARD so every part can share
+  // them: the logo consumes both, and the aside's ask-link caps its line
+  // length to the plate width (below). Retune the real mark set in one place.
+  --provider-logo-size: 7.5rem;
+  --provider-logo-pad: var(--space-2xs);
+
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-m);
@@ -64,7 +70,7 @@
       grid-area: aside;
       align-self: start;
       justify-self: center;
-      margin-left: 0;
+      margin-inline: 0; // justify-self owns the centring in the grid band
     }
   }
 
@@ -84,9 +90,6 @@
   // Size and padding are custom properties so the real mark set can be retuned
   // in one place once it lands.
   &__logo {
-    --provider-logo-size: 7.5rem;
-    --provider-logo-pad: var(--space-2xs);
-
     display: grid;
     place-items: center;
     flex-shrink: 0;
@@ -418,8 +421,19 @@
     flex-direction: column;
     gap: var(--space-2xs);
     align-items: center;
-    margin-left: auto;
+    // PHONES: the stacked card reads down one centre line, and a contact
+    // block hugging the right edge read as detached from it (client
+    // annotation) — auto margins both sides centre it on the card's axis.
+    // In the sm–md grid band the same auto margins centre it in the logo's
+    // column. From md the single row returns and the right-hand margin-left:
+    // auto placement with it.
+    margin-inline: auto;
     text-align: center;
+
+    @include respond-to('md') {
+      margin-right: 0;
+      margin-left: auto;
+    }
   }
 
   &__phone {
@@ -450,6 +464,12 @@
   }
 
   &__ask {
+    // The block's longest line was this link, and since the aside sizes to
+    // its widest child, the one-liner set the whole contact column's width
+    // (and, in the sm–md grid band, the logo column's). Capped to the plate
+    // width it wraps to two centred lines and the block reads as one column
+    // under the logo (client: "this link can have text wrap").
+    max-width: var(--provider-logo-size);
     font-size: $font-size-sm;
     color: $color-brand-dark-green;
     text-underline-offset: 0.15em;
