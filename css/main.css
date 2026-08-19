@@ -5229,6 +5229,27 @@ body:has(.modal[open]) {
   background-color: #f3efe5;
   border-radius: 16px;
 }
+@media (min-width: 640px) and (max-width: 959.98px) {
+  .provider-card {
+    display: grid;
+    grid-template-areas: "logo content" "aside content";
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+  }
+  .provider-card .provider-card__logo {
+    grid-area: logo;
+    justify-self: center;
+  }
+  .provider-card .provider-card__content {
+    grid-area: content;
+  }
+  .provider-card .provider-card__aside {
+    grid-area: aside;
+    align-self: start;
+    justify-self: center;
+    margin-left: 0;
+  }
+}
 .provider-card__logo {
   --provider-logo-size: 7.5rem;
   --provider-logo-pad: var(--space-2xs);

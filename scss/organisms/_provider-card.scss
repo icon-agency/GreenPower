@@ -35,6 +35,39 @@
   background-color: $color-tint-taupe; // the listing surface
   border-radius: $radius-lg;
 
+  // The TABLET BAND (sm–md): three-in-a-row does not fit, and under wrap-flex
+  // the aside fell to its own full line where margin-left:auto pushed it hard
+  // right — a contact block hanging in space under the OFFERS, while the rail
+  // under the logo sat empty (client annotation). A grid states the intent
+  // instead: the logo's column keeps the contact block, the content keeps the
+  // right, and the aside starts directly under the plate. From md the row
+  // fits and the flex layout above resumes; below sm the phone stack is
+  // untouched.
+  @include respond-between('sm', 'md') {
+    display: grid;
+    grid-template-areas:
+      'logo content'
+      'aside content';
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+
+    .provider-card__logo {
+      grid-area: logo;
+      justify-self: center;
+    }
+
+    .provider-card__content {
+      grid-area: content;
+    }
+
+    .provider-card__aside {
+      grid-area: aside;
+      align-self: start;
+      justify-self: center;
+      margin-left: 0;
+    }
+  }
+
   // The organisation's mark. A logo is third-party brand art — full colour on
   // WHITE, never on a tint (the client-logos rule), hence the white plate.
   // The demo renders the plate empty with a mono placeholder; Drupal puts the
