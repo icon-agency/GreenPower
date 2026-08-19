@@ -464,12 +464,17 @@
   }
 
   &__ask {
-    // The block's longest line was this link, and since the aside sizes to
-    // its widest child, the one-liner set the whole contact column's width
-    // (and, in the sm–md grid band, the logo column's). Capped to the plate
-    // width it wraps to two centred lines and the block reads as one column
-    // under the logo (client: "this link can have text wrap").
-    max-width: var(--provider-logo-size);
+    // In the sm–md GRID BAND ONLY: the aside sizes to its widest child, so
+    // this link's one-liner set the logo column's width — capped to the
+    // plate width it wraps to two centred lines and the block reads as one
+    // column under the logo (client: "this link can have text wrap").
+    // Everywhere else the link gets its single line back: phones centre the
+    // block with the full card width to spend (client: "this will fit on a
+    // single line here"), and the wide row's aside always had room.
+    @include respond-between('sm', 'md') {
+      max-width: var(--provider-logo-size);
+    }
+
     font-size: $font-size-sm;
     color: $color-brand-dark-green;
     text-underline-offset: 0.15em;

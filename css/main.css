@@ -5463,8 +5463,12 @@ body:has(.modal[open]) {
   outline: 3px solid #009f4d;
   outline-offset: 2px;
 }
+@media (min-width: 640px) and (max-width: 959.98px) {
+  .provider-card__ask {
+    max-width: var(--provider-logo-size);
+  }
+}
 .provider-card__ask {
-  max-width: var(--provider-logo-size);
   font-size: var(--step--1);
   color: #006341;
   text-underline-offset: 0.15em;
