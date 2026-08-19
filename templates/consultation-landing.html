@@ -431,11 +431,18 @@
 
         <!-- Teasers are the news card verbatim, filed by STATUS: tag pill
              Open/Closed, title-link to the consultation article, and the meta
-             row reads "Updated:" with the date. WIREFRAME NOTE: the reference
-             draws all nine cards Open with one photograph and lorem copy —
-             three are Closed here so the band's filter (and its empty state)
-             can be exercised; the panel photograph is a stand-in from the
-             asset library. -->
+             row carries the CONSULTATION PERIOD — the event teaser's
+             calendar-and-range anatomy (.card__meta-date), because a
+             consultation's date IS a range, open to close (client direction:
+             same treatment as events). The Open/Closed pill is derived from
+             that same field against today, so the tag and the range can
+             never disagree. Drupal: field_consultation_dates (daterange);
+             the old "Updated:" line (changed date) stays back-office.
+             WIREFRAME NOTE: the reference draws all nine cards Open with one
+             photograph and lorem copy — three are Closed here (with an ended
+             range) so the band's filter (and its empty state) can be
+             exercised; the panel photograph is a stand-in from the asset
+             library. -->
         <article class="card card--news" data-animate data-news-type="open">
           <div class="card__media">
             <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
@@ -444,7 +451,7 @@
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="consultation-article.html">Name of the consultation<span class="visually-hidden"> &mdash; Open</span></a></h3>
             <p class="card__body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem,.</p>
-            <p class="card__meta"><span>Updated: <time datetime="2025-03-20">20 Mar 2025</time></span>
+            <p class="card__meta"><span class="card__meta-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span><span class="visually-hidden">Consultation period: </span><time datetime="2025-08-12">12 Aug 2025</time> &ndash; <time datetime="2025-09-20">20 Sep 2025</time></span></span>
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
         </article>
@@ -457,7 +464,7 @@
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="consultation-article.html">Name of the consultation<span class="visually-hidden"> &mdash; Open</span></a></h3>
             <p class="card__body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem,.</p>
-            <p class="card__meta"><span>Updated: <time datetime="2025-03-20">20 Mar 2025</time></span>
+            <p class="card__meta"><span class="card__meta-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span><span class="visually-hidden">Consultation period: </span><time datetime="2025-08-12">12 Aug 2025</time> &ndash; <time datetime="2025-09-20">20 Sep 2025</time></span></span>
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
         </article>
@@ -470,7 +477,7 @@
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="consultation-article.html">Name of the consultation<span class="visually-hidden"> &mdash; Open</span></a></h3>
             <p class="card__body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem,.</p>
-            <p class="card__meta"><span>Updated: <time datetime="2025-03-20">20 Mar 2025</time></span>
+            <p class="card__meta"><span class="card__meta-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span><span class="visually-hidden">Consultation period: </span><time datetime="2025-08-12">12 Aug 2025</time> &ndash; <time datetime="2025-09-20">20 Sep 2025</time></span></span>
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
         </article>
@@ -483,7 +490,7 @@
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="consultation-article.html">Name of the consultation<span class="visually-hidden"> &mdash; Open</span></a></h3>
             <p class="card__body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem,.</p>
-            <p class="card__meta"><span>Updated: <time datetime="2025-03-20">20 Mar 2025</time></span>
+            <p class="card__meta"><span class="card__meta-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span><span class="visually-hidden">Consultation period: </span><time datetime="2025-08-12">12 Aug 2025</time> &ndash; <time datetime="2025-09-20">20 Sep 2025</time></span></span>
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
         </article>
@@ -496,7 +503,7 @@
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="consultation-article.html">Name of the consultation<span class="visually-hidden"> &mdash; Closed</span></a></h3>
             <p class="card__body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem,.</p>
-            <p class="card__meta"><span>Updated: <time datetime="2025-03-20">20 Mar 2025</time></span>
+            <p class="card__meta"><span class="card__meta-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span><span class="visually-hidden">Consultation period: </span><time datetime="2025-01-20">20 Jan 2025</time> &ndash; <time datetime="2025-03-20">20 Mar 2025</time></span></span>
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
         </article>
@@ -509,7 +516,7 @@
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="consultation-article.html">Name of the consultation<span class="visually-hidden"> &mdash; Open</span></a></h3>
             <p class="card__body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem,.</p>
-            <p class="card__meta"><span>Updated: <time datetime="2025-03-20">20 Mar 2025</time></span>
+            <p class="card__meta"><span class="card__meta-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span><span class="visually-hidden">Consultation period: </span><time datetime="2025-08-12">12 Aug 2025</time> &ndash; <time datetime="2025-09-20">20 Sep 2025</time></span></span>
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
         </article>
@@ -522,7 +529,7 @@
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="consultation-article.html">Name of the consultation<span class="visually-hidden"> &mdash; Closed</span></a></h3>
             <p class="card__body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem,.</p>
-            <p class="card__meta"><span>Updated: <time datetime="2025-03-20">20 Mar 2025</time></span>
+            <p class="card__meta"><span class="card__meta-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span><span class="visually-hidden">Consultation period: </span><time datetime="2025-01-20">20 Jan 2025</time> &ndash; <time datetime="2025-03-20">20 Mar 2025</time></span></span>
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
         </article>
@@ -535,7 +542,7 @@
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="consultation-article.html">Name of the consultation<span class="visually-hidden"> &mdash; Open</span></a></h3>
             <p class="card__body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem,.</p>
-            <p class="card__meta"><span>Updated: <time datetime="2025-03-20">20 Mar 2025</time></span>
+            <p class="card__meta"><span class="card__meta-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span><span class="visually-hidden">Consultation period: </span><time datetime="2025-08-12">12 Aug 2025</time> &ndash; <time datetime="2025-09-20">20 Sep 2025</time></span></span>
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
         </article>
@@ -548,7 +555,7 @@
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="consultation-article.html">Name of the consultation<span class="visually-hidden"> &mdash; Closed</span></a></h3>
             <p class="card__body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a maximus sem,.</p>
-            <p class="card__meta"><span>Updated: <time datetime="2025-03-20">20 Mar 2025</time></span>
+            <p class="card__meta"><span class="card__meta-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span><span class="visually-hidden">Consultation period: </span><time datetime="2025-01-20">20 Jan 2025</time> &ndash; <time datetime="2025-03-20">20 Mar 2025</time></span></span>
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
         </article>

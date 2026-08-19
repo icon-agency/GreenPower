@@ -407,12 +407,19 @@
         <p class="page-header__intro" data-animate>We&rsquo;re excited to share that GreenPower is developing two new certification schemes to accelerate the transition to cleaner fuels in Australia.</p>
         <!-- Type + dates, stated here AND in the sticky rail below. This copy
              is the accessible one — it comes first in DOM order and carries
-             the labels; the rail's repeat is aria-hidden. -->
+             the labels; the rail's repeat is aria-hidden.
+             CONSULTATION display: the consultation period, calendar in front —
+             the event article's range anatomy, because a consultation's date
+             IS a range, open to close (client direction). The Open tag is
+             derived from the same field against today. Drupal:
+             field_consultation_dates (daterange); published/changed stay
+             back-office. -->
         <div class="article-meta article-meta--on-dark" data-animate>
           <span class="article-meta__tag">Open</span>
           <ul class="article-meta__dates">
             <li class="article-meta__date">
-              <span><span class="visually-hidden">Published </span><time datetime="2025-08-12">12 Aug 2025</time></span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              <span><span class="visually-hidden">Consultation period: </span><time datetime="2025-08-12">12 Aug 2025</time> &ndash; <time datetime="2025-09-20">20 Sep 2025</time></span>
             </li>
           </ul>
         </div>
@@ -452,7 +459,8 @@
               <p class="article-meta__title">Name of the consultation</p>
               <ul class="article-meta__dates" aria-hidden="true">
                 <li class="article-meta__date">
-                  <span><time datetime="2025-08-12">12 Aug 2025</time></span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                  <span><time datetime="2025-08-12">12 Aug 2025</time> &ndash; <time datetime="2025-09-20">20 Sep 2025</time></span>
                 </li>
               </ul>
             </div>
