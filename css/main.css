@@ -194,6 +194,13 @@ a:focus-visible {
   outline-offset: 2px;
 }
 
+mark {
+  padding: 0.1em 0.2em;
+  color: inherit;
+  background-color: #bce194;
+  border-radius: 4px;
+}
+
 .visually-hidden,
 .sr-only {
   position: absolute;

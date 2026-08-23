@@ -105,3 +105,31 @@ a {
     @include focus-ring;
   }
 }
+
+// Highlighted text — search-result terms, and any editor use of <mark>.
+// BASE, not the prose wrapper: a search snippet is card copy, and the term is
+// marked in card titles and bodies as often as in prose, so scoping this to
+// .page-content__section left the UA's flat yellow showing everywhere else
+// (which is how it first rendered).
+//
+// The UA default belongs to no palette on this site. Light Green carries it,
+// and the choice is forced: the highlight has to be visible on BOTH surfaces
+// a result can sit on — the white reading column and the TAUPE card — and
+// every taupe/mint tint in the palette disappears against the card (the tints
+// measure 1.00–1.02 against it; the first attempt used tint-taupe, which is
+// the card colour exactly, so the marks rendered invisible). Light Green is a
+// different hue from both, and text stays legible on it: Dark Green 5.0:1 for
+// a marked card title, navy 10.6:1 for body copy.
+//
+// The text keeps its INHERITED colour — a highlighted word should read as the
+// same word, marked, not as a second colour competing with the link beside it.
+//
+// Drupal: Search API's Highlight processor emits the prefix/suffix you
+// configure — set it to <mark>…</mark>. Its default is <strong>, which would
+// be indistinguishable from real bold inside body copy.
+mark {
+  padding: 0.1em 0.2em;
+  color: inherit;
+  background-color: $color-brand-light-green;
+  border-radius: $radius-sm;
+}
