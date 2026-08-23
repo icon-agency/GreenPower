@@ -44,6 +44,21 @@
   }
 }
 
+// Tight top — the ladder's opener for a body that follows something already
+// providing closure (docs/content-rhythm.md). The same step and the same
+// reason as .card-section--tight-top, which the listing pages use under the
+// header band; this is its .page-body twin, for a LISTING that happens to
+// live in the reading column rather than a card-section grid.
+//
+// The search results page is the case that asked for it: its band carries the
+// query field and the type facets, and the count line under them is the answer
+// to both, so the section step read as a gap between a question and its reply
+// — and it sat 22px looser than the news listing's band-to-first-card, which
+// is the page it should feel like a sibling of.
+.page-body--tight-top {
+  padding-block-start: var(--space-s-l);
+}
+
 // Article variant: the body column must land under the header band's COPY, so
 // this frame restates the BAND's, not the container mixin's — same --space-xs
 // inset (the mixin's --space-s-l would shear every column edge off the band's

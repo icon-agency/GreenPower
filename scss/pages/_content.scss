@@ -75,7 +75,13 @@
   // follows, the gap steps down to the split's own introducer step, so the
   // two compositions read as one pattern. :has()-gated: without it the
   // section rhythm stands, which is the previous rendering.
-  > .page-content__section:has(> :is(h2, h3):last-child) +
+  //
+  // A STATUS LINE counts as an introducer for the same reason a heading does:
+  // the search page's "Showing 1–6 of 23 results for …" is the result list's
+  // label, and at the section step it sat 78px above the list it was
+  // counting. p[role="status"] rather than a class — the thing that makes it
+  // an introducer is that it announces what follows.
+  > .page-content__section:has(> :is(h2, h3, p[role='status']):last-child) +
     :is(.accordion, .card-stack, .download-list) {
     margin-top: var(--space-l);
   }
