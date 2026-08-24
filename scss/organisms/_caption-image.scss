@@ -82,7 +82,9 @@
     // background shows. Motion-gated; reduced motion gets a plain, static photo.
     @media (prefers-reduced-motion: no-preference) {
       scale: 1.14;
-      transition: scale 0.45s ease-out;
+      // Entrance transition rides the .is-visible rule at the bottom of this
+      // file, so priming the hidden state snaps (see the scroll-animations
+      // utility).
       will-change: transform;
     }
   }
@@ -202,7 +204,9 @@
     scale: 1.425; // 1.25 × the 1.14 resting overscan; held while hidden
   }
 
+  // Transition on the reveal path only (see the utility for why).
   .js-animations .caption-image[data-animate].is-visible .caption-image__img {
     scale: 1.14; // settle to the resting overscan as the figure appears
+    transition: scale 0.45s ease-out var(--animate-delay, 0ms);
   }
 }

@@ -338,14 +338,13 @@
       // Resting zoom via the `scale` property (not `transform`) so it composes
       // with the parallax `translate` the JS writes, the entrance `scale`, and
       // the hover `transform` — independent transform properties never
-      // overwrite each other. Transitions cover the scroll-in entrance (scale +
-      // opacity) and the hover zoom (transform).
+      // overwrite each other. Only the hover zoom (transform) transitions
+      // here; the entrance's scale + opacity transition rides the .is-visible
+      // rule below, so priming the hidden state snaps instead of animating
+      // (see the scroll-animations utility).
       @media (prefers-reduced-motion: no-preference) {
         scale: 1.14; // resting overscan — room for the (shared) parallax drift
-        transition:
-          scale 0.45s ease-out,
-          opacity 0.45s ease-out,
-          transform 0.4s ease;
+        transition: transform 0.4s ease;
         will-change: transform;
       }
     }
@@ -551,17 +550,24 @@
 // (.js-animations); otherwise the image simply rests at its normal size.
 // -----------------------------------------------------------------------------
 @media (prefers-reduced-motion: no-preference) {
-  // Entrance: primed larger + transparent (transition lives on the base img
-  // rule so scale/opacity/transform share one declaration). The overzoom is
-  // 1.25× the 1.14 resting overscan.
+  // Entrance: primed larger + transparent. NO transition on this hidden
+  // state — priming must snap (see the scroll-animations utility). The
+  // overzoom is 1.25× the 1.14 resting overscan.
   .js-animations .card[data-animate] .card__media img {
     scale: 1.425; // 1.25 × the 1.14 resting overscan; held while hidden
     opacity: 0;
   }
 
+  // The entrance transition lives on the reveal path; `transform 0.4s ease`
+  // is restated so the hover zoom keeps easing after the entrance (this list
+  // replaces the base img rule's). Delay rides the card's own stagger slot.
   .js-animations .card[data-animate].is-visible .card__media img {
     scale: 1.14; // settle to the resting overscan + fade in as the card appears
     opacity: 1;
+    transition:
+      scale 0.45s ease-out var(--animate-delay, 0ms),
+      opacity 0.45s ease-out var(--animate-delay, 0ms),
+      transform 0.4s ease;
   }
 
   // Hover: a subtle zoom via `transform` (composes over the resting `scale`)
@@ -570,15 +576,19 @@
   }
 }
 
-// While the scroll-animation system is live it sets `transition: opacity,
-// transform` on the card ([data-animate]), which would drop the base card's
-// background-color transition. Re-add it (keeping the entrance opacity/transform
-// on the system's own timing) so the hover lighten still eases. Higher
-// specificity than `.js-animations [data-animate]`, so it wins.
-.js-animations .card[data-animate] {
+// While an ENTERED card carries the system's `transition: opacity, transform`
+// (on .is-visible — the hidden state has none, so the base background-color
+// transition survives untouched before reveal), that list would drop the base
+// card's background-color transition. Re-add it (keeping the entrance
+// opacity/transform on the system's own timing, stagger delay included) so
+// the hover lighten still eases. Higher specificity than
+// `.js-animations [data-animate].is-visible`, so it wins.
+.js-animations .card[data-animate].is-visible {
   transition:
-    opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out),
-    transform var(--animate-duration, 600ms) var(--animate-easing, ease-out),
+    opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out)
+      var(--animate-delay, 0ms),
+    transform var(--animate-duration, 600ms) var(--animate-easing, ease-out)
+      var(--animate-delay, 0ms),
     background-color 0.3s ease;
 }
 

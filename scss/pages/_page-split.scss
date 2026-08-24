@@ -201,16 +201,19 @@
 // line length drifted with the viewport and the H2 re-broke at every size.
 // (No separate clamp() needed — the element's ch IS the font's clamp.)
 
-// While the scroll-entrance system is live it sets `transition: opacity,
-// transform` on the rail ([data-animate]), which would silently drop the
-// `top` transition above and turn the step-down into a snap. Re-declare the
-// full list at higher specificity (the same pattern as the card's
-// background-color re-add in _card.scss).
-.js-animations .page-split__intro[data-animate] {
+// An ENTERED rail carries the system's `transition: opacity, transform` (on
+// .is-visible — the hidden state has none, so the base `top` transition above
+// survives untouched before reveal), and that list would silently drop the
+// `top` transition and turn the step-down into a snap. Re-declare the full
+// list at higher specificity (the same pattern as the card's background-color
+// re-add in _card.scss).
+.js-animations .page-split__intro[data-animate].is-visible {
   @include respond-to('sm') {
     transition:
-      opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out),
-      transform var(--animate-duration, 600ms) var(--animate-easing, ease-out),
+      opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out)
+        var(--animate-delay, 0ms),
+      transform var(--animate-duration, 600ms) var(--animate-easing, ease-out)
+        var(--animate-delay, 0ms),
       top 0.25s ease-out;
   }
 }

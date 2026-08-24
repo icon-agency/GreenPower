@@ -402,23 +402,11 @@
       // gets a plain, uncropped photo (the script also clears the translate).
       @media (prefers-reduced-motion: no-preference) {
         scale: 1.14;
-        // …and the TRANSITION that makes the entrance zoom visible. Without
-        // it the 1.425 → 1.14 settle below had nothing to animate on, so the
-        // photo snapped to its resting overscan the instant .is-visible
-        // landed: the rule was there, the movement never was, and the band
-        // simply faded while every card on the page zoomed. Same duration and
-        // curve as .card__media img, because it IS the same gesture.
-        // …delayed by the WRAPPER's own stagger slot. The media is a
-        // staggered [data-animate] child, so its fade starts at
-        // var(--animate-delay) — 320ms as the band's fifth child — while a
-        // zero-delay child transition would run 0–450ms and be nearly done
-        // before the parent starts revealing it: all that showed was the
-        // tail end, a flicker-jump (client-reported). Custom properties
-        // inherit, so the img reads the wrapper's slot directly and the two
-        // entrances share one window.
-        transition:
-          scale 0.45s ease-out var(--animate-delay, 0ms),
-          opacity 0.45s ease-out var(--animate-delay, 0ms);
+        // No transition here: the entrance transition rides the .is-visible
+        // rule at the bottom of this file, so priming the hidden state (the
+        // 1.425 overzoom below) snaps instead of animating — see the
+        // scroll-animations utility for the above-the-fold reversal this
+        // prevents.
         will-change: transform;
       }
     }
@@ -652,9 +640,21 @@
     opacity: 0;
   }
 
+  // The transition sits HERE, on the reveal path, not on the base img rule:
+  // declared on the hidden state it animated the priming itself, and the
+  // reveal's reversal completed in 0ms above the fold (see the utility).
+  // Same duration and curve as .card__media img, because it IS the same
+  // gesture — delayed by the WRAPPER's stagger slot (320ms as the band's
+  // fifth child), since a zero-delay child transition would be nearly done
+  // before the parent starts revealing it: all that showed was the tail end,
+  // a flicker-jump (client-reported). Custom properties inherit, so the img
+  // reads the wrapper's slot directly and the two entrances share one window.
   .js-animations .page-header__media[data-animate].is-visible img {
     scale: 1.14; // settle to the resting overscan as the band appears
     opacity: 1;
+    transition:
+      scale 0.45s ease-out var(--animate-delay, 0ms),
+      opacity 0.45s ease-out var(--animate-delay, 0ms);
   }
 
   @include respond-to('sm') {

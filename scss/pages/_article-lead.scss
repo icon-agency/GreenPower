@@ -62,12 +62,9 @@
     // every other photo on the site drifted and settled.
     @media (prefers-reduced-motion: no-preference) {
       scale: 1.14;
-      // Delay inherited from the header's stagger slot, exactly as the
-      // page-header media does — see _page-header.scss for the flicker this
-      // prevents. Falls back to 0ms where no stagger is in play.
-      transition:
-        scale 0.45s ease-out var(--animate-delay, 0ms),
-        opacity 0.45s ease-out var(--animate-delay, 0ms);
+      // No transition here — it rides the .is-visible rule at the bottom of
+      // this file, exactly as the page-header media does, so the hidden-state
+      // prime snaps instead of animating (see the scroll-animations utility).
       will-change: transform;
     }
   }
@@ -170,8 +167,14 @@
     opacity: 0;
   }
 
+  // Transition on the reveal path only (see the utility for why); delay
+  // inherited from the header's stagger slot, exactly as the page-header
+  // media does. Falls back to 0ms where no stagger is in play.
   .js-animations .article-lead[data-animate].is-visible .article-lead__figure img {
     scale: 1.14; // settle to the resting overscan as the header appears
     opacity: 1;
+    transition:
+      scale 0.45s ease-out var(--animate-delay, 0ms),
+      opacity 0.45s ease-out var(--animate-delay, 0ms);
   }
 }

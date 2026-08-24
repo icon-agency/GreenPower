@@ -29,20 +29,30 @@
 }
 
 // Hidden + primed. Only exists while .js-animations is present (observer live).
+//
+// NO transition here, on purpose. This rule lands mid-load, so a transition on
+// the hidden state animates the PRIMING itself (visible → hidden). Above the
+// fold the reveal then REVERSES that in-flight transition, and CSS's reversing
+// rule scales the return leg by how far the outbound leg progressed — zero for
+// anything still inside its stagger delay — so the entrance completed in 0ms
+// and the fade never showed on a hard load (client-reported; confirmed with
+// transitionrun firing on the js-animations add, then transitioncancel on the
+// reveal one frame later). The hidden state must SNAP; only the reveal animates.
 .js-animations [data-animate] {
   opacity: 0;
   transform: translateY(var(--animate-distance));
-  transition:
-    opacity var(--animate-duration) var(--animate-easing) var(--animate-delay),
-    transform var(--animate-duration) var(--animate-easing) var(--animate-delay);
   will-change: opacity, transform; // released to auto on .is-visible below
 }
 
 // Entered — the class the observer adds (one-shot; it then unobserves). The
-// transition above carries the element to here.
+// transition lives HERE, on the reveal path, so it can only ever run
+// hidden → visible.
 .js-animations [data-animate].is-visible {
   opacity: 1;
   transform: none;
+  transition:
+    opacity var(--animate-duration) var(--animate-easing) var(--animate-delay),
+    transform var(--animate-duration) var(--animate-easing) var(--animate-delay);
   will-change: auto;
 }
 

@@ -182,9 +182,10 @@
       // uncropped photo (the parallax script also clears the translate).
       @media (prefers-reduced-motion: no-preference) {
         scale: 1.14;
-        transition:
-          scale 0.45s ease-out,
-          transform 0.4s ease;
+        // Only the hover zoom (transform) transitions here; the entrance
+        // scale rides the .is-visible rule at the bottom of this file, so
+        // priming the hidden state snaps (see the scroll-animations utility).
+        transition: transform 0.4s ease;
         will-change: transform;
       }
     }
@@ -566,7 +567,12 @@
     scale: 1.425; // 1.25 × the 1.14 resting overscan; held while hidden
   }
 
+  // Transition on the reveal path only (see the utility for why); transform
+  // restated so the hover zoom keeps easing after the entrance.
   .js-animations .bento-grid__tile--media[data-animate].is-visible img {
     scale: 1.14; // settle to the resting overscan as the tile appears
+    transition:
+      scale 0.45s ease-out var(--animate-delay, 0ms),
+      transform 0.4s ease;
   }
 }

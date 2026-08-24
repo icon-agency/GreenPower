@@ -262,13 +262,15 @@
   @media (prefers-reduced-motion: no-preference) {
     .js-animations &__media[data-animate] &__zoom {
       transform: scale(1.25);
-      transition: transform var(--animate-duration, 600ms)
-        var(--animate-easing, ease-out) var(--animate-delay, 0ms);
       will-change: transform;
     }
 
+    // Transition on the reveal path only, so priming the overzoom above
+    // snaps instead of animating (see the scroll-animations utility).
     .js-animations &__media[data-animate].is-visible &__zoom {
       transform: none;
+      transition: transform var(--animate-duration, 600ms)
+        var(--animate-easing, ease-out) var(--animate-delay, 0ms);
     }
   }
 

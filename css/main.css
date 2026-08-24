@@ -259,13 +259,13 @@ mark {
 .js-animations [data-animate] {
   opacity: 0;
   transform: translateY(var(--animate-distance));
-  transition: opacity var(--animate-duration) var(--animate-easing) var(--animate-delay), transform var(--animate-duration) var(--animate-easing) var(--animate-delay);
   will-change: opacity, transform;
 }
 
 .js-animations [data-animate].is-visible {
   opacity: 1;
   transform: none;
+  transition: opacity var(--animate-duration) var(--animate-easing) var(--animate-delay), transform var(--animate-duration) var(--animate-easing) var(--animate-delay);
   will-change: auto;
 }
 
@@ -1578,7 +1578,7 @@ mark {
 @media (prefers-reduced-motion: no-preference) {
   .card__media img {
     scale: 1.14;
-    transition: scale 0.45s ease-out, opacity 0.45s ease-out, transform 0.4s ease;
+    transition: transform 0.4s ease;
     will-change: transform;
   }
 }
@@ -1677,13 +1677,14 @@ mark {
   .js-animations .card[data-animate].is-visible .card__media img {
     scale: 1.14;
     opacity: 1;
+    transition: scale 0.45s ease-out var(--animate-delay, 0ms), opacity 0.45s ease-out var(--animate-delay, 0ms), transform 0.4s ease;
   }
   .card:hover .card__media img {
     transform: scale(1.06);
   }
 }
-.js-animations .card[data-animate] {
-  transition: opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out), transform var(--animate-duration, 600ms) var(--animate-easing, ease-out), background-color 0.3s ease;
+.js-animations .card[data-animate].is-visible {
+  transition: opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out) var(--animate-delay, 0ms), transform var(--animate-duration, 600ms) var(--animate-easing, ease-out) var(--animate-delay, 0ms), background-color 0.3s ease;
 }
 
 @media (min-width: 640px) {
@@ -2208,11 +2209,11 @@ mark {
 @media (prefers-reduced-motion: no-preference) {
   .js-animations .feature-banner__media[data-animate] .feature-banner__zoom {
     transform: scale(1.25);
-    transition: transform var(--animate-duration, 600ms) var(--animate-easing, ease-out) var(--animate-delay, 0ms);
     will-change: transform;
   }
   .js-animations .feature-banner__media[data-animate].is-visible .feature-banner__zoom {
     transform: none;
+    transition: transform var(--animate-duration, 600ms) var(--animate-easing, ease-out) var(--animate-delay, 0ms);
   }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -2379,7 +2380,7 @@ mark {
 @media (prefers-reduced-motion: no-preference) {
   .bento-grid__tile--media img {
     scale: 1.14;
-    transition: scale 0.45s ease-out, transform 0.4s ease;
+    transition: transform 0.4s ease;
     will-change: transform;
   }
 }
@@ -2577,6 +2578,7 @@ mark {
   }
   .js-animations .bento-grid__tile--media[data-animate].is-visible img {
     scale: 1.14;
+    transition: scale 0.45s ease-out var(--animate-delay, 0ms), transform 0.4s ease;
   }
 }
 .caption-image {
@@ -2613,7 +2615,6 @@ mark {
 @media (prefers-reduced-motion: no-preference) {
   .caption-image__img {
     scale: 1.14;
-    transition: scale 0.45s ease-out;
     will-change: transform;
   }
 }
@@ -2710,6 +2711,7 @@ mark {
   }
   .js-animations .caption-image[data-animate].is-visible .caption-image__img {
     scale: 1.14;
+    transition: scale 0.45s ease-out var(--animate-delay, 0ms);
   }
 }
 .video-embed {
@@ -2913,7 +2915,6 @@ mark {
 @media (prefers-reduced-motion: no-preference) {
   .page-header__media img {
     scale: 1.14;
-    transition: scale 0.45s ease-out var(--animate-delay, 0ms), opacity 0.45s ease-out var(--animate-delay, 0ms);
     will-change: transform;
   }
 }
@@ -3019,6 +3020,7 @@ mark {
   .js-animations .page-header__media[data-animate].is-visible img {
     scale: 1.14;
     opacity: 1;
+    transition: scale 0.45s ease-out var(--animate-delay, 0ms), opacity 0.45s ease-out var(--animate-delay, 0ms);
   }
 }
 @media (prefers-reduced-motion: no-preference) and (min-width: 640px) {
@@ -5665,7 +5667,6 @@ body:has(.modal[open]) {
 @media (prefers-reduced-motion: no-preference) {
   .footer-subscribe__media img {
     scale: 1.14;
-    transition: scale 0.45s ease-out;
     will-change: transform;
   }
 }
@@ -5722,6 +5723,7 @@ body:has(.modal[open]) {
   }
   .js-animations .footer-subscribe[data-animate].is-visible .footer-subscribe__media img {
     scale: 1.14;
+    transition: scale 0.45s ease-out var(--animate-delay, 0ms);
   }
 }
 .site-footer {
@@ -6172,8 +6174,8 @@ body:has(.modal[open]) {
 }
 
 @media (min-width: 640px) {
-  .js-animations .page-split__intro[data-animate] {
-    transition: opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out), transform var(--animate-duration, 600ms) var(--animate-easing, ease-out), top 0.25s ease-out;
+  .js-animations .page-split__intro[data-animate].is-visible {
+    transition: opacity var(--animate-duration, 600ms) var(--animate-easing, ease-out) var(--animate-delay, 0ms), transform var(--animate-duration, 600ms) var(--animate-easing, ease-out) var(--animate-delay, 0ms), top 0.25s ease-out;
   }
 }
 
@@ -6246,7 +6248,6 @@ body:has(.modal[open]) {
 @media (prefers-reduced-motion: no-preference) {
   .article-lead__figure img {
     scale: 1.14;
-    transition: scale 0.45s ease-out var(--animate-delay, 0ms), opacity 0.45s ease-out var(--animate-delay, 0ms);
     will-change: transform;
   }
 }
@@ -6313,6 +6314,7 @@ body:has(.modal[open]) {
   .js-animations .article-lead[data-animate].is-visible .article-lead__figure img {
     scale: 1.14;
     opacity: 1;
+    transition: scale 0.45s ease-out var(--animate-delay, 0ms), opacity 0.45s ease-out var(--animate-delay, 0ms);
   }
 }
 .ds-app {
