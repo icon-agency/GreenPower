@@ -1080,6 +1080,16 @@
     width: $arrow-icon-width;
     height: $arrow-icon-height;
     @include transition(transform);
+
+    // A meta row can carry the arrow ALONE — the search result drops the
+    // published date but keeps the row for its rule and its "go" affordance.
+    // The row is space-between, which aligns a single item to the START, so
+    // the arrow would slide left and read as a stray glyph under the copy.
+    // Whitespace-only text makes no anonymous flex item, so :only-child is
+    // exactly the case; harmless where real meta text sits beside it.
+    &:only-child {
+      margin-left: auto;
+    }
   }
 
   // The EVENT teaser's date range — the article-meta__date anatomy at card

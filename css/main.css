@@ -1918,6 +1918,9 @@ mark {
   height: 0.625rem;
   transition: transform 0.2s ease-in-out;
 }
+.card__meta-arrow:only-child {
+  margin-left: auto;
+}
 .card__meta-date {
   display: inline-flex;
   gap: var(--space-2xs);

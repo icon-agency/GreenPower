@@ -404,9 +404,14 @@
          The RESULT ITEM is the article card with its media omitted — the same
          .card--news the news listing uses, minus the image, which the card
          family supports by design (every part optional; see the design
-         system's Article card section). A search result is a title, a line of
-         context and a date; a thumbnail would be the only thing on the page
-         claiming these six content types look alike. -->
+         system's Article card section). A search result is a title and a line
+         of context; a thumbnail would be the only thing on the page claiming
+         these content types look alike, and the published date is noise here
+         — it is not why a result matched, and across nine types it invites a
+         comparison ("newer must be better") that the relevance order already
+         answers. Drupal: leave the date out of the search-result view mode.
+         The directory results keep their meta line because a place and a
+         state are how you tell two accredited records apart. -->
     <header class="page-header">
       <div class="page-header__inner" data-animate-stagger>
         <nav aria-label="Breadcrumb" data-animate>
@@ -501,7 +506,7 @@
             <span class="card__tag">News and events</span>
             <h3 class="card__title"><a class="card__title-link" href="news-article.html">Renewable <mark>Gas</mark> Certification Rules &ndash; version 3.0<span class="visually-hidden"> &mdash; News and events</span></a></h3>
             <p class="card__body">The updated rules set out how renewable <mark>gas</mark> is certified and audited under the <mark>GreenPower</mark> program.</p>
-            <p class="card__meta"><time datetime="2026-04-15">15 Apr 2026</time>
+            <p class="card__meta">
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
           </article>
@@ -511,7 +516,7 @@
             <span class="card__tag">Pages</span>
             <h3 class="card__title"><a class="card__title-link" href="tool-gas-producers.html"><mark>GreenPower</mark> <mark>gas</mark> producers<span class="visually-hidden"> &mdash; Pages</span></a></h3>
             <p class="card__body">Explore accredited renewable <mark>gas</mark> producers, their production pathway, feedstock and lifecycle emissions, on a map or as a list.</p>
-            <p class="card__meta"><time datetime="2026-08-10">10 Aug 2026</time>
+            <p class="card__meta">
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
           </article>
@@ -521,7 +526,7 @@
             <span class="card__tag">Impact stories</span>
             <h3 class="card__title"><a class="card__title-link" href="impact-article.html">Jemena Malabar Biomethane Project<span class="visually-hidden"> &mdash; Impact stories</span></a></h3>
             <p class="card__body">Jemena&rsquo;s Malabar plant injects biomethane made from wastewater into the New South Wales <mark>gas</mark> network, helping build Australia&rsquo;s renewable <mark>gas</mark> market.</p>
-            <p class="card__meta"><time datetime="2026-06-02">2 Jun 2026</time>
+            <p class="card__meta">
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
           </article>
@@ -531,7 +536,7 @@
             <span class="card__tag">Program Rules and legislation</span>
             <h3 class="card__title"><a class="card__title-link" href="rules-legislation-article.html">Renewable <mark>Gas</mark> Certification Program Rules<span class="visually-hidden"> &mdash; Program Rules and legislation</span></a></h3>
             <p class="card__body">The rules governing how renewable <mark>gas</mark> is accredited, audited and reported under <mark>GreenPower</mark>.</p>
-            <p class="card__meta"><time datetime="2026-03-18">18 Mar 2026</time>
+            <p class="card__meta">
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
           </article>
@@ -541,7 +546,7 @@
             <span class="card__tag">Consultations</span>
             <h3 class="card__title"><a class="card__title-link" href="consultation-article.html">Consultation on renewable <mark>gas</mark> certification<span class="visually-hidden"> &mdash; Consultations</span></a></h3>
             <p class="card__body">We sought feedback on proposed changes to how renewable <mark>gas</mark> is certified under the <mark>GreenPower</mark> program.</p>
-            <p class="card__meta"><time datetime="2026-01-20">20 Jan 2026</time>
+            <p class="card__meta">
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
           </article>
@@ -551,7 +556,7 @@
             <span class="card__tag">Reports and downloads</span>
             <h3 class="card__title"><a class="card__title-link" href="downloads-quarterly-reports.html"><mark>GreenPower</mark> Quarterly Report &ndash; Q2 2026<span class="visually-hidden"> &mdash; Reports and downloads</span></a></h3>
             <p class="card__body">Quarterly sales and accreditation figures for <mark>GreenPower</mark> electricity and renewable <mark>gas</mark>.</p>
-            <p class="card__meta"><time datetime="2026-07-31">31 Jul 2026</time>
+            <p class="card__meta">
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
           </article>
@@ -624,10 +629,13 @@
         function pressed(el) { return el.getAttribute('aria-pressed') === 'true'; }
         function press(el, on) { el.setAttribute('aria-pressed', on ? 'true' : 'false'); }
 
-        // "All" is the NAME for the empty selection, not a fourth type: it is
+        // "All" is the NAME for the empty selection, not a tenth type: it is
         // pressed exactly when no type is, so the two can never disagree and
-        // there is no separate state to keep in sync. That also means "all
-        // types selected" collapses back to All rather than looking filtered.
+        // there is no separate state to keep in sync. (The "every type
+        // selected collapses back to All" branch below is inherited from the
+        // multi-select listings and cannot fire here — this page presses one
+        // pill at a time; it is left in place so the two copies of this
+        // script stay diffable.)
         // style.display, not the hidden attribute: the card's own
         // `display: flex` outranks the UA's [hidden] rule (author styles beat
         // UA styles), so `hidden` would silently do nothing here.
@@ -657,9 +665,28 @@
           }
         }
 
+        // ONE type at a time on this page — unlike the news and impact
+        // listings, whose pills stack. A search is already narrowed by the
+        // query, and a reader asking "just the pages" means only the pages;
+        // combining two types is a distinction they cannot see the value of
+        // when the count line answers in one number either way.
+        //
+        // Clicking the ACTIVE pill clears it, which lands back on All — so
+        // there is a way out of a filter without hunting for the All pill,
+        // and All still needs no special case (it is pressed exactly when no
+        // type is; see the note above).
+        //
+        // Kept as toggle buttons rather than radios because the pill IS the
+        // shared .news-filter component and its two other listings are
+        // multi-select; the exclusivity is this page's behaviour, not a
+        // second component. Drupal: a single-value exposed filter (or a facet
+        // in "single" mode) renders this natively — the port does not need
+        // this script to reproduce it.
         pills.forEach(function (pill) {
           pill.addEventListener('click', function () {
-            press(pill, !pressed(pill));
+            var wasOn = pressed(pill);
+            pills.forEach(function (other) { press(other, false); });
+            press(pill, !wasOn);
             apply();
           });
         });
