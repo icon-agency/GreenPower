@@ -6,6 +6,8 @@
 // component otherwise. See docs/content-rhythm.md and LESSONS.md.
 // -----------------------------------------------------------------------------
 
+@use 'sass:string';
+
 // Above the 1440px design ceiling the root font-size grows with the viewport
 // (1440px / 90rem = 1.1111vw), so the type and space scales step up together
 // rather than the design looking stranded on a large display. CAPPED at 115%
@@ -137,9 +139,21 @@ mark {
   // 1.2em tall and centred on the glyphs, which is the height a highlighter
   // pen would leave.
   //
-  // The cost is the corners: border-radius clips at the border box, and this
-  // band is inset from it, so a radius here would do nothing and is not
-  // claimed. Square is the honest shape for a marker stroke.
+  // border-radius cannot round it: a radius clips at the BORDER box, and this
+  // band is inset from that box (1.2em painted inside a 1.63em inline box —
+  // measured), so the band's own corners are nowhere near the corners a radius
+  // would cut. The rounding has to be in the painted shape itself, so the
+  // band is an SVG rounded rect rather than a linear-gradient.
+  //
+  // rx is authored in viewBox units, so the rendered corner scales with the
+  // mark's type size — a hair on body copy, a little more on a result title,
+  // subtle at both. It also stretches with the mark's WIDTH, because one
+  // stretched image cannot hold a fixed corner (only a 9-slice could, and
+  // border-image paints in the border box, which is the height this band
+  // exists to avoid). The viewBox is 3:1, set near the middle of the range
+  // real marks occupy (measured 1.6:1 to 4.8:1), which keeps the corner
+  // between about 2px and 4px across every highlight on the page — a
+  // variation you cannot see, where a wrong viewBox would read as lozenges.
   //
   // Stays inline (not inline-block, which could hold a height directly): a
   // highlighted phrase has to be able to wrap mid-term, and an inline-block
@@ -153,11 +167,20 @@ mark {
   // highlight (client-reported on the search results). Setting the image alone
   // can never fix that; the colour has to go.
   background-color: transparent;
-  background-image: linear-gradient(
-    $color-brand-light-green,
-    $color-brand-light-green
-  );
+  // The fill travels INSIDE the data URI, where a literal '#' would be read as
+  // a fragment and truncate the SVG — hence the url-encoded %23 and the token
+  // sliced off its hash. Derived, not retyped, so it cannot drift from
+  // _colors.scss (the same reason _main-nav.scss's icons take their colour
+  // from CSS rather than the markup).
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 60 20'%3E%3Crect width='60' height='20' rx='4' fill='%23#{string.slice('#{$color-brand-light-green}', 2)}'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: 0 55%; // a shade below centre — optically level on the baseline
   background-size: 100% 1.2em;
+  // A highlighted phrase that wraps gets a WHOLE band per line, rather than
+  // one rounded rect sliced across the break — which left the first line
+  // square on its right end and the second square on its left. Square bands
+  // never had to care; a rounded one does. (Same declaration order as
+  // _mixins.scss's link underline.)
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }

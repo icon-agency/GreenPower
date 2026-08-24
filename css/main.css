@@ -198,10 +198,12 @@ mark {
   padding: 0 0.2em;
   color: inherit;
   background-color: transparent;
-  background-image: linear-gradient(#bce194, #bce194);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 60 20'%3E%3Crect width='60' height='20' rx='4' fill='%23bce194'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: 0 55%;
   background-size: 100% 1.2em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .visually-hidden,
