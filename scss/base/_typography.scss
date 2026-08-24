@@ -146,6 +146,13 @@ mark {
   // would push it off the measure instead.
   padding: 0 0.2em;
   color: inherit;
+  // Clear the UA's own yellow FIRST. The band below is a background IMAGE, and
+  // an image paints over the background COLOUR without replacing it — so the
+  // browser default (yellow) kept showing in the strip of inline box the 1.2em
+  // band does not cover, reading as a yellow underline beneath every green
+  // highlight (client-reported on the search results). Setting the image alone
+  // can never fix that; the colour has to go.
+  background-color: transparent;
   background-image: linear-gradient(
     $color-brand-light-green,
     $color-brand-light-green

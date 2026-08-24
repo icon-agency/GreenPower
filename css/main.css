@@ -197,6 +197,7 @@ a:focus-visible {
 mark {
   padding: 0 0.2em;
   color: inherit;
+  background-color: transparent;
   background-image: linear-gradient(#bce194, #bce194);
   background-repeat: no-repeat;
   background-position: 0 55%;
