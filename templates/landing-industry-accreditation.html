@@ -1222,8 +1222,19 @@
       var io = new IntersectionObserver(function (entries, obs) {
         entries.forEach(function (entry) {
           if (!entry.isIntersecting) return;
-          entry.target.classList.add('is-visible'); // CSS runs the transition
           obs.unobserve(entry.target);              // one-shot — never replays
+          // Reveal on the NEXT painted frame. ABOVE THE FOLD the observer's
+          // first callback lands in the same frame that .js-animations primes
+          // the hidden state, so the element never has a PAINTED hidden state
+          // to transition from and the browser jumps straight to the end —
+          // the entrance was silently skipped for the whole first screen.
+          // Two frames is the reliable gap; below the fold it is ~32ms nobody
+          // can see. (LESSONS.md carries the measurement.)
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              entry.target.classList.add('is-visible'); // CSS runs the transition
+            });
+          });
         });
       }, { rootMargin: ROOT_MARGIN, threshold: THRESHOLD });
 
