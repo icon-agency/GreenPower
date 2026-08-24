@@ -1133,12 +1133,16 @@
 //
 // The rule goes because it separates the copy from meta beside it, and with the
 // meta gone it drew a footer around an empty row: a line under the last
-// sentence, then a band of nothing holding one glyph. Dropping the rule and the
-// opening pad lifts the arrow up under the copy, where it still marks the card
-// as somewhere to go.
+// sentence, then a band of nothing holding one glyph.
+//
+// The row keeps its PADDING though, and that is not an oversight. The hover
+// accent (&::after above) draws on this row's top edge at inset -1px, so an
+// arrow pulled up to that edge sits in the line's path and the two collide the
+// moment the card is hovered — which is exactly what happened when the pad
+// came off with the rule. The arrow stays where every other card puts it, a
+// --space-xs below the top edge, and the hover line sweeps clear above it.
 .card--result {
   .card__meta {
-    padding-block-start: 0;
     border-top: 0;
   }
 

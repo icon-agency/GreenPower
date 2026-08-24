@@ -1945,7 +1945,6 @@ mark {
 }
 
 .card--result .card__meta {
-  padding-block-start: 0;
   border-top: 0;
 }
 .card--result .card__meta-arrow:only-child {
