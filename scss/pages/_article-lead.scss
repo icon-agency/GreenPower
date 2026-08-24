@@ -54,6 +54,17 @@
     width: 100%;
     aspect-ratio: 5 / 4; // stacked: the image sets its own height
     object-fit: cover;
+
+    // The header-photo treatment, same as .page-header__media's: a resting
+    // overscan so the shared parallax drift can never expose the figure's
+    // edge, and the transition the entrance zoom below animates on. This
+    // header had neither — it is the one header whose image sat still while
+    // every other photo on the site drifted and settled.
+    @media (prefers-reduced-motion: no-preference) {
+      scale: 1.14;
+      transition: scale 0.45s ease-out;
+      will-change: transform;
+    }
   }
 
   @include respond-to('md') {
@@ -141,5 +152,19 @@
 @include short(46rem) {
   .article-lead__thumb {
     display: none;
+  }
+}
+
+// Entrance zoom — the card/page-header gesture on the panelled lead's photo.
+// Keyed off the HEADER's own [data-animate] instead of giving the figure one:
+// the figure sits inside .article-lead, which is already an animated element,
+// and a nested [data-animate] would fade a child inside its parent's fade.
+@media (prefers-reduced-motion: no-preference) {
+  .js-animations .article-lead[data-animate] .article-lead__figure img {
+    scale: 1.425; // 1.25 × the 1.14 resting overscan; held while hidden
+  }
+
+  .js-animations .article-lead[data-animate].is-visible .article-lead__figure img {
+    scale: 1.14; // settle to the resting overscan as the header appears
   }
 }

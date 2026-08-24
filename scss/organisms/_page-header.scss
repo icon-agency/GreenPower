@@ -402,6 +402,13 @@
       // gets a plain, uncropped photo (the script also clears the translate).
       @media (prefers-reduced-motion: no-preference) {
         scale: 1.14;
+        // …and the TRANSITION that makes the entrance zoom visible. Without
+        // it the 1.425 → 1.14 settle below had nothing to animate on, so the
+        // photo snapped to its resting overscan the instant .is-visible
+        // landed: the rule was there, the movement never was, and the band
+        // simply faded while every card on the page zoomed. Same duration and
+        // curve as .card__media img, because it IS the same gesture.
+        transition: scale 0.45s ease-out;
         will-change: transform;
       }
     }
