@@ -9,9 +9,9 @@ growing past `xl` with the root clamp.)
 
 | Step | Token | Role |
 |---|---|---|
-| Tight top | `--space-s-l` (16 → 40) | a section opening under something that already provides closure — `.card-section--tight-top` (listings, the directories under the header band) and `.page-body--tight-top` (a listing in the reading column, e.g. search results) |
+| Tight top | `--space-s-l` (16 → 40) | a section opening under something that already provides closure (`.card-section--tight-top`, the directories under the header band) |
 | Prose flow | `--space-m` (24 → 30) | element to element inside `.page-content__section` |
-| Heading-binds-to-panel | `--space-l` (32 → 40) | a heading that introduces an accordion / card stack / download list |
+| Introducer | `--space-l` (32 → 40) | a line that introduces what follows — a heading above an accordion / card stack / download list, or a status line above a result list (`p[role="status"]`). `.page-body--label-top` gives a body that OPENS on such a label the same step above it, so the label sits equidistant between the band and the list |
 | Block rhythm | `--space-2xl` (64 → 80) | blocks inside a column (`.page-content > * + *`, `.page-split__body > * + *`, `.page-body > * + *`) |
 | Section meet | `--space-s-l` + `--space-xl` (64 → 100) | where two sections meet: the closer's `s-l` + the opener's `xl` |
 

@@ -2102,6 +2102,20 @@
       // typed into the markup (the authored value is the no-JS fallback), and
       // so the conditional groups start in the state the current answers ask
       // for rather than the state the markup happens to be authored in.
+
+      // Deep link from search results: /tool-…?q=Name arrives with the query
+      // already chosen, so the directory opens filtered to that one record —
+      // and, being a single result, the map opens its pin (see the reveal
+      // above). Read before the first apply() so the count, the chips and the
+      // markers are all built from the seeded value rather than corrected
+      // after a flash of the unfiltered list.
+      // Drupal: the view's exposed filter already reads ?q= from the query
+      // string; this only reproduces that for the static demo.
+      try {
+        var seeded = new URLSearchParams(window.location.search).get('q');
+        if (seeded && search) search.value = seeded;
+      } catch (e) { /* no URLSearchParams: the field simply starts empty */ }
+
       applyRules();
       syncTriggers();
       apply();

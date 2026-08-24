@@ -44,19 +44,20 @@
   }
 }
 
-// Tight top — the ladder's opener for a body that follows something already
-// providing closure (docs/content-rhythm.md). The same step and the same
-// reason as .card-section--tight-top, which the listing pages use under the
-// header band; this is its .page-body twin, for a LISTING that happens to
-// live in the reading column rather than a card-section grid.
+// A body that OPENS ON A LABEL — the search page's result count, which reads
+// to the band above it as much as to the list below it. It takes the
+// introducer step (--space-l, the same one a heading binds to its panel with
+// in _content.scss), and that is the point: the label then sits the SAME
+// distance from the band as from the list, which is what a line belonging to
+// both should do. At the tight-top step it did not — 16px above against 32
+// below on a phone, and the line read as stuck to the band rather than
+// introducing the results.
 //
-// The search results page is the case that asked for it: its band carries the
-// query field and the type facets, and the count line under them is the answer
-// to both, so the section step read as a gap between a question and its reply
-// — and it sat 22px looser than the news listing's band-to-first-card, which
-// is the page it should feel like a sibling of.
-.page-body--tight-top {
-  padding-block-start: var(--space-s-l);
+// NOT --tight-top (--space-s-l): that step is for a section that merely
+// follows something already closed, where nothing spans the join. Here the
+// count line does span it.
+.page-body--label-top {
+  padding-block-start: var(--space-l);
 }
 
 // Article variant: the body column must land under the header band's COPY, so

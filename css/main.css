@@ -5905,8 +5905,8 @@ body:has(.modal[open]) {
   margin-top: var(--space-2xl);
 }
 
-.page-body--tight-top {
-  padding-block-start: var(--space-s-l);
+.page-body--label-top {
+  padding-block-start: var(--space-l);
 }
 
 .page-body--article {

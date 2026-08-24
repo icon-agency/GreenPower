@@ -434,19 +434,33 @@
           </div>
         </form>
 
-        <!-- Content-type facet, as the news listing's pills. The terms are the
-             site's real content types — keep this list in step with the types
-             that exist, and let the facet hide a type with no matches rather
-             than showing a pill that always returns nothing. -->
+        <!-- Content-type facet, as the news listing's pills. Pages leads —
+             a visitor searching a government site is most often after a page,
+             not an article, so the commonest answer sits first after All. The
+             terms are the site's real content types; keep this list in step
+             with the types that exist, and let the facet hide a type with no
+             matches rather than showing a pill that always returns nothing.
+
+             The last two are DIRECTORY RECORDS, not nodes-as-pages: an
+             accredited gas producer and an accredited provider/trader are
+             rows in the two directory tools. Their results deep-link into the
+             tool with the record's name as the query
+             (tool-gas-producers.html?q=…), so the reader lands on that one
+             entry in the list with its pin open on the map, rather than on a
+             page that does not exist for it. Drupal: index the directory
+             nodes in the same Search API index and give their search-result
+             view mode a link built from the tool path plus the title. -->
         <div class="news-filter" data-animate data-news-filter>
           <ul class="news-filter__list" aria-label="Filter results by content type">
             <li><button class="news-filter__pill" type="button" aria-pressed="true" data-news-filter-all>All</button></li>
+            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="page">Pages</button></li>
             <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="news">News and events</button></li>
             <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="impact-story">Impact stories</button></li>
             <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="consultation">Consultations</button></li>
             <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="rules">Program Rules and legislation</button></li>
             <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="download">Reports and downloads</button></li>
-            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="page">Pages</button></li>
+            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="gas-producer">Gas producers</button></li>
+            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="gas-trader">Gas traders</button></li>
           </ul>
           <p class="visually-hidden" aria-live="polite" data-news-filter-status></p>
         </div>
@@ -468,7 +482,7 @@
          column caps them, and .card-stack is the card family's own
          single-column layout for exactly this place. Everything here is an
          existing component — no search-specific CSS beyond the <mark>. -->
-    <section class="page-body page-body--tight-top" aria-label="Search results">
+    <section class="page-body page-body--label-top" aria-label="Search results">
       <div class="page-content">
 
       <!-- The count, and the page's live region. It states the QUERY back:
@@ -477,7 +491,7 @@
            the view's header area, which already has the total and the
            exposed input's value. -->
         <div class="page-content__section" data-animate>
-          <p role="status" data-search-count>Showing <strong>1&ndash;6</strong> of <strong>23</strong> results for <strong>&ldquo;GreenPower gas&rdquo;</strong></p>
+          <p role="status" data-search-count>Showing <strong>1&ndash;8</strong> of <strong>23</strong> results for <strong>&ldquo;GreenPower gas&rdquo;</strong></p>
         </div>
 
         <div class="card-stack" data-animate-stagger>
@@ -540,6 +554,27 @@
             <p class="card__meta"><time datetime="2026-07-31">31 Jul 2026</time>
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
+          </article>
+
+
+          <article class="card card--news" data-animate data-news-type="gas-producer">
+            <div class="card__content">
+              <span class="card__tag">Gas producers</span>
+              <h3 class="card__title"><a class="card__title-link" href="tool-gas-producers.html?q=Malabar+Biomethane+Facility">Malabar Biomethane Facility<span class="visually-hidden"> &mdash; Gas producers, opens the directory filtered to this producer</span></a></h3>
+              <p class="card__body">Accredited biomethane producer at Malabar, New South Wales. 95 TJ/yr from wastewater biosolids, injected into the NSW <mark>gas</mark> network.</p>
+              <p class="card__meta">Accredited producer &middot; Malabar, NSW
+                <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+            </div>
+          </article>
+
+          <article class="card card--news" data-animate data-news-type="gas-trader">
+            <div class="card__content">
+              <span class="card__tag">Gas traders</span>
+              <h3 class="card__title"><a class="card__title-link" href="tool-buy-greenpower.html?q=Red+Energy">Red Energy<span class="visually-hidden"> &mdash; Gas traders, opens the directory filtered to this trader</span></a></h3>
+              <p class="card__body">Accredited <mark>GreenPower</mark> electricity provider and <mark>gas</mark> trader. RGGO certificates for business customers in ACT, VIC and NSW.</p>
+              <p class="card__meta">Accredited trader &middot; ACT, VIC, NSW
+                <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+            </div>
           </article>
 
         </div>
