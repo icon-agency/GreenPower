@@ -408,9 +408,17 @@
         // landed: the rule was there, the movement never was, and the band
         // simply faded while every card on the page zoomed. Same duration and
         // curve as .card__media img, because it IS the same gesture.
+        // …delayed by the WRAPPER's own stagger slot. The media is a
+        // staggered [data-animate] child, so its fade starts at
+        // var(--animate-delay) — 320ms as the band's fifth child — while a
+        // zero-delay child transition would run 0–450ms and be nearly done
+        // before the parent starts revealing it: all that showed was the
+        // tail end, a flicker-jump (client-reported). Custom properties
+        // inherit, so the img reads the wrapper's slot directly and the two
+        // entrances share one window.
         transition:
-          scale 0.45s ease-out,
-          opacity 0.45s ease-out;
+          scale 0.45s ease-out var(--animate-delay, 0ms),
+          opacity 0.45s ease-out var(--animate-delay, 0ms);
         will-change: transform;
       }
     }

@@ -2913,7 +2913,7 @@ mark {
 @media (prefers-reduced-motion: no-preference) {
   .page-header__media img {
     scale: 1.14;
-    transition: scale 0.45s ease-out, opacity 0.45s ease-out;
+    transition: scale 0.45s ease-out var(--animate-delay, 0ms), opacity 0.45s ease-out var(--animate-delay, 0ms);
     will-change: transform;
   }
 }
@@ -6246,7 +6246,7 @@ body:has(.modal[open]) {
 @media (prefers-reduced-motion: no-preference) {
   .article-lead__figure img {
     scale: 1.14;
-    transition: scale 0.45s ease-out, opacity 0.45s ease-out;
+    transition: scale 0.45s ease-out var(--animate-delay, 0ms), opacity 0.45s ease-out var(--animate-delay, 0ms);
     will-change: transform;
   }
 }
