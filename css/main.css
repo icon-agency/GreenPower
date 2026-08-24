@@ -195,10 +195,12 @@ a:focus-visible {
 }
 
 mark {
-  padding: 0.1em 0.2em;
+  padding: 0 0.2em;
   color: inherit;
-  background-color: #bce194;
-  border-radius: 4px;
+  background-image: linear-gradient(#bce194, #bce194);
+  background-repeat: no-repeat;
+  background-position: 0 55%;
+  background-size: 100% 1.2em;
 }
 
 .visually-hidden,

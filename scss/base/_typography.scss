@@ -128,8 +128,29 @@ a {
 // configure — set it to <mark>…</mark>. Its default is <strong>, which would
 // be indistinguishable from real bold inside body copy.
 mark {
-  padding: 0.1em 0.2em;
+  // A BAND, not a filled box. An inline element's background covers the font's
+  // whole inline box, and this face's is tall — measured 1.64em with no
+  // padding at all, 1.84em with the 0.1em the chip treatment started on — so
+  // the highlight read as a chunky block standing well clear of the letters
+  // above and below them. Padding can only ADD to that box; nothing can take
+  // it away. So the colour is painted as a sized background image instead,
+  // 1.2em tall and centred on the glyphs, which is the height a highlighter
+  // pen would leave.
+  //
+  // The cost is the corners: border-radius clips at the border box, and this
+  // band is inset from it, so a radius here would do nothing and is not
+  // claimed. Square is the honest shape for a marker stroke.
+  //
+  // Stays inline (not inline-block, which could hold a height directly): a
+  // highlighted phrase has to be able to wrap mid-term, and an inline-block
+  // would push it off the measure instead.
+  padding: 0 0.2em;
   color: inherit;
-  background-color: $color-brand-light-green;
-  border-radius: $radius-sm;
+  background-image: linear-gradient(
+    $color-brand-light-green,
+    $color-brand-light-green
+  );
+  background-repeat: no-repeat;
+  background-position: 0 55%; // a shade below centre — optically level on the baseline
+  background-size: 100% 1.2em;
 }
