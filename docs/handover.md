@@ -102,6 +102,16 @@ About-you options are client-confirmed (Aug 2026).
   type with a type term and optional event dates, or two types sharing view
   modes. Confirm before Drupal config; the field naming holds either way
   (see the template's header comment and `_article-meta.scss`).
+- News landing: the FEATURED lead is exempt from the type filter — it stays on
+  screen under every pill (client decision, Aug 2026), so it cannot be the
+  listing view's first result the way the markup originally assumed. An
+  exposed filter re-runs the whole view, so the lead needs its own source: a
+  second view display with no exposed filter (sort promoted first, range 1),
+  or an entity reference on the landing page, rendered above the listing —
+  with the listing view excluding that node so it cannot appear twice under
+  All. Confirm which with the Drupal dev; the teaser markup is identical
+  either way (`card--news card--featured`, plus `data-news-featured`, which is
+  the prototype's exemption hook and does not need to survive the port).
 
 ## 6. Build notes
 

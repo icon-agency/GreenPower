@@ -426,9 +426,21 @@
       <h2 class="visually-hidden" id="news-list-title">News articles</h2>
       <div class="card-section__grid" data-animate-stagger>
 
-        <!-- The featured lead: the view's first result on page one. Same card,
-             plus the eyebrow and the --featured span (horizontal from sm). -->
-        <article class="card card--news card--featured" data-animate data-news-type="announcement">
+        <!-- The featured lead: a PROMOTED record, always on page one and
+             always on screen — the type pills never hide it (client decision,
+             Aug 2026). Same card, plus the eyebrow and the --featured span
+             (horizontal from sm).
+             Drupal: this is why it cannot be the listing view's first result.
+             An exposed filter re-runs the whole view, so a promoted-but-exempt
+             lead has to come from its OWN source — a second view display with
+             no exposed filter (sort: promoted first, range 1), or an entity
+             reference on the landing page — rendered above the filtered
+             listing. The listing view then excludes that node so the record
+             cannot appear twice under All. Confirm which with the Drupal dev.
+             data-news-type stays: it is the record's real type (it drives the
+             tag and the visually-hidden title suffix), and only
+             data-news-featured exempts it from the filter. -->
+        <article class="card card--news card--featured" data-animate data-news-type="announcement" data-news-featured>
           <div class="card__media">
             <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
             <span class="card__tag" aria-hidden="true">Announcement</span>
@@ -652,7 +664,10 @@
         if (!root) return;
         var allPill = root.querySelector('[data-news-filter-all]');
         var pills = [].slice.call(root.querySelectorAll('[data-news-filter-type]'));
-        var cards = [].slice.call(document.querySelectorAll('[data-news-type]'));
+        // The featured lead is EXCLUDED from the filtered set — it is a
+        // promotion, not a result, so it stays on screen under every pill.
+        var featured = document.querySelector('[data-news-featured]');
+        var cards = [].slice.call(document.querySelectorAll('[data-news-type]:not([data-news-featured])'));
         var status = root.querySelector('[data-news-filter-status]');
         var section = document.querySelector('.card-section--listing');
         var empty = document.querySelector('[data-news-empty]');
@@ -680,17 +695,28 @@
             card.style.display = match ? '' : 'none';
             if (match) shown += 1;
           });
+          // The featured card is never touched here — no branch sets its
+          // display, so no filter state can hide it.
           // The empty state is for SIGHTED users — the live region below
           // already announces the count, so this block carries no role and
           // deliberately does not restate that string. The pager goes with it:
           // an empty result set has no pages, and one left sitting there reads
           // as broken rather than as "no results".
+          // Keyed off the LISTING count, which is what the message is about:
+          // the featured promotion sitting above it is not a filter result,
+          // so it neither satisfies nor suppresses "nothing matched".
           if (empty) empty.hidden = shown > 0;
           if (section) section.classList.toggle('is-empty', shown === 0);
           if (status) {
+            // The announced numbers count the featured card, because they
+            // describe what is ON SCREEN — a listener told "2 of 12" while
+            // three cards are visible has been given the wrong page. The
+            // featured is therefore in both halves of the fraction, which is
+            // also why the total can never be reached by filtering.
+            var lead = featured ? 1 : 0;
             status.textContent = active.length
-              ? shown + ' of ' + cards.length + ' articles shown'
-              : 'Showing all ' + cards.length + ' articles';
+              ? shown + lead + ' of ' + (cards.length + lead) + ' articles shown, including the featured article'
+              : 'Showing all ' + (cards.length + lead) + ' articles';
           }
         }
 
