@@ -2913,7 +2913,7 @@ mark {
 @media (prefers-reduced-motion: no-preference) {
   .page-header__media img {
     scale: 1.14;
-    transition: scale 0.45s ease-out;
+    transition: scale 0.45s ease-out, opacity 0.45s ease-out;
     will-change: transform;
   }
 }
@@ -3014,9 +3014,11 @@ mark {
 @media (prefers-reduced-motion: no-preference) {
   .js-animations .page-header__media[data-animate] img {
     scale: 1.425;
+    opacity: 0;
   }
   .js-animations .page-header__media[data-animate].is-visible img {
     scale: 1.14;
+    opacity: 1;
   }
 }
 @media (prefers-reduced-motion: no-preference) and (min-width: 640px) {
@@ -6244,7 +6246,7 @@ body:has(.modal[open]) {
 @media (prefers-reduced-motion: no-preference) {
   .article-lead__figure img {
     scale: 1.14;
-    transition: scale 0.45s ease-out;
+    transition: scale 0.45s ease-out, opacity 0.45s ease-out;
     will-change: transform;
   }
 }
@@ -6306,9 +6308,11 @@ body:has(.modal[open]) {
 @media (prefers-reduced-motion: no-preference) {
   .js-animations .article-lead[data-animate] .article-lead__figure img {
     scale: 1.425;
+    opacity: 0;
   }
   .js-animations .article-lead[data-animate].is-visible .article-lead__figure img {
     scale: 1.14;
+    opacity: 1;
   }
 }
 .ds-app {

@@ -408,7 +408,9 @@
         // landed: the rule was there, the movement never was, and the band
         // simply faded while every card on the page zoomed. Same duration and
         // curve as .card__media img, because it IS the same gesture.
-        transition: scale 0.45s ease-out;
+        transition:
+          scale 0.45s ease-out,
+          opacity 0.45s ease-out;
         will-change: transform;
       }
     }
@@ -639,10 +641,12 @@
 @media (prefers-reduced-motion: no-preference) {
   .js-animations .page-header__media[data-animate] img {
     scale: 1.425; // 1.25 × the 1.14 resting overscan; held while hidden
+    opacity: 0;
   }
 
   .js-animations .page-header__media[data-animate].is-visible img {
     scale: 1.14; // settle to the resting overscan as the band appears
+    opacity: 1;
   }
 
   @include respond-to('sm') {
