@@ -1080,16 +1080,6 @@
     width: $arrow-icon-width;
     height: $arrow-icon-height;
     @include transition(transform);
-
-    // A meta row can carry the arrow ALONE — the search result drops the
-    // published date but keeps the row for its rule and its "go" affordance.
-    // The row is space-between, which aligns a single item to the START, so
-    // the arrow would slide left and read as a stray glyph under the copy.
-    // Whitespace-only text makes no anonymous flex item, so :only-child is
-    // exactly the case; harmless where real meta text sits beside it.
-    &:only-child {
-      margin-left: auto;
-    }
   }
 
   // The EVENT teaser's date range — the article-meta__date anatomy at card
@@ -1131,6 +1121,35 @@
 
 .card:has(.card__title-link:focus-visible) {
   background-color: var(--card-surface-hover);
+}
+
+// Search result: the card with no media, no published date, and a footer that
+// is nothing but the arrow (see templates/search-results.html for why the date
+// goes). A MODIFIER rather than a structural :has() test, and that distinction
+// was earned: "the arrow is the meta row's only ELEMENT child" is also true of
+// every impact-story teaser, whose row reads "Read impact story" as a bare text
+// node — so the structural version quietly stripped the divider from the impact
+// cards on three other pages. The variant says which cards mean it.
+//
+// The rule goes because it separates the copy from meta beside it, and with the
+// meta gone it drew a footer around an empty row: a line under the last
+// sentence, then a band of nothing holding one glyph. Dropping the rule and the
+// opening pad lifts the arrow up under the copy, where it still marks the card
+// as somewhere to go.
+.card--result {
+  .card__meta {
+    padding-block-start: 0;
+    border-top: 0;
+  }
+
+  // Space-between aligns a SINGLE item to the start, so an arrow with no date
+  // beside it slid left and read as a stray glyph. (Whitespace-only text makes
+  // no anonymous flex item, so it really is alone.) The directory results in
+  // the same list DO carry a meta line, and there the pair already sits
+  // correctly — this only catches the rows that need it.
+  .card__meta-arrow:only-child {
+    margin-left: auto;
+  }
 }
 
 // The featured (lead) story: spans the row and lays out horizontally from sm —

@@ -1918,9 +1918,6 @@ mark {
   height: 0.625rem;
   transition: transform 0.2s ease-in-out;
 }
-.card__meta-arrow:only-child {
-  margin-left: auto;
-}
 .card__meta-date {
   display: inline-flex;
   gap: var(--space-2xs);
@@ -1945,6 +1942,14 @@ mark {
 
 .card:has(.card__title-link:focus-visible) {
   background-color: var(--card-surface-hover);
+}
+
+.card--result .card__meta {
+  padding-block-start: 0;
+  border-top: 0;
+}
+.card--result .card__meta-arrow:only-child {
+  margin-left: auto;
 }
 
 .card--featured {

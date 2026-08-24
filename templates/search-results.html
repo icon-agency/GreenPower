@@ -446,15 +446,20 @@
              with the types that exist, and let the facet hide a type with no
              matches rather than showing a pill that always returns nothing.
 
-             The last two are DIRECTORY RECORDS, not nodes-as-pages: an
-             accredited gas producer and an accredited provider/trader are
-             rows in the two directory tools. Their results deep-link into the
-             tool with the record's name as the query
-             (tool-gas-producers.html?q=…), so the reader lands on that one
-             entry in the list with its pin open on the map, rather than on a
-             page that does not exist for it. Drupal: index the directory
-             nodes in the same Search API index and give their search-result
-             view mode a link built from the tool path plus the title. -->
+             The last three are DIRECTORY RECORDS, not nodes-as-pages: an
+             accredited generator, a gas producer and a provider/trader are
+             rows in the three directory tools, and the facets are named for
+             those tools in the order the site's own Tools menu lists them.
+             "Buy GreenPower" rather than "Gas traders" because that ONE tool
+             holds electricity providers and gas traders together — naming it
+             for half its contents would hide the other half.
+             Their results deep-link into the tool with the record's name as
+             the query (tool-gas-producers.html?q=…), so the reader lands on
+             that one entry in the list with its pin open on the map, rather
+             than on a page that does not exist for it. Drupal: index the
+             directory nodes in the same Search API index and give their
+             search-result view mode a link built from the tool path plus the
+             title. -->
         <div class="news-filter" data-animate data-news-filter>
           <ul class="news-filter__list" aria-label="Filter results by content type">
             <li><button class="news-filter__pill" type="button" aria-pressed="true" data-news-filter-all>All</button></li>
@@ -464,8 +469,9 @@
             <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="consultation">Consultations</button></li>
             <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="rules">Program Rules and legislation</button></li>
             <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="download">Reports and downloads</button></li>
+            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="generator">Electricity generators</button></li>
             <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="gas-producer">Gas producers</button></li>
-            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="gas-trader">Gas traders</button></li>
+            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="buy">Buy GreenPower</button></li>
           </ul>
           <p class="visually-hidden" aria-live="polite" data-news-filter-status></p>
         </div>
@@ -496,12 +502,12 @@
            the view's header area, which already has the total and the
            exposed input's value. -->
         <div class="page-content__section" data-animate>
-          <p role="status" data-search-count>Showing <strong>1&ndash;8</strong> of <strong>23</strong> results for <strong>&ldquo;GreenPower gas&rdquo;</strong></p>
+          <p role="status" data-search-count>Showing <strong>1&ndash;9</strong> of <strong>23</strong> results for <strong>&ldquo;GreenPower gas&rdquo;</strong></p>
         </div>
 
         <div class="card-stack" data-animate-stagger>
 
-          <article class="card card--news" data-animate data-news-type="news">
+          <article class="card card--news card--result" data-animate data-news-type="news">
             <div class="card__content">
             <span class="card__tag">News and events</span>
             <h3 class="card__title"><a class="card__title-link" href="news-article.html">Renewable <mark>Gas</mark> Certification Rules &ndash; version 3.0<span class="visually-hidden"> &mdash; News and events</span></a></h3>
@@ -511,7 +517,7 @@
           </div>
           </article>
 
-          <article class="card card--news" data-animate data-news-type="page">
+          <article class="card card--news card--result" data-animate data-news-type="page">
             <div class="card__content">
             <span class="card__tag">Pages</span>
             <h3 class="card__title"><a class="card__title-link" href="tool-gas-producers.html"><mark>GreenPower</mark> <mark>gas</mark> producers<span class="visually-hidden"> &mdash; Pages</span></a></h3>
@@ -521,7 +527,7 @@
           </div>
           </article>
 
-          <article class="card card--news" data-animate data-news-type="impact-story">
+          <article class="card card--news card--result" data-animate data-news-type="impact-story">
             <div class="card__content">
             <span class="card__tag">Impact stories</span>
             <h3 class="card__title"><a class="card__title-link" href="impact-article.html">Jemena Malabar Biomethane Project<span class="visually-hidden"> &mdash; Impact stories</span></a></h3>
@@ -531,7 +537,7 @@
           </div>
           </article>
 
-          <article class="card card--news" data-animate data-news-type="rules">
+          <article class="card card--news card--result" data-animate data-news-type="rules">
             <div class="card__content">
             <span class="card__tag">Program Rules and legislation</span>
             <h3 class="card__title"><a class="card__title-link" href="rules-legislation-article.html">Renewable <mark>Gas</mark> Certification Program Rules<span class="visually-hidden"> &mdash; Program Rules and legislation</span></a></h3>
@@ -541,7 +547,7 @@
           </div>
           </article>
 
-          <article class="card card--news" data-animate data-news-type="consultation">
+          <article class="card card--news card--result" data-animate data-news-type="consultation">
             <div class="card__content">
             <span class="card__tag">Consultations</span>
             <h3 class="card__title"><a class="card__title-link" href="consultation-article.html">Consultation on renewable <mark>gas</mark> certification<span class="visually-hidden"> &mdash; Consultations</span></a></h3>
@@ -551,7 +557,7 @@
           </div>
           </article>
 
-          <article class="card card--news" data-animate data-news-type="download">
+          <article class="card card--news card--result" data-animate data-news-type="download">
             <div class="card__content">
             <span class="card__tag">Reports and downloads</span>
             <h3 class="card__title"><a class="card__title-link" href="downloads-quarterly-reports.html"><mark>GreenPower</mark> Quarterly Report &ndash; Q2 2026<span class="visually-hidden"> &mdash; Reports and downloads</span></a></h3>
@@ -562,7 +568,17 @@
           </article>
 
 
-          <article class="card card--news" data-animate data-news-type="gas-producer">
+          <article class="card card--news card--result" data-animate data-news-type="generator">
+            <div class="card__content">
+              <span class="card__tag">Electricity generators</span>
+              <h3 class="card__title"><a class="card__title-link" href="tool-electricity-generators.html?q=Bodangora+Wind+Farm">Bodangora Wind Farm<span class="visually-hidden"> &mdash; Electricity generators, opens the directory filtered to this generator</span></a></h3>
+              <p class="card__body">Accredited wind generator near Wellington, New South Wales, supplying accredited renewable electricity to the <mark>GreenPower</mark> program.</p>
+              <p class="card__meta">Accredited generator &middot; Wellington, NSW
+                <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+            </div>
+          </article>
+
+          <article class="card card--news card--result" data-animate data-news-type="gas-producer">
             <div class="card__content">
               <span class="card__tag">Gas producers</span>
               <h3 class="card__title"><a class="card__title-link" href="tool-gas-producers.html?q=Malabar+Biomethane+Facility">Malabar Biomethane Facility<span class="visually-hidden"> &mdash; Gas producers, opens the directory filtered to this producer</span></a></h3>
@@ -572,10 +588,10 @@
             </div>
           </article>
 
-          <article class="card card--news" data-animate data-news-type="gas-trader">
+          <article class="card card--news card--result" data-animate data-news-type="buy">
             <div class="card__content">
-              <span class="card__tag">Gas traders</span>
-              <h3 class="card__title"><a class="card__title-link" href="tool-buy-greenpower.html?q=Red+Energy">Red Energy<span class="visually-hidden"> &mdash; Gas traders, opens the directory filtered to this trader</span></a></h3>
+              <span class="card__tag">Buy GreenPower</span>
+              <h3 class="card__title"><a class="card__title-link" href="tool-buy-greenpower.html?q=Red+Energy">Red Energy<span class="visually-hidden"> &mdash; Buy GreenPower, opens the directory filtered to this provider</span></a></h3>
               <p class="card__body">Accredited <mark>GreenPower</mark> electricity provider and <mark>gas</mark> trader. RGGO certificates for business customers in ACT, VIC and NSW.</p>
               <p class="card__meta">Accredited trader &middot; ACT, VIC, NSW
                 <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
