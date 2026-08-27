@@ -53,7 +53,28 @@
 // rAF-throttled, overflow hidden (not clip), media bleed (-30% + -2px
 // horizontal overbleed) exceeds the max travel (20% of total hero height;
 // the layer rises as the page scrolls).
+//
+// LETTERBOX (landscape phone, client-reported on preprod): every layer below
+// was sized by 100svh on the assumption that 100svh is TALL. On a ~800x360
+// viewport the fixed bottom chrome (--hero-peek + utilities + padding, ~205px)
+// consumed 57% of the stage while the WIDTH-fluid step-5 headline needed more
+// room than the remainder — the flex-end H1 overflowed out the TOP under the
+// transparent overlay header, the 46svh scrim start landed BELOW the headline
+// (white text on raw footage), and the JS exit line (title.top < 15% of the
+// viewport) was already true at rest, hiding the WCAG pause control. The fix
+// is a HEIGHT FLOOR: the stage never shrinks below $hero-stage-floor — on
+// short viewports it simply scrolls, the one regime a 360px screen honestly
+// supports. Tall viewports compute max(100svh, floor) = 100svh: byte-identical
+// behaviour. The same value drives the short() overrides below (utilities and
+// headline re-anchor to the VISIBLE viewport line, not the stage base), so the
+// two regimes always switch together.
 // -----------------------------------------------------------------------------
+
+// The stage floor. 32rem = the measured minimum that seats the overlay header
+// (~5rem) + the 4-line landscape headline + the utilities row + the panel peek
+// with the normal gaps. Component-local like short()'s thresholds: it is a
+// measurement of THIS block, not a token (see _breakpoints.scss's rationale).
+$hero-stage-floor: 32rem;
 
 .hero {
   // How much of the shape panel peeks into the viewport at rest: the CTA row
@@ -68,8 +89,11 @@
   &__frame {
     position: sticky;
     top: 0;
-    height: 100vh;
-    height: 100svh;
+    // The stage: the viewport, floored (see $hero-stage-floor above). Taller
+    // than a letterbox viewport, so sticky pins the top edge and the video's
+    // tail simply rides below the fold.
+    height: max(100vh, #{$hero-stage-floor});
+    height: max(100svh, #{$hero-stage-floor});
     overflow: hidden;
     background-color: $color-brand-blue; // paints before the video loads
   }
@@ -136,8 +160,8 @@
     right: 0;
     left: 0;
     z-index: 1; // above the frame; content/panel (same z, later in DOM) win
-    height: 100vh;
-    height: 100svh;
+    height: max(100vh, #{$hero-stage-floor}); // the frame's stage, exactly
+    height: max(100svh, #{$hero-stage-floor});
     pointer-events: none; // the full-height box must not block anything
 
     > * {
@@ -158,8 +182,10 @@
     @include respond-to('nav') {
       position: sticky;
       top: 0;
-      margin-top: -100vh;
-      margin-top: -100svh;
+      // Cancels the layer's own height — which is the floored stage, so the
+      // negative margin must be the same max(), not a bare 100svh.
+      margin-top: calc(-1 * max(100vh, #{$hero-stage-floor}));
+      margin-top: calc(-1 * max(100svh, #{$hero-stage-floor}));
     }
   }
 
@@ -181,8 +207,12 @@
   // .hero is never non-visible at rest, so the box can't spill past the base.
   &__blur {
     position: absolute;
-    top: 46vh; // gradient start ≈46% down the first viewport (Figma handles)
-    top: 46svh;
+    // Gradient start ≈46% down the STAGE (Figma handles were authored against
+    // the first viewport; on a floored stage the fraction follows the stage,
+    // or the whole ramp would sit above the headline it exists to back).
+    // 46% of the floor is precomputed because max() can't be multiplied.
+    top: max(46vh, #{$hero-stage-floor * 0.46});
+    top: max(46svh, #{$hero-stage-floor * 0.46});
     right: 0;
     bottom: 0; // the hero's base — the solid tail always reaches it
     left: 0;
@@ -190,13 +220,14 @@
     background-color: $color-ui-scrim;
     -webkit-backdrop-filter: blur(7px); // Safari ≤17 needs the prefix
     backdrop-filter: blur(7px);
-    // transparent → opaque 31svh below the start (= 77svh, the Figma "opaque
-    // by ~77%"), then HELD solid to the hero base. A length-based ramp (svh),
-    // not a %, so the opaque point stays at 77svh whatever the hero's height.
-    -webkit-mask-image: linear-gradient(to bottom, transparent, black 31vh);
-    mask-image: linear-gradient(to bottom, transparent, black 31vh);
-    -webkit-mask-image: linear-gradient(to bottom, transparent, black 31svh);
-    mask-image: linear-gradient(to bottom, transparent, black 31svh);
+    // transparent → opaque 31% of the stage below the start (= the Figma
+    // "opaque by ~77%"), then HELD solid to the hero base. A length-based
+    // ramp, not a %, so the opaque point stays put whatever the hero's total
+    // height; floored with the stage so it never compresses in letterbox.
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black max(31vh, #{$hero-stage-floor * 0.31}));
+    mask-image: linear-gradient(to bottom, transparent, black max(31vh, #{$hero-stage-floor * 0.31}));
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black max(31svh, #{$hero-stage-floor * 0.31}));
+    mask-image: linear-gradient(to bottom, transparent, black max(31svh, #{$hero-stage-floor * 0.31}));
   }
 
   // Headline block. NOT inside the sticky frame: it is anchored to the
@@ -216,13 +247,25 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-end;
-    height: 100vh;
-    height: 100svh;
+    height: max(100vh, #{$hero-stage-floor}); // the stage again — the H1's room
+    height: max(100svh, #{$hero-stage-floor});
     padding-bottom: calc(var(--hero-peek) + var(--space-s) + 3rem + var(--space-m));
     pointer-events: none; // the full-height box must not block the frame's controls
 
     @include respond-to('nav') {
       padding-bottom: calc(var(--hero-peek) + var(--space-l));
+    }
+
+    // Letterbox: the padding above measures from the STAGE base, which now
+    // hangs below the fold — it would park the headline off-screen with it.
+    // Re-anchor to the VISIBLE viewport line: (floor − 100svh) is exactly how
+    // much stage hangs under the fold, so the headline sits the usual chrome
+    // stack above the viewport bottom instead, with the same 3rem clearing
+    // the utilities row (which moves to the same line below). One rule for
+    // every width: same threshold as the floor, so the regimes never split.
+    @include short($hero-stage-floor) {
+      padding-bottom: calc(#{$hero-stage-floor} - 100vh + var(--space-s) + 3rem + var(--space-m));
+      padding-bottom: calc(#{$hero-stage-floor} - 100svh + var(--space-s) + 3rem + var(--space-m));
     }
 
     > * {
@@ -297,6 +340,20 @@
       bottom: var(--space-l);
       left: auto;
       flex-direction: row-reverse;
+    }
+
+    // Letterbox: the bottom offsets above measure from the stage base — below
+    // the fold once the stage is floored, which would hide the pause control
+    // (WCAG 2.2.2: the video autoplays on screen, so its control must be ON
+    // screen). Re-anchor to the visible viewport line, bottom-right, clear of
+    // the left-set 16ch headline; the headline's short() padding reserves the
+    // same band, so the two can never collide at any width. Last in the block
+    // so it wins over every width regime above at equal specificity.
+    @include short($hero-stage-floor) {
+      right: var(--space-s-l);
+      bottom: calc(#{$hero-stage-floor} - 100vh + var(--space-s));
+      bottom: calc(#{$hero-stage-floor} - 100svh + var(--space-s));
+      left: auto;
     }
   }
 
