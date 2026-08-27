@@ -87,7 +87,7 @@
               <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
             <li><a class="ds-nav__link ds-nav__link--external" href="templates/landing-industry-accreditation.html">Landing: Industry accreditation
               <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            <li><a class="ds-nav__link ds-nav__link--external" href="templates/pathway-alternatives.html">Pathway alternatives
+            <li><a class="ds-nav__link ds-nav__link--external" href="templates/pathway-alternatives.html">Pathway component alternative
               <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
             <li><a class="ds-nav__link ds-nav__link--external" href="templates/content-page-with-steps.html">Content: Page with steps multi-component
               <svg class="ds-nav__ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 9.5l7-7M9.5 2.5H5M9.5 2.5V7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
@@ -2549,6 +2549,10 @@
 
         <form class="ds-controls ds-controls--inline" data-card-controls aria-label="Configure the cards below">
           <fieldset class="ds-controls__group">
+            <legend class="ds-controls__legend">Section</legend>
+            <label class="ds-control"><input type="checkbox" data-toggle="section-heading" checked><span>Heading + description</span></label>
+          </fieldset>
+          <fieldset class="ds-controls__group">
             <legend class="ds-controls__legend">Cards (one or more, no set limit)</legend>
             <div class="ds-segments" role="radiogroup" aria-label="Number of cards">
               <label class="ds-segment"><input type="radio" name="ds-section-count" value="1"><span>1</span></label>
@@ -2839,9 +2843,11 @@
     // elements (never display:none), so the grid's :has() quantity queries see
     // exactly the DOM Drupal would render for that many cards — the layout
     // being tested is the real mechanism, not a simulation of it. Image/icon/
-    // link/cta toggles use the same fidelity approach on each card's children.
-    // Defaults are read from the control markup: 3 cards, image on, icon on,
-    // one link, no featured link (the standard content section).
+    // link/cta toggles use the same fidelity approach on each card's children,
+    // and the section-heading toggle proves the rules' "the section can open
+    // straight onto its cards" — the grid's :first-child rule closes the gap.
+    // Defaults are read from the control markup: heading on, 3 cards, image
+    // on, icon on, one link, no featured link (the standard content section).
     (function () {
       var section = document.querySelector('[data-card-sections]');
       var controls = document.querySelector('[data-card-controls]');
@@ -2849,6 +2855,9 @@
 
       var MAX_LINKS = 5;
       var grid = section.querySelector('.card-section__grid');
+      var secHeading = section.querySelector('.card-section__heading');
+      var secIntro = section.querySelector('.card-section__intro');
+      var secEl = secHeading.parentNode;
       var cards = [].slice.call(section.querySelectorAll('.card')).map(function (card) {
         var content = card.querySelector('.card__content');
         var ul = content.querySelector('.card__links');
@@ -2897,6 +2906,12 @@
         });
       }
       function setCta(on) { cards.forEach(function (c) { toggle(c.cta, c.content, false, on); }); }
+      // Heading and intro leave and return together — the rules' "open
+      // straight onto its cards" state; re-insert keeps authored order.
+      function setSectionHeading(on) {
+        if (on) { secEl.prepend(secHeading); secEl.insertBefore(secIntro, grid); }
+        else { secHeading.remove(); secIntro.remove(); }
+      }
       // In-order re-append keeps cards 0..n-1 in the grid; the rest detach.
       // Config toggles keep working on detached cards — their child refs are
       // held here, not queried from the DOM.
@@ -2910,6 +2925,8 @@
       var img = controls.querySelector('[data-toggle="image"]');
       var icon = controls.querySelector('[data-toggle="icon"]');
       var cta = controls.querySelector('[data-toggle="cta"]');
+      var secHead = controls.querySelector('[data-toggle="section-heading"]');
+      secHead.addEventListener('change', function () { setSectionHeading(secHead.checked); });
       img.addEventListener('change', function () { setImage(img.checked); });
       icon.addEventListener('change', function () { setIcon(icon.checked); });
       cta.addEventListener('change', function () { setCta(cta.checked); });
@@ -2921,6 +2938,7 @@
       });
 
       // Apply the default configuration (from the control markup) on load
+      setSectionHeading(secHead.checked);
       setImage(img.checked);
       setIcon(icon.checked);
       setCta(cta.checked);
