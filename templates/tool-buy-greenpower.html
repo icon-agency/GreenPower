@@ -290,12 +290,6 @@
                       <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Benefits of becoming a GreenPower Provider</a></li>
                       <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Eligibility and accreditation</a></li>
                     </ul>
-                    <div class="main-nav__group-cta">
-                      <a class="btn btn--outline" href="#">
-                        Accredited electricity providers
-                        <svg class="main-nav__panel-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                      </a>
-                    </div>
                     <ul class="main-nav__group-list">
                       <li class="main-nav__group-item main-nav__group-item--featured">
                         <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">For electricity generators</a>
@@ -319,12 +313,6 @@
                       <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Benefits of becoming a GreenPower Trader</a></li>
                       <li class="main-nav__group-item"><a class="main-nav__panel-link" href="#">Eligibility and accreditation</a></li>
                     </ul>
-                    <div class="main-nav__group-cta">
-                      <a class="btn btn--outline" href="#">
-                        Accredited gas traders
-                        <svg class="main-nav__panel-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                      </a>
-                    </div>
                     <ul class="main-nav__group-list">
                       <li class="main-nav__group-item main-nav__group-item--featured">
                         <a class="main-nav__panel-link main-nav__panel-link--featured" href="#">For gas producers</a>
@@ -558,49 +546,73 @@
                 <span class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</span>
                 <svg class="provider-card__offer-icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </summary>
-              <dl class="provider-card__rows">
-                <div class="provider-card__row">
-                  <dt>Available for</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+              <div class="provider-card__offer-body">
+                <dl class="provider-card__rows">
+                  <div class="provider-card__row">
+                    <dt>Available for</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row">
+                    <dt>Available in</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">All states and territories</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
+                  </div>
+                  <!-- The contract row states the SAME fact the filter's "GreenPower
+                       and your contract" subfield matches on (data-contract), so a
+                       reader filtering by contract can see WHY a card matched.
+                       Business only, like that subfield: the bundled/decoupled choice
+                       is a business purchasing arrangement — households always bundle.
+                       Electricity offers only: the gas panel's RGGO certificates row
+                       already carries the gas coupled/decoupled story.
+                       Drupal: field_contract on the provider_offer paragraph
+                       (bundled/decoupled taxonomy, multiple) — the same values
+                       preprocess writes into data-contract for the filter. -->
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>GreenPower and your contract (Business only) <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Bundle with your contract</li><li class="provider-card__pill">Decoupled from your contract</li></ul></dd>
+                  </div>
+                </dl>
+                <div class="provider-card__contact">
+                  <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Red Energy</span></a>
+                  <p class="provider-card__phone"><span>Phone</span>
+                    <a class="provider-card__phone-num" href="tel:132461">13 24 61</a></p>
+                  <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
                 </div>
-                <div class="provider-card__row">
-                  <dt>Available in</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">All states and territories</li></ul></dd>
-                </div>
-                <div class="provider-card__row provider-card__row--wide">
-                  <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
-                </div>
-              </dl>
+              </div>
             </details>
             <details class="provider-card__offer" data-offer="gas" open>
               <summary class="provider-card__offer-summary">
                 <span class="provider-card__offer-badge"><img src="../assets/icons/gas.svg" alt="" width="55" height="55" loading="lazy">Gas trader</span>
                 <svg class="provider-card__offer-icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </summary>
-              <dl class="provider-card__rows">
-                <div class="provider-card__row">
-                  <dt>Available for</dt>
-                  <!-- Business only — GreenPower gas is not sold to households
-                       at this stage (see the note above the list). -->
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Business</li></ul></dd>
+              <div class="provider-card__offer-body">
+                <dl class="provider-card__rows">
+                  <div class="provider-card__row">
+                    <dt>Available for</dt>
+                    <!-- Business only — GreenPower gas is not sold to households
+                         at this stage (see the note above the list). -->
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Business</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row">
+                    <dt>Available in</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">ACT<span class="visually-hidden"> Australian Capital Territory</span></li><li class="provider-card__pill">VIC<span class="visually-hidden"> Victoria</span></li><li class="provider-card__pill">NSW<span class="visually-hidden"> New South Wales</span></li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>GreenPower RGGO certificates <a href="#" data-modal="modal-rggo-certificates" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower RGGO certificates explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Coupled certificates</li><li class="provider-card__pill">Decoupled certificates</li></ul></dd>
+                  </div>
+                </dl>
+                <div class="provider-card__contact">
+                  <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Red Energy</span></a>
+                  <p class="provider-card__phone"><span>Phone</span>
+                    <a class="provider-card__phone-num" href="tel:132461">13 24 61</a></p>
+                  <a class="provider-card__ask" href="#">What to ask your trader?</a>
                 </div>
-                <div class="provider-card__row">
-                  <dt>Available in</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">ACT<span class="visually-hidden"> Australian Capital Territory</span></li><li class="provider-card__pill">VIC<span class="visually-hidden"> Victoria</span></li><li class="provider-card__pill">NSW<span class="visually-hidden"> New South Wales</span></li></ul></dd>
-                </div>
-                <div class="provider-card__row provider-card__row--wide">
-                  <dt>GreenPower RGGO certificates <a href="#" data-modal="modal-rggo-certificates" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower RGGO certificates explained</span></a></dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Coupled certificates</li><li class="provider-card__pill">Decoupled certificates</li></ul></dd>
-                </div>
-              </dl>
+              </div>
             </details>
-            </div>
-            <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Red Energy</span></a>
-              <p class="provider-card__phone"><span>Phone</span>
-                <a class="provider-card__phone-num" href="tel:132461">13 24 61</a></p>
-              <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
             </div>
           </article>
 
@@ -612,27 +624,33 @@
               <h3 class="provider-card__name">Flow Power</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
-              <dl class="provider-card__rows">
-                <div class="provider-card__row">
-                  <dt>Available for</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+              <div class="provider-card__offer-body">
+                <dl class="provider-card__rows">
+                  <div class="provider-card__row">
+                    <dt>Available for</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row">
+                    <dt>Available in</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">All states and territories</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>GreenPower and your contract (Business only) <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Bundle with your contract</li></ul></dd>
+                  </div>
+                </dl>
+                <div class="provider-card__contact">
+                  <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Flow Power</span></a>
+                  <p class="provider-card__phone"><span>Phone</span>
+                    <a class="provider-card__phone-num" href="tel:131245">13 12 45</a></p>
+                  <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
                 </div>
-                <div class="provider-card__row">
-                  <dt>Available in</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">All states and territories</li></ul></dd>
-                </div>
-                <div class="provider-card__row provider-card__row--wide">
-                  <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
-                </div>
-              </dl>
+              </div>
             </div>
-            </div>
-            <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Flow Power</span></a>
-              <p class="provider-card__phone"><span>Phone</span>
-                <a class="provider-card__phone-num" href="tel:131245">13 12 45</a></p>
-              <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
             </div>
           </article>
 
@@ -644,27 +662,33 @@
               <h3 class="provider-card__name">Energy On</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
-              <dl class="provider-card__rows">
-                <div class="provider-card__row">
-                  <dt>Available for</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+              <div class="provider-card__offer-body">
+                <dl class="provider-card__rows">
+                  <div class="provider-card__row">
+                    <dt>Available for</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row">
+                    <dt>Available in</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">ACT<span class="visually-hidden"> Australian Capital Territory</span></li><li class="provider-card__pill">NSW<span class="visually-hidden"> New South Wales</span></li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>GreenPower and your contract (Business only) <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Bundle with your contract</li><li class="provider-card__pill">Decoupled from your contract</li></ul></dd>
+                  </div>
+                </dl>
+                <div class="provider-card__contact">
+                  <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Energy On</span></a>
+                  <p class="provider-card__phone"><span>Phone</span>
+                    <a class="provider-card__phone-num" href="tel:131493">13 14 93</a></p>
+                  <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
                 </div>
-                <div class="provider-card__row">
-                  <dt>Available in</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">ACT<span class="visually-hidden"> Australian Capital Territory</span></li><li class="provider-card__pill">NSW<span class="visually-hidden"> New South Wales</span></li></ul></dd>
-                </div>
-                <div class="provider-card__row provider-card__row--wide">
-                  <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
-                </div>
-              </dl>
+              </div>
             </div>
-            </div>
-            <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Energy On</span></a>
-              <p class="provider-card__phone"><span>Phone</span>
-                <a class="provider-card__phone-num" href="tel:131493">13 14 93</a></p>
-              <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
             </div>
           </article>
 
@@ -676,27 +700,33 @@
               <h3 class="provider-card__name">Energy Action</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
-              <dl class="provider-card__rows">
-                <div class="provider-card__row">
-                  <dt>Available for</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+              <div class="provider-card__offer-body">
+                <dl class="provider-card__rows">
+                  <div class="provider-card__row">
+                    <dt>Available for</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row">
+                    <dt>Available in</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">All states and territories</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>GreenPower and your contract (Business only) <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Bundle with your contract</li></ul></dd>
+                  </div>
+                </dl>
+                <div class="provider-card__contact">
+                  <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Energy Action</span></a>
+                  <p class="provider-card__phone"><span>Phone</span>
+                    <a class="provider-card__phone-num" href="tel:133466">13 34 66</a></p>
+                  <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
                 </div>
-                <div class="provider-card__row">
-                  <dt>Available in</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">All states and territories</li></ul></dd>
-                </div>
-                <div class="provider-card__row provider-card__row--wide">
-                  <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
-                </div>
-              </dl>
+              </div>
             </div>
-            </div>
-            <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Energy Action</span></a>
-              <p class="provider-card__phone"><span>Phone</span>
-                <a class="provider-card__phone-num" href="tel:133466">13 34 66</a></p>
-              <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
             </div>
           </article>
 
@@ -708,27 +738,33 @@
               <h3 class="provider-card__name">Parallel Power</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
-              <dl class="provider-card__rows">
-                <div class="provider-card__row">
-                  <dt>Available for</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+              <div class="provider-card__offer-body">
+                <dl class="provider-card__rows">
+                  <div class="provider-card__row">
+                    <dt>Available for</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row">
+                    <dt>Available in</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">VIC<span class="visually-hidden"> Victoria</span></li><li class="provider-card__pill">NSW<span class="visually-hidden"> New South Wales</span></li><li class="provider-card__pill">SA<span class="visually-hidden"> South Australia</span></li><li class="provider-card__pill">TAS<span class="visually-hidden"> Tasmania</span></li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>GreenPower and your contract (Business only) <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Decoupled from your contract</li></ul></dd>
+                  </div>
+                </dl>
+                <div class="provider-card__contact">
+                  <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Parallel Power</span></a>
+                  <p class="provider-card__phone"><span>Phone</span>
+                    <a class="provider-card__phone-num" href="tel:1300662778">1300 662 778</a></p>
+                  <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
                 </div>
-                <div class="provider-card__row">
-                  <dt>Available in</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">VIC<span class="visually-hidden"> Victoria</span></li><li class="provider-card__pill">NSW<span class="visually-hidden"> New South Wales</span></li><li class="provider-card__pill">SA<span class="visually-hidden"> South Australia</span></li><li class="provider-card__pill">TAS<span class="visually-hidden"> Tasmania</span></li></ul></dd>
-                </div>
-                <div class="provider-card__row provider-card__row--wide">
-                  <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
-                </div>
-              </dl>
+              </div>
             </div>
-            </div>
-            <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Parallel Power</span></a>
-              <p class="provider-card__phone"><span>Phone</span>
-                <a class="provider-card__phone-num" href="tel:1300662778">1300 662 778</a></p>
-              <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
             </div>
           </article>
 
@@ -740,27 +776,33 @@
               <h3 class="provider-card__name">LPA Energy Group</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
-              <dl class="provider-card__rows">
-                <div class="provider-card__row">
-                  <dt>Available for</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Business</li></ul></dd>
+              <div class="provider-card__offer-body">
+                <dl class="provider-card__rows">
+                  <div class="provider-card__row">
+                    <dt>Available for</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Business</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row">
+                    <dt>Available in</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">All states and territories</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>GreenPower and your contract (Business only) <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Bundle with your contract</li><li class="provider-card__pill">Decoupled from your contract</li></ul></dd>
+                  </div>
+                </dl>
+                <div class="provider-card__contact">
+                  <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; LPA Energy Group</span></a>
+                  <p class="provider-card__phone"><span>Phone</span>
+                    <a class="provider-card__phone-num" href="tel:1300466398">1300 466 398</a></p>
+                  <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
                 </div>
-                <div class="provider-card__row">
-                  <dt>Available in</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">All states and territories</li></ul></dd>
-                </div>
-                <div class="provider-card__row provider-card__row--wide">
-                  <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
-                </div>
-              </dl>
+              </div>
             </div>
-            </div>
-            <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; LPA Energy Group</span></a>
-              <p class="provider-card__phone"><span>Phone</span>
-                <a class="provider-card__phone-num" href="tel:1300466398">1300 466 398</a></p>
-              <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
             </div>
           </article>
 
@@ -772,27 +814,33 @@
               <h3 class="provider-card__name">Energy Genie</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
-              <dl class="provider-card__rows">
-                <div class="provider-card__row">
-                  <dt>Available for</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+              <div class="provider-card__offer-body">
+                <dl class="provider-card__rows">
+                  <div class="provider-card__row">
+                    <dt>Available for</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row">
+                    <dt>Available in</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">WA<span class="visually-hidden"> Western Australia</span></li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>GreenPower and your contract (Business only) <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Bundle with your contract</li></ul></dd>
+                  </div>
+                </dl>
+                <div class="provider-card__contact">
+                  <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Energy Genie</span></a>
+                  <p class="provider-card__phone"><span>Phone</span>
+                    <a class="provider-card__phone-num" href="tel:131353">13 13 53</a></p>
+                  <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
                 </div>
-                <div class="provider-card__row">
-                  <dt>Available in</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">WA<span class="visually-hidden"> Western Australia</span></li></ul></dd>
-                </div>
-                <div class="provider-card__row provider-card__row--wide">
-                  <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 25%</li><li class="provider-card__pill">GreenPower 50%</li><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
-                </div>
-              </dl>
+              </div>
             </div>
-            </div>
-            <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Energy Genie</span></a>
-              <p class="provider-card__phone"><span>Phone</span>
-                <a class="provider-card__phone-num" href="tel:131353">13 13 53</a></p>
-              <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
             </div>
           </article>
 
@@ -804,27 +852,33 @@
               <h3 class="provider-card__name">Sustainable Energy Solutions</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/electricity.svg" alt="" width="55" height="55" loading="lazy">Electricity provider</p>
-              <dl class="provider-card__rows">
-                <div class="provider-card__row">
-                  <dt>Available for</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+              <div class="provider-card__offer-body">
+                <dl class="provider-card__rows">
+                  <div class="provider-card__row">
+                    <dt>Available for</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Household</li><li class="provider-card__pill">Business</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row">
+                    <dt>Available in</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">VIC<span class="visually-hidden"> Victoria</span></li><li class="provider-card__pill">QLD<span class="visually-hidden"> Queensland</span></li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>GreenPower and your contract (Business only) <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Decoupled from your contract</li></ul></dd>
+                  </div>
+                </dl>
+                <div class="provider-card__contact">
+                  <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Sustainable Energy Solutions</span></a>
+                  <p class="provider-card__phone"><span>Phone</span>
+                    <a class="provider-card__phone-num" href="tel:1300791970">1300 791 970</a></p>
+                  <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
                 </div>
-                <div class="provider-card__row">
-                  <dt>Available in</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">VIC<span class="visually-hidden"> Victoria</span></li><li class="provider-card__pill">QLD<span class="visually-hidden"> Queensland</span></li></ul></dd>
-                </div>
-                <div class="provider-card__row provider-card__row--wide">
-                  <dt>Products from this provider <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a></dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">GreenPower 100%</li></ul></dd>
-                </div>
-              </dl>
+              </div>
             </div>
-            </div>
-            <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Sustainable Energy Solutions</span></a>
-              <p class="provider-card__phone"><span>Phone</span>
-                <a class="provider-card__phone-num" href="tel:1300791970">1300 791 970</a></p>
-              <a class="provider-card__ask" href="#" data-modal="modal-what-to-ask" aria-haspopup="dialog">What to ask your provider?</a>
             </div>
           </article>
 
@@ -836,27 +890,29 @@
               <h3 class="provider-card__name">Ferguson Energy</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/gas.svg" alt="" width="55" height="55" loading="lazy">Gas trader</p>
-              <dl class="provider-card__rows">
-                <div class="provider-card__row">
-                  <dt>Available for</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Business</li></ul></dd>
+              <div class="provider-card__offer-body">
+                <dl class="provider-card__rows">
+                  <div class="provider-card__row">
+                    <dt>Available for</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Business</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row">
+                    <dt>Available in</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">ACT<span class="visually-hidden"> Australian Capital Territory</span></li><li class="provider-card__pill">NSW<span class="visually-hidden"> New South Wales</span></li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>GreenPower RGGO certificates <a href="#" data-modal="modal-rggo-certificates" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower RGGO certificates explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Coupled certificates</li><li class="provider-card__pill">Decoupled certificates</li></ul></dd>
+                  </div>
+                </dl>
+                <div class="provider-card__contact">
+                  <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Ferguson Energy</span></a>
+                  <p class="provider-card__phone"><span>Phone</span>
+                    <a class="provider-card__phone-num" href="tel:1300137078">1300 137 078</a></p>
+                  <a class="provider-card__ask" href="#">What to ask your trader?</a>
                 </div>
-                <div class="provider-card__row">
-                  <dt>Available in</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">ACT<span class="visually-hidden"> Australian Capital Territory</span></li><li class="provider-card__pill">NSW<span class="visually-hidden"> New South Wales</span></li></ul></dd>
-                </div>
-                <div class="provider-card__row provider-card__row--wide">
-                  <dt>GreenPower RGGO certificates <a href="#" data-modal="modal-rggo-certificates" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower RGGO certificates explained</span></a></dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Coupled certificates</li><li class="provider-card__pill">Decoupled certificates</li></ul></dd>
-                </div>
-              </dl>
+              </div>
             </div>
-            </div>
-            <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Ferguson Energy</span></a>
-              <p class="provider-card__phone"><span>Phone</span>
-                <a class="provider-card__phone-num" href="tel:1300137078">1300 137 078</a></p>
-              <a class="provider-card__ask" href="#">What to ask your trader?</a>
             </div>
           </article>
 
@@ -868,29 +924,31 @@
               <h3 class="provider-card__name">Australian Gas Infrastructure Group</h3>
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/gas.svg" alt="" width="55" height="55" loading="lazy">Gas trader</p>
-              <dl class="provider-card__rows">
-                <div class="provider-card__row">
-                  <dt>Available for</dt>
-                  <!-- Business only — GreenPower gas is not sold to households
-                       at this stage (see the note above the list). -->
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Business</li></ul></dd>
+              <div class="provider-card__offer-body">
+                <dl class="provider-card__rows">
+                  <div class="provider-card__row">
+                    <dt>Available for</dt>
+                    <!-- Business only — GreenPower gas is not sold to households
+                         at this stage (see the note above the list). -->
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Business</li></ul></dd>
+                  </div>
+                  <div class="provider-card__row">
+                    <dt>Available in</dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">VIC<span class="visually-hidden"> Victoria</span></li><li class="provider-card__pill">SA<span class="visually-hidden"> South Australia</span></li></ul></dd>
+                  </div>
+                  <div class="provider-card__row provider-card__row--wide">
+                    <dt>GreenPower RGGO certificates <a href="#" data-modal="modal-rggo-certificates" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower RGGO certificates explained</span></a></dt>
+                    <dd><ul class="provider-card__pills"><li class="provider-card__pill">Coupled certificates</li><li class="provider-card__pill">Decoupled certificates</li></ul></dd>
+                  </div>
+                </dl>
+                <div class="provider-card__contact">
+                  <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Australian Gas Infrastructure Group</span></a>
+                  <p class="provider-card__phone"><span>Phone</span>
+                    <a class="provider-card__phone-num" href="tel:1800427532">1800 427 532</a></p>
+                  <a class="provider-card__ask" href="#">What to ask your trader?</a>
                 </div>
-                <div class="provider-card__row">
-                  <dt>Available in</dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">VIC<span class="visually-hidden"> Victoria</span></li><li class="provider-card__pill">SA<span class="visually-hidden"> South Australia</span></li></ul></dd>
-                </div>
-                <div class="provider-card__row provider-card__row--wide">
-                  <dt>GreenPower RGGO certificates <a href="#" data-modal="modal-rggo-certificates" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower RGGO certificates explained</span></a></dt>
-                  <dd><ul class="provider-card__pills"><li class="provider-card__pill">Coupled certificates</li><li class="provider-card__pill">Decoupled certificates</li></ul></dd>
-                </div>
-              </dl>
+              </div>
             </div>
-            </div>
-            <div class="provider-card__aside">
-              <a class="btn btn--primary" href="#">Visit website<span class="visually-hidden"> &mdash; Australian Gas Infrastructure Group</span></a>
-              <p class="provider-card__phone"><span>Phone</span>
-                <a class="provider-card__phone-num" href="tel:1800427532">1800 427 532</a></p>
-              <a class="provider-card__ask" href="#">What to ask your trader?</a>
             </div>
           </article>
 
@@ -1043,6 +1101,26 @@
         <h3>Decoupled certificates</h3>
         <p>Bought separately from your gas supply, so you can make a renewable claim without changing gas retailer. Businesses commonly use these to cover a site or a reporting period.</p>
         <p><a href="#">Read how RGGO gas certification works</a></p>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="modal-contract-options" aria-labelledby="modal-contract-options-title">
+    <div class="modal__head">
+      <h2 class="modal__title" id="modal-contract-options-title">GreenPower and your contract</h2>
+      <button class="modal__close" type="button" data-modal-close>
+        <span class="visually-hidden">Close</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M2 2l10 10M12 2 2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="modal__body">
+      <div class="page-content__section">
+        <p>Businesses can buy GreenPower for electricity in two ways, and providers differ in which they offer. Households always buy GreenPower bundled with their electricity plan, which is why this choice appears on business offers only.</p>
+        <h3>Bundle with your contract</h3>
+        <p>GreenPower is added to your electricity contract with the same provider. The matched amount rides your usage and both appear on the one bill.</p>
+        <h3>Decoupled from your contract</h3>
+        <p>GreenPower is purchased separately from your electricity supply, so you can buy it without changing electricity retailer. Businesses commonly use this to cover a site, a portfolio or a reporting period.</p>
+        <p><a href="#">Read how GreenPower accreditation works</a></p>
       </div>
     </div>
   </dialog>

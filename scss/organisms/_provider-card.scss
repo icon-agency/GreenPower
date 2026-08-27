@@ -3,11 +3,19 @@
 //
 // A wide record row: logo, name and one OFFER SECTION per energy type the
 // organisation sells (an electricity retailer, a gas trader, or — Origin —
-// both), beside an action rail (Visit website, phone, "what to ask"). Each
-// offer states who it serves, where, and which products carry GreenPower —
-// as small metadata pills, because these are FACTS about the record, not
-// controls: real buttons and links here are exactly three (website, phone,
-// the explainer), and dressing the facts as chips would bury them.
+// both). Each offer states who it serves, where, and which products carry
+// GreenPower — as small metadata pills, because these are FACTS about the
+// record, not controls: the real buttons and links are exactly three per
+// offer (website, phone, the explainer), and dressing the facts as chips
+// would bury them.
+//
+// The contact block lives INSIDE each offer, not in a card-level rail
+// (client, Aug 2026): an accreditation has its OWN website, phone and
+// explainer, worded to its type — "What to ask your provider?" on the
+// electricity offer, "What to ask your trader?" on gas — so a two-offer
+// company states two contacts. That is also why the explainer modal is
+// wired on the electricity link only: the modal's content addresses
+// providers, and no trader equivalent exists yet (flagged in handover).
 //
 // The GAS offer sits on a white inset panel (the download-in-accordion lift):
 // certificates work differently from retail products, and when a card carries
@@ -16,9 +24,11 @@
 //
 // Drupal mapping: a node TEASER view mode of accredited_provider, the rows of
 //   the buy view (see _provider-directory.scss):
-//   title, field_logo (media image), field_website (link), field_phone
-//   (telephone), field_ask_link (link — the "what to ask" explainer page),
-//   field_offers (repeatable paragraph provider_offer: field_offer_type
+//   title, field_logo (media image),
+//   field_offers (repeatable paragraph provider_offer: field_website (link),
+//   field_phone (telephone), field_ask_link (link — the "what to ask"
+//   explainer page) — contact moved from the NODE to the OFFER paragraph
+//   (client, Aug 2026: each accreditation carries its own), field_offer_type
 //   (electricity|gas taxonomy), field_buyers (household/business taxonomy,
 //   multiple), field_states (taxonomy, multiple, or the "all" flag),
 //   field_products (text, multiple — GreenPower 25/50/100 or the certificate
@@ -27,9 +37,8 @@
 // -----------------------------------------------------------------------------
 
 .provider-card {
-  // The logo plate's size and padding, on the CARD so every part can share
-  // them: the logo consumes both, and the aside's ask-link caps its line
-  // length to the plate width (below). Retune the real mark set in one place.
+  // The logo plate's size and padding as custom properties, so the real
+  // mark set can be retuned in one place.
   --provider-logo-size: 7.5rem;
   --provider-logo-pad: var(--space-2xs);
 
@@ -40,39 +49,6 @@
   padding: var(--space-m);
   background-color: $color-tint-taupe; // the listing surface
   border-radius: $radius-lg;
-
-  // The TABLET BAND (sm–md): three-in-a-row does not fit, and under wrap-flex
-  // the aside fell to its own full line where margin-left:auto pushed it hard
-  // right — a contact block hanging in space under the OFFERS, while the rail
-  // under the logo sat empty (client annotation). A grid states the intent
-  // instead: the logo's column keeps the contact block, the content keeps the
-  // right, and the aside starts directly under the plate. From md the row
-  // fits and the flex layout above resumes; below sm the phone stack is
-  // untouched.
-  @include respond-between('sm', 'md') {
-    display: grid;
-    grid-template-areas:
-      'logo content'
-      'aside content';
-    grid-template-columns: auto minmax(0, 1fr);
-    grid-template-rows: auto 1fr;
-
-    .provider-card__logo {
-      grid-area: logo;
-      justify-self: center;
-    }
-
-    .provider-card__content {
-      grid-area: content;
-    }
-
-    .provider-card__aside {
-      grid-area: aside;
-      align-self: start;
-      justify-self: center;
-      margin-inline: 0; // justify-self owns the centring in the grid band
-    }
-  }
 
   // The organisation's mark. A logo is third-party brand art — full colour on
   // WHITE, never on a tint (the client-logos rule), hence the white plate.
@@ -235,6 +211,11 @@
     interpolate-size: allow-keywords;
 
     &::details-content {
+      // The browser's wrapper is itself a flex item of the offer, and the
+      // offer's align-items: flex-start leaves it content-sized — which
+      // shrink-wrapped the offer-body row and parked the contact mid-panel
+      // instead of at the right edge. Stretch it like the summary.
+      align-self: stretch;
       overflow: hidden;
       block-size: 0;
       transition:
@@ -276,8 +257,34 @@
       }
     }
 
-    .provider-card__rows {
+    .provider-card__offer-body {
       margin-top: var(--offer-row-gap);
+    }
+  }
+
+  // Rows + contact inside one offer. Below md they stack (contact centred on
+  // the panel's axis — the treatment the phone layout always had); from md
+  // they sit side by side, the rows taking the width and the contact block
+  // riding the right edge, vertically centred against them. It exists as a
+  // wrapper (rather than making the offer itself the row) because on the
+  // two-offer card everything after the <summary> lives inside the browser's
+  // ::details-content box — the wrapper gives both card variants the same
+  // one child to lay out.
+  &__offer-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--offer-row-gap);
+    align-self: stretch;
+
+    @include respond-to('md') {
+      flex-direction: row;
+      gap: var(--space-l);
+      align-items: center;
+    }
+
+    .provider-card__rows {
+      flex: 1 1 auto;
+      min-width: 0;
     }
   }
 
@@ -405,34 +412,48 @@
     border-radius: $radius-pill;
   }
 
-  // --- Action rail ---
+  // --- Per-offer contact block ---
 
-  // margin-left: auto keeps the rail pinned right while the row fits; when
-  // the card wraps (narrow widths) it drops to its own line.
+  // Its CONTENTS centre on each other rather than ragging to an edge: the
+  // three items are different widths and none of them is text you read along
+  // a margin — a pill, a number and a link, stacked as one block (the client
+  // annotation that shaped the old rail holds for the panel too).
   //
-  // Its CONTENTS centre on each other rather than ragging to the right edge:
-  // the three items are different widths and none of them is text you read
-  // along a margin — a pill, a number and a link, stacked as one block. Right
-  // alignment set the phone number's last digit against the card edge and
-  // left the button looking unrelated to it.
-  &__aside {
+  // A DIVIDER separates contact from facts in both regimes (client, Aug
+  // 2026): below md a rule above the block, from md a rule on its left. The
+  // block stretches across its axis in both, so the rule spans the panel
+  // rather than just the block's own extent, and the flex centring keeps the
+  // contents on the middle line regardless.
+  &__contact {
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
     gap: var(--space-2xs);
     align-items: center;
-    // PHONES: the stacked card reads down one centre line, and a contact
-    // block hugging the right edge read as detached from it (client
-    // annotation) — auto margins both sides centre it on the card's axis.
-    // In the sm–md grid band the same auto margins centre it in the logo's
-    // column. From md the single row returns and the right-hand margin-left:
-    // auto placement with it.
-    margin-inline: auto;
+    align-self: stretch;
+    // Stacked: the panel's column gap already sits above the rule; the small
+    // margin is the "bit more" breathing room the review asked for, and the
+    // padding pair opens air under the rule and under the link before the
+    // panel's own padding closes the box.
+    padding-block: var(--space-s) var(--space-2xs);
+    margin-top: var(--space-2xs);
     text-align: center;
+    border-top: 1px solid $color-ui-border;
 
     @include respond-to('md') {
-      margin-right: 0;
-      margin-left: auto;
+      // Row regime: the rule moves to the left flank and runs the full panel
+      // height (align-self: stretch against the taller rows), with the body's
+      // own gap on its far side. justify-content re-centres the contents
+      // vertically INSIDE the stretched box; the bottom-only padding then
+      // biases them a half-step above true centre, and the right margin adds
+      // air against the card edge — both client-review nudges.
+      justify-content: center;
+      padding-block: 0 var(--space-m);
+      padding-left: var(--space-l);
+      margin-top: 0;
+      margin-right: var(--space-s);
+      border-top: 0;
+      border-left: 1px solid $color-ui-border;
     }
   }
 
@@ -464,17 +485,6 @@
   }
 
   &__ask {
-    // In the sm–md GRID BAND ONLY: the aside sizes to its widest child, so
-    // this link's one-liner set the logo column's width — capped to the
-    // plate width it wraps to two centred lines and the block reads as one
-    // column under the logo (client: "this link can have text wrap").
-    // Everywhere else the link gets its single line back: phones centre the
-    // block with the full card width to spend (client: "this will fit on a
-    // single line here"), and the wide row's aside always had room.
-    @include respond-between('sm', 'md') {
-      max-width: var(--provider-logo-size);
-    }
-
     font-size: $font-size-sm;
     color: $color-brand-dark-green;
     text-underline-offset: 0.15em;
