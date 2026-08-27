@@ -1649,7 +1649,7 @@ mark {
   gap: var(--space-s);
   position: relative;
   padding-block: var(--space-2xs);
-  font-size: var(--step-0);
+  font-size: var(--step--1);
   font-weight: 500;
   color: #006341;
   text-decoration: none;
@@ -1677,9 +1677,11 @@ mark {
   outline-offset: 2px;
 }
 .card__link-arrow {
+  align-self: flex-start;
   flex-shrink: 0;
   width: 0.875rem;
   height: 0.625rem;
+  margin-top: calc((1lh - 0.625rem) / 2);
   transition: transform 0.2s ease-in-out;
 }
 .card__link:hover .card__link-arrow {
@@ -3749,9 +3751,11 @@ body:has(.modal[open]) {
 }
 
 .pathway__link-arrow {
+  align-self: flex-start;
   flex-shrink: 0;
   width: 0.875rem;
   height: 0.625rem;
+  margin-top: calc((1lh - 0.625rem) / 2);
   transition: transform 0.2s ease-in-out;
 }
 

@@ -223,9 +223,13 @@
 }
 
 .pathway__link-arrow {
+  // First-line centring, as .card__link-arrow — this list is that one
+  // restated, and the two render side by side on pathway-alternatives.
+  align-self: flex-start;
   flex-shrink: 0;
   width: $arrow-icon-width;
   height: $arrow-icon-height;
+  margin-top: calc((1lh - #{$arrow-icon-height}) / 2);
   @include transition(transform);
 }
 

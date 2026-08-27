@@ -486,7 +486,14 @@
     @include flex-row(var(--space-s), center, space-between);
     position: relative; // containing block for the divider highlight below
     padding-block: var(--space-2xs);
-    font-size: $font-size-base; // was sm — read undersized against the base-step body above
+    // sm — the second reversal, and the settled one (client review, on the
+    // pathway-alternatives page): beside the pathway's restatement of this
+    // exact list the base step read oversized, and sm puts the links on the
+    // button's own step, so a card's whole action zone shares one size. The
+    // handover bump to base was protecting links under a base-step BODY; the
+    // medium weight, the dark green and the divider row do that separating
+    // work on their own.
+    font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     color: $color-brand-dark-green;
     text-decoration: none;
@@ -527,9 +534,16 @@
   }
 
   &__link-arrow {
+    // Centred on the FIRST line, not the wrapped block (client annotation):
+    // the row's centring parked the arrow mid-block beside two- and
+    // three-line labels. 1lh inherits the link's own line-height, so the
+    // glyph stays optically centred on line one at every type size — and a
+    // one-line label renders exactly as the old centring did.
+    align-self: flex-start;
     flex-shrink: 0;
     width: $arrow-icon-width;
     height: $arrow-icon-height;
+    margin-top: calc((1lh - #{$arrow-icon-height}) / 2);
     @include transition(transform);
   }
 
