@@ -390,7 +390,7 @@
           </ol>
         </nav>
         <h1 class="page-header__title" data-animate>Pathway alternatives</h1>
-        <p class="page-header__intro" data-animate>One question, three renderings: does the pathway component earn its keep, or does the multi-card section cover it? The current pathway block sits first for reference, followed by the same content restated two ways with multi-card sections.</p>
+        <p class="page-header__intro" data-animate>One question, three renderings: does the pathway component earn its keep, or does the multi-card section cover it? The current pathway block sits first for reference, followed by the same content restated two ways with multi-card sections, then a third way as split-sticky sections with the description riding the sticky rail.</p>
         <div class="page-header__media" data-animate>
           <img src="../assets/video/Maintenance%20worker%20seen%20from%20the%20back%20fixing%20a%20solar%20panel_Capuski%20via%20iStock%201282949495%201.png" alt="A maintenance worker in a hard hat and high-visibility vest working on a solar array" width="4096" height="2731" loading="lazy">
           <span class="page-header__angle" aria-hidden="true">
@@ -427,7 +427,7 @@
                 <li><a class="pathway__link" href="#">Eligibility and accreditation
                   <svg class="pathway__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
               </ul>
-              <a class="btn btn--outline" href="#">Find electricity providers</a>
+              <a class="btn btn--primary" href="#">Find electricity providers</a>
             </article>
             <article class="pathway">
               <h4 class="pathway__title">For electricity generators</h4>
@@ -439,7 +439,7 @@
                 <li><a class="pathway__link" href="#">Eligibility and accreditation
                   <svg class="pathway__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
               </ul>
-              <a class="btn btn--outline" href="#">Find electricity generators</a>
+              <a class="btn btn--primary" href="#">Find electricity generators</a>
             </article>
             </div>
           </article>
@@ -457,7 +457,7 @@
                 <li><a class="pathway__link" href="#">Eligibility and accreditation
                   <svg class="pathway__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
               </ul>
-              <a class="btn btn--outline" href="#">Find gas traders</a>
+              <a class="btn btn--primary" href="#">Find gas traders</a>
             </article>
             <article class="pathway">
               <h4 class="pathway__title">For gas producers</h4>
@@ -469,7 +469,7 @@
                 <li><a class="pathway__link" href="#">Eligibility and accreditation
                   <svg class="pathway__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
               </ul>
-              <a class="btn btn--outline" href="#">Find gas producers</a>
+              <a class="btn btn--primary" href="#">Find gas producers</a>
             </article>
             </div>
           </article>
@@ -487,7 +487,10 @@
          electricity/gas grouping to the icons; OPTION B keeps the grouping as
          two section headings but loses the umbrella heading + shared intro
          (description optional per the multi-card rules, and a generic intro
-         repeated under both headings would say nothing). -->
+         repeated under both headings would say nothing); OPTION C (further
+         below, split-sticky) keeps the grouping AND gives each category a
+         description in the sticky rail, at the cost of the umbrella and the
+         side-by-side column scan. -->
 
     <!-- 2. OPTION A — one multi-card section, four cards (2x2; 4-across at lg) -->
     <section class="card-section" data-animate-stagger id="pathways-option-a" aria-labelledby="pathways-option-a-title">
@@ -642,6 +645,108 @@
             </div>
           </div>
         </article>
+      </div>
+    </section>
+
+    <!-- 4. OPTION C — two split-sticky-left sections, two cards each: the
+         grouping tier survives as the STICKY RAIL (heading + lede holding the
+         description while the cards scroll past). The body column takes the
+         same optional blocks every split takes — a CKEditor prose section
+         above the cards is available and was tried here, but the rail's lede
+         already says what it would say, so both splits go straight to their
+         cards. card-stack, not card-section__grid: the split's column is
+         capped at the measure, and the viewport-driven grid would shrink
+         these to slivers. -->
+    <section class="page-body" id="pathways-option-c-electricity">
+      <div class="page-split">
+        <div class="page-split__intro" data-animate>
+          <h2 class="page-split__heading">Electricity accreditation</h2>
+          <p class="page-split__lede">Accreditation routes for retail electricity providers and renewable electricity generators. Each pathway includes eligibility information, accreditation steps, responsibilities and relevant resources.</p>
+        </div>
+        <div class="page-split__body">
+          <div class="card-stack" data-animate-stagger>
+            <article class="card" data-animate>
+              <div class="card__content">
+                <span class="card__icon"><img src="../assets/icons/electricity.svg" alt="" width="52" height="52" loading="lazy"></span>
+                <h3 class="card__title">For electricity providers</h3>
+                <ul class="card__links">
+                  <li><a class="card__link" href="#">GreenPower accreditation for renewable electricity providers
+                    <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Benefits of becoming GreenPower accredited
+                    <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Eligibility and accreditation
+                    <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                </ul>
+                <div class="card__cta">
+                  <a class="btn btn--primary" href="#">Find electricity providers</a>
+                </div>
+              </div>
+            </article>
+            <article class="card" data-animate>
+              <div class="card__content">
+                <span class="card__icon"><img src="../assets/icons/electricity.svg" alt="" width="52" height="52" loading="lazy"></span>
+                <h3 class="card__title">For electricity generators</h3>
+                <ul class="card__links">
+                  <li><a class="card__link" href="#">GreenPower accreditation for renewable electricity generators
+                    <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Benefits of becoming GreenPower accredited
+                    <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Eligibility and accreditation
+                    <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                </ul>
+                <div class="card__cta">
+                  <a class="btn btn--primary" href="#">Find electricity generators</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="page-body" id="pathways-option-c-gas">
+      <div class="page-split">
+        <div class="page-split__intro" data-animate>
+          <h2 class="page-split__heading">Gas accreditation</h2>
+          <p class="page-split__lede">Accreditation routes for gas traders and gas producers. Each pathway includes eligibility information, accreditation steps, responsibilities and relevant resources.</p>
+        </div>
+        <div class="page-split__body">
+          <div class="card-stack" data-animate-stagger>
+            <article class="card" data-animate>
+              <div class="card__content">
+                <span class="card__icon"><img src="../assets/icons/gas.svg" alt="" width="52" height="52" loading="lazy"></span>
+                <h3 class="card__title">For gas traders</h3>
+                <ul class="card__links">
+                  <li><a class="card__link" href="#">GreenPower accreditation for renewable gas traders
+                    <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Benefits of becoming GreenPower accredited
+                    <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Eligibility and accreditation
+                    <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                </ul>
+                <div class="card__cta">
+                  <a class="btn btn--primary" href="#">Find gas traders</a>
+                </div>
+              </div>
+            </article>
+            <article class="card" data-animate>
+              <div class="card__content">
+                <span class="card__icon"><img src="../assets/icons/gas.svg" alt="" width="52" height="52" loading="lazy"></span>
+                <h3 class="card__title">For gas producers</h3>
+                <ul class="card__links">
+                  <li><a class="card__link" href="#">GreenPower accreditation for renewable gas producers
+                    <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Benefits of becoming GreenPower accredited
+                    <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                  <li><a class="card__link" href="#">Eligibility and accreditation
+                    <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+                </ul>
+                <div class="card__cta">
+                  <a class="btn btn--primary" href="#">Find gas producers</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
       </div>
     </section>
 
