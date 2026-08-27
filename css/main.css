@@ -3710,8 +3710,11 @@ body:has(.modal[open]) {
 .pathway__links {
   align-self: stretch;
   padding: 0;
-  margin-top: auto;
   list-style: none;
+}
+
+.pathway__links:has(+ .btn) {
+  margin-top: auto;
 }
 
 .pathway__link {

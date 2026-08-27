@@ -178,8 +178,17 @@
 .pathway__links {
   align-self: stretch;
   padding: 0;
-  margin-top: auto; // pin the CTA to the bottom when cards differ in height
   list-style: none;
+}
+
+// Pin the CTA to the bottom when cards differ in height — but ONLY when there
+// IS a CTA. The pill is optional (field_cta), and an unconditional auto margin
+// pushed the LINKS to the card's foot instead on a pathway without one,
+// opening a hole under the title (seen on pathway-alternatives.html, where two
+// routes drop their pill). The rows are equal-height by grid-auto-rows: 1fr,
+// so nothing else needs to know.
+.pathway__links:has(+ .btn) {
+  margin-top: auto;
 }
 
 // The card link, restated for this surface: the rule and the hover bar are
