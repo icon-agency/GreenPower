@@ -113,6 +113,34 @@ About-you options are client-confirmed (Aug 2026).
   either way (`card--news card--featured`, plus `data-news-featured`, which is
   the prototype's exemption hook and does not need to survive the port).
 
+- Multi-card section rules (client, Aug 2026, stated in the design system's
+  Multi-card section): heading/description optional; one or more cards, no
+  limit; image and icon are SECTION-WIDE (all cards carry them or none);
+  body, links and featured link are per-card. Open question for the Drupal dev:
+  is the image/icon uniformity enforced (e.g. show-images/show-icons
+  booleans on the section paragraph driving each card's render) or left as
+  editorial guidance? A per-card image field with a section-level display
+  toggle is the shape that cannot drift.
+- Buy GreenPower directory — contact moved INTO each offer (client, Aug
+  2026): an accreditation has its own Visit website / phone / explainer link,
+  worded to its type ("What to ask your provider?" on electricity, "What to
+  ask your trader?" on gas), rendered inside the offer panel rather than in a
+  card-level rail. CONTENT MODEL CHANGE: field_website, field_phone and
+  field_ask_link move from the accredited_provider NODE to the provider_offer
+  PARAGRAPH (the SCSS header mapping in `_provider-card.scss` is updated).
+  The explainer modal is wired on electricity links only — no trader
+  equivalent of the "What to ask your provider" content exists yet; confirm
+  with the client whether gas gets its own modal or a plain page link.
+- Homepage hero — letterbox (landscape phone) support: the stage is FLOORED at
+  `$hero-stage-floor` (32rem, `_hero.scss`) via `max(100svh, floor)` on every
+  layer height, scrim distances are floored fractions of the stage, and under
+  `short(32rem)` the utilities and headline padding re-anchor to the visible
+  viewport line instead of the stage base. The preprod GovCMS build shows the
+  pre-fix breakage (H1 over the location badge in landscape) — port these
+  `_hero.scss` changes; the hero JS needs NO changes (its rect-based parallax
+  and 15%-line triggers behave once the layout fits). Verified at 852×375,
+  667×340, 1450×500, 375×812 and 1500×900 in the static build.
+
 ## 6. Build notes
 
 - `css/main.css` is COMMITTED (GitHub Pages serves it). Rebuild with

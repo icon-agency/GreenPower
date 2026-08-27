@@ -473,6 +473,21 @@
   margin-top: var(--space-s);
 }
 
+// Rules as bullets — the intro's measure with one rule per marker. The reset
+// strips markers from every classed list (structure lists), so a prose list
+// that carries a class has to claim its discs back — at ul.class specificity,
+// because the reset's ul[class] (0,1,1) outranks a bare class (0,1,0).
+ul.ds-section__list {
+  max-width: 64ch;
+  padding-left: 1.2em;
+  margin-top: var(--space-s);
+  list-style: disc;
+
+  li + li {
+    margin-top: var(--space-2xs);
+  }
+}
+
 // Inline code / token reference in prose
 .ds-code {
   font-family: $font-family-mono;

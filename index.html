@@ -1015,7 +1015,7 @@
 
       <section class="ds-section" id="card" aria-labelledby="card-title">
         <h3 class="ds-section__title" id="card-title">Card</h3>
-        <p class="ds-section__intro">One component composes any of: image, icon, title, body and links — every part optional, and direct children are gap-spaced so leaving one out never leaves a hole. Toggle the parts to watch the same component reconfigure live: the controls add and remove the card’s real child elements, so the <code class="ds-code">.card</code> CSS is never touched. In Drupal each part maps 1:1 to a field on the <code class="ds-code">card</code> paragraph.</p>
+        <p class="ds-section__intro">One component composes any of: image, icon, title, body, links and a featured link (the solid primary button — the Subscribe treatment — pinned to the card&rsquo;s foot — the landing pages&rsquo; &ldquo;Accredited electricity generators&rdquo; pill) — every part optional, and direct children are gap-spaced so leaving one out never leaves a hole. Toggle the parts to watch the same component reconfigure live: the controls add and remove the card’s real child elements, so the <code class="ds-code">.card</code> CSS is never touched. In Drupal each part maps 1:1 to a field on the <code class="ds-code">card</code> paragraph.</p>
 
         <div class="ds-card-demo" data-card-demo>
           <div class="ds-card-demo__stage">
@@ -1034,6 +1034,9 @@
                   <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   <li><a class="card__link" href="#">Text Link <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                 </ul>
+                <div class="card__cta">
+                  <a class="btn btn--primary" href="#">Featured link</a>
+                </div>
               </div>
             </article>
           </div>
@@ -1053,6 +1056,7 @@
                 <label class="ds-segment"><input type="radio" name="ds-card-links" value="4" checked><span>4</span></label>
                 <label class="ds-segment"><input type="radio" name="ds-card-links" value="5"><span>5</span></label>
               </div>
+              <label class="ds-control"><input type="checkbox" data-toggle="cta" checked><span>Featured link</span></label>
             </fieldset>
           </form>
         </div>
@@ -2532,11 +2536,18 @@
 
       <section class="ds-section" id="multi-card-section" aria-labelledby="cardsec-title" data-card-sections>
         <h3 class="ds-section__title" id="cardsec-title">Multi-card section</h3>
-        <p class="ds-section__intro">A multi-card section wraps a heading and description over a grid of cards &mdash; and the grid is <strong>count-adaptive</strong>: the number of cards the editor adds <em>is</em> the layout. One card lays out horizontally, image beside content. Two cards hold two columns; three is the standard 3-up; four runs 2&times;2 until <code class="ds-code">lg</code> gives four-across the room; five and more flow in threes (3+2, 3+3&hellip;). In Drupal there is <strong>no column field</strong> &mdash; the content is the configuration, so a columns-vs-cards mismatch cannot exist. Change the card count below and watch the same section reconfigure.</p>
+        <p class="ds-section__intro">A multi-card section wraps an optional heading and description over a grid of cards &mdash; and the grid is <strong>count-adaptive</strong>: the number of cards the editor adds <em>is</em> the layout. One card lays out horizontally, image beside content. Two cards hold two columns; three is the standard 3-up; four runs 2&times;2 until <code class="ds-code">lg</code> gives four-across the room; five and more flow in threes (3+2, 3+3&hellip;). In Drupal there is <strong>no column field</strong> &mdash; the content is the configuration, so a columns-vs-cards mismatch cannot exist. Change the card count below and watch the same section reconfigure.</p>
+        <p class="ds-section__intro">THE RULES, in one place:</p>
+        <ul class="ds-section__list">
+          <li><strong>Heading and description</strong> &mdash; both optional; the section can open straight onto its cards.</li>
+          <li><strong>Cards</strong> &mdash; one or more, no set limit; the count picks the layout, per the ladder above.</li>
+          <li><strong>Image and icon</strong> &mdash; section-wide: if either is used, every card in the section carries it, so a row never mixes photo cards with text-only cards (the demo&rsquo;s Image and Icon toggles act on all cards for exactly this reason).</li>
+          <li><strong>Body, links and featured link</strong> &mdash; optional, per individual card: one card can carry a body, links and a button while its neighbour has none of the three. The featured link (<code class="ds-code">field_card_cta</code>) is pinned to the card&rsquo;s foot, so uneven rows still land their buttons on one line; the demo toggles it on every card at once only to keep the controls simple.</li>
+        </ul>
 
         <form class="ds-controls ds-controls--inline" data-card-controls aria-label="Configure the cards below">
           <fieldset class="ds-controls__group">
-            <legend class="ds-controls__legend">Cards</legend>
+            <legend class="ds-controls__legend">Cards (one or more, no set limit)</legend>
             <div class="ds-segments" role="radiogroup" aria-label="Number of cards">
               <label class="ds-segment"><input type="radio" name="ds-section-count" value="1"><span>1</span></label>
               <label class="ds-segment"><input type="radio" name="ds-section-count" value="2"><span>2</span></label>
@@ -2547,12 +2558,12 @@
             </div>
           </fieldset>
           <fieldset class="ds-controls__group">
-            <legend class="ds-controls__legend">Parts</legend>
+            <legend class="ds-controls__legend">Parts (section-wide)</legend>
             <label class="ds-control"><input type="checkbox" data-toggle="image" checked><span>Image</span></label>
             <label class="ds-control"><input type="checkbox" data-toggle="icon" checked><span>Icon</span></label>
           </fieldset>
           <fieldset class="ds-controls__group">
-            <legend class="ds-controls__legend">Links</legend>
+            <legend class="ds-controls__legend">Links (optional)</legend>
             <div class="ds-segments" role="radiogroup" aria-label="Number of links">
               <label class="ds-segment"><input type="radio" name="ds-section-links" value="0"><span>0</span></label>
               <label class="ds-segment"><input type="radio" name="ds-section-links" value="1" checked><span>1</span></label>
@@ -2561,6 +2572,7 @@
               <label class="ds-segment"><input type="radio" name="ds-section-links" value="4"><span>4</span></label>
               <label class="ds-segment"><input type="radio" name="ds-section-links" value="5"><span>5</span></label>
             </div>
+            <label class="ds-control"><input type="checkbox" data-toggle="cta"><span>Featured link (optional, one per card)</span></label>
           </fieldset>
         </form>
 
@@ -2580,6 +2592,9 @@
                     <li><a class="card__link" href="#">Card link &mdash; field_links
                       <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
+                  <div class="card__cta">
+                    <a class="btn btn--primary" href="#">Featured link &mdash; field_card_cta</a>
+                  </div>
                 </div>
               </article>
               <article class="card">
@@ -2592,6 +2607,9 @@
                     <li><a class="card__link" href="#">Card link &mdash; field_links
                       <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
+                  <div class="card__cta">
+                    <a class="btn btn--primary" href="#">Featured link &mdash; field_card_cta</a>
+                  </div>
                 </div>
               </article>
               <article class="card">
@@ -2604,6 +2622,9 @@
                     <li><a class="card__link" href="#">Card link &mdash; field_links
                       <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
+                  <div class="card__cta">
+                    <a class="btn btn--primary" href="#">Featured link &mdash; field_card_cta</a>
+                  </div>
                 </div>
               </article>
               <article class="card">
@@ -2616,6 +2637,9 @@
                     <li><a class="card__link" href="#">Card link &mdash; field_links
                       <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
+                  <div class="card__cta">
+                    <a class="btn btn--primary" href="#">Featured link &mdash; field_card_cta</a>
+                  </div>
                 </div>
               </article>
               <article class="card">
@@ -2628,6 +2652,9 @@
                     <li><a class="card__link" href="#">Card link &mdash; field_links
                       <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
+                  <div class="card__cta">
+                    <a class="btn btn--primary" href="#">Featured link &mdash; field_card_cta</a>
+                  </div>
                 </div>
               </article>
               <article class="card">
@@ -2640,6 +2667,9 @@
                     <li><a class="card__link" href="#">Card link &mdash; field_links
                       <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
                   </ul>
+                  <div class="card__cta">
+                    <a class="btn btn--primary" href="#">Featured link &mdash; field_card_cta</a>
+                  </div>
                 </div>
               </article>
             </div>
@@ -2666,9 +2696,12 @@
       var icon = content.querySelector('.card__icon');
       var linksUl = content.querySelector('.card__links');
       var linkItems = [].slice.call(linksUl.children);
+      var cta = content.querySelector('.card__cta');
 
       // Re-insert at the element's authored position (media first in the card;
-      // icon first in the content; links last in the content).
+      // icon first in the content; links then cta at the end of the content —
+      // and .card__cta's own margin-top: auto keeps it pinned to the foot
+      // whichever parts are present).
       function toggle(node, parent, first, on) {
         if (on) {
           if (!node.parentNode) { first ? parent.prepend(node) : parent.appendChild(node); }
@@ -2681,6 +2714,8 @@
       var iconInput = demo.querySelector('[data-toggle="icon"]');
       imageInput.addEventListener('change', function () { toggle(media, card, true, imageInput.checked); });
       iconInput.addEventListener('change', function () { toggle(icon, content, true, iconInput.checked); });
+      var ctaInput = demo.querySelector('[data-toggle="cta"]');
+      ctaInput.addEventListener('change', function () { toggle(cta, content, false, ctaInput.checked); });
 
       demo.querySelectorAll('[name="ds-card-links"]').forEach(function (radio) {
         radio.addEventListener('change', function () {
@@ -2690,7 +2725,14 @@
             if (i < n) { linksUl.appendChild(li); } // in-order re-append keeps 0..n-1
             else if (li.parentNode) { li.remove(); }
           });
-          toggle(linksUl, content, false, n > 0); // drop the empty <ul> at 0
+          // Not toggle(): a plain append would land the restored list AFTER
+          // the cta, and DOM order is render order — links sit above the
+          // featured link on every authored card.
+          if (n > 0) {
+            if (!linksUl.parentNode) content.insertBefore(linksUl, cta.parentNode ? cta : null);
+          } else if (linksUl.parentNode) {
+            linksUl.remove(); // drop the empty <ul> at 0
+          }
         });
       });
     })();
@@ -2795,9 +2837,9 @@
     // elements (never display:none), so the grid's :has() quantity queries see
     // exactly the DOM Drupal would render for that many cards — the layout
     // being tested is the real mechanism, not a simulation of it. Image/icon/
-    // link toggles use the same fidelity approach on each card's children.
+    // link/cta toggles use the same fidelity approach on each card's children.
     // Defaults are read from the control markup: 3 cards, image on, icon on,
-    // one link.
+    // one link, no featured link (the standard content section).
     (function () {
       var section = document.querySelector('[data-card-sections]');
       var controls = document.querySelector('[data-card-controls]');
@@ -2821,6 +2863,7 @@
           content: content,
           media: card.querySelector('.card__media'),
           icon: content.querySelector('.card__icon'),
+          cta: content.querySelector('.card__cta'),
           ul: ul,
           items: items
         };
@@ -2841,9 +2884,17 @@
           c.items.forEach(function (li, i) {
             if (i < n) { c.ul.appendChild(li); } else if (li.parentNode) { li.remove(); }
           });
-          toggle(c.ul, c.content, false, n > 0);
+          // Not toggle(): a plain append would land a restored list AFTER the
+          // cta, and DOM order is render order — links sit above the featured
+          // link on every authored card (the single-card demo's same rule).
+          if (n > 0) {
+            if (!c.ul.parentNode) c.content.insertBefore(c.ul, c.cta && c.cta.parentNode ? c.cta : null);
+          } else if (c.ul.parentNode) {
+            c.ul.remove();
+          }
         });
       }
+      function setCta(on) { cards.forEach(function (c) { toggle(c.cta, c.content, false, on); }); }
       // In-order re-append keeps cards 0..n-1 in the grid; the rest detach.
       // Config toggles keep working on detached cards — their child refs are
       // held here, not queried from the DOM.
@@ -2856,8 +2907,10 @@
 
       var img = controls.querySelector('[data-toggle="image"]');
       var icon = controls.querySelector('[data-toggle="icon"]');
+      var cta = controls.querySelector('[data-toggle="cta"]');
       img.addEventListener('change', function () { setImage(img.checked); });
       icon.addEventListener('change', function () { setIcon(icon.checked); });
+      cta.addEventListener('change', function () { setCta(cta.checked); });
       controls.querySelectorAll('[name="ds-section-links"]').forEach(function (radio) {
         radio.addEventListener('change', function () { if (radio.checked) setLinks(parseInt(radio.value, 10)); });
       });
@@ -2868,6 +2921,7 @@
       // Apply the default configuration (from the control markup) on load
       setImage(img.checked);
       setIcon(icon.checked);
+      setCta(cta.checked);
       var checkedLinks = controls.querySelector('[name="ds-section-links"]:checked');
       setLinks(checkedLinks ? parseInt(checkedLinks.value, 10) : 1);
       var checkedCount = controls.querySelector('[name="ds-section-count"]:checked');
