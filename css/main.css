@@ -1287,10 +1287,10 @@ mark {
 }
 @media (max-height: 32rem) {
   .hero__utilities {
-    right: var(--space-s-l);
+    right: auto;
     bottom: calc(32rem - 100vh + var(--space-s));
     bottom: calc(32rem - 100svh + var(--space-s));
-    left: auto;
+    left: var(--space-s-l);
   }
 }
 .hero.is-utils-out .hero__utilities {
@@ -5268,6 +5268,7 @@ body:has(.modal[open]) {
 .provider-card {
   --provider-logo-size: 7.5rem;
   --provider-logo-pad: var(--space-2xs);
+  --provider-contact-size: 15rem;
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-m);
@@ -5483,6 +5484,7 @@ body:has(.modal[open]) {
 }
 @media (min-width: 960px) {
   .provider-card__contact {
+    inline-size: var(--provider-contact-size);
     justify-content: center;
     padding-block: 0 var(--space-m);
     padding-left: var(--space-l);

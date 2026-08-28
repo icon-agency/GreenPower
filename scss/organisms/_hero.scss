@@ -345,15 +345,17 @@ $hero-stage-floor: 32rem;
     // Letterbox: the bottom offsets above measure from the stage base — below
     // the fold once the stage is floored, which would hide the pause control
     // (WCAG 2.2.2: the video autoplays on screen, so its control must be ON
-    // screen). Re-anchor to the visible viewport line, bottom-right, clear of
-    // the left-set 16ch headline; the headline's short() padding reserves the
-    // same band, so the two can never collide at any width. Last in the block
-    // so it wins over every width regime above at equal specificity.
+    // screen). Re-anchor to the visible viewport line, bottom-LEFT under the
+    // headline (client annotation — it opened bottom-right): safe because the
+    // headline's own short() padding reserves this row's height above the
+    // viewport line, so the two can never overlap vertically at any width.
+    // Last in the block so it wins over every width regime above at equal
+    // specificity.
     @include short($hero-stage-floor) {
-      right: var(--space-s-l);
+      right: auto;
       bottom: calc(#{$hero-stage-floor} - 100vh + var(--space-s));
       bottom: calc(#{$hero-stage-floor} - 100svh + var(--space-s));
-      left: auto;
+      left: var(--space-s-l);
     }
   }
 

@@ -41,6 +41,14 @@
   // mark set can be retuned in one place.
   --provider-logo-size: 7.5rem;
   --provider-logo-pad: var(--space-2xs);
+  // One width for every offer's contact block. Content-sized, the block took
+  // the width of its widest line — so "What to ask your provider?" and the
+  // shorter "…trader?" put the divider at different x on the SAME card
+  // (client annotation: "make sure these align"). Fixed, the rule lands on
+  // one line down every panel and every card; sized a step above the widest
+  // content (the provider ask link plus the divider's inset) so nothing
+  // wraps, in rem so it rides the fluid root like the type it contains.
+  --provider-contact-size: 15rem;
 
   display: flex;
   flex-wrap: wrap;
@@ -447,6 +455,7 @@
       // vertically INSIDE the stretched box; the bottom-only padding then
       // biases them a half-step above true centre, and the right margin adds
       // air against the card edge — both client-review nudges.
+      inline-size: var(--provider-contact-size); // one divider line, every panel
       justify-content: center;
       padding-block: 0 var(--space-m);
       padding-left: var(--space-l);
