@@ -141,6 +141,17 @@ About-you options are client-confirmed (Aug 2026).
   and 15%-line triggers behave once the layout fits). Verified at 852×375,
   667×340, 1450×500, 375×812 and 1500×900 in the static build.
 
+- Favicons: the GreenPower favicon PACK (leaf-tick brandmark from the Brand
+  Guidelines, Jan 2026 v2.0) lives in `assets/favicon/` — svg + ico + png
+  sizes, apple-touch, safari-pinned-tab, maskable, manifest, browserconfig,
+  with its own README, implementation.html and SHA256SUMS (all sums verified;
+  only the manifest/browserconfig paths were adjusted for the subfolder, as
+  the README allows). Every page's head carries the pack's prescribed tags;
+  theme colour is primary green #009F4D per the pack. Drupal: theme favicon
+  settings + copy favicon.ico to the webroot for legacy requests. NOTE the
+  README's caution: logo use may need Program Manager approval before
+  publishing.
+
 ## 6. Build notes
 
 - `css/main.css` is COMMITTED (GitHub Pages serves it). Rebuild with
