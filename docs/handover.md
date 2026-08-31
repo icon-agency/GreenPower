@@ -146,11 +146,12 @@ About-you options are client-confirmed (Aug 2026).
   fills the canvas height, so the tab icon renders at full size): ico
   (multi-size) + 16/32 png + apple-touch 180 + android-chrome 192/512 +
   site.webmanifest. Every page's head links them; theme colour is primary
-  green #009F4D (sampled from the mark itself). Drupal: theme favicon
-  settings + copy favicon.ico to the webroot for legacy requests. Two
-  wishlist items for a future asset pass: an SVG favicon (crisp at every
-  size) and an opaque apple-touch background (iOS renders transparency as
-  black).
+  green #009F4D (sampled from the mark itself). The set includes a
+  tight-cropped favicon.svg, linked first in every head — modern browsers
+  take it and stay crisp at every size. Drupal: theme favicon settings +
+  copy favicon.ico to the webroot for legacy requests. One wishlist item
+  for a future asset pass: an opaque apple-touch background (iOS renders
+  transparency as black).
 
 ## 6. Build notes
 
