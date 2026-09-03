@@ -140,7 +140,9 @@ About-you options are client-confirmed (Aug 2026).
   contract" / "Decoupled from your contract" — each carrying its OWN
   "Available in" and its OWN products (client: both products and states can
   differ per arrangement; an arrangement not offered has no block), then
-  contact). The buyer filter hides the non-matching group. SECOND CONTENT
+  contact). The buyer filter hides the non-matching group, and the
+  contract filter hides the non-matching arrangement block
+  (`data-arrangement`). SECOND CONTENT
   MODEL CHANGE on the same paragraph: electricity provider_offer gains
   per-buyer sub-paragraphs (offer_buyer_group) carrying contact fields,
   with household adding states + products directly and business nesting one

@@ -73,10 +73,13 @@
   // shorter "…trader?" started the contact column at different x on the SAME
   // card (client annotation: "make sure these align"). Fixed, the column
   // lands on one line down every panel and every card (it used to carry a
-  // divider rule too — retired with the shade grouping, Sep 2026); sized a
-  // step above the widest content so nothing wraps, in rem so it rides the
-  // fluid root like the type it contains.
-  --provider-contact-size: 15rem;
+  // divider rule too — retired with the shade grouping, Sep 2026); sized
+  // just above the widest content ("What to ask your provider?", ~11rem at
+  // the sm step) so nothing wraps, in rem so it rides the fluid root like
+  // the type it contains. Was 15rem; trimmed so the facts column beside it
+  // gets the width (client review, Sep 2026: "products wider, contact
+  // narrower").
+  --provider-contact-size: 12rem;
 
   display: flex;
   flex-wrap: wrap;
@@ -420,7 +423,11 @@
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    gap: var(--offer-row-gap);
+    // A seam, not a gap: the two arrangement blocks are halves of one idea
+    // and touch, with the group's tint showing through as a hairline
+    // (client review, Sep 2026: "a two pixel gap"). Half the smallest step
+    // is ~2px and stays on the token scale.
+    gap: calc(var(--space-3xs) / 2);
     min-width: 0;
   }
 
@@ -444,6 +451,14 @@
 
     .provider-card__rows {
       margin-top: calc(var(--offer-row-gap) - var(--space-2xs));
+    }
+
+    // The filter's contract choice hides the arrangement the reader did not
+    // ask for (the sync in the page tail), the way the buyer choice hides a
+    // group. display: flex above outranks the UA's [hidden] rule
+    // (LESSONS.md), so the hiding is stated here.
+    &[hidden] {
+      display: none;
     }
   }
 
@@ -591,11 +606,12 @@
     align-items: center;
     justify-content: center;
     align-self: stretch;
-    // The padding pair opens air above the row and under it before the
-    // panel's own padding closes the box; the small margin is the "bit
-    // more" breathing room the review asked for.
-    padding-block: var(--space-s) var(--space-2xs);
-    margin-top: var(--space-2xs);
+    // Even water above and below the row (client review, Sep 2026: "match
+    // the space below"): above, the body's row gap plus the 3xs top pad;
+    // below, the 2xs bottom pad plus the group's own padding — the two
+    // sums land within a pixel. (An earlier pass stacked a top margin and
+    // a full s pad above the row, nearly double the space beneath it.)
+    padding-block: var(--space-3xs) var(--space-2xs);
     text-align: center;
 
     @include respond-to('md') {
@@ -604,12 +620,14 @@
       // justify-content re-centres the contents vertically INSIDE the
       // stretched box, the bottom-only padding biases them a half-step
       // above true centre, and the right margin adds air against the card
-      // edge — both client-review nudges.
+      // edge — both client-review nudges. No left padding: the body's row
+      // gap already opens the water between the facts and the rail, and a
+      // padding on top of it left the rail's contents nearer the group's
+      // edge than the facts (client review, Sep 2026: "even space").
       flex-direction: column;
       gap: var(--space-2xs);
       inline-size: var(--provider-contact-size);
       padding-block: 0 var(--space-m);
-      padding-left: var(--space-l);
       margin-top: 0;
       margin-right: var(--space-s);
     }

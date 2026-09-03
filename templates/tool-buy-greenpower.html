@@ -564,8 +564,10 @@
                    sibling's — an arrangement not offered simply has no
                    block), then contact. The old "Available for" and
                    combined contract rows are gone — the grouping states
-                   both. The buyer filter hides the group not asked for
-                   (sync in the tail); gas keeps its flat list.
+                   both. The buyer filter hides the group not asked for,
+                   and the contract filter hides the arrangement block not
+                   asked for (data-arrangement; both syncs in the tail);
+                   gas keeps its flat list.
                    WIREFRAME FILLER — the per-arrangement product and state
                    splits and the duplicated contact details are invented:
                    real values come from the provider record. The card's
@@ -612,7 +614,7 @@
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-arrangement="bundled">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Bundle with your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -625,7 +627,7 @@
                           </div>
                         </dl>
                       </div>
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-arrangement="decoupled">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Decoupled from your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -739,7 +741,7 @@
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-arrangement="bundled">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Bundle with your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -809,7 +811,7 @@
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-arrangement="bundled">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Bundle with your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -822,7 +824,7 @@
                           </div>
                         </dl>
                       </div>
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-arrangement="decoupled">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Decoupled from your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -892,7 +894,7 @@
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-arrangement="bundled">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Bundle with your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -962,7 +964,7 @@
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-arrangement="decoupled">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Decoupled from your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -1009,7 +1011,7 @@
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-arrangement="bundled">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Bundle with your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -1022,7 +1024,7 @@
                           </div>
                         </dl>
                       </div>
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-arrangement="decoupled">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Decoupled from your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -1092,7 +1094,7 @@
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-arrangement="bundled">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Bundle with your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -1162,7 +1164,7 @@
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-arrangement="decoupled">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Decoupled from your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -2474,6 +2476,21 @@
             grp.hidden = !!buyers.length &&
               buyers.indexOf(grp.getAttribute('data-buyer-group')) === -1;
           });
+
+          // And the contract choice does it one level down, to the business
+          // group's ARRANGEMENT blocks: pick Bundle and each card's Decoupled
+          // block is hidden, so the card shows the one arrangement the
+          // reader asked for rather than both with nothing marking which.
+          // Same shape as the buyer rule above — same picked values, so the
+          // block shown is always one the card matched on. Only blocks that
+          // carry data-arrangement take part; the household products block
+          // and the gas certificates block have no arrangement and stay.
+          var contract = picked.filter(function (p) { return p.group.key === 'contract'; })[0];
+          var arrangements = contract ? contract.boxes.map(function (b) { return b.value; }) : [];
+          [].forEach.call(card.querySelectorAll('[data-arrangement]'), function (block) {
+            block.hidden = !!arrangements.length &&
+              arrangements.indexOf(block.getAttribute('data-arrangement')) === -1;
+          });
         });
 
         chipsEl.textContent = '';
@@ -2513,12 +2530,30 @@
 
         // The visible count doubles as the live status — one region, no
         // duplicate announcement.
-        // Singular takes a different NOUN PHRASE, not just a dropped "s":
-        // "1 accredited electricity provider and gas trader" reads as one
-        // organisation that is somehow both.
-        countEl.textContent = shown === 1
-          ? 'Showing 1 accredited provider or trader'
-          : 'Showing ' + shown + ' accredited electricity providers and gas traders';
+        // The noun follows the type filter: filtered to Gas, "3 accredited
+        // gas traders", not "3 accredited electricity providers and gas
+        // traders" — true, but it names a kind of record the reader just
+        // asked not to see. With no type chosen the list is mixed and the
+        // sentence says so. Singular is a different NOUN PHRASE, not just a
+        // dropped "s": "1 accredited electricity provider and gas trader"
+        // reads as one organisation that is somehow both.
+        // With no type chosen, the types that COULD be chosen stand in:
+        // Household alone has Gas marked unavailable, so its list is
+        // electricity providers only and the sentence must not say "and
+        // gas traders" about records it cannot contain.
+        var typeGroup = groups.filter(function (g) { return g.key === 'ptype'; })[0];
+        var types = typeGroup ? checked(typeGroup).map(function (b) { return b.value; }) : [];
+        if (typeGroup && !types.length) {
+          types = typeGroup.boxes.filter(function (b) {
+            return b.getAttribute('aria-disabled') !== 'true';
+          }).map(function (b) { return b.value; });
+        }
+        var noun = types.length === 1 && types[0] === 'gas'
+          ? ['accredited gas trader', 'accredited gas traders']
+          : types.length === 1 && types[0] === 'electricity'
+            ? ['accredited electricity provider', 'accredited electricity providers']
+            : ['accredited provider or trader', 'accredited electricity providers and gas traders'];
+        countEl.textContent = 'Showing ' + shown + ' ' + (shown === 1 ? noun[0] : noun[1]);
         emptyEl.hidden = shown > 0;
         root.classList.toggle('is-empty', shown === 0); // hides the pager (CSS)
       }

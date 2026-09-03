@@ -5275,7 +5275,7 @@ body:has(.modal[open]) {
 .provider-card {
   --provider-logo-size: 7.5rem;
   --provider-logo-pad: var(--space-2xs);
-  --provider-contact-size: 15rem;
+  --provider-contact-size: 12rem;
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-m);
@@ -5448,7 +5448,7 @@ body:has(.modal[open]) {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  gap: var(--offer-row-gap);
+  gap: calc(var(--space-3xs) / 2);
   min-width: 0;
 }
 .provider-card__arrangement {
@@ -5464,6 +5464,9 @@ body:has(.modal[open]) {
 }
 .provider-card__arrangement .provider-card__rows {
   margin-top: calc(var(--offer-row-gap) - var(--space-2xs));
+}
+.provider-card__arrangement[hidden] {
+  display: none;
 }
 .provider-card__arrangement-title {
   font-size: var(--step--1);
@@ -5544,8 +5547,7 @@ body:has(.modal[open]) {
   align-items: center;
   justify-content: center;
   align-self: stretch;
-  padding-block: var(--space-s) var(--space-2xs);
-  margin-top: var(--space-2xs);
+  padding-block: var(--space-3xs) var(--space-2xs);
   text-align: center;
 }
 @media (min-width: 960px) {
@@ -5554,7 +5556,6 @@ body:has(.modal[open]) {
     gap: var(--space-2xs);
     inline-size: var(--provider-contact-size);
     padding-block: 0 var(--space-m);
-    padding-left: var(--space-l);
     margin-top: 0;
     margin-right: var(--space-s);
   }
