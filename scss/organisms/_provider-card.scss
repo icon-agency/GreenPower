@@ -27,10 +27,17 @@
 // the modal's content addresses providers, and no trader equivalent exists
 // yet (flagged in handover).
 //
-// The GAS offer sits on a white inset panel (the download-in-accordion lift):
-// certificates work differently from retail products, and when a card carries
-// both offers the two must read as two propositions, not one run of pills.
-// It keeps the panel when it stands alone so gas reads the same everywhere.
+// GROUPING BY SHADE, not lines (client, Sep 2026 — the multi-card section's
+// own pattern, brand taupe wrapping tint taupe): the offer shell is the DARK
+// taupe, each buyer group inside it is a LIGHTER tint-taupe panel, and the
+// fact lists step down again to WHITE cards (the business group's
+// arrangements, and the plain rows box everywhere else). Every level
+// contrasts with its parent, so the hierarchy reads from the surfaces alone
+// and the hairline seams and contact dividers the first pass used are gone.
+// GAS states one Business group exactly like electricity's (client: "for
+// consistency") — the head replaces the old "Available for" row — but with
+// no data-buyer-group attribute, so the buyer filter never empties a panel
+// that has no other group to show.
 //
 // Drupal mapping: a node TEASER view mode of accredited_provider, the rows of
 //   the buy view (see _provider-directory.scss):
@@ -48,7 +55,9 @@
 //   states, so for business both live on the arrangement, not the group,
 //   and an arrangement not offered simply has no paragraph.
 //   GAS: field_buyers (business), field_states, field_products (the
-//   certificate kinds) and the contact fields flat on the offer.
+//   certificate kinds) and the contact fields flat on the offer — the
+//   Business group head in the markup is presentational (preprocess renders
+//   the offer's single business audience as a group), not a sub-paragraph.
 //   The card's data-* filter attributes (buyer/contract/states) are the
 //   union across offers and groups, written by preprocess — the attribute
 //   describes the provider; the groups describe each branch.
@@ -61,11 +70,12 @@
   --provider-logo-pad: var(--space-2xs);
   // One width for every offer's contact block. Content-sized, the block took
   // the width of its widest line — so "What to ask your provider?" and the
-  // shorter "…trader?" put the divider at different x on the SAME card
-  // (client annotation: "make sure these align"). Fixed, the rule lands on
-  // one line down every panel and every card; sized a step above the widest
-  // content (the provider ask link plus the divider's inset) so nothing
-  // wraps, in rem so it rides the fluid root like the type it contains.
+  // shorter "…trader?" started the contact column at different x on the SAME
+  // card (client annotation: "make sure these align"). Fixed, the column
+  // lands on one line down every panel and every card (it used to carry a
+  // divider rule too — retired with the shade grouping, Sep 2026); sized a
+  // step above the widest content so nothing wraps, in rem so it rides the
+  // fluid root like the type it contains.
   --provider-contact-size: 15rem;
 
   display: flex;
@@ -134,8 +144,8 @@
   // sub-section of the first rather than its equal. The badge is what
   // distinguishes them.
   &__offer {
-    // The pills sit on the panel, so they take the card's tint to stay
-    // legible against it — the inverse of the card's own surface pair.
+    // Pill surface for anything sitting directly on the dark shell; the
+    // group and arrangement panels below re-state it for their own shade.
     --pill-surface: #{$color-tint-taupe};
 
     // The gap UNDER the badge is this column's gap plus the badge's own
@@ -150,7 +160,9 @@
     align-items: flex-start;
     align-self: stretch;
     padding: var(--space-s);
-    background-color: $color-white;
+    // The DARK end of the shade hierarchy (see the header): the shell is
+    // brand taupe and the panels inside lighten from it.
+    background-color: $color-brand-taupe;
     border-radius: $radius-md;
   }
 
@@ -258,29 +270,17 @@
     gap: 0;
     @include transition(background-color);
 
-    // Closed, the panel is a CONTROL, and it should look like one. It takes
-    // the card family's resting surface (brand taupe) rather than staying the
-    // white of an open panel, so a folded offer reads as a bar to press
-    // instead of an empty white box, and it lightens on hover — the
-    // accordion's pair of states, and the same one rule to remember.
-    //
-    // …with one substitution the surface underneath forces. The accordion
-    // lightens to tint taupe, but THIS card is tint taupe (rgb(243,239,229),
-    // measured), so hovering to it would dissolve the panel into the card at
-    // the exact moment the reader is pointing at it — a hover state that
-    // hides the thing being hovered. White instead: still lighter, still a
-    // token, and it is the colour the panel becomes when it OPENS, so the
-    // hover previews the result rather than inventing a third surface.
-    //
-    // Only the closed state is painted. An open panel is white already, and
-    // hovering it must not shift — the reader is pointing at the content, not
-    // at a control.
-    &:not([open]) {
-      background-color: $color-brand-taupe;
-
-      &:hover {
-        background-color: $color-white;
-      }
+    // Closed, the panel is a CONTROL, and it should look like one. Resting
+    // it already wears the shell's brand taupe — open and closed share the
+    // surface now that the shade hierarchy darkened the open shell — so the
+    // only painted state is the hover lighten. White, not tint taupe: the
+    // accordion's hover tint is this CARD's surface (rgb(243,239,229),
+    // measured), and hovering to it would dissolve the bar into the card at
+    // the exact moment the reader points at it — a hover state that hides
+    // the thing being hovered. Hover is scoped to the closed bar: an open
+    // panel must not shift under a reader pointing at its content.
+    &:not([open]):hover {
+      background-color: $color-white;
     }
 
     .provider-card__offer-body {
@@ -332,20 +332,25 @@
     }
   }
 
+  // Every group's facts wear the arrangement card (client, Sep 2026: "all
+  // consistent") — the household group holds one titled "Products from this
+  // provider", the gas group one titled "GreenPower RGGO certificates", and
+  // the business group one per purchase arrangement. So there is exactly
+  // one white-card shape in the panel, and this file styles no bare rows
+  // box any more.
+
   &__group {
     display: flex;
     flex-direction: column;
     gap: var(--offer-row-gap);
     align-self: stretch;
-    // A hairline seam above EVERY group (client review, Sep 2026: the first
-    // group takes the same rule the second always had) — it separates the
-    // group from whatever precedes it, the offer badge included, and stays
-    // lighter than the gas offer's separate panel because the groups are
-    // halves of ONE offer. On every group rather than between siblings,
-    // the seam also survives the buyer filter hiding a neighbour: whichever
-    // group leads still wears its own rule.
-    padding-top: var(--offer-row-gap);
-    border-top: 1px solid $color-ui-border;
+    padding: var(--space-s);
+    // One step lighter than the shell (the shade hierarchy — see the
+    // header): the surface is what says where a group begins and ends, so
+    // the seam rules the first pass drew are gone, and the buyer filter can
+    // hide either group without leaving a stray line behind.
+    background-color: $color-tint-taupe;
+    border-radius: $radius-md;
 
     // The filter's buyer choice hides the group the reader did not ask for
     // (the sync in the page tail). display: flex above outranks the UA's
@@ -355,12 +360,14 @@
     }
   }
 
-  // The group's header row: the buyer title, and on the business group the
-  // contract-options explainer link beside it — the dt-explainer pairing
-  // (quiet weight, base link colouring) one level up. Baseline-aligned so
-  // the link reads as an aside to the title, wrapping under it when the
-  // panel is narrow.
-  &__group-head {
+  // The header row of a group — and of an arrangement card, which carries
+  // the same title-plus-explainer shape one level down (client, Sep 2026:
+  // "What are these?" moves up beside each card's title). The dt-explainer
+  // pairing (quiet weight, base link colouring). Baseline-aligned so the
+  // link reads as an aside to the title, wrapping under it when the panel
+  // is narrow.
+  &__group-head,
+  &__arrangement-head {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3xs) var(--space-s);
@@ -418,11 +425,26 @@
   }
 
   &__arrangement {
+    // Third shade: white on the group's tint, so pills step back down to
+    // tint to stay visible.
+    --pill-surface: #{$color-tint-taupe};
+
     display: flex;
     flex-direction: column;
-    gap: var(--space-xs);
+    // The card reads title → its products → its location (client, Sep 2026:
+    // the products answer the title directly, no "Products" label between
+    // them). The tight gap is the dt-to-dd step; the location list then
+    // opens a full row break below the pills.
+    gap: var(--space-2xs);
     align-items: flex-start;
     align-self: stretch;
+    padding: var(--space-s);
+    background-color: $color-white;
+    border-radius: $radius-md;
+
+    .provider-card__rows {
+      margin-top: calc(var(--offer-row-gap) - var(--space-2xs));
+    }
   }
 
   // The arrangement's name — a step between the group title (base,
@@ -461,25 +483,16 @@
   }
 
   // Label/value rows as a real <dl> (the generator card's meta pattern);
-  // values are pill LISTS.
-  //
-  // "Available for" and "Available in" pair off into two columns, the first
-  // sized to its own content (it is always the same two short pills) and the
-  // second taking the rest — the products row then spans both. Stacked below
-  // sm, where two columns of pills would each be too narrow to hold one.
+  // values are pill LISTS. Since the Sep 2026 restructure every dl here
+  // holds ONE row — "Available in" at the foot of an arrangement card — but
+  // the dl stays: it is the label/value semantics, not a layout shell, and
+  // a future second fact slots in without touching the styles.
   &__rows {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: var(--offer-row-gap);
     align-self: stretch;
     margin: 0;
-
-    @include respond-to('sm') {
-      grid-template-columns: auto minmax(0, 1fr);
-      // Row gap matches the badge's; the column gap is its own horizontal
-      // measure and is unrelated.
-      gap: var(--offer-row-gap) var(--space-l);
-    }
   }
 
   // Label ABOVE its pills, not inline beside them: the values are a wrapping
@@ -514,14 +527,6 @@
 
     dd {
       margin: 0;
-    }
-  }
-
-  // The products/certificates row runs the full width beneath the pair — it
-  // carries the most pills and its label is the longest.
-  &__row--wide {
-    @include respond-to('sm') {
-      grid-column: 1 / -1;
     }
   }
 
@@ -566,51 +571,61 @@
   // a margin — a pill, a number and a link, stacked as one block (the client
   // annotation that shaped the old rail holds for the panel too).
   //
-  // A DIVIDER separates contact from facts in both regimes (client, Aug
-  // 2026): below md a rule above the block, from md a rule on its left. The
-  // block stretches across its axis in both, so the rule spans the panel
-  // rather than just the block's own extent, and the flex centring keeps the
-  // contents on the middle line regardless.
+  // The dividers the contact block used to wear (a rule above it stacked, a
+  // rule on its left from md — client, Aug 2026) are GONE with the shade
+  // grouping (client annotation, Sep 2026: "remove these lines"): the white
+  // facts card beside the contact is what separates the two now, and a line
+  // on top of that reads as belt and braces. The spacing the rules earned
+  // stays, so the contents sit where they did.
   &__contact {
     display: flex;
     flex-shrink: 0;
-    flex-direction: column;
-    gap: var(--space-2xs);
+    flex-wrap: wrap;
+    // Below md the contact sits UNDER the facts card, where a centred
+    // column left the panel's width unused — so the three items line up
+    // ACROSS it (client, Sep 2026: "side by side for this break point"),
+    // and flex wrap folds them back into a centred stack on phones too
+    // narrow to hold the row. The wide column gap is deliberate stride:
+    // three unrelated controls need clear water between them.
+    gap: var(--space-2xs) var(--space-l);
     align-items: center;
+    justify-content: center;
     align-self: stretch;
-    // Stacked: the panel's column gap already sits above the rule; the small
-    // margin is the "bit more" breathing room the review asked for, and the
-    // padding pair opens air under the rule and under the link before the
-    // panel's own padding closes the box.
+    // The padding pair opens air above the row and under it before the
+    // panel's own padding closes the box; the small margin is the "bit
+    // more" breathing room the review asked for.
     padding-block: var(--space-s) var(--space-2xs);
     margin-top: var(--space-2xs);
     text-align: center;
-    border-top: 1px solid $color-ui-border;
 
     @include respond-to('md') {
-      // Row regime: the rule moves to the left flank and runs the full panel
-      // height (align-self: stretch against the taller rows), with the body's
-      // own gap on its far side. justify-content re-centres the contents
-      // vertically INSIDE the stretched box; the bottom-only padding then
-      // biases them a half-step above true centre, and the right margin adds
-      // air against the card edge — both client-review nudges.
-      inline-size: var(--provider-contact-size); // one divider line, every panel
-      justify-content: center;
+      // Rail regime: back to a column beside the facts. Fixed inline-size
+      // keeps every panel's contact on one line down the listing;
+      // justify-content re-centres the contents vertically INSIDE the
+      // stretched box, the bottom-only padding biases them a half-step
+      // above true centre, and the right margin adds air against the card
+      // edge — both client-review nudges.
+      flex-direction: column;
+      gap: var(--space-2xs);
+      inline-size: var(--provider-contact-size);
       padding-block: 0 var(--space-m);
       padding-left: var(--space-l);
       margin-top: 0;
       margin-right: var(--space-s);
-      border-top: 0;
-      border-left: 1px solid $color-ui-border;
     }
   }
 
   &__phone {
     display: flex;
     flex-direction: column;
-    margin-top: var(--space-2xs);
     font-size: $font-size-sm;
     color: $color-ui-text;
+
+    // The nudge under the button belongs to the COLUMN regime — in the
+    // side-by-side row it would push the phone off the shared centre line.
+    @include respond-to('md') {
+      margin-top: var(--space-2xs);
+    }
   }
 
   // The number is the thing to read across the room — a step up and demibold.

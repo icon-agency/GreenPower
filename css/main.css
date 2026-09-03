@@ -5326,7 +5326,7 @@ body:has(.modal[open]) {
   align-items: flex-start;
   align-self: stretch;
   padding: var(--space-s);
-  background-color: #ffffff;
+  background-color: #ebe5d3;
   border-radius: 8px;
 }
 .provider-card__offer-summary {
@@ -5374,9 +5374,6 @@ body:has(.modal[open]) {
   gap: 0;
   transition: background-color 0.2s ease-in-out;
 }
-.provider-card details.provider-card__offer:not([open]) {
-  background-color: #ebe5d3;
-}
 .provider-card details.provider-card__offer:not([open]):hover {
   background-color: #ffffff;
 }
@@ -5412,24 +5409,25 @@ body:has(.modal[open]) {
   flex-direction: column;
   gap: var(--offer-row-gap);
   align-self: stretch;
-  padding-top: var(--offer-row-gap);
-  border-top: 1px solid rgba(0, 38, 62, 0.15);
+  padding: var(--space-s);
+  background-color: #f3efe5;
+  border-radius: 8px;
 }
 .provider-card__group[hidden] {
   display: none;
 }
-.provider-card__group-head {
+.provider-card__group-head, .provider-card__arrangement-head {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3xs) var(--space-s);
   align-items: baseline;
   align-self: stretch;
 }
-.provider-card__group-head a {
+.provider-card__group-head a, .provider-card__arrangement-head a {
   font-size: var(--step--1);
   font-weight: 400;
 }
-.provider-card__group-head a:hover {
+.provider-card__group-head a:hover, .provider-card__arrangement-head a:hover {
   color: #00263e;
 }
 .provider-card__group-title {
@@ -5454,11 +5452,18 @@ body:has(.modal[open]) {
   min-width: 0;
 }
 .provider-card__arrangement {
+  --pill-surface: #f3efe5;
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-2xs);
   align-items: flex-start;
   align-self: stretch;
+  padding: var(--space-s);
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+.provider-card__arrangement .provider-card__rows {
+  margin-top: calc(var(--offer-row-gap) - var(--space-2xs));
 }
 .provider-card__arrangement-title {
   font-size: var(--step--1);
@@ -5493,12 +5498,6 @@ body:has(.modal[open]) {
   align-self: stretch;
   margin: 0;
 }
-@media (min-width: 640px) {
-  .provider-card__rows {
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: var(--offer-row-gap) var(--space-l);
-  }
-}
 .provider-card__row {
   display: flex;
   flex-direction: column;
@@ -5520,11 +5519,6 @@ body:has(.modal[open]) {
 .provider-card__row dd {
   margin: 0;
 }
-@media (min-width: 640px) {
-  .provider-card__row--wide {
-    grid-column: 1/-1;
-  }
-}
 .provider-card__pills {
   display: flex;
   flex-wrap: wrap;
@@ -5545,33 +5539,36 @@ body:has(.modal[open]) {
 .provider-card__contact {
   display: flex;
   flex-shrink: 0;
-  flex-direction: column;
-  gap: var(--space-2xs);
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-l);
   align-items: center;
+  justify-content: center;
   align-self: stretch;
   padding-block: var(--space-s) var(--space-2xs);
   margin-top: var(--space-2xs);
   text-align: center;
-  border-top: 1px solid rgba(0, 38, 62, 0.15);
 }
 @media (min-width: 960px) {
   .provider-card__contact {
+    flex-direction: column;
+    gap: var(--space-2xs);
     inline-size: var(--provider-contact-size);
-    justify-content: center;
     padding-block: 0 var(--space-m);
     padding-left: var(--space-l);
     margin-top: 0;
     margin-right: var(--space-s);
-    border-top: 0;
-    border-left: 1px solid rgba(0, 38, 62, 0.15);
   }
 }
 .provider-card__phone {
   display: flex;
   flex-direction: column;
-  margin-top: var(--space-2xs);
   font-size: var(--step--1);
   color: #00263e;
+}
+@media (min-width: 960px) {
+  .provider-card__phone {
+    margin-top: var(--space-2xs);
+  }
 }
 .provider-card__phone-num {
   font-size: var(--step-1);
