@@ -456,6 +456,21 @@ $hero-stage-floor: 32rem;
     position: relative;
     z-index: 1;
     margin-top: calc(-1 * var(--hero-peek));
+
+    // Letterbox: no peek. The intrusion is sized against the STAGE's base,
+    // and the stage floor put that base below the fold — but only just: a
+    // 440px-tall landscape phone (iPhone 16 Pro Max, client-reported) is
+    // short enough for the letterbox regime yet tall enough that the peek
+    // band pokes back above the fold, landing the green on the utilities row
+    // the same regime pinned to the viewport's bottom edge. In letterbox the
+    // shape belongs entirely below the fold — one flick away, like the rest
+    // of the stage's tail. Same threshold as the floor, so the regimes
+    // switch together; the taller-hero consequence is absorbed by the
+    // rect-based scroll JS.
+    @include short($hero-stage-floor) {
+      margin-top: 0;
+    }
+
     overflow: hidden;
     // The panel box spans the full width (including the transparent area
     // right of the diagonal) and paints ABOVE the sticky frame — the frame

@@ -1356,6 +1356,13 @@ mark {
   position: relative;
   z-index: 1;
   margin-top: calc(-1 * var(--hero-peek));
+}
+@media (max-height: 32rem) {
+  .hero__panel {
+    margin-top: 0;
+  }
+}
+.hero__panel {
   overflow: hidden;
   pointer-events: none;
 }
