@@ -131,6 +131,31 @@ About-you options are client-confirmed (Aug 2026).
   The explainer modal is wired on electricity links only — no trader
   equivalent of the "What to ask your provider" content exists yet; confirm
   with the client whether gas gets its own modal or a plain page link.
+- Buy GreenPower directory — electricity offers grouped by BUYER (client
+  purchase-flow update, Sep 2026): the flow branches Household/Business
+  first, and only Business reaches the bundled/decoupled question. Each
+  electricity offer now renders one `provider-card__group` per buyer —
+  Household (location, products, contact), Business (the contract-options
+  explainer link, then ONE BLOCK PER ARRANGEMENT — "Bundle with your
+  contract" / "Decoupled from your contract" — each carrying its OWN
+  "Available in" and its OWN products (client: both products and states can
+  differ per arrangement; an arrangement not offered has no block), then
+  contact). The buyer filter hides the non-matching group. SECOND CONTENT
+  MODEL CHANGE on the same paragraph: electricity provider_offer gains
+  per-buyer sub-paragraphs (offer_buyer_group) carrying contact fields,
+  with household adding states + products directly and business nesting one
+  offer_arrangement sub-paragraph per arrangement (arrangement, states,
+  products) — full field sketch in the `_provider-card.scss` header.
+  Gas offers are unchanged (business-only, certificates, flat list). The
+  prototype's per-arrangement product/state splits and duplicated contact
+  numbers are INVENTED FILLER — real values come from the provider records;
+  confirm with the client whether household/business contacts genuinely
+  differ per provider or fall back to one shared set when only one is
+  authored. FILTER CAVEAT for the Drupal build: the prototype card matches
+  on UNION attributes (data-states × data-contract independently), so a
+  provider bundled-in-NSW and decoupled-in-VIC matches "bundled + VIC" even
+  though no single arrangement offers it — the real view should match the
+  chosen state WITHIN the chosen arrangement.
 - Homepage hero — letterbox (landscape phone) support: the stage is FLOORED at
   `$hero-stage-floor` (32rem, `_hero.scss`) via `max(100svh, floor)` on every
   layer height, scrim distances are floored fractions of the stage, and under

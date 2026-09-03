@@ -9,13 +9,23 @@
 // offer (website, phone, the explainer), and dressing the facts as chips
 // would bury them.
 //
-// The contact block lives INSIDE each offer, not in a card-level rail
-// (client, Aug 2026): an accreditation has its OWN website, phone and
-// explainer, worded to its type — "What to ask your provider?" on the
-// electricity offer, "What to ask your trader?" on gas — so a two-offer
-// company states two contacts. That is also why the explainer modal is
-// wired on the electricity link only: the modal's content addresses
-// providers, and no trader equivalent exists yet (flagged in handover).
+// The ELECTRICITY offer splits into one BUYER GROUP per audience it serves
+// (client purchase-flow update, Sep 2026): the flow branches on the buyer
+// first, and only the business branch reaches the bundled/decoupled
+// question. So the household group states location + products + its own
+// contact, and the business group states location + one products list PER
+// arrangement (client: "each option will have its own products") + its own
+// contact, with the contract-options explainer in its header. The old
+// "Available for" row is gone — the grouping states it. GAS offers keep
+// the flat list: business-only, certificates, no arrangement split.
+//
+// The contact block lives INSIDE each offer — and on electricity, inside
+// each buyer group (client, Aug/Sep 2026): every branch of the flow ends in
+// its own website, phone and explainer, worded to its type — "What to ask
+// your provider?" on electricity, "What to ask your trader?" on gas. That
+// is also why the explainer modal is wired on the electricity links only:
+// the modal's content addresses providers, and no trader equivalent exists
+// yet (flagged in handover).
 //
 // The GAS offer sits on a white inset panel (the download-in-accordion lift):
 // certificates work differently from retail products, and when a card carries
@@ -25,15 +35,23 @@
 // Drupal mapping: a node TEASER view mode of accredited_provider, the rows of
 //   the buy view (see _provider-directory.scss):
 //   title, field_logo (media image),
-//   field_offers (repeatable paragraph provider_offer: field_website (link),
-//   field_phone (telephone), field_ask_link (link — the "what to ask"
-//   explainer page) — contact moved from the NODE to the OFFER paragraph
-//   (client, Aug 2026: each accreditation carries its own), field_offer_type
-//   (electricity|gas taxonomy), field_buyers (household/business taxonomy,
-//   multiple), field_states (taxonomy, multiple, or the "all" flag),
-//   field_products (text, multiple — GreenPower 25/50/100 or the certificate
-//   kinds)). The card's data-* filter attributes are the union of its offers,
-//   written by preprocess.
+//   field_offers (repeatable paragraph provider_offer: field_offer_type
+//   (electricity|gas taxonomy), and then per type —
+//   ELECTRICITY: field_buyer_groups (repeatable sub-paragraph
+//   offer_buyer_group: field_buyer (household|business), field_website
+//   (link), field_phone (telephone), field_ask_link (link — the "what to
+//   ask" explainer); household adds field_states (taxonomy, multiple, or
+//   the "all" flag) and field_products (text, multiple); business nests one
+//   further sub-paragraph PER ARRANGEMENT (offer_arrangement:
+//   field_arrangement (bundled|decoupled), field_states, field_products) —
+//   client, Sep 2026: each arrangement carries its own products AND its own
+//   states, so for business both live on the arrangement, not the group,
+//   and an arrangement not offered simply has no paragraph.
+//   GAS: field_buyers (business), field_states, field_products (the
+//   certificate kinds) and the contact fields flat on the offer.
+//   The card's data-* filter attributes (buyer/contract/states) are the
+//   union across offers and groups, written by preprocess — the attribute
+//   describes the provider; the groups describe each branch.
 // -----------------------------------------------------------------------------
 
 .provider-card {
@@ -278,7 +296,13 @@
   // two-offer card everything after the <summary> lives inside the browser's
   // ::details-content box — the wrapper gives both card variants the same
   // one child to lay out.
-  &__offer-body {
+  //
+  // One selector for two levels: the gas offer lays rows + contact out on the
+  // offer body itself, and the grouped electricity offer lays them out inside
+  // EACH buyer group's body — the same two regimes either way, so they are
+  // stated once.
+  &__offer-body,
+  &__group-body {
     display: flex;
     flex-direction: column;
     gap: var(--offer-row-gap);
@@ -294,6 +318,121 @@
       flex: 1 1 auto;
       min-width: 0;
     }
+  }
+
+  // --- Buyer groups inside the electricity offer (client flow, Sep 2026) ---
+  //
+  // The offer body holding groups is only a stack — the md row regime above
+  // belongs to each group's body now, so it is unwound here.
+  &__offer-body--grouped {
+    @include respond-to('md') {
+      flex-direction: column;
+      gap: var(--offer-row-gap);
+      align-items: stretch;
+    }
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--offer-row-gap);
+    align-self: stretch;
+    // A hairline seam above EVERY group (client review, Sep 2026: the first
+    // group takes the same rule the second always had) — it separates the
+    // group from whatever precedes it, the offer badge included, and stays
+    // lighter than the gas offer's separate panel because the groups are
+    // halves of ONE offer. On every group rather than between siblings,
+    // the seam also survives the buyer filter hiding a neighbour: whichever
+    // group leads still wears its own rule.
+    padding-top: var(--offer-row-gap);
+    border-top: 1px solid $color-ui-border;
+
+    // The filter's buyer choice hides the group the reader did not ask for
+    // (the sync in the page tail). display: flex above outranks the UA's
+    // [hidden] rule (LESSONS.md), so the hiding is stated by the component.
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // The group's header row: the buyer title, and on the business group the
+  // contract-options explainer link beside it — the dt-explainer pairing
+  // (quiet weight, base link colouring) one level up. Baseline-aligned so
+  // the link reads as an aside to the title, wrapping under it when the
+  // panel is narrow.
+  &__group-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs) var(--space-s);
+    align-items: baseline;
+    align-self: stretch;
+
+    a {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-regular;
+
+      &:hover {
+        color: $color-brand-blue;
+      }
+    }
+  }
+
+  // The buyer's name, wearing the same glyph the filter's buyer pill wears —
+  // the reader picked "Household" up in the band, and the group answering
+  // that pick repeats its mark. lg — the card-name step (client review,
+  // Sep 2026: "bigger" — base read as a row label with a glyph rather than
+  // the heading of everything beneath it); the offer badge's fill and the
+  // card name's position outside the panel keep all three distinct. The
+  // glyph rides in em, so it grows with the title; the tight 3xs gap pairs
+  // them as one mark-plus-word unit (same review: "closer together"). No
+  // fill — the offer badge above is the only filled title in the panel,
+  // and a second one would compete.
+  &__group-title {
+    display: flex;
+    gap: var(--space-3xs);
+    align-items: center;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-demibold;
+    color: $color-brand-dark-green;
+
+    img {
+      flex-shrink: 0;
+      width: 1.15em;
+      height: 1.15em;
+      object-fit: contain;
+    }
+  }
+
+  // Per-arrangement facts inside the BUSINESS group (client, Sep 2026,
+  // second pass): the states an arrangement is sold in can differ from its
+  // sibling's, so location belongs to the ARRANGEMENT, not the group — each
+  // arrangement states its own Available in + Products under a small title.
+  // The wrapper takes the rows' place beside the contact block in the
+  // group body; a single-arrangement provider simply has one block.
+  &__arrangements {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: var(--offer-row-gap);
+    min-width: 0;
+  }
+
+  &__arrangement {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    align-items: flex-start;
+    align-self: stretch;
+  }
+
+  // The arrangement's name — a step between the group title (base,
+  // demibold, glyph) and the row labels beneath it (sm, regular): same sm
+  // as the rows it heads, demibold so it reads as heading them rather than
+  // labelling a value of its own.
+  &__arrangement-title {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-demibold;
+    color: $color-brand-dark-green;
   }
 
   // The shared tag pill with the energy-type glyph — the generator badge's

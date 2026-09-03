@@ -5383,22 +5383,87 @@ body:has(.modal[open]) {
 .provider-card details.provider-card__offer .provider-card__offer-body {
   margin-top: var(--offer-row-gap);
 }
-.provider-card__offer-body {
+.provider-card__offer-body, .provider-card__group-body {
   display: flex;
   flex-direction: column;
   gap: var(--offer-row-gap);
   align-self: stretch;
 }
 @media (min-width: 960px) {
-  .provider-card__offer-body {
+  .provider-card__offer-body, .provider-card__group-body {
     flex-direction: row;
     gap: var(--space-l);
     align-items: center;
   }
 }
-.provider-card__offer-body .provider-card__rows {
+.provider-card__offer-body .provider-card__rows, .provider-card__group-body .provider-card__rows {
   flex: 1 1 auto;
   min-width: 0;
+}
+@media (min-width: 960px) {
+  .provider-card__offer-body--grouped {
+    flex-direction: column;
+    gap: var(--offer-row-gap);
+    align-items: stretch;
+  }
+}
+.provider-card__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--offer-row-gap);
+  align-self: stretch;
+  padding-top: var(--offer-row-gap);
+  border-top: 1px solid rgba(0, 38, 62, 0.15);
+}
+.provider-card__group[hidden] {
+  display: none;
+}
+.provider-card__group-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3xs) var(--space-s);
+  align-items: baseline;
+  align-self: stretch;
+}
+.provider-card__group-head a {
+  font-size: var(--step--1);
+  font-weight: 400;
+}
+.provider-card__group-head a:hover {
+  color: #00263e;
+}
+.provider-card__group-title {
+  display: flex;
+  gap: var(--space-3xs);
+  align-items: center;
+  font-size: var(--step-1);
+  font-weight: 500;
+  color: #006341;
+}
+.provider-card__group-title img {
+  flex-shrink: 0;
+  width: 1.15em;
+  height: 1.15em;
+  object-fit: contain;
+}
+.provider-card__arrangements {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--offer-row-gap);
+  min-width: 0;
+}
+.provider-card__arrangement {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  align-items: flex-start;
+  align-self: stretch;
+}
+.provider-card__arrangement-title {
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: #006341;
 }
 .provider-card__offer-badge {
   display: inline-flex;
