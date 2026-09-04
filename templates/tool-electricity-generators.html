@@ -892,6 +892,16 @@
     </section>
   </main>
 
+  <!-- Floating back-to-top for the long directory. A plain link to #top like
+       the footer's; authored hidden, the script in the tail unhides it and
+       shows it only between the page header scrolling away and the footer
+       arriving (see _back-to-top.scss). Drupal: theme markup in
+       page.html.twig, no fields. -->
+  <a class="back-to-top" href="#top" data-back-to-top hidden>
+    <span class="visually-hidden">Back to top</span>
+    <svg width="14" height="18" viewBox="0 0 10 14" aria-hidden="true" focusable="false"><path d="M5 13V2M1 6l4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+
   <footer class="site-footer">
     <div class="site-footer__band">
       <section class="footer-subscribe" data-animate aria-labelledby="footer-subscribe-title">
@@ -1820,8 +1830,17 @@
           // Leaflet's pan/zoom easing is motion — honour the preference
           zoomAnimation: !reduced.matches,
           fadeAnimation: !reduced.matches,
-          markerZoomAnimation: !reduced.matches
+          markerZoomAnimation: !reduced.matches,
+          // Added by hand below, in the other corner
+          attributionControl: false
         });
+
+        // The licence line goes bottom-LEFT: the map's bottom-right is where
+        // the page's floating back-to-top sits (_back-to-top.scss), and a
+        // control over the credit would hide what OpenStreetMap requires to
+        // be visible. Created before the tile layer so it collects that
+        // layer's attribution as it is added.
+        L.control.attribution({ position: 'bottomleft' }).addTo(map);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
@@ -2772,6 +2791,39 @@
 
       syncTriggers();
       apply();
+    })();
+  </script>
+  <!-- Floating back-to-top: shown once the page header (with the filters)
+       has scrolled above the viewport, hidden again while the footer is in
+       view because the footer carries its own link. One IntersectionObserver
+       over those two landmarks — no scroll listener — and the control is
+       unhidden only once the observer is live, so a script that fails leaves
+       it hidden rather than parked in the corner (progressive enhancement,
+       docs/animation.md rule 1). Drupal: a once()-guarded behavior. -->
+  <script>
+    (function () {
+      var link = document.querySelector('[data-back-to-top]');
+      var header = document.querySelector('.page-header');
+      var footer = document.querySelector('.site-footer');
+      if (!link || !header || !footer || !('IntersectionObserver' in window)) return;
+      var headerAbove = false; // scrolled past, not merely not yet reached
+      var footerInView = false;
+      function sync() {
+        link.classList.toggle('is-visible', headerAbove && !footerInView);
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.target === header) {
+            headerAbove = !entry.isIntersecting && entry.boundingClientRect.bottom < 0;
+          } else {
+            footerInView = entry.isIntersecting;
+          }
+        });
+        sync();
+      });
+      io.observe(header);
+      io.observe(footer);
+      link.hidden = false;
     })();
   </script>
 </body>
