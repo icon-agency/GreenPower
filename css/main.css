@@ -5999,6 +5999,49 @@ body:has(.modal[open]) {
   gap: var(--space-l);
 }
 
+.back-to-top {
+  position: fixed;
+  right: var(--space-m);
+  bottom: var(--space-m);
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  color: #ffffff;
+  background-color: #006341;
+  border-radius: 100em;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(var(--space-2xs));
+  transition: opacity 0.25s ease-out, transform 0.25s ease-out, visibility 0.25s ease-out, background-color 0.25s ease-out;
+}
+.back-to-top.is-visible {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+.back-to-top[hidden] {
+  display: none;
+}
+.back-to-top svg {
+  flex-shrink: 0;
+  width: 0.875rem;
+  height: 1.125rem;
+  transition: transform 0.2s ease-out;
+}
+.back-to-top:hover {
+  background-color: #009f4d;
+}
+.back-to-top:hover svg {
+  transform: translateY(calc(-1 * var(--space-3xs)));
+}
+.back-to-top:focus-visible {
+  outline: 3px solid #009f4d;
+  outline-offset: 2px;
+}
+
 .page-body {
   max-width: 1700px;
   margin-inline: auto;

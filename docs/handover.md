@@ -158,6 +158,14 @@ About-you options are client-confirmed (Aug 2026).
   provider bundled-in-NSW and decoupled-in-VIC matches "bundled + VIC" even
   though no single arrangement offers it — the real view should match the
   chosen state WITHIN the chosen arrangement.
+- Buy GreenPower directory — floating back-to-top (client, Sep 2026): a
+  fixed circle (`back-to-top`, `_back-to-top.scss`) linking to `#top` like
+  the footer's link. Authored `hidden`; the page-tail observer unhides it and
+  shows it only after the page header has scrolled above the viewport, hiding
+  it again while the footer is in view so the two links never double up.
+  Drupal: theme markup in page.html.twig (a theme setting if editors want it
+  off), the observer a once()-guarded behavior. Buy tool only for now — the
+  generators tool and news listing can take the same markup and script.
 - Homepage hero — letterbox (landscape phone) support: the stage is FLOORED at
   `$hero-stage-floor` (32rem, `_hero.scss`) via `max(100svh, floor)` on every
   layer height, scrim distances are floored fractions of the stage, and under

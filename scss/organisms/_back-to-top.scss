@@ -1,0 +1,83 @@
+// -----------------------------------------------------------------------------
+// Back to top — the floating circle
+// -----------------------------------------------------------------------------
+// A small fixed control in the bottom-right corner carrying the footer's
+// upward arrow, for the long directory pages where the footer's own "Back to
+// top" is a full listing away. It appears once the page header (title,
+// intro, filters) has scrolled out of view and goes again as soon as the
+// footer enters the viewport, so the two links are never on screen together.
+//
+// A plain link to #top — the same target the footer link uses — so it works
+// with no script. Authored [hidden]: with no JavaScript there is nothing to
+// decide when it should show, and a control parked in the corner of every
+// screen is noise, so the script unhides it and drives .is-visible from one
+// IntersectionObserver over the header and the footer (page tail).
+//
+// Drupal: theme markup in page.html.twig beside the footer's back-to-top,
+// behind a theme setting if editors want it off; the observer becomes a
+// once()-guarded behavior. No fields.
+//
+// Markup:
+//   <a class="back-to-top" href="#top" data-back-to-top hidden>
+//     <span class="visually-hidden">Back to top</span>
+//     <svg …upward arrow…>
+//   </a>
+
+.back-to-top {
+  position: fixed;
+  // One step in from each edge; the size is a comfortable target (WCAG
+  // 2.5.8 wants 24px, 44px is the pointer-friendly floor) in rem so it
+  // rides the root like the arrow inside it.
+  right: var(--space-m);
+  bottom: var(--space-m);
+  // Under the nav: an open menu sheet must cover it, not sit behind it.
+  z-index: $z-nav - 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  color: $color-white;
+  background-color: $color-brand-dark-green;
+  border-radius: $radius-pill;
+  // The hidden state: faded, dropped a step, and out of the tab order via
+  // visibility so keyboard users never land on a control they cannot see.
+  // visibility transitions as a step at the END of the fade-out and the
+  // START of the fade-in, which is exactly the order wanted.
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(var(--space-2xs));
+  @include transition((opacity, transform, visibility, background-color), 0.25s, ease-out);
+
+  &.is-visible {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  // The UA's [hidden] loses to display: flex above, so the no-JS state is
+  // stated here (LESSONS.md).
+  &[hidden] {
+    display: none;
+  }
+
+  svg {
+    flex-shrink: 0;
+    width: 0.875rem;
+    height: 1.125rem;
+    // The footer link's rise-on-hover, same travel, same easing.
+    @include transition(transform, 0.2s, ease-out);
+  }
+
+  &:hover {
+    background-color: $color-brand-green;
+
+    svg {
+      transform: translateY(calc(-1 * var(--space-3xs)));
+    }
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
