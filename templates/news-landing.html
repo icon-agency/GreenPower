@@ -400,9 +400,19 @@
                name for assistive tech via aria-label instead. -->
           <ul class="news-filter__list" aria-label="Filter news by type">
             <li><button class="news-filter__pill" type="button" aria-pressed="true" data-news-filter-all>All</button></li>
-            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="announcement">Announcements</button></li>
-            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="news">News</button></li>
-            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="sponsored-event">Sponsored events</button></li>
+            <!-- The news vocabulary (client, Sep 2026): Renewable electricity,
+                 Renewable gas, Program updates, Reports and insights, Events —
+                 "Sponsored event" became "Event". The tag on a card carries the
+                 term as the vocabulary states it; a pill takes the plural where
+                 one exists ("Events"). Renewable electricity and Reports and
+                 insights have no demonstration record yet, so they show the
+                 empty state until the first article is filed under them — the
+                 honest rendering of a real vocabulary ahead of its content. -->
+            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="renewable-electricity">Renewable electricity</button></li>
+            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="renewable-gas">Renewable gas</button></li>
+            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="program-updates">Program updates</button></li>
+            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="reports-insights">Reports and insights</button></li>
+            <li><button class="news-filter__pill" type="button" aria-pressed="false" data-news-filter-type="event">Events</button></li>
           </ul>
           <p class="visually-hidden" aria-live="polite" data-news-filter-status></p>
         </div>
@@ -435,10 +445,10 @@
              data-news-type stays: it is the record's real type (it drives the
              tag and the visually-hidden title suffix), and only
              data-news-featured exempts it from the filter. -->
-        <article class="card card--news card--featured" data-animate data-news-type="announcement" data-news-featured>
+        <article class="card card--news card--featured" data-animate data-news-type="program-updates" data-news-featured>
           <div class="card__media">
             <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Announcement</span>
+            <span class="card__tag" aria-hidden="true">Program updates</span>
           </div>
           <div class="card__content">
             <p class="card__eyebrow">Featured</p>
@@ -461,26 +471,26 @@
         <!-- The EVENT teaser — same card, one field swapped: the meta line
              carries the event date range (field_event_dates) instead of the
              published date, exactly as the event article's own meta block
-             does. Also the "Sponsored events" pill's demonstration record —
+             does. Also the "Events" pill's demonstration record —
              the pill existed with no card carrying its type. Links to the
              event article. -->
-        <article class="card card--news" data-animate data-news-type="sponsored-event">
+        <article class="card card--news" data-animate data-news-type="event">
           <div class="card__media">
             <img src="../assets/news-events/Transform-2026-103.jpg" alt="A speaker presenting to a conference audience at GBCA Transform" width="1772" height="1182" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Sponsored event</span>
+            <span class="card__tag" aria-hidden="true">Event</span>
           </div>
           <div class="card__content">
-            <h3 class="card__title"><a class="card__title-link" href="event-article.html">GreenPower Sponsors GBCA Transform 2025<span class="visually-hidden"> &mdash; Sponsored event</span></a></h3>
+            <h3 class="card__title"><a class="card__title-link" href="event-article.html">GreenPower Sponsors GBCA Transform 2025<span class="visually-hidden"> &mdash; Event</span></a></h3>
             <p class="card__body">GreenPower is the official renewable electricity sponsor for GBCA Transform 2025, the Green Building Council of Australia&rsquo;s annual flagship conference.</p>
             <p class="card__meta"><span class="card__meta-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span><span class="visually-hidden">Event dates: </span><time datetime="2025-03-19">19 Mar 2025</time> &ndash; <time datetime="2025-03-20">20 Mar 2025</time></span></span>
               <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
           </div>
         </article>
 
-        <article class="card card--news" data-animate data-news-type="announcement">
+        <article class="card card--news" data-animate data-news-type="program-updates">
           <div class="card__media">
             <img src="../assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Announcement</span>
+            <span class="card__tag" aria-hidden="true">Program updates</span>
           </div>
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="news-article.html">LCLF and Biogenic CO2 Certification announcement<span class="visually-hidden"> &mdash; Announcement</span></a></h3>
@@ -490,10 +500,10 @@
           </div>
         </article>
 
-        <article class="card card--news" data-animate data-news-type="news">
+        <article class="card card--news" data-animate data-news-type="renewable-gas">
           <div class="card__media">
             <img src="../assets/images/gas.png" alt="Aerial view of a biogas facility among green fields" width="1500" height="1500" loading="lazy">
-            <span class="card__tag" aria-hidden="true">News</span>
+            <span class="card__tag" aria-hidden="true">Renewable gas</span>
           </div>
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="news-article.html">Renewable Gas Certification Rules &ndash; version 3.0<span class="visually-hidden"> &mdash; News</span></a></h3>
@@ -503,10 +513,10 @@
           </div>
         </article>
 
-        <article class="card card--news" data-animate data-news-type="news">
+        <article class="card card--news" data-animate data-news-type="program-updates">
           <div class="card__media">
             <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
-            <span class="card__tag" aria-hidden="true">News</span>
+            <span class="card__tag" aria-hidden="true">Program updates</span>
           </div>
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="news-article.html">GreenPower Program Rules Version 11.3 &ndash; What&rsquo;s changed and why<span class="visually-hidden"> &mdash; News</span></a></h3>
@@ -516,10 +526,10 @@
           </div>
         </article>
 
-        <article class="card card--news" data-animate data-news-type="announcement">
+        <article class="card card--news" data-animate data-news-type="program-updates">
           <div class="card__media">
             <img src="../assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Announcement</span>
+            <span class="card__tag" aria-hidden="true">Program updates</span>
           </div>
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="news-article.html">LCLF and Biogenic CO2 Certification announcement<span class="visually-hidden"> &mdash; Announcement</span></a></h3>
@@ -529,10 +539,10 @@
           </div>
         </article>
 
-        <article class="card card--news" data-animate data-news-type="news">
+        <article class="card card--news" data-animate data-news-type="renewable-gas">
           <div class="card__media">
             <img src="../assets/images/gas.png" alt="Aerial view of a biogas facility among green fields" width="1500" height="1500" loading="lazy">
-            <span class="card__tag" aria-hidden="true">News</span>
+            <span class="card__tag" aria-hidden="true">Renewable gas</span>
           </div>
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="news-article.html">Renewable Gas Certification Rules &ndash; version 3.0<span class="visually-hidden"> &mdash; News</span></a></h3>
@@ -542,10 +552,10 @@
           </div>
         </article>
 
-        <article class="card card--news" data-animate data-news-type="news">
+        <article class="card card--news" data-animate data-news-type="program-updates">
           <div class="card__media">
             <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
-            <span class="card__tag" aria-hidden="true">News</span>
+            <span class="card__tag" aria-hidden="true">Program updates</span>
           </div>
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="news-article.html">GreenPower Program Rules Version 11.3 &ndash; What&rsquo;s changed and why<span class="visually-hidden"> &mdash; News</span></a></h3>
@@ -555,10 +565,10 @@
           </div>
         </article>
 
-        <article class="card card--news" data-animate data-news-type="announcement">
+        <article class="card card--news" data-animate data-news-type="program-updates">
           <div class="card__media">
             <img src="../assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Announcement</span>
+            <span class="card__tag" aria-hidden="true">Program updates</span>
           </div>
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="news-article.html">LCLF and Biogenic CO2 Certification announcement<span class="visually-hidden"> &mdash; Announcement</span></a></h3>
@@ -568,10 +578,10 @@
           </div>
         </article>
 
-        <article class="card card--news" data-animate data-news-type="news">
+        <article class="card card--news" data-animate data-news-type="renewable-gas">
           <div class="card__media">
             <img src="../assets/images/gas.png" alt="Aerial view of a biogas facility among green fields" width="1500" height="1500" loading="lazy">
-            <span class="card__tag" aria-hidden="true">News</span>
+            <span class="card__tag" aria-hidden="true">Renewable gas</span>
           </div>
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="news-article.html">Renewable Gas Certification Rules &ndash; version 3.0<span class="visually-hidden"> &mdash; News</span></a></h3>
@@ -581,10 +591,10 @@
           </div>
         </article>
 
-        <article class="card card--news" data-animate data-news-type="news">
+        <article class="card card--news" data-animate data-news-type="program-updates">
           <div class="card__media">
             <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
-            <span class="card__tag" aria-hidden="true">News</span>
+            <span class="card__tag" aria-hidden="true">Program updates</span>
           </div>
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="news-article.html">GreenPower Program Rules Version 11.3 &ndash; What&rsquo;s changed and why<span class="visually-hidden"> &mdash; News</span></a></h3>
@@ -594,10 +604,10 @@
           </div>
         </article>
 
-        <article class="card card--news" data-animate data-news-type="announcement">
+        <article class="card card--news" data-animate data-news-type="program-updates">
           <div class="card__media">
             <img src="../assets/images/emerging.png" alt="Gloved hand holding vials of amber biofuel at a refinery at sunset" width="1500" height="1500" loading="lazy">
-            <span class="card__tag" aria-hidden="true">Announcement</span>
+            <span class="card__tag" aria-hidden="true">Program updates</span>
           </div>
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="news-article.html">LCLF and Biogenic CO2 Certification announcement<span class="visually-hidden"> &mdash; Announcement</span></a></h3>
@@ -607,10 +617,10 @@
           </div>
         </article>
 
-        <article class="card card--news" data-animate data-news-type="news">
+        <article class="card card--news" data-animate data-news-type="renewable-gas">
           <div class="card__media">
             <img src="../assets/images/gas.png" alt="Aerial view of a biogas facility among green fields" width="1500" height="1500" loading="lazy">
-            <span class="card__tag" aria-hidden="true">News</span>
+            <span class="card__tag" aria-hidden="true">Renewable gas</span>
           </div>
           <div class="card__content">
             <h3 class="card__title"><a class="card__title-link" href="news-article.html">Renewable Gas Certification Rules &ndash; version 3.0<span class="visually-hidden"> &mdash; News</span></a></h3>

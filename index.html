@@ -1071,7 +1071,7 @@
       <section class="ds-section" id="article-card" aria-labelledby="article-card-title">
         <h3 class="ds-section__title" id="article-card-title">Article card</h3>
         <p class="ds-section__intro">The news/event teaser &mdash; <code class="ds-code">.card--news</code> on the shared card anatomy: a 3:2 media crop with the type tag floating over it, the title carrying the whole-card link (stretched over the tile, with a visually-hidden type suffix so the link name stands alone in a screen-reader list), a line or two of <code class="ds-code">field_summary</code>, and the meta row &mdash; a date on the left, the arrow on the right.</p>
-        <p class="ds-section__intro">THE RULES, in one place. <strong>Type terms</strong>: News, Announcement, Sponsored event &mdash; the tag carries the singular term, the news landing&rsquo;s filter pill the plural (&ldquo;Announcements&rdquo;, &ldquo;Sponsored events&rdquo;), and <code class="ds-code">data-news-type</code> carries the machine name the filter matches. <strong>Dates</strong>: news and announcements show the published date; a <strong>Sponsored event</strong> swaps in <code class="ds-code">field_event_dates</code> &mdash; the range with the calendar glyph in front, one flex item via <code class="ds-code">.card__meta-date</code> (the meta row is space-between; loose children would scatter), with a visually-hidden &ldquo;Event dates:&rdquo; label. <strong>Featured</strong> (<code class="ds-code">.card--featured</code>): the landing&rsquo;s lead card takes the identical date swap unchanged &mdash; <code class="ds-code">__meta-date</code> lives on the card block, so every variant inherits it. <strong>Drupal</strong>: one teaser view mode with a conditional date field, not a template per type; the featured view mode renders the same field rule.</p>
+        <p class="ds-section__intro">THE RULES, in one place. <strong>Type terms</strong> (client vocabulary, Sep 2026): Renewable electricity, Renewable gas, Program updates, Reports and insights, Event &mdash; the tag carries the term as the vocabulary states it, the news landing&rsquo;s filter pill the plural where one exists (&ldquo;Events&rdquo;), and <code class="ds-code">data-news-type</code> carries the machine name the filter matches. <strong>Dates</strong>: every other type shows the published date; an <strong>Event</strong> swaps in <code class="ds-code">field_event_dates</code> &mdash; the range with the calendar glyph in front, one flex item via <code class="ds-code">.card__meta-date</code> (the meta row is space-between; loose children would scatter), with a visually-hidden &ldquo;Event dates:&rdquo; label. <strong>Featured</strong> (<code class="ds-code">.card--featured</code>): the landing&rsquo;s lead card takes the identical date swap unchanged &mdash; <code class="ds-code">__meta-date</code> lives on the card block, so every variant inherits it. <strong>Drupal</strong>: one teaser view mode with a conditional date field, not a template per type; the featured view mode renders the same field rule.</p>
         <p class="ds-section__intro">Worked pair: the news landing&rsquo;s event card &rarr; the event article (publish date suppressed there too &mdash; the same split, article-scale). The scroll-row composition these cards sit in is the Article feed section below.</p>
 
         <div class="ds-demo">
@@ -1082,7 +1082,7 @@
                 <article class="card card--news">
                   <div class="card__media">
                     <img src="assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy">
-                    <span class="card__tag" aria-hidden="true">News</span>
+                    <span class="card__tag" aria-hidden="true">Program updates</span>
                   </div>
                   <div class="card__content">
                     <h3 class="card__title"><a class="card__title-link" href="templates/news-article.html">A news record</a></h3>
@@ -1094,7 +1094,7 @@
                 <article class="card card--news">
                   <div class="card__media">
                     <img src="assets/news-events/Transform-2026-103.jpg" alt="" width="1772" height="1182" loading="lazy">
-                    <span class="card__tag" aria-hidden="true">Sponsored event</span>
+                    <span class="card__tag" aria-hidden="true">Event</span>
                   </div>
                   <div class="card__content">
                     <h3 class="card__title"><a class="card__title-link" href="templates/event-article.html">An event record</a></h3>
@@ -1989,7 +1989,7 @@
         <h3 class="ds-section__title" id="feed-articles-title">Article feed</h3>
         <p class="ds-section__intro"><code class="ds-code">.card-section--scroll</code> &mdash; the news rail. Below <code class="ds-code">md</code> the grid trades columns for card-by-card swiping: every card keeps a readable width and the next one peeks past the edge, which is the affordance. From <code class="ds-code">md</code> the modifier is INERT and the row is the ordinary 3-up grid &mdash; nothing scrolls, so the arrows hide themselves. The row bleeds out of the section&rsquo;s gutters and puts them back as its own padding, so the first card lines up under the heading while the next runs beneath the page edge; scroll-snap lands cards back on that line, and the scrollbar is hidden &mdash; the peek, the arrows and the keyboard region carry the affordance.</p>
         <p class="ds-section__intro">Drupal: a view of news teasers (the news landing&rsquo;s card), 3&ndash;6 items newest first; the head&rsquo;s button links to the landing. Used as &ldquo;Latest news&rdquo; on the home page and &ldquo;Next up&rdquo; on articles.</p>
-        <p class="ds-section__intro">THE EVENT TEASER (middle card): a <strong>Sponsored event</strong> is the same card with one field swapped &mdash; the meta line renders <code class="ds-code">field_event_dates</code> (the range, calendar glyph in front, via <code class="ds-code">.card__meta-date</code>) instead of the published date, mirroring the split the news/event article pair makes. The tag carries the singular term, the landing&rsquo;s filter pill the plural (&ldquo;Sponsored events&rdquo;), exactly as Announcement/Announcements do. The featured card takes the same swap unchanged &mdash; <code class="ds-code">__meta-date</code> lives on the card block, so every variant inherits it (see the featured card&rsquo;s note on the news landing). Worked pair: the news landing&rsquo;s event card &rarr; the event article.</p>
+        <p class="ds-section__intro">THE EVENT TEASER (middle card): an <strong>Event</strong> is the same card with one field swapped &mdash; the meta line renders <code class="ds-code">field_event_dates</code> (the range, calendar glyph in front, via <code class="ds-code">.card__meta-date</code>) instead of the published date, mirroring the split the news/event article pair makes. The tag carries the singular term, the landing&rsquo;s filter pill the plural (&ldquo;Events&rdquo;). The featured card takes the same swap unchanged &mdash; <code class="ds-code">__meta-date</code> lives on the card block, so every variant inherits it (see the featured card&rsquo;s note on the news landing). Worked pair: the news landing&rsquo;s event card &rarr; the event article.</p>
 
         <div class="ds-demo">
           <p class="ds-demo__label">card_section &middot; .card-section--scroll &middot; swipes below md, 3-up from md</p>
@@ -2014,7 +2014,7 @@
                 <article class="card card--news">
                   <div class="card__media">
                     <img src="assets/images/industry-people-shake-hands.png" alt="" width="900" height="600" loading="lazy">
-                    <span class="card__tag" aria-hidden="true">News</span>
+                    <span class="card__tag" aria-hidden="true">Program updates</span>
                   </div>
                   <div class="card__content">
                     <h3 class="card__title"><a class="card__title-link" href="templates/news-article.html">Article title &mdash; the node&rsquo;s H1</a></h3>
@@ -2026,11 +2026,11 @@
                 <article class="card card--news">
                   <div class="card__media">
                     <img src="assets/news-events/Transform-2026-103.jpg" alt="" width="1772" height="1182" loading="lazy">
-                    <span class="card__tag" aria-hidden="true">Sponsored event</span>
+                    <span class="card__tag" aria-hidden="true">Event</span>
                   </div>
                   <div class="card__content">
                     <h3 class="card__title"><a class="card__title-link" href="templates/event-article.html">An event teaser</a></h3>
-                    <p class="card__body">A Sponsored event swaps the published date for the event range &mdash; the calendar glyph marks whose date it is. The whole card is still one link.</p>
+                    <p class="card__body">An Event swaps the published date for the event range &mdash; the calendar glyph marks whose date it is. The whole card is still one link.</p>
                     <p class="card__meta"><span class="card__meta-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span><span class="visually-hidden">Event dates: </span><time datetime="2025-03-19">19 Mar 2025</time> &ndash; <time datetime="2025-03-20">20 Mar 2025</time></span></span>
                       <svg class="card__meta-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
                   </div>
@@ -2038,7 +2038,7 @@
                 <article class="card card--news">
                   <div class="card__media">
                     <img src="assets/images/wind.png" alt="" width="900" height="600" loading="lazy">
-                    <span class="card__tag" aria-hidden="true">News</span>
+                    <span class="card__tag" aria-hidden="true">Program updates</span>
                   </div>
                   <div class="card__content">
                     <h3 class="card__title"><a class="card__title-link" href="templates/news-article.html">A third teaser</a></h3>
