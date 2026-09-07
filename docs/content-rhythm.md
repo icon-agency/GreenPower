@@ -19,8 +19,7 @@ growing past `xl` with the root clamp.)
 
 1. **Sections open at `--space-xl` and close at `--space-s-l`** — the
    asymmetric frame `.card-section` established (open big, close on the
-   container's own gutter). `.page-body`, `.pathway-section` (which closes at
-   `--space-xs`: its panels frame themselves) and `.client-logos` follow it;
+   container's own gutter). `.page-body` and `.client-logos` follow it;
    `.bento-grid` opens at `xl` but stays even at BOTH ends — its painted band
    makes the closing space internal. Consecutive sections therefore meet on
    `s-l + xl`, never a doubled `3xl`.

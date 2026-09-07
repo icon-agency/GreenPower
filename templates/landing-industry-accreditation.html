@@ -379,9 +379,10 @@
   <main id="main-content">
 
     <!-- Landing: Industry accreditation. Built from Examples/LANDING_ Industry
-         accreditation.pdf. Every block is an existing component — the pathway
-         section in particular is the master template's, verbatim, because that
-         component was built from this same wireframe.
+         accreditation.pdf. Every block is an existing component. The
+         wireframe's opening "choose your accreditation pathway" band (the
+         pathway component) was DROPPED in Sep 2026 — it will not be built in
+         Drupal — so the page opens on the card sections.
 
          Copy is transcribed from the wireframe. Where the wireframe repeats a
          paragraph or a label (it does, in three places), the repeat is kept and
@@ -414,83 +415,16 @@
          way: they are what an in-page link, a deep link or a Drupal fragment
          URL targets, with or without a row of chips pointing at them. -->
 
-    <section class="pathway-section" data-animate-stagger id="accreditation-pathways" aria-labelledby="pathways-title">
-      <h2 class="pathway-section__heading" id="pathways-title" data-animate>GreenPower accreditation pathways</h2>
-      <p class="pathway-section__intro" data-animate>Select the pathway that best describes your industry. Each pathway includes eligibility information, accreditation steps, responsibilities and relevant resources.</p>
-      <div class="pathway-section__grid" data-animate-stagger>
-          <article class="pathway-group">
-            <span class="pathway-group__icon"><img src="../assets/icons/electricity.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="pathway-group__title">Electricity accreditation</h3>
-            <div class="pathway-group__list">
-            <article class="pathway">
-              <h4 class="pathway__title">For electricity providers</h4>
-              <ul class="pathway__links">
-                <li><a class="pathway__link" href="#">GreenPower accreditation for renewable electricity providers
-                  <svg class="pathway__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                <li><a class="pathway__link" href="#">Benefits of becoming GreenPower accredited
-                  <svg class="pathway__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                <li><a class="pathway__link" href="#">Eligibility and accreditation
-                  <svg class="pathway__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-              </ul>
-              <a class="btn btn--outline" href="#">Find electricity providers</a>
-            </article>
-            <article class="pathway">
-              <h4 class="pathway__title">For electricity generators</h4>
-              <ul class="pathway__links">
-                <li><a class="pathway__link" href="#">GreenPower accreditation for renewable electricity generators
-                  <svg class="pathway__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                <li><a class="pathway__link" href="#">Benefits of becoming GreenPower accredited
-                  <svg class="pathway__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                <li><a class="pathway__link" href="#">Eligibility and accreditation
-                  <svg class="pathway__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-              </ul>
-              <a class="btn btn--outline" href="#">Find electricity generators</a>
-            </article>
-            </div>
-          </article>
-          <article class="pathway-group">
-            <span class="pathway-group__icon"><img src="../assets/icons/gas.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="pathway-group__title">Gas accreditation</h3>
-            <div class="pathway-group__list">
-            <article class="pathway">
-              <h4 class="pathway__title">For gas traders</h4>
-              <ul class="pathway__links">
-                <li><a class="pathway__link" href="#">GreenPower accreditation for renewable gas traders
-                  <svg class="pathway__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                <li><a class="pathway__link" href="#">Benefits of becoming GreenPower accredited
-                  <svg class="pathway__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                <li><a class="pathway__link" href="#">Eligibility and accreditation
-                  <svg class="pathway__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-              </ul>
-              <a class="btn btn--outline" href="#">Find gas traders</a>
-            </article>
-            <article class="pathway">
-              <h4 class="pathway__title">For gas producers</h4>
-              <ul class="pathway__links">
-                <li><a class="pathway__link" href="#">GreenPower accreditation for renewable gas producers
-                  <svg class="pathway__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                <li><a class="pathway__link" href="#">Benefits of becoming GreenPower accredited
-                  <svg class="pathway__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-                <li><a class="pathway__link" href="#">Eligibility and accreditation
-                  <svg class="pathway__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-              </ul>
-              <a class="btn btn--outline" href="#">Find gas producers</a>
-            </article>
-            </div>
-          </article>
-      </div>
-    </section>
-
     <!-- The card sections below are the component as built: heading and intro
-         LEFT ALIGNED. The wireframe centres them, and .pathway-section above
-         happens to be centred, but neither is licence to add an alignment
-         variant to a shared component for one page — the design system is the
-         source of truth, and a divergence belongs in it or not at all. -->
+         LEFT ALIGNED. The wireframe centres them, but that is no licence to
+         add an alignment variant to a shared component for one page — the
+         design system is the source of truth, and a divergence belongs in it
+         or not at all. -->
     <section class="card-section" data-animate-stagger id="guides-and-resources" aria-labelledby="guides-title">
       <h2 class="card-section__heading" id="guides-title" data-animate>Partner guides and resources</h2>
-      <!-- WIREFRAME FILLER: this is the pathway section's intro repeated word
-           for word, and it describes pathways rather than guides. Kept verbatim
-           from the reference; replace with real copy. -->
+      <!-- WIREFRAME FILLER: this is the wireframe's "choose your pathway"
+           intro repeated word for word, and it describes pathways rather than
+           guides. Kept verbatim from the reference; replace with real copy. -->
       <p class="card-section__intro" data-animate>Select the pathway that best describes your industry. Each pathway includes eligibility information, accreditation steps, responsibilities and relevant resources.</p>
       <div class="card-section__grid" data-animate-stagger>
         <!-- No eyebrow above the titles, though the wireframe draws one

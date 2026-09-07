@@ -564,29 +564,30 @@
                    sibling's — an arrangement not offered simply has no
                    block), then contact. The old "Available for" and
                    combined contract rows are gone — the grouping states
-                   both. The buyer filter hides the group not asked for,
-                   and the contract filter hides the arrangement block not
-                   asked for (data-arrangement; both syncs in the tail);
-                   gas keeps its flat list.
+                   both. Every block carries its own states (data-states,
+                   the same values as its Available in row) and the
+                   business blocks their arrangement (data-arrangement); the
+                   filter matches BLOCK BY BLOCK on buyer, arrangement and
+                   state together and hides what fails, then hides a group
+                   or an offer left with nothing (sync in the tail). Gas
+                   keeps its flat list.
                    WIREFRAME FILLER — the per-arrangement product and state
                    splits and the duplicated contact details are invented:
                    real values come from the provider record. The card's
-                   data-states/data-contract stay the UNION, so the filter
-                   matches each axis independently — a card can match a
-                   state+arrangement combination no single arrangement
-                   offers; fine for the prototype, but the real view should
-                   match state WITHIN the chosen arrangement (handover).
+                   data-buyer/data-ptype/data-contract/data-states are the
+                   UNION of its blocks — the record's summary for Drupal
+                   and the no-JS reader; the script no longer reads them.
                    Drupal: offer_buyer_group sub-paragraphs on the electricity
                    provider_offer, business nesting offer_arrangement — see
                    the _provider-card.scss header. -->
               <div class="provider-card__offer-body provider-card__offer-body--grouped">
                 <section class="provider-card__group" data-buyer-group="household">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/home.svg" alt="" width="55" height="55" loading="lazy">Household</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/home.svg" alt="" width="55" height="55" loading="lazy">Household electricity</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-states="all">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Products from this provider</h5>
                           <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a>
@@ -610,11 +611,11 @@
                 </section>
                 <section class="provider-card__group" data-buyer-group="business">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business electricity</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement" data-arrangement="bundled">
+                      <div class="provider-card__arrangement" data-arrangement="bundled" data-states="all">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Bundle with your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -627,7 +628,7 @@
                           </div>
                         </dl>
                       </div>
-                      <div class="provider-card__arrangement" data-arrangement="decoupled">
+                      <div class="provider-card__arrangement" data-arrangement="decoupled" data-states="vic nsw sa">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Decoupled from your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -660,18 +661,18 @@
                    now says so the way electricity does — a Business group
                    head over the facts box (client, Sep 2026: "for
                    consistency") instead of the old "Available for" row.
-                   No data-buyer-group attribute: a gas offer has no other
-                   group to swap to, so the buyer filter must not empty the
-                   panel — card-level data-buyer already decides who sees
-                   the whole card. -->
+                   The group is data-buyer-group="business" like any other,
+                   so picking Household hides this whole offer, badge and
+                   all (client, Sep 2026) — a household cannot buy gas, and
+                   a folded badge would still advertise it. -->
               <div class="provider-card__offer-body provider-card__offer-body--grouped">
-                <section class="provider-card__group">
+                <section class="provider-card__group" data-buyer-group="business">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business gas</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-states="act vic nsw">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">GreenPower RGGO certificates</h5>
                           <a href="#" data-modal="modal-rggo-certificates" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower RGGO certificates explained</span></a>
@@ -709,11 +710,11 @@
               <div class="provider-card__offer-body provider-card__offer-body--grouped">
                 <section class="provider-card__group" data-buyer-group="household">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/home.svg" alt="" width="55" height="55" loading="lazy">Household</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/home.svg" alt="" width="55" height="55" loading="lazy">Household electricity</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-states="all">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Products from this provider</h5>
                           <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a>
@@ -737,11 +738,11 @@
                 </section>
                 <section class="provider-card__group" data-buyer-group="business">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business electricity</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement" data-arrangement="bundled">
+                      <div class="provider-card__arrangement" data-arrangement="bundled" data-states="all">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Bundle with your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -779,11 +780,11 @@
               <div class="provider-card__offer-body provider-card__offer-body--grouped">
                 <section class="provider-card__group" data-buyer-group="household">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/home.svg" alt="" width="55" height="55" loading="lazy">Household</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/home.svg" alt="" width="55" height="55" loading="lazy">Household electricity</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-states="act nsw">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Products from this provider</h5>
                           <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a>
@@ -807,11 +808,11 @@
                 </section>
                 <section class="provider-card__group" data-buyer-group="business">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business electricity</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement" data-arrangement="bundled">
+                      <div class="provider-card__arrangement" data-arrangement="bundled" data-states="act nsw">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Bundle with your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -824,7 +825,7 @@
                           </div>
                         </dl>
                       </div>
-                      <div class="provider-card__arrangement" data-arrangement="decoupled">
+                      <div class="provider-card__arrangement" data-arrangement="decoupled" data-states="nsw">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Decoupled from your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -862,11 +863,11 @@
               <div class="provider-card__offer-body provider-card__offer-body--grouped">
                 <section class="provider-card__group" data-buyer-group="household">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/home.svg" alt="" width="55" height="55" loading="lazy">Household</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/home.svg" alt="" width="55" height="55" loading="lazy">Household electricity</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-states="all">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Products from this provider</h5>
                           <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a>
@@ -890,11 +891,11 @@
                 </section>
                 <section class="provider-card__group" data-buyer-group="business">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business electricity</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement" data-arrangement="bundled">
+                      <div class="provider-card__arrangement" data-arrangement="bundled" data-states="all">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Bundle with your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -932,11 +933,11 @@
               <div class="provider-card__offer-body provider-card__offer-body--grouped">
                 <section class="provider-card__group" data-buyer-group="household">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/home.svg" alt="" width="55" height="55" loading="lazy">Household</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/home.svg" alt="" width="55" height="55" loading="lazy">Household electricity</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-states="vic nsw sa tas">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Products from this provider</h5>
                           <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a>
@@ -960,11 +961,11 @@
                 </section>
                 <section class="provider-card__group" data-buyer-group="business">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business electricity</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement" data-arrangement="decoupled">
+                      <div class="provider-card__arrangement" data-arrangement="decoupled" data-states="vic nsw sa tas">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Decoupled from your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -1007,11 +1008,11 @@
               <div class="provider-card__offer-body provider-card__offer-body--grouped">
                 <section class="provider-card__group" data-buyer-group="business">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business electricity</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement" data-arrangement="bundled">
+                      <div class="provider-card__arrangement" data-arrangement="bundled" data-states="all">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Bundle with your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -1024,7 +1025,7 @@
                           </div>
                         </dl>
                       </div>
-                      <div class="provider-card__arrangement" data-arrangement="decoupled">
+                      <div class="provider-card__arrangement" data-arrangement="decoupled" data-states="all">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Decoupled from your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -1062,11 +1063,11 @@
               <div class="provider-card__offer-body provider-card__offer-body--grouped">
                 <section class="provider-card__group" data-buyer-group="household">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/home.svg" alt="" width="55" height="55" loading="lazy">Household</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/home.svg" alt="" width="55" height="55" loading="lazy">Household electricity</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-states="wa">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Products from this provider</h5>
                           <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a>
@@ -1090,11 +1091,11 @@
                 </section>
                 <section class="provider-card__group" data-buyer-group="business">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business electricity</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement" data-arrangement="bundled">
+                      <div class="provider-card__arrangement" data-arrangement="bundled" data-states="wa">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Bundle with your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -1132,11 +1133,11 @@
               <div class="provider-card__offer-body provider-card__offer-body--grouped">
                 <section class="provider-card__group" data-buyer-group="household">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/home.svg" alt="" width="55" height="55" loading="lazy">Household</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/home.svg" alt="" width="55" height="55" loading="lazy">Household electricity</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-states="vic qld">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Products from this provider</h5>
                           <a href="#" data-modal="modal-greenpower-products" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower products explained</span></a>
@@ -1160,11 +1161,11 @@
                 </section>
                 <section class="provider-card__group" data-buyer-group="business">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business electricity</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement" data-arrangement="decoupled">
+                      <div class="provider-card__arrangement" data-arrangement="decoupled" data-states="vic qld">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">Decoupled from your contract</h5>
                           <a href="#" data-modal="modal-contract-options" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower contract options and products explained</span></a>
@@ -1200,13 +1201,13 @@
             <div class="provider-card__offer">
               <p class="provider-card__offer-badge"><img src="../assets/icons/gas.svg" alt="" width="55" height="55" loading="lazy">Gas trader</p>
               <div class="provider-card__offer-body provider-card__offer-body--grouped">
-                <section class="provider-card__group">
+                <section class="provider-card__group" data-buyer-group="business">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business gas</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-states="act nsw">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">GreenPower RGGO certificates</h5>
                           <a href="#" data-modal="modal-rggo-certificates" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower RGGO certificates explained</span></a>
@@ -1244,13 +1245,13 @@
               <!-- Business group head, not an "Available for" row — gas is
                    business only (see the note above the list). -->
               <div class="provider-card__offer-body provider-card__offer-body--grouped">
-                <section class="provider-card__group">
+                <section class="provider-card__group" data-buyer-group="business">
                   <div class="provider-card__group-head">
-                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business</h4>
+                    <h4 class="provider-card__group-title"><img src="../assets/icons/business-greenpower.svg" alt="" width="55" height="55" loading="lazy">Business gas</h4>
                   </div>
                   <div class="provider-card__group-body">
                     <div class="provider-card__arrangements">
-                      <div class="provider-card__arrangement">
+                      <div class="provider-card__arrangement" data-states="vic sa">
                         <div class="provider-card__arrangement-head">
                           <h5 class="provider-card__arrangement-title">GreenPower RGGO certificates</h5>
                           <a href="#" data-modal="modal-rggo-certificates" aria-haspopup="dialog">What are these?<span class="visually-hidden"> GreenPower RGGO certificates explained</span></a>
@@ -2470,70 +2471,81 @@
         });
         var shown = 0;
 
+        // The chosen values per axis; an axis with nothing ticked does not
+        // constrain.
+        function values(key) {
+          var p = picked.filter(function (x) { return x.group.key === key; })[0];
+          return p ? p.boxes.map(function (b) { return b.value; }) : [];
+        }
+        var wanted = values('ptype');
+        var buyers = values('buyer');
+        var arrangements = values('contract');
+        var states = values('state');
+
+        // The unit that matches is the ARRANGEMENT BLOCK (client, Sep 2026:
+        // Household hides gas traders, a state hides what is not sold
+        // there — "like the other filters"). Each block carries its own
+        // states (data-states, from its Available in row) and, in the
+        // business group, its arrangement; its group carries the buyer; its
+        // offer the energy type. A block survives when buyer, arrangement
+        // and state all hold; a group survives while any block does; an
+        // offer while any group does; the card while any block ALSO sits
+        // in an offer of the chosen type. So a card is shown only for a
+        // combination some single block actually offers — the union match
+        // the handover once flagged is gone — and everything the reader
+        // sees on it is something they asked for.
+        //
+        // Type is the one axis that FOLDS rather than hides: filter by
+        // Electricity and Red Energy's gas half collapses to its badge —
+        // still there, still says the provider trades gas, but no longer
+        // between the answer and the next provider. Buyer hides, because a
+        // household cannot buy gas at all: an offer with no group left is
+        // removed, badge and all. [hidden] throughout, which the component
+        // styles itself (see _provider-card.scss); the card keeps
+        // style.display because its own display outranks the UA's [hidden]
+        // rule (LESSONS.md). The card-level data-* attributes stay as the
+        // record's summary for Drupal and the no-JS reader; nothing here
+        // reads them any more.
         cards.forEach(function (card) {
-          var match = picked.every(function (p) {
-            if (!p.boxes.length) return true; // nothing ticked does not constrain
-            var have = (card.getAttribute(p.group.attr) || '').split(' ');
-            // A national provider ("all") satisfies any location.
-            if (p.group.key === 'state' && have.indexOf('all') !== -1) return true;
-            return p.boxes.some(function (b) { return have.indexOf(b.value) !== -1; });
-          }) && (!q || card.querySelector('.provider-card__name').textContent.toLowerCase().indexOf(q) !== -1);
-          // style.display, not [hidden] — the card's own display outranks the
-          // UA's [hidden] rule (LESSONS.md).
+          var any = false;
+          [].forEach.call(card.querySelectorAll('.provider-card__offer'), function (offer) {
+            // A two-offer card names each offer's type; a single-offer card
+            // has one type, on the card.
+            var type = offer.getAttribute('data-offer') || card.getAttribute('data-ptype');
+            var typeOk = !wanted.length || wanted.indexOf(type) !== -1;
+            var offerAlive = false;
+            [].forEach.call(offer.querySelectorAll('.provider-card__group'), function (grp) {
+              var buyerOk = !buyers.length ||
+                buyers.indexOf(grp.getAttribute('data-buyer-group')) !== -1;
+              var groupAlive = false;
+              [].forEach.call(grp.querySelectorAll('.provider-card__arrangement'), function (block) {
+                // Blocks without an arrangement (household products, gas
+                // certificates) are not what the contract question is
+                // about, so it does not constrain them.
+                var arr = block.getAttribute('data-arrangement');
+                var contractOk = !arrangements.length || !arr || arrangements.indexOf(arr) !== -1;
+                var have = (block.getAttribute('data-states') || '').split(' ');
+                // A national offer ("all") is sold in whatever state is chosen.
+                var stateOk = !states.length || have.indexOf('all') !== -1 ||
+                  states.some(function (s) { return have.indexOf(s) !== -1; });
+                var ok = buyerOk && contractOk && stateOk;
+                block.hidden = !ok;
+                if (ok) {
+                  groupAlive = true;
+                  if (typeOk) any = true;
+                }
+              });
+              grp.hidden = !groupAlive;
+              if (groupAlive) offerAlive = true;
+            });
+            offer.hidden = !offerAlive;
+            if (offer.hasAttribute('data-offer')) offer.open = typeOk;
+          });
+
+          var match = any &&
+            (!q || card.querySelector('.provider-card__name').textContent.toLowerCase().indexOf(q) !== -1);
           card.style.display = match ? '' : 'none';
           if (match) shown += 1;
-
-          // A provider with two offers collapses the one the reader did not
-          // ask for. Filter by Electricity and Red Energy's gas half folds to
-          // its badge row — still there, still says the provider trades gas,
-          // but it no longer stands between the answer and the next provider.
-          //
-          // Driven by the SAME picked values as the filter above, so the card
-          // can never disagree with the pills: whatever the type group holds,
-          // the offer matching it is open and the rest are closed. With the
-          // group empty (no type chosen) every offer opens — nothing has been
-          // asked for, so nothing is secondary.
-          //
-          // Only ever touches cards that HAVE these disclosures; a single-offer
-          // card is a plain div and this loop finds nothing on it.
-          var type = picked.filter(function (p) { return p.group.key === 'ptype'; })[0];
-          var wanted = type ? type.boxes.map(function (b) { return b.value; }) : [];
-          [].forEach.call(card.querySelectorAll('[data-offer]'), function (offer) {
-            offer.open = !wanted.length ||
-              wanted.indexOf(offer.getAttribute('data-offer')) !== -1;
-          });
-
-          // The buyer choice does the same to the electricity offer's BUYER
-          // GROUPS (client flow, Sep 2026): pick Household and each card's
-          // Business group — arrangement rows, business contact — is hidden,
-          // because the household path never reaches the contract question.
-          // Hidden rather than folded: a group has no summary bar to fold
-          // to, and the card still says who else the provider serves through
-          // its match against the SAME picked values, so pills and card can
-          // never disagree. Gas offers have no groups; the loop finds
-          // nothing there. [hidden], not style.display — the component
-          // styles the attribute itself (see _provider-card.scss).
-          var buyer = picked.filter(function (p) { return p.group.key === 'buyer'; })[0];
-          var buyers = buyer ? buyer.boxes.map(function (b) { return b.value; }) : [];
-          [].forEach.call(card.querySelectorAll('[data-buyer-group]'), function (grp) {
-            grp.hidden = !!buyers.length &&
-              buyers.indexOf(grp.getAttribute('data-buyer-group')) === -1;
-          });
-
-          // And the contract choice does it one level down, to the business
-          // group's ARRANGEMENT blocks: pick Bundle and each card's Decoupled
-          // block is hidden, so the card shows the one arrangement the
-          // reader asked for rather than both with nothing marking which.
-          // Same shape as the buyer rule above — same picked values, so the
-          // block shown is always one the card matched on. Only blocks that
-          // carry data-arrangement take part; the household products block
-          // and the gas certificates block have no arrangement and stay.
-          var contract = picked.filter(function (p) { return p.group.key === 'contract'; })[0];
-          var arrangements = contract ? contract.boxes.map(function (b) { return b.value; }) : [];
-          [].forEach.call(card.querySelectorAll('[data-arrangement]'), function (block) {
-            block.hidden = !!arrangements.length &&
-              arrangements.indexOf(block.getAttribute('data-arrangement')) === -1;
-          });
         });
 
         chipsEl.textContent = '';

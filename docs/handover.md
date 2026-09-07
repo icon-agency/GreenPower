@@ -153,11 +153,21 @@ About-you options are client-confirmed (Aug 2026).
   numbers are INVENTED FILLER — real values come from the provider records;
   confirm with the client whether household/business contacts genuinely
   differ per provider or fall back to one shared set when only one is
-  authored. FILTER CAVEAT for the Drupal build: the prototype card matches
-  on UNION attributes (data-states × data-contract independently), so a
-  provider bundled-in-NSW and decoupled-in-VIC matches "bundled + VIC" even
-  though no single arrangement offers it — the real view should match the
-  chosen state WITHIN the chosen arrangement.
+  authored. FILTER SEMANTICS for the Drupal build (client, Sep 2026): the
+  prototype matches BLOCK BY BLOCK — each arrangement block carries its own
+  `data-states` and `data-arrangement`, its group the buyer, its offer the
+  type — and a card is shown only when some single block satisfies buyer,
+  arrangement and state together inside an offer of the chosen type. Blocks,
+  groups and offers that fail are hidden (Household hides a gas offer
+  outright; a state hides the arrangements not sold there); the type filter
+  folds the other offer rather than hiding it. The view should match the
+  same way: a state WITHIN the chosen arrangement, never a union across
+  them. The card-level `data-*` attributes are the union, kept as the
+  record's summary; the script no longer reads them.
+- Pathway component REMOVED (client, Sep 2026): the "choose your accreditation
+  pathway" band will not be built in Drupal. Its organism, catalogue entry,
+  showcase template and the ticket that specified it (JIRA C10) are gone; the
+  industry accreditation landing now opens on its card sections.
 - Buy GreenPower directory — floating back-to-top (client, Sep 2026): a
   fixed circle (`back-to-top`, `_back-to-top.scss`) linking to `#top` like
   the footer's link. Authored `hidden`; the page-tail observer unhides it and

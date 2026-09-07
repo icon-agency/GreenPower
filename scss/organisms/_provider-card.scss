@@ -249,6 +249,15 @@
   // is the column gap plus the badge's own trailing nudge, which the summary
   // above drops.
   &__offer {
+    // An offer none of whose groups survive the filter — Red Energy's gas
+    // half once Household is picked — is hidden outright by the page-tail
+    // sync, badge and all: folding it would still advertise an offer the
+    // reader cannot buy. display: flex above outranks the UA's [hidden]
+    // rule (LESSONS.md), so the hiding is stated here.
+    &[hidden] {
+      display: none;
+    }
+
     interpolate-size: allow-keywords;
 
     &::details-content {

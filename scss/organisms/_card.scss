@@ -456,9 +456,9 @@
   //
   // A wrapper, not the button itself. __content is `display: contents`, so a
   // bare .btn would become a direct flex child of the card and STRETCH to the
-  // full column — the card's cross-axis default. .pathway solves the same
-  // problem with `align-items: flex-start` on the block, but the card cannot:
-  // its media, title, body and links all want the full width. Boxing just this
+  // full column — the card's cross-axis default. `align-items: flex-start`
+  // on the block would solve it, but the card cannot afford that: its
+  // media, title, body and links all want the full width. Boxing just this
   // one child keeps the button at its natural width and leaves everything
   // else alone.
   //
@@ -486,10 +486,10 @@
     @include flex-row(var(--space-s), center, space-between);
     position: relative; // containing block for the divider highlight below
     padding-block: var(--space-2xs);
-    // sm — the second reversal, and the settled one (client review, on the
-    // pathway-alternatives page): beside the pathway's restatement of this
-    // exact list the base step read oversized, and sm puts the links on the
-    // button's own step, so a card's whole action zone shares one size. The
+    // sm — the second reversal, and the settled one (client review, Aug
+    // 2026): beside a sibling component's restatement of this exact list the
+    // base step read oversized, and sm puts the links on the button's own
+    // step, so a card's whole action zone shares one size. The
     // handover bump to base was protecting links under a base-step BODY; the
     // medium weight, the dark green and the divider row do that separating
     // work on their own.

@@ -49,8 +49,8 @@
 // the band paints no ground of its own, so the 3xl was pure whitespace — 116px
 // above the heading at 1280, and 131px down to the footer band, on a page
 // whose sections meet at ~94 (docs/content-rhythm.md). The closed green
-// footer panel below provides its own break, exactly as the pathway's panels
-// close snugly over a tight gutter.
+// footer panel below provides its own break, so the band can close snugly
+// over a tight gutter.
 .client-logos__inner {
   max-width: $container-max-width;
   margin-inline: auto;
