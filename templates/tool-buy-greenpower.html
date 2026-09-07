@@ -544,8 +544,9 @@
                  a reader who filtered for one energy type is not made to scroll
                  past the other to reach the next provider. Both are authored
                  OPEN: with no JavaScript that is the whole record, exactly as
-                 it reads today, and the script closes the offer that does not
-                 match the filter (see the disclosure sync in the tail).
+                 it reads today; the type filter HIDES the offer that does not
+                 match (sync in the tail), so the disclosure is the reader's
+                 own control, not the filter's.
                  Single-offer cards stay plain divs — a control that can only
                  ever be open is worse than no control. -->
             <details class="provider-card__offer" data-offer="electricity" open>
@@ -2495,12 +2496,13 @@
         // the handover once flagged is gone — and everything the reader
         // sees on it is something they asked for.
         //
-        // Type is the one axis that FOLDS rather than hides: filter by
-        // Electricity and Red Energy's gas half collapses to its badge —
-        // still there, still says the provider trades gas, but no longer
-        // between the answer and the next provider. Buyer hides, because a
-        // household cannot buy gas at all: an offer with no group left is
-        // removed, badge and all. [hidden] throughout, which the component
+        // Type hides too (client, Sep 2026: "hide electricity, same the
+        // other way around" — a folded badge for the other energy was
+        // still a row to read past): filter by Electricity and Red
+        // Energy's gas half is gone, badge and all, exactly as an offer
+        // with no group left is gone once Household is picked. The
+        // disclosure stays for the reader's own use on an unfiltered
+        // card, and re-opens whenever the filter shows it. [hidden] throughout, which the component
         // styles itself (see _provider-card.scss); the card keeps
         // style.display because its own display outranks the UA's [hidden]
         // rule (LESSONS.md). The card-level data-* attributes stay as the
@@ -2538,8 +2540,8 @@
               grp.hidden = !groupAlive;
               if (groupAlive) offerAlive = true;
             });
-            offer.hidden = !offerAlive;
-            if (offer.hasAttribute('data-offer')) offer.open = typeOk;
+            offer.hidden = !offerAlive || !typeOk;
+            if (!offer.hidden && offer.hasAttribute('data-offer')) offer.open = true;
           });
 
           var match = any &&

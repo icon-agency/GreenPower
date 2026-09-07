@@ -159,8 +159,8 @@ About-you options are client-confirmed (Aug 2026).
   type — and a card is shown only when some single block satisfies buyer,
   arrangement and state together inside an offer of the chosen type. Blocks,
   groups and offers that fail are hidden (Household hides a gas offer
-  outright; a state hides the arrangements not sold there); the type filter
-  folds the other offer rather than hiding it. The view should match the
+  outright; a state hides the arrangements not sold there; the type filter
+  hides the other offer, badge and all). The view should match the
   same way: a state WITHIN the chosen arrangement, never a union across
   them. The card-level `data-*` attributes are the union, kept as the
   record's summary; the script no longer reads them.

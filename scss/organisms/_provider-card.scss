@@ -35,9 +35,9 @@
 // contrasts with its parent, so the hierarchy reads from the surfaces alone
 // and the hairline seams and contact dividers the first pass used are gone.
 // GAS states one Business group exactly like electricity's (client: "for
-// consistency") — the head replaces the old "Available for" row — but with
-// no data-buyer-group attribute, so the buyer filter never empties a panel
-// that has no other group to show.
+// consistency") — the head replaces the old "Available for" row — and its
+// group is data-buyer-group="business" like any other, so Household hides
+// the whole gas offer, as the type filter hides the other energy's offer.
 //
 // Drupal mapping: a node TEASER view mode of accredited_provider, the rows of
 //   the buy view (see _provider-directory.scss):
@@ -249,10 +249,10 @@
   // is the column gap plus the badge's own trailing nudge, which the summary
   // above drops.
   &__offer {
-    // An offer none of whose groups survive the filter — Red Energy's gas
-    // half once Household is picked — is hidden outright by the page-tail
-    // sync, badge and all: folding it would still advertise an offer the
-    // reader cannot buy. display: flex above outranks the UA's [hidden]
+    // An offer the filter rules out — Red Energy's gas half once Household
+    // or Electricity is picked — is hidden outright by the page-tail sync,
+    // badge and all (client, Sep 2026): a folded badge was still a row to
+    // read past, or an offer the reader cannot buy. display: flex above outranks the UA's [hidden]
     // rule (LESSONS.md), so the hiding is stated here.
     &[hidden] {
       display: none;
