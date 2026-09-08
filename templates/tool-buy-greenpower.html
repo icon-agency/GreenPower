@@ -2288,6 +2288,58 @@
         return group.boxes.filter(function (b) { return b.checked; });
       }
 
+      // The state pills' labels, read once from the filter's own options so a
+      // pill the script generates reads exactly as an authored one — the
+      // abbreviation, then the full name for assistive tech.
+      var stateNames = {};
+      [].forEach.call(form.querySelectorAll('input[name="state"]'), function (box) {
+        var label = box.closest('label');
+        stateNames[box.value] = {
+          abbr: label.querySelector('[data-option-label]').textContent,
+          full: label.querySelector('.visually-hidden').textContent
+        };
+      });
+
+      // A block's Available in row shows the states ASKED FOR (client, Sep
+      // 2026): with SA and NSW chosen, a block sold in VIC, NSW and SA lists
+      // NSW and SA, and a national block lists SA and NSW in place of "All
+      // states and territories" — the row answers the filter rather than
+      // restating the record. With no state chosen the authored row comes
+      // back. Authored pills are only ever hidden; the national block's
+      // stand-ins are generated and removed again, marked data-generated.
+      // Only the location row is touched — the products list above it is a
+      // different .provider-card__pills and is never a filter's answer.
+      function syncStates(block, states) {
+        var list = block.querySelector('.provider-card__rows dd .provider-card__pills');
+        if (!list) return;
+        [].forEach.call(list.querySelectorAll('[data-generated]'), function (li) {
+          list.removeChild(li);
+        });
+        var national = false;
+        [].forEach.call(list.children, function (li) {
+          var value = (li.firstChild ? li.firstChild.textContent : '').trim().toLowerCase();
+          if (!stateNames[value]) {
+            national = true;
+            li.hidden = !!states.length;
+            return;
+          }
+          li.hidden = !!states.length && states.indexOf(value) === -1;
+        });
+        if (national && states.length) {
+          states.forEach(function (s) {
+            var li = document.createElement('li');
+            li.className = 'provider-card__pill';
+            li.setAttribute('data-generated', '');
+            li.textContent = stateNames[s].abbr;
+            var full = document.createElement('span');
+            full.className = 'visually-hidden';
+            full.textContent = ' ' + stateNames[s].full;
+            li.appendChild(full);
+            list.appendChild(li);
+          });
+        }
+      }
+
       // --- Conditional rules -------------------------------------------------
       //
       // The RULES live in the markup, not in here: `data-visible-when` and
@@ -2533,6 +2585,7 @@
                 var ok = buyerOk && contractOk && stateOk;
                 block.hidden = !ok;
                 if (ok) {
+                  syncStates(block, states);
                   groupAlive = true;
                   if (typeOk) any = true;
                 }
