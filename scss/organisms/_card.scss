@@ -988,6 +988,17 @@
     // the safe way round, since flow is the imageless card's correct layout
     // and the photo card merely loses the overlay.
     align-self: flex-start; // shrink to the label, don't span the column
+
+    // A CLOSED consultation reverses the pill (client, Sep 2026): white with
+    // Brand Blue text, so an open consultation keeps the filled green and a
+    // closed one reads as quieter at a glance. Only this status; the type
+    // tags elsewhere keep the shared fill. Brand Blue on white is 15:1.
+    // Drupal: the modifier comes from the consultation's status field —
+    // `card__tag--closed` when field_status is closed, nothing otherwise.
+    &--closed {
+      color: $color-brand-blue;
+      background-color: $color-white;
+    }
   }
 
   &:has(> .card__media) &__tag {

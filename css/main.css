@@ -1884,6 +1884,10 @@ mark {
   border-radius: 100em;
   align-self: flex-start;
 }
+.card__tag--closed {
+  color: #00263e;
+  background-color: #ffffff;
+}
 .card:has(> .card__media) .card__tag {
   position: absolute;
   top: var(--space-2xs);
