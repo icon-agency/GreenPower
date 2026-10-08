@@ -378,7 +378,7 @@
 
   <main id="main-content">
     <!-- Content: What is GreenPower? — ALTERNATIVE LAYOUT. The same supplied
-         copy as what-is-greenpower.html, led by the quote and a single horizontal card, then carried by photo cards where the
+         copy as what-is-greenpower.html, led by a single horizontal card and the quote, then carried by photo cards where the
          plain version used icon cards and prose. Built from the client's supplied page
          copy (GovCMS preprod, Oct 2026). The supplied content carried its calls to action as
          bare text links under each paragraph, which read as a loose list; here
@@ -414,27 +414,8 @@
       </div>
     </header>
 
-    <!-- ALT: the quote leads the page. -->
-    <section class="page-body">
-      <div class="page-content">
-        <figure class="quote" data-animate>
-          <blockquote class="quote__text">
-            <p>Electricity generation is the largest single contributor to Australia&rsquo;s greenhouse gas emissions.<sup>1</sup> The choices you make support Australia&rsquo;s transition to renewables.</p>
-          </blockquote>
-          <figcaption class="quote__author">
-            <span class="quote__meta">
-              <span class="quote__role">1. Department of Climate Change, Energy, the Environment and Water, 2025.</span>
-            </span>
-          </figcaption>
-        </figure>
-        <div class="page-content__section" data-animate>
-          <p><a href="#">Learn more about GreenPower&rsquo;s impact</a></p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ALT: the page LEADS with the emissions statement (the quote), then
-         "Why your energy choices matter" as a SINGLE card — the card section
+    <!-- ALT: the page opens on "Why your energy choices matter" as a SINGLE
+         card — the card section
          is count-adaptive, so one card runs horizontal, photo beside the
          copy. Heading, paragraph and the two "Choose GreenPower…" links are
          the card's title, body and link list; every supplied part is here.
@@ -454,6 +435,25 @@
             </ul>
           </div>
         </article>
+      </div>
+    </section>
+
+    <!-- ALT: the emissions quote, with its link, under the card. -->
+    <section class="page-body">
+      <div class="page-content">
+        <figure class="quote" data-animate>
+          <blockquote class="quote__text">
+            <p>Electricity generation is the largest single contributor to Australia&rsquo;s greenhouse gas emissions.<sup>1</sup> The choices you make support Australia&rsquo;s transition to renewables.</p>
+          </blockquote>
+          <figcaption class="quote__author">
+            <span class="quote__meta">
+              <span class="quote__role">1. Department of Climate Change, Energy, the Environment and Water, 2025.</span>
+            </span>
+          </figcaption>
+        </figure>
+        <div class="page-content__section" data-animate>
+          <p><a href="#">Learn more about GreenPower&rsquo;s impact</a></p>
+        </div>
       </div>
     </section>
 
