@@ -425,6 +425,25 @@
     @include respond-to('md') {
       font-size: clamp(1rem, 0.75rem + 0.4167vw, 1.125rem);
     }
+
+    // The body as a WRAPPER. The prototype writes one <p class="card__body">,
+    // but GovCMS renders the field as <div class="card__body"> around the
+    // text-long field's own <p>s and lists (the What is GreenPower page's
+    // "does not" card). The reset zeroes those blocks' margins and leaves
+    // the UA's 40px list indent, so the wrapper states its own rhythm: the
+    // 2xs step between blocks, the prose column's --space-m list indent.
+    > * {
+      margin: 0;
+    }
+
+    > * + * {
+      margin-top: var(--space-2xs);
+    }
+
+    ul,
+    ol {
+      padding-left: var(--space-m);
+    }
   }
 
   // Optional links — a divided list. Spacing above comes from the card gap

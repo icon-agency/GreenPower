@@ -176,6 +176,10 @@ About-you options are client-confirmed (Aug 2026).
   Drupal: theme markup in page.html.twig (a theme setting if editors want it
   off), the observer a once()-guarded behavior. Buy tool only for now — the
   generators tool and news listing can take the same markup and script.
+- Page header image credit (What is GreenPower page, Oct 2026): a small
+  `page-header__credit` line under the intro carries the photo's location and
+  copyright — `field_header_image_credit` (text, optional), rendered only when
+  set. The supplied copy had the credit tacked onto the summary.
 - Homepage hero — letterbox (landscape phone) support: the stage is FLOORED at
   `$hero-stage-floor` (32rem, `_hero.scss`) via `max(100svh, floor)` on every
   layer height, scrim distances are floored fractions of the stage, and under

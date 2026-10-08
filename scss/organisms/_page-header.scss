@@ -184,6 +184,34 @@
     margin: 0 0 var(--space-xl);
     font-size: $font-size-sm;
     list-style: none;
+
+    // The trail may run PAST the copy column, over the media's top-left
+    // corner (client, Sep 2026: a four-crumb trail wrapped to two lines in
+    // the tablet band's 60% column). That corner is the part the angle
+    // overlay paints in band colour whatever the media holds, so the text
+    // stays white-on-Dark-Green. CAPPED, not cancelled like the filter's
+    // pills: those are solid surfaces and may cross the whole shape, but
+    // text over the Primary Green shape (3:1) or a photo would fail
+    // contrast. The wedge is ~8.6rem wide at the media's top edge and
+    // narrows 1:1 with depth, leaving ~6rem at the trail's baseline, so
+    // 5rem past the gap keeps the last letter on Dark Green. Measured at
+    // 700px: the full trail ends 80px into the column, of which 100px is
+    // wedge. Positioned so it paints over the abspos media that follows it
+    // in the DOM.
+    @include respond-to('sm') {
+      position: relative;
+      z-index: 1;
+      margin-right: calc(-1 * (var(--space-l) + 5rem));
+    }
+  }
+
+  // The mirrored band puts the copy on the RIGHT from md, where the overrun
+  // would lead into the band's own inset rather than over a wedge. The copy
+  // column is the wide one there, so the trail has no need of it.
+  &--media-left &__crumbs {
+    @include respond-to('md') {
+      margin-right: 0;
+    }
   }
 
   &__crumb {
@@ -303,6 +331,17 @@
         @include focus-ring($color-white);
       }
     }
+  }
+
+  // The header image's credit — location and copyright — on its own small
+  // line under the summary, where the supplied copy had tacked it onto the
+  // intro (the What is GreenPower page, Oct 2026). A caption for the image,
+  // not part of what the page says, so a step down and a short gap.
+  // Drupal: field_header_image_credit (text), rendered only when set.
+  &__credit {
+    max-width: 72ch;
+    margin-top: var(--space-xs);
+    font-size: $font-size-sm;
   }
 
   // --- Media: right column with the angle-cut corner (md and up) ---
