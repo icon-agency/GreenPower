@@ -378,7 +378,7 @@
 
   <main id="main-content">
     <!-- Content: What is GreenPower? — ALTERNATIVE LAYOUT. The same supplied
-         copy as what-is-greenpower.html, led by the quote and the feature banner, then carried by photo cards where the
+         copy as what-is-greenpower.html, led by the quote and a single horizontal card, then carried by photo cards where the
          plain version used icon cards and prose. Built from the client's supplied page
          copy (GovCMS preprod, Oct 2026). The supplied content carried its calls to action as
          bare text links under each paragraph, which read as a loose list; here
@@ -434,39 +434,26 @@
     </section>
 
     <!-- ALT: the page LEADS with the emissions statement (the quote), then
-         "Why your energy choices matter" as the feature banner — the
-         heading, the paragraph and the two "Choose GreenPower…" links are
-         its title, intro and link list, with the wind farm and gas facility
-         following the hovered link. Every supplied part of the block is
-         here; the badge names the product the photo shows. -->
-    <section class="feature-banner" data-feature-banner data-animate-stagger aria-labelledby="why-matter-title">
-      <div class="feature-banner__inner">
-        <div class="feature-banner__content" data-animate-stagger>
-          <span class="feature-banner__icon" data-animate><img src="../assets/icons/greenpower.svg" alt="" width="52" height="52"></span>
-          <h2 class="feature-banner__title" id="why-matter-title" data-animate>Why your energy choices matter</h2>
-          <p class="feature-banner__intro" data-animate>The energy you use every day to power your home or run your business has an environmental impact. GreenPower matches your energy use with renewable electricity or renewable gas. Together we are supporting Australia&rsquo;s renewable future.</p>
-          <ul class="feature-banner__links" data-animate>
-            <li><a class="feature-banner__link" href="#" data-feature-image="electricity">Choose GreenPower renewable electricity
-              <svg class="feature-banner__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            <li><a class="feature-banner__link" href="#" data-feature-image="gas">Choose GreenPower renewable gas
-              <svg class="feature-banner__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-          </ul>
-        </div>
-        <div class="feature-banner__media" data-animate style="--animate-delay: 320ms">
-          <div class="feature-banner__stage">
-            <div class="feature-banner__zoom">
-              <img class="is-active" src="../assets/images/wind.png" alt="" width="1500" height="1500" data-feature-key="electricity" data-feature-location="Renewable electricity">
-              <img src="../assets/images/gas.png" alt="" width="1500" height="1500" loading="lazy" data-feature-key="gas" data-feature-location="Renewable gas">
-            </div>
-            <p class="feature-banner__location">
-              <span class="feature-banner__location-shape" aria-hidden="true">
-                <svg class="feature-banner__location-curve" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L0 210.3Z" fill="currentColor"/></svg>
-              </span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-              <span data-feature-location-text>Renewable electricity</span>
-            </p>
+         "Why your energy choices matter" as a SINGLE card — the card section
+         is count-adaptive, so one card runs horizontal, photo beside the
+         copy. Heading, paragraph and the two "Choose GreenPower…" links are
+         the card's title, body and link list; every supplied part is here.
+         The title is the h2 (the section has no heading of its own). -->
+    <section class="card-section" data-animate-stagger aria-labelledby="why-matter-title">
+      <div class="card-section__grid" data-animate-stagger>
+        <article class="card" data-animate>
+          <div class="card__media">
+            <img src="../assets/images/family-eating.png" alt="A family sharing a meal at home" width="900" height="600" loading="lazy">
           </div>
-        </div>
+          <div class="card__content">
+            <h2 class="card__title" id="why-matter-title">Why your energy choices matter</h2>
+            <p class="card__body">The energy you use every day to power your home or run your business has an environmental impact. GreenPower matches your energy use with renewable electricity or renewable gas. Together we are supporting Australia&rsquo;s renewable future.</p>
+            <ul class="card__links">
+              <li><a class="card__link" href="#">Choose GreenPower renewable electricity <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+              <li><a class="card__link" href="#">Choose GreenPower renewable gas <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            </ul>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -1278,99 +1265,6 @@
       sync();
       window.addEventListener('resize', sync);
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
-    })();
-  </script>
-  <!-- Feature banner: hovering/focusing a link crossfades the media to that
-       link's image (CSS transition on .is-active; the Ken Burns drift is
-       CSS-only, gated behind prefers-reduced-motion) and swaps the location
-       pin text. Pure class/text toggles — motion handling stays in CSS.
-       Drupal: move into a once()-guarded behavior on port. -->
-  <script>
-    (function () {
-      var banners = [].slice.call(document.querySelectorAll('[data-feature-banner]'));
-      banners.forEach(function (banner) {
-        var links = [].slice.call(banner.querySelectorAll('[data-feature-image]'));
-        var images = [].slice.call(banner.querySelectorAll('[data-feature-key]'));
-        var locationText = banner.querySelector('[data-feature-location-text]');
-        var locationEl = banner.querySelector('.feature-banner__location');
-        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-        if (!links.length || !images.length) return;
-
-        var current = null;
-        images.forEach(function (img) {
-          if (img.classList.contains('is-active')) current = img.getAttribute('data-feature-key');
-        });
-
-        // Swap the location label and animate the badge from its current width
-        // to the new one. Auto widths can't transition, so measure both ends and
-        // hand CSS two explicit px values; reset to auto once it settles so the
-        // badge stays responsive. Reduced motion just swaps the text.
-        function setLocation(text) {
-          if (!locationText) return;
-          if (!locationEl || reduceMotion.matches) { locationText.textContent = text; return; }
-          var startW = locationEl.getBoundingClientRect().width;
-          locationEl.style.width = 'auto';
-          locationText.textContent = text;
-          var endW = locationEl.getBoundingClientRect().width;
-          locationEl.style.width = startW + 'px';
-          locationEl.getBoundingClientRect(); // force reflow so the next set animates
-          locationEl.style.width = endW + 'px';
-          var done = function (e) {
-            if (e.propertyName !== 'width') return;
-            locationEl.style.width = '';
-            locationEl.removeEventListener('transitionend', done);
-          };
-          locationEl.addEventListener('transitionend', done);
-        }
-
-        function activate(key) {
-          if (key === current) return;
-          var found = false, loc = '';
-          images.forEach(function (img) {
-            var match = img.getAttribute('data-feature-key') === key;
-            if (match) { found = true; loc = img.getAttribute('data-feature-location') || ''; }
-            img.classList.toggle('is-active', match);
-          });
-          if (found) { current = key; setLocation(loc); }
-        }
-
-        // Auto-cycle the images on the hero's cadence: each holds for HOLD_MS,
-        // then a FADE_MS crossfade (matches the .5s opacity transition in
-        // _feature-banner.scss). Hover/focus takes over and pauses; leaving the
-        // links (or blurring) resumes from wherever it stopped. Reduced motion
-        // opts out entirely — the first image just stands.
-        var keys = images.map(function (img) { return img.getAttribute('data-feature-key'); });
-        var HOLD_MS = 5250;
-        var FADE_MS = 500;
-        var autoTimer = null;
-
-        function stopAuto() { clearTimeout(autoTimer); autoTimer = null; }
-        function scheduleAuto() {
-          stopAuto();
-          if (reduceMotion.matches || keys.length < 2) return;
-          autoTimer = setTimeout(function () {
-            activate(keys[(keys.indexOf(current) + 1) % keys.length]);
-            scheduleAuto();
-          }, HOLD_MS + FADE_MS);
-        }
-
-        links.forEach(function (link) {
-          var key = link.getAttribute('data-feature-image');
-          link.addEventListener('mouseenter', function () { activate(key); });
-          link.addEventListener('focus', function () { activate(key); });
-        });
-
-        // Pause while the reader is on the links, resume when they leave.
-        var linksList = banner.querySelector('.feature-banner__links');
-        if (linksList) {
-          linksList.addEventListener('mouseenter', stopAuto);
-          linksList.addEventListener('mouseleave', scheduleAuto);
-        }
-        banner.addEventListener('focusin', stopAuto);
-        banner.addEventListener('focusout', scheduleAuto);
-
-        scheduleAuto();
-      });
     })();
   </script>
 </body>
