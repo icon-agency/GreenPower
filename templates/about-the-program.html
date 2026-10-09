@@ -545,12 +545,21 @@
       </div>
     </section>
 
-    <section class="page-body">
-      <div class="page-content">
-        <div class="page-content__section" data-animate>
-          <h2>What this means for you?</h2>
-          <p>A team of experts manage the program behind your GreenPower purchase. From certificates and reporting to independent auditing, we work behind the scenes so you can support Australia&rsquo;s renewable energy transition with confidence.</p>
-        </div>
+    <!-- "What this means for you?" as a single card: a card section holding
+         one card runs it horizontal, the photo beside the heading and
+         paragraph (a lone card with no image is capped at half the row by
+         design). CSS only — confirm on the live site (ask list). -->
+    <section class="card-section" data-animate-stagger aria-labelledby="means-title">
+      <div class="card-section__grid" data-animate-stagger>
+        <article class="card" data-animate>
+          <div class="card__media">
+            <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
+          </div>
+          <div class="card__content">
+            <h2 class="card__title" id="means-title">What this means for you?</h2>
+            <p class="card__body">A team of experts manage the program behind your GreenPower purchase. From certificates and reporting to independent auditing, we work behind the scenes so you can support Australia&rsquo;s renewable energy transition with confidence.</p>
+          </div>
+        </article>
       </div>
     </section>
   </main>
