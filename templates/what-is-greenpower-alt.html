@@ -642,7 +642,7 @@
       </div>
     </section>
 
-    <!-- ALT: the three closing sections as one three-up card row — each
+    <!-- ALT: the trust and scope sections as a two-up card row — each
          card is a section: its heading, its body and its links (the GovCMS
          render wraps card bodies in a div, so the list rides inside
          card__body the same way). -->
@@ -675,10 +675,19 @@
             </div>
           </div>
         </article>
+      </div>
+    </section>
+    <!-- ALT: "Ready to get started?" on its own row as a single horizontal
+         card with a photo (a card section holding one card; CSS only,
+         confirm on the live site). -->
+    <section class="card-section" data-animate-stagger aria-labelledby="ready-title">
+      <div class="card-section__grid" data-animate-stagger>
         <article class="card" data-animate>
+          <div class="card__media">
+            <img src="../assets/images/business-man-office.png" alt="A business owner at work in a small office" width="900" height="600" loading="lazy">
+          </div>
           <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/greenpower.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h2 class="card__title">Ready to get started?</h2>
+            <h2 class="card__title" id="ready-title">Ready to get started?</h2>
             <p class="card__body">Explore GreenPower renewable electricity and renewable gas options to find the right solution for your home or business.</p>
             <ul class="card__links">
               <li><a class="card__link" href="#">GreenPower renewable electricity <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
