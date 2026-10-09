@@ -176,10 +176,33 @@ About-you options are client-confirmed (Aug 2026).
   Drupal: theme markup in page.html.twig (a theme setting if editors want it
   off), the observer a once()-guarded behavior. Buy tool only for now — the
   generators tool and news listing can take the same markup and script.
-- Page header image credit (What is GreenPower page, Oct 2026): a small
-  `page-header__credit` line under the intro carries the photo's location and
-  copyright — `field_header_image_credit` (text, optional), rendered only when
-  set. The supplied copy had the credit tacked onto the summary.
+- GovCMS BUILD vs THE PROTOTYPE (Oct 2026). The site is built; the content
+  pages (What is GreenPower, About the Program, Our impact) are editor
+  examples and use only what the build renders: the page header (photo,
+  crumbs, multi-paragraph intro), prose sections, the feature banner
+  (title, multi-paragraph intro, links, a photo per link), card sections
+  (heading, intro, cards with photo / icon, title, body, links, button),
+  the accordion, the quote, and the split with a card stack. Patterns the
+  prototype has that the build does NOT (yet) — the ASK LIST for the
+  Drupal dev, each a small addition:
+  · a link beside a card section heading (`card-section__head` +
+    `card-section__actions`, the listings' "More" button) on the editorial
+    card section — a link field on the section paragraph;
+  · a whole-card link (`card__title-link`, the title stretched over the
+    tile) on the editorial card — a "link the card" field;
+  · a photo credit line under the header intro (`page-header__credit`,
+    styled here) — `field_header_image_credit` (text, optional); until
+  then the credit is the intro's second paragraph;
+  · the single horizontal card (a card section holding ONE card) is CSS
+    only and should work as-is — confirm on a live page;
+  · CENTRED TEXT: CKEditor 5's alignment button (Drupal's ckeditor5
+    alignment plugin, class `text-align-center`) enabled on the text
+    format, centre only — the prose column styles the class (Oct 2026);
+    used for a stand-alone link closing a section (Our impact).
+  THEME CSS: three wrapper rules (multi-paragraph `card__body`,
+  `feature-banner__intro` and `page-header__intro`, Oct 2026) live in this
+  repo's stylesheet; rebuild the theme from the current `css/main.css` or
+  those paragraphs run together on the live site.
 - Homepage hero — letterbox (landscape phone) support: the stage is FLOORED at
   `$hero-stage-floor` (32rem, `_hero.scss`) via `max(100svh, floor)` on every
   layer height, scrim distances are floored fractions of the stage, and under

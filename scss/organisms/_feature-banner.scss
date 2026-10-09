@@ -131,6 +131,18 @@
   &__intro {
     max-width: 46ch;
     font-size: $font-size-base; // matches .feature-banner__link
+
+    // The intro as a WRAPPER. The prototype writes one <p>, but GovCMS
+    // renders the field as <div class="feature-banner__intro"> around the
+    // text-long field's own <p>s (the About the Program page). The reset
+    // zeroes their margins, so the wrapper states the paragraph step.
+    > * {
+      margin: 0;
+    }
+
+    > * + * {
+      margin-top: var(--space-2xs);
+    }
   }
 
   &__links {

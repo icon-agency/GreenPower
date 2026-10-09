@@ -378,12 +378,11 @@
 
   <main id="main-content">
     <!-- Content: What is GreenPower? Built from the client's supplied page
-         copy (GovCMS preprod, Oct 2026). The supplied content carried its calls to action as
-         bare text links under each paragraph, which read as a loose list; here
-         each set of links is carried by an existing component instead — the
-         two product links as icon cards, the impact link as a button under the
-         quote — so nothing on the page is a new pattern. Every block maps to a
-         paragraph type already documented in its SCSS header.
+         copy (GovCMS preprod, Oct 2026), carrying that copy only, in the
+         paragraph types the GovCMS build renders: prose, card sections,
+         the quote and the steps split. Link groups stay as prose links —
+         the build has no whole-card link, and a card section carries no
+         link beside its heading (both on the ask list in docs/handover.md).
          COPY NOTE: the supplied step 3 ran "independently auditedGreen Power
          independently audits…" — a lost paragraph break; split here as the
          title and the body. -->
@@ -396,12 +395,12 @@
           </ol>
         </nav>
         <h1 class="page-header__title" data-animate>What is GreenPower?</h1>
-        <p class="page-header__intro" data-animate>GreenPower helps you support Australia&rsquo;s renewable energy transition with confidence. It&rsquo;s a simple and credible way to purchase renewable energy for your home or business.</p>
-        <!-- The photo credit is a caption for the image, not part of the
-             summary — the supplied copy had it tacked onto the intro. Its own
-             small line (field_header_image_credit), so the summary stays a
-             summary. -->
-        <p class="page-header__credit" data-animate>White Rock, Glen Innes, NSW. Image courtesy and &copy; NSW Government DCCEEW.</p>
+        <!-- Two paragraphs, as the GovCMS header intro renders them (the
+             credit has no field of its own in the build). -->
+        <div class="page-header__intro" data-animate>
+          <p>GreenPower helps you support Australia&rsquo;s renewable energy transition with confidence. It&rsquo;s a simple and credible way to purchase renewable energy for your home or business.</p>
+          <p>White Rock, Glen Innes, NSW. Image courtesy and &copy; NSW Government DCCEEW.</p>
+        </div>
         <div class="page-header__media" data-animate>
           <img src="../assets/images/wind.png" alt="Wind turbines on open farmland at White Rock, Glen Innes, NSW" width="900" height="600" loading="lazy">
           <span class="page-header__angle" aria-hidden="true">
@@ -418,31 +417,12 @@
         <div class="page-content__section" data-animate>
           <h2>Why your energy choices matter</h2>
           <p>The energy you use every day to power your home or run your business has an environmental impact. GreenPower matches your energy use with renewable electricity or renewable gas. Together we are supporting Australia&rsquo;s renewable future.</p>
+          <p><a href="#">Choose GreenPower renewable electricity</a></p>
+          <p><a href="#">Choose GreenPower renewable gas</a></p>
         </div>
       </div>
     </section>
 
-    <!-- The two "Choose GreenPower…" links as a two-up icon card, each the
-         supplied link text as a linked title and nothing else — no body
-         written in, so the page carries only the supplied copy. The title
-         link stretches over the whole card (card__title-link). A card_grid
-         paragraph with two card paragraphs. -->
-    <section class="card-section" data-animate-stagger aria-label="Choose your GreenPower product">
-      <div class="card-section__grid" data-animate-stagger>
-        <article class="card" data-animate>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/electricity.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title"><a class="card__title-link" href="#">Choose GreenPower renewable electricity</a></h3>
-          </div>
-        </article>
-        <article class="card" data-animate>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/gas.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title"><a class="card__title-link" href="#">Choose GreenPower renewable gas</a></h3>
-          </div>
-        </article>
-      </div>
-    </section>
 
     <!-- The emissions statement as the quote component, its source as the
          attribution (no portrait — the row is text alone, as the component
@@ -611,31 +591,10 @@
         <div class="page-content__section" data-animate>
           <h2>Why trust GreenPower?</h2>
           <p>GreenPower is backed by government accreditation, strict standards and independent auditing. This gives you confidence that GreenPower-accredited products meet program requirements and that purchases are accurately tracked and verified.</p>
+          <p><a href="content-page-with-steps.html">How GreenPower works</a></p>
+          <p><a href="#">How is GreenPower different</a></p>
+          <p><a href="tool-electricity-generators.html">View accredited Generators and Producers</a></p>
         </div>
-      </div>
-    </section>
-    <!-- The three "trust" links as linked-title cards, like the pair at the
-         top of the page. -->
-    <section class="card-section" data-animate-stagger aria-label="Learn how GreenPower is verified">
-      <div class="card-section__grid" data-animate-stagger>
-        <article class="card" data-animate>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/document.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title"><a class="card__title-link" href="content-page-with-steps.html">How GreenPower works</a></h3>
-          </div>
-        </article>
-        <article class="card" data-animate>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/tick-badge.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title"><a class="card__title-link" href="#">How is GreenPower different</a></h3>
-          </div>
-        </article>
-        <article class="card" data-animate>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/shield-tick-badge.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title"><a class="card__title-link" href="tool-electricity-generators.html">View accredited Generators and Producers</a></h3>
-          </div>
-        </article>
       </div>
     </section>
 
@@ -659,23 +618,9 @@
         <div class="page-content__section" data-animate>
           <h2>Ready to get started?</h2>
           <p>Explore GreenPower renewable electricity and renewable gas options to find the right solution for your home or business.</p>
+          <p><a href="#">GreenPower renewable electricity</a></p>
+          <p><a href="#">GreenPower renewable gas</a></p>
         </div>
-      </div>
-    </section>
-    <section class="card-section" data-animate-stagger aria-label="Explore GreenPower products">
-      <div class="card-section__grid" data-animate-stagger>
-        <article class="card" data-animate>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/electricity.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title"><a class="card__title-link" href="#">GreenPower renewable electricity</a></h3>
-          </div>
-        </article>
-        <article class="card" data-animate>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/gas.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title"><a class="card__title-link" href="#">GreenPower renewable gas</a></h3>
-          </div>
-        </article>
       </div>
     </section>
   </main>

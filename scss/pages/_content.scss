@@ -135,6 +135,17 @@
     margin-bottom: 0;
   }
 
+  // --- Alignment ---
+
+  // CKEditor 5's alignment button writes Drupal's `text-align-center` class
+  // on the block (ckeditor5 alignment plugin; the only alignment the design
+  // allows — a centred stand-alone link closing a section, Our impact, Oct
+  // 2026). The class needs the text format to enable the button (handover
+  // ask list); without this rule it renders left even when it does.
+  .text-align-center {
+    text-align: center;
+  }
+
   // --- Inline ---
 
   // The shared inline-link treatment (abstracts/_mixins.scss) — resting

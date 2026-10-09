@@ -315,6 +315,18 @@
     margin-top: var(--space-s);
     font-size: $font-size-base; // --step-0
 
+    // The intro as a WRAPPER. The prototype writes one <p>, but GovCMS
+    // renders the field as <div class="page-header__intro"> around the
+    // text-long field's own <p>s (the Our impact page). The reset zeroes
+    // their margins, so the wrapper states the paragraph step.
+    > * {
+      margin: 0;
+    }
+
+    > * + * {
+      margin-top: var(--space-2xs);
+    }
+
     // Inline cross-links in the band intro (the generators tool's "industry
     // accreditation" link): white with the underline carrying the link on the
     // dark ground — colour alone would vanish here — and the footer's on-dark

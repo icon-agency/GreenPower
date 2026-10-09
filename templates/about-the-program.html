@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>What is GreenPower? (alt) &mdash; GreenPower Renewable Energy</title>
+  <title>About the GreenPower Program &mdash; GreenPower Renewable Energy</title>
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
   <link rel="preconnect" href="https://use.typekit.net" crossorigin>
   <link rel="stylesheet" href="https://use.typekit.net/nxc8sxb.css">
@@ -377,35 +377,26 @@
   </header>
 
   <main id="main-content">
-    <!-- Content: What is GreenPower? — ALTERNATIVE LAYOUT. The same supplied
-         copy as what-is-greenpower.html, led by the feature banner and the quote, then carried by photo cards where the
-         plain version used icon cards and prose. Built from the client's supplied page
-         copy (GovCMS preprod, Oct 2026). The supplied content carried its calls to action as
-         bare text links under each paragraph, which read as a loose list; here
-         each set of links is carried by an existing component instead — the
-         two product links as icon cards, the impact link as a button under the
-         quote — so nothing on the page is a new pattern. Every block maps to a
-         paragraph type already documented in its SCSS header.
-         COPY NOTE: the supplied step 3 ran "independently auditedGreen Power
-         independently audits…" — a lost paragraph break; split here as the
-         title and the body. -->
+    <!-- Content: About the GreenPower Program. Built from the client's
+         supplied page (GovCMS preprod, Oct 2026), which already renders in
+         the design system's own components; this is the same page, carrying
+         the supplied copy only. The GovCMS images are not in the repo, so
+         the photos are the library's nearest matches. The three empty
+         paragraphs GovCMS rendered at the end of the banner intro are
+         dropped. -->
     <header class="page-header">
       <div class="page-header__inner" data-animate-stagger>
         <nav aria-label="Breadcrumb" data-animate>
           <ol class="page-header__crumbs">
             <li class="page-header__crumb"><a href="../index.html">Home</a></li>
-            <li class="page-header__crumb" aria-current="page">What is GreenPower?</li>
+            <li class="page-header__crumb"><a href="what-is-greenpower.html">What is GreenPower?</a></li>
+            <li class="page-header__crumb" aria-current="page">About the GreenPower Program</li>
           </ol>
         </nav>
-        <h1 class="page-header__title" data-animate>What is GreenPower?</h1>
-        <!-- Two paragraphs, as the GovCMS header intro renders them (the
-             credit has no field of its own in the build). -->
-        <div class="page-header__intro" data-animate>
-          <p>GreenPower helps you support Australia&rsquo;s renewable energy transition with confidence. It&rsquo;s a simple and credible way to purchase renewable energy for your home or business.</p>
-          <p>White Rock, Glen Innes, NSW. Image courtesy and &copy; NSW Government DCCEEW.</p>
-        </div>
+        <h1 class="page-header__title" data-animate>About the GreenPower Program</h1>
+        <p class="page-header__intro" data-animate>GreenPower has been helping Australians support renewable energy since 1997. It is an Australian government-accredited voluntary renewable electricity program and renewable gas scheme.</p>
         <div class="page-header__media" data-animate>
-          <img src="../assets/images/wind.png" alt="Wind turbines on open farmland at White Rock, Glen Innes, NSW" width="900" height="600" loading="lazy">
+          <img src="../assets/images/gas.png" alt="Biogas plant" width="1500" height="1500" loading="lazy">
           <span class="page-header__angle" aria-hidden="true">
             <svg class="page-header__angle-curve page-header__angle-curve--top" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L299.02 0Z" fill="currentColor"/></svg>
             <svg class="page-header__angle-curve page-header__angle-curve--side" viewBox="0 0 210.3 299.02" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 299.02C0.001 209.1 13.03 197.18 60.79 149.51L210.3 0L0 0Z" fill="currentColor"/></svg>
@@ -414,289 +405,163 @@
       </div>
     </header>
 
-    <!-- ALT: the page opens on "Why your energy choices matter" as a SINGLE
-         card — the card section
-         is count-adaptive, so one card runs horizontal, photo beside the
-         copy. Heading, paragraph and the two "Choose GreenPower…" links are
-         the card's title, body and link list; every supplied part is here.
-         The title is the h2 (the section has no heading of its own). -->
-    <!-- "Why your energy choices matter" as the feature banner — the
-         heading, paragraph and two "Choose GreenPower…" links as its title,
-         intro and link list, a photo per link. A paragraph type the GovCMS
-         build renders. -->
-    <section class="feature-banner" data-feature-banner data-animate-stagger aria-labelledby="why-matter-title">
+    <section class="page-body">
+      <div class="page-content">
+        <div class="page-content__section" data-animate>
+          <h2>Why GreenPower exists</h2>
+          <p>GreenPower was established to give your household or business a reliable way to support renewable energy. The accreditation and checks ensure you&rsquo;re getting a trusted product.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- The feature banner as GovCMS renders it: the three paragraphs as
+         the intro (a text-long field, so the intro is a wrapper here), the
+         three product links, a photo per link, the badge naming the energy. -->
+    <section class="feature-banner" data-feature-banner data-animate-stagger aria-labelledby="evolved-title">
       <div class="feature-banner__inner">
         <div class="feature-banner__content" data-animate-stagger>
-          <h2 class="feature-banner__title" id="why-matter-title" data-animate>Why your energy choices matter</h2>
-          <p class="feature-banner__intro" data-animate>The energy you use every day to power your home or run your business has an environmental impact. GreenPower matches your energy use with renewable electricity or renewable gas. Together we are supporting Australia&rsquo;s renewable future.</p>
+          <h2 class="feature-banner__title" id="evolved-title" data-animate>How GreenPower has evolved</h2>
+          <div class="feature-banner__intro" data-animate>
+            <p>Australia&rsquo;s energy market continues to evolve, and so does GreenPower.</p>
+            <p>What began with renewable electricity has expanded to include renewable gas, such as biomethane, biogas and renewable hydrogen, while continuing to explore emerging renewable fuels and biogenic CO&#8322;.</p>
+            <p>As new technologies and customer needs emerge, GreenPower will continue to adapt while maintaining consistent standards.</p>
+          </div>
           <ul class="feature-banner__links" data-animate>
-            <li><a class="feature-banner__link" href="#" data-feature-image="electricity">Choose GreenPower renewable electricity
+            <li><a class="feature-banner__link" href="#" data-feature-image="electricity">GreenPower renewable electricity
               <svg class="feature-banner__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            <li><a class="feature-banner__link" href="#" data-feature-image="gas">Choose GreenPower renewable gas
+            <li><a class="feature-banner__link" href="#" data-feature-image="gas">GreenPower renewable gas
+              <svg class="feature-banner__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+            <li><a class="feature-banner__link" href="#" data-feature-image="fuels">GreenPower emerging fuels
               <svg class="feature-banner__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
           </ul>
         </div>
         <div class="feature-banner__media" data-animate style="--animate-delay: 320ms">
           <div class="feature-banner__stage">
             <div class="feature-banner__zoom">
-              <img class="is-active" src="../assets/images/wind.png" alt="" width="1500" height="1500" data-feature-key="electricity" data-feature-location="Renewable electricity">
-              <img src="../assets/images/gas.png" alt="" width="1500" height="1500" loading="lazy" data-feature-key="gas" data-feature-location="Renewable gas">
+              <img class="is-active" src="../assets/images/wind.png" alt="" width="1500" height="1500" data-feature-key="electricity" data-feature-location="Electricity">
+              <img src="../assets/images/gas.png" alt="" width="1500" height="1500" loading="lazy" data-feature-key="gas" data-feature-location="Gas">
+              <img src="../assets/images/emerging.png" alt="" width="1500" height="1500" loading="lazy" data-feature-key="fuels" data-feature-location="Fuel">
             </div>
             <p class="feature-banner__location">
               <span class="feature-banner__location-shape" aria-hidden="true">
                 <svg class="feature-banner__location-curve" viewBox="0 0 299.02 210.3" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 0C89.92 0.001 101.84 13.03 149.51 60.79L299.02 210.3L0 210.3Z" fill="currentColor"/></svg>
               </span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-              <span data-feature-location-text>Renewable electricity</span>
+              <span data-feature-location-text>Electricity</span>
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ALT: the emissions quote, with its link, under the card. -->
     <section class="page-body">
       <div class="page-content">
-        <figure class="quote" data-animate>
-          <blockquote class="quote__text">
-            <p>Electricity generation is the largest single contributor to Australia&rsquo;s greenhouse gas emissions.<sup>1</sup> The choices you make support Australia&rsquo;s transition to renewables.</p>
-          </blockquote>
-          <figcaption class="quote__author">
-            <span class="quote__meta">
-              <span class="quote__role">1. Department of Climate Change, Energy, the Environment and Water, 2025.</span>
-            </span>
-          </figcaption>
-        </figure>
         <div class="page-content__section" data-animate>
-          <p><a href="#">Learn more about GreenPower&rsquo;s impact</a></p>
+          <h2>How the Program is governed</h2>
+          <p>GreenPower is a national program administered by the NSW Department of Climate Change, Energy, the Environment and Water, on behalf of the National GreenPower Steering Group.</p>
+          <p>The National GreenPower Steering Group, made of representatives of member States and Territory governments, provides strategic oversight and helps ensure GreenPower continues to operate and innovate with transparent governance and integrity.</p>
         </div>
       </div>
     </section>
 
-    <!-- The three steps: the heading and lede in the sticky rail, one card
-         per step in the stack — the page-with-steps pattern. -->
-    <section class="page-body">
-      <div class="page-split">
-        <div class="page-split__intro" data-animate>
-          <h2 class="page-split__heading">GreenPower makes it easy to support renewable energy</h2>
-          <p class="page-split__lede">When you choose GreenPower, your energy use is matched with renewable energy on your behalf from GreenPower-accredited projects.</p>
-        </div>
-        <div class="page-split__body">
-          <div class="card-stack" data-animate-stagger>
-            <article class="card" data-animate>
-              <div class="card__content">
-                <span class="card__icon"><img src="../assets/icons/greenpower.svg" alt="" width="52" height="52" loading="lazy"></span>
-                <h3 class="card__title">Step 1: Choose a GreenPower-accredited product</h3>
-                <p class="card__body">Select a GreenPower-accredited renewable electricity or renewable gas product that meets your needs.</p>
-              </div>
-            </article>
-            <article class="card" data-animate>
-              <div class="card__content">
-                <span class="card__icon"><img src="../assets/icons/document.svg" alt="" width="52" height="52" loading="lazy"></span>
-                <h3 class="card__title">Step 2: Your energy purchase is matched</h3>
-                <p class="card__body">Your purchase is matched with GreenPower-accredited renewable electricity generation or certified renewable gas from GreenPower-accredited projects.</p>
-              </div>
-            </article>
-            <article class="card" data-animate>
-              <div class="card__content">
-                <span class="card__icon"><img src="../assets/icons/shield-tick-badge.svg" alt="" width="52" height="52" loading="lazy"></span>
-                <h3 class="card__title">Step 3: Your purchase is independently audited</h3>
-                <p class="card__body">GreenPower independently audits and verifies sales to ensure claims are accurate and supported by accredited renewable energy or renewable gas.</p>
-              </div>
-            </article>
-          </div>
-          <!-- The supplied "How GreenPower works" link, under the stack in the
-               split body (which stacks prose sections beside cards at the
-               section rhythm). -->
-          <div class="page-content__section" data-animate>
-            <p><a href="content-page-with-steps.html">How GreenPower works</a></p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- The remaining sections of the supplied page (GovCMS preprod, Oct
-         2026), same rules as above: supplied copy only; a GROUP of bare
-         links becomes linked-title cards, a single link stays inline. -->
-    <!-- ALT: the four "Why choose" bullets as a four-up card row — the
-         supplied bold lead-in is each card's title, the rest its body. The
-         "Hear from customers" link follows the quote below. -->
-    <section class="card-section" data-animate-stagger aria-labelledby="why-title">
-      <h2 class="card-section__heading" id="why-title" data-animate>Why choose GreenPower?</h2>
-      <div class="card-section__grid" data-animate-stagger>
-        <article class="card" data-animate>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/tick-badge.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title">Simple</h3>
-            <p class="card__body">Get started quickly and easily through a participating energy retailer, with no new equipment or disruption to your energy supply.</p>
-          </div>
-        </article>
-        <article class="card" data-animate>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/home.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title">Accessible</h3>
-            <p class="card__body">Find GreenPower options for your home or business through <a href="tool-buy-greenpower.html">many participating energy retailers</a>.</p>
-          </div>
-        </article>
-        <article class="card" data-animate>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/bill.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title">Flexible</h3>
-            <p class="card__body">Choose a GreenPower option that suits your energy needs.</p>
-          </div>
-        </article>
-        <article class="card" data-animate>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/greenpower.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h3 class="card__title">Meaningful</h3>
-            <p class="card__body">Increase demand for accredited renewable energy and support Australia&rsquo;s renewable energy transition.</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ALT: the quote with the "Hear from customers" link as its
-         follow-on. -->
+    <!-- Heading and lede over the six-point accordion and the audits link,
+         in the single reading column (the campaign page's FAQ shape). -->
     <section class="page-body">
       <div class="page-content">
-        <figure class="quote" data-animate>
-          <blockquote class="quote__text">
-            <p>&ldquo;Switching to GreenPower was the easiest sustainability initiative we&rsquo;d undertaken. It&rsquo;s great to be able to tell people our electricity is matched with 100% renewable electricity.&rdquo;</p>
-          </blockquote>
-          <figcaption class="quote__author">
-            <span class="quote__meta">
-              <span class="quote__name">Ali</span>
-              <span class="quote__role">White Whale Coffee Roasters</span>
-            </span>
-          </figcaption>
-        </figure>
         <div class="page-content__section" data-animate>
-          <p><a href="impact-stories.html">Hear from GreenPower customers</a></p>
+          <h2>How GreenPower maintains Program integrity</h2>
+          <p>GreenPower has strict standards and processes in place to give you confidence that GreenPower purchases are accurate.</p>
+        </div>
+        <div class="accordion" data-animate>
+            <details class="accordion__item">
+              <summary class="accordion__trigger">
+                <h3 class="accordion__title">Strict accreditation standards
+                  <svg class="accordion__icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </h3>
+              </summary>
+              <div class="accordion__panel">
+                <div class="page-content__section">
+                  <p>Generators and Producers must meet GreenPower&rsquo;s environmental and technical standards, including consideration of community sentiment. Providers and Traders must also be approved and are subject to ongoing reporting, purchasing and auditing requirements.</p>
+                </div>
+              </div>
+            </details>
+            <details class="accordion__item">
+              <summary class="accordion__trigger">
+                <h3 class="accordion__title">Independent auditing
+                  <svg class="accordion__icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </h3>
+              </summary>
+              <div class="accordion__panel">
+                <div class="page-content__section">
+                  <p>GreenPower uses independent auditing to check that Program requirements are being met.</p>
+                  <ul>
+                    <li><strong>GreenPower renewable electricity:</strong> GreenPower Providers are audited each year to check they meet GreenPower requirements. GreenPower&rsquo;s independent auditor then cross-checks the results and confirms that eligible certificates purchased and retired match reported GreenPower sales.</li>
+                    <li><strong>GreenPower renewable gas:</strong> Renewable Gas Certification uses a risk-based audit process, including first-year compliance reviews for new Producers, annual participant checks and Program-wide reviews to confirm requirements are being applied consistently.</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+            <details class="accordion__item">
+              <summary class="accordion__trigger">
+                <h3 class="accordion__title">Clear Program Rules
+                  <svg class="accordion__icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </h3>
+              </summary>
+              <div class="accordion__panel">
+                <div class="page-content__section">
+                  <p>GreenPower Program Rules set the standards that participants must follow, including accreditation, reporting, compliance and customer renewable energy claims.</p>
+                </div>
+              </div>
+            </details>
+            <details class="accordion__item">
+              <summary class="accordion__trigger">
+                <h3 class="accordion__title">Checks on claims and marketing
+                  <svg class="accordion__icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </h3>
+              </summary>
+              <div class="accordion__panel">
+                <div class="page-content__section">
+                  <p>GreenPower reviews marketing associated with GreenPower to check it meets requirements, is supported by evidence and approved.</p>
+                </div>
+              </div>
+            </details>
+            <details class="accordion__item">
+              <summary class="accordion__trigger">
+                <h3 class="accordion__title">Transparent certificate tracking
+                  <svg class="accordion__icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </h3>
+              </summary>
+              <div class="accordion__panel">
+                <div class="page-content__section">
+                  <p>GreenPower uses recognised registries to track renewable energy certificates. Once a certificate is retired for a GreenPower purchase, it cannot be used again. This prevents the renewable energy being claimed twice.</p>
+                </div>
+              </div>
+            </details>
+            <details class="accordion__item">
+              <summary class="accordion__trigger">
+                <h3 class="accordion__title">Independent oversight and reporting
+                  <svg class="accordion__icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </h3>
+              </summary>
+              <div class="accordion__panel">
+                <div class="page-content__section">
+                  <p>Independent auditors check that GreenPower requirements are being met. The National GreenPower Steering Group approves the report before it is published each year.</p>
+                </div>
+              </div>
+            </details>
+        </div>
+        <div class="page-content__section" data-animate>
+          <p><a href="landing-audits-reports.html">View audits and reporting</a></p>
         </div>
       </div>
     </section>
 
-    <!-- ALT: the three audiences as photo cards — every supplied part kept
-         (heading, intro, each paragraph, each link), with a photo per
-         audience where the plain version uses an icon. -->
-    <section class="card-section" data-animate-stagger aria-labelledby="who-title">
-      <h2 class="card-section__heading" id="who-title" data-animate>Who is GreenPower for?</h2>
-      <p class="card-section__intro" data-animate>GreenPower is available for households and businesses of all sizes.</p>
-      <div class="card-section__grid" data-animate-stagger>
-        <article class="card" data-animate>
-          <div class="card__media">
-            <img src="../assets/images/family-eating.png" alt="A family sharing a meal at home" width="900" height="600" loading="lazy">
-          </div>
-          <div class="card__content">
-            <h3 class="card__title">Households</h3>
-            <p class="card__body">For households, choosing GreenPower offers a simple way to support Australia&rsquo;s renewable energy transition, with no solar panels or new equipment needed.</p>
-            <ul class="card__links">
-              <li><a class="card__link" href="#">GreenPower for households <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            </ul>
-          </div>
-        </article>
-        <article class="card" data-animate>
-          <div class="card__media">
-            <img src="../assets/images/business-man-office.png" alt="A business owner at work in a small office" width="900" height="600" loading="lazy">
-          </div>
-          <div class="card__content">
-            <h3 class="card__title">Small to medium-sized businesses</h3>
-            <p class="card__body">For small to medium-sized businesses, choosing GreenPower demonstrates your commitment to accredited renewable energy, helping build trust with your employees and customers.</p>
-            <ul class="card__links">
-              <li><a class="card__link" href="#">GreenPower for small to medium-sized businesses <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            </ul>
-          </div>
-        </article>
-        <article class="card" data-animate>
-          <div class="card__media">
-            <img src="../assets/images/industry-people-shake-hands.png" alt="Two industry professionals shaking hands at an event" width="900" height="600" loading="lazy">
-          </div>
-          <div class="card__content">
-            <h3 class="card__title">Large organisations</h3>
-            <p class="card__body">For organisations with sustainability targets and reporting requirements, GreenPower provides a credible, independently audited option to reduce reported electricity-related Scope 2 emissions and gas-related Scope 1 emissions.</p>
-            <ul class="card__links">
-              <li><a class="card__link" href="#">GreenPower for large organisations <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            </ul>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ALT: the certificates as the sticky split — heading and intro in
-         the rail, one icon card per certificate type in the stack (the
-         steps pattern above), the "Learn more" buttons in the card CTA. -->
     <section class="page-body">
-      <div class="page-split">
-        <div class="page-split__intro" data-animate>
-          <h2 class="page-split__heading" id="tracks-title">How GreenPower tracks renewable energy</h2>
-          <p class="page-split__lede">GreenPower uses certificates to track renewable energy from generation, matching your GreenPower purchase. This creates a clear record that is independently checked. Certificates don&rsquo;t change the energy delivered to your home or business. Instead, they are a record of the renewable energy matched with your GreenPower purchase. There are two types of certificates:</p>
+      <div class="page-content">
+        <div class="page-content__section" data-animate>
+          <h2>What this means for you?</h2>
+          <p>A team of experts manage the program behind your GreenPower purchase. From certificates and reporting to independent auditing, we work behind the scenes so you can support Australia&rsquo;s renewable energy transition with confidence.</p>
         </div>
-        <div class="page-split__body">
-          <div class="card-stack" data-animate-stagger>
-            <article class="card" data-animate>
-              <div class="card__content">
-                <span class="card__icon"><img src="../assets/icons/tick-lgcs-badge.svg" alt="" width="52" height="52" loading="lazy"></span>
-                <h3 class="card__title">Renewable electricity certificates: Large-scale Generation Certificates (LGC&rsquo;s)</h3>
-                <p class="card__body">LGC&rsquo;s represent renewable electricity generated by GreenPower-accredited renewable electricity Generators. One LGC represents one megawatt hour (MWh) of renewable electricity.</p>
-                <div class="card__cta"><a class="btn btn--primary" href="#">Learn more</a></div>
-              </div>
-            </article>
-            <article class="card" data-animate>
-              <div class="card__content">
-                <span class="card__icon"><img src="../assets/icons/gas.svg" alt="" width="52" height="52" loading="lazy"></span>
-                <h3 class="card__title">Renewable gas certificates: Renewable Gas Guarantee of Origin certificates (RGGOs)</h3>
-                <p class="card__body">RGGOs represent renewable gas produced by GreenPower-accredited Producers. One RGGO represents one gigajoule (GJ) of eligible renewable gas.</p>
-                <div class="card__cta"><a class="btn btn--primary" href="#">Learn more</a></div>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ALT: the three closing sections as one three-up card row — each
-         card is a section: its heading, its body and its links (the GovCMS
-         render wraps card bodies in a div, so the list rides inside
-         card__body the same way). -->
-    <section class="card-section" data-animate-stagger aria-label="Trust, scope and next steps">
-      <div class="card-section__grid" data-animate-stagger>
-        <article class="card" data-animate>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/shield-tick-badge.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h2 class="card__title">Why trust GreenPower?</h2>
-            <p class="card__body">GreenPower is backed by government accreditation, strict standards and independent auditing. This gives you confidence that GreenPower-accredited products meet program requirements and that purchases are accurately tracked and verified.</p>
-            <ul class="card__links">
-              <li><a class="card__link" href="content-page-with-steps.html">How GreenPower works <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-              <li><a class="card__link" href="#">How is GreenPower different <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-              <li><a class="card__link" href="tool-electricity-generators.html">View accredited Generators and Producers <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            </ul>
-          </div>
-        </article>
-        <article class="card" data-animate>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/accreditation.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h2 class="card__title">What GreenPower is not</h2>
-            <div class="card__body">
-              <p>GreenPower is a government accreditation program that supports renewable energy.</p>
-              <p>GreenPower does not:</p>
-              <ul>
-                <li>change the electricity or gas delivered to your home or business</li>
-                <li>build or operate renewable energy projects</li>
-                <li>operate as a carbon offset scheme.</li>
-              </ul>
-            </div>
-          </div>
-        </article>
-        <article class="card" data-animate>
-          <div class="card__content">
-            <span class="card__icon"><img src="../assets/icons/greenpower.svg" alt="" width="52" height="52" loading="lazy"></span>
-            <h2 class="card__title">Ready to get started?</h2>
-            <p class="card__body">Explore GreenPower renewable electricity and renewable gas options to find the right solution for your home or business.</p>
-            <ul class="card__links">
-              <li><a class="card__link" href="#">GreenPower renewable electricity <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-              <li><a class="card__link" href="#">GreenPower renewable gas <svg class="card__link-arrow" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true" focusable="false"><path d="M1 5h11M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
-            </ul>
-          </div>
-        </article>
       </div>
     </section>
   </main>
